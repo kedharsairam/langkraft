@@ -10,8 +10,14 @@
       accepts is a one-tap "this failed me" flag, which is a click, not a permission.
     -->
 
+    <!--
+      No cloud backup. The corpus already ships in the APK, so backing it up achieves
+      nothing, while progress.db carries the learner's failure flags and the country
+      each one came from. "Nothing is written off-device" has to mean it.
+    -->
+
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"

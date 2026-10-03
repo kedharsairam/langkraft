@@ -12,6 +12,8 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performScrollToIndex
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeUp
 import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.text.AnnotatedString
@@ -244,8 +246,10 @@ class Phase1Test {
             }
         }
         compose.waitForIdle()
-        // Opening the screen is itself a position: the top.
-        assertTrue("position must be reported on open", reported.contains(0))
+        // Opening must NOT report. A position records that the learner MOVED; the initial
+        // emission is just the seed, and persisting it meant a stored bookmark was
+        // destroyed by the act of restoring it.
+        assertTrue("opening the screen must not report a position, got $reported", reported.isEmpty())
 
         compose.onNode(hasScrollAction()).performScrollToIndex(30)
         compose.waitForIdle()
@@ -258,10 +262,9 @@ class Phase1Test {
     /**
      * A stored position must actually restore the list, not merely be accepted.
      *
-     * Asserted on the FIRST reported value rather than on scroll state: if `startIndex`
-     * is ignored the list composes at 0 and immediately reports 0, which is precisely the
-     * failure. Reading the list's internal scroll state instead would pass even when the
-     * list had jumped and snapped back.
+     * Discriminating this is harder than it looks. `performScrollToIndex(31)` would report
+     * 31 whether the list opened at 30 or at 0, so it cannot tell the two apart. A small
+     * swipe can: from 30 it lands somewhere past 30, from 0 it lands in single digits.
      */
     @Test
     fun aStoredPositionRestoresTheTierToWhereItWasLeft() {
@@ -279,9 +282,60 @@ class Phase1Test {
             }
         }
         compose.waitForIdle()
+        compose.onNode(hasScrollAction()).performTouchInput { swipeUp() }
+        compose.waitForIdle()
         assertTrue(
-            "expected the list to open at 30, first report was ${reported.firstOrNull()}",
-            reported.isNotEmpty() && reported.first() == 30,
+            "list should have opened at 30, so a small swipe reports past it; got $reported",
+            reported.any { it >= 30 },
         )
+    }
+
+    /**
+     * A bookmark stored against a larger content set must not brick or corrupt the screen.
+     *
+     * This is the real upgrade path: the learner had 200 items, an update ships fewer, and
+     * the stored index is now out of range. It used to be passed through unclamped — and
+     * because the collector started on compose, the out-of-range value was written straight
+     * back, so the bad bookmark never healed.
+     */
+    @Test
+    fun aStoredPositionBeyondTheEndIsClampedRatherThanFatal() {
+        val c = corpus()
+        val spec = c.spec("eng")!!
+        val reported = mutableListOf<Int>()
+        compose.setContent {
+            LangKraftTheme {
+                TierScreen(
+                    spec = spec, tier = 0, corpus = c,
+                    startIndex = 9999,
+                    onPosition = { reported.add(it) },
+                    onBack = { },
+                )
+            }
+        }
+        compose.waitForIdle()
+        compose.onNode(hasScrollAction()).performTouchInput { swipeUp() }
+        compose.waitForIdle()
+        // Whatever it settled on, it must be a real index — never 9999 handed back out.
+        assertTrue("out-of-range index must be clamped, got $reported", reported.none { it == 9999 })
+    }
+
+    /** A tier with nothing authored in it must not crash on an out-of-range bookmark. */
+    @Test
+    fun aStoredPositionOnAnEmptyTierIsHarmless() {
+        val c = corpus()
+        val spec = c.spec("eng")!!
+        compose.setContent {
+            LangKraftTheme {
+                TierScreen(
+                    spec = spec, tier = 3, corpus = c,   // no Tier 3 content ships
+                    startIndex = 500,
+                    onPosition = { },
+                    onBack = { },
+                )
+            }
+        }
+        compose.waitForIdle()
+        compose.onNodeWithText("Nothing authored at this tier yet.").assertExists()
     }
 }

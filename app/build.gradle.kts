@@ -72,7 +72,22 @@ android {
 //
 // Fails the build rather than skipping if npm is unavailable. A silently skipped emit
 // would produce an APK with no content, which looks identical to a working one.
+// Lint BEFORE emit, as a real dependency rather than a convention anyone has to
+// remember. `emit` only JSON.parses each line; every guarantee the Kotlin parser relies
+// on (required fields, enums, cross-record links, provenance) is enforced by the
+// linters. Building with `assembleDebug` alone previously skipped them entirely, so
+// `npm run check` passing said nothing about the APK that shipped.
+val lintAssets = tasks.register<Exec>("lintAssets") {
+    group = "verification"
+    description = "Fails the build on invalid specs or content."
+    workingDir = rootProject.file("pipeline")
+    commandLine("npm", "run", "--silent", "lint:all")
+    inputs.dir(rootProject.file("specs"))
+    inputs.dir(rootProject.file("content"))
+}
+
 val emitAssets = tasks.register<Exec>("emitAssets") {
+    dependsOn(lintAssets)
     workingDir = rootProject.file("pipeline")
     commandLine("npm", "run", "--silent", "emit")
     inputs.dir(rootProject.file("specs"))
@@ -83,7 +98,7 @@ val emitAssets = tasks.register<Exec>("emitAssets") {
 tasks.matching { it.name.startsWith("generate") && it.name.contains("Assets", ignoreCase = true) }
     .configureEach { dependsOn(emitAssets) }
 
-tasks.named("preBuild") { dependsOn(emitAssets) }
+tasks.named("preBuild") { dependsOn(lintAssets, emitAssets) }
 
 dependencies {
     val composeBom = platform("androidx.compose:compose-bom:2026.09.00")

@@ -2,11 +2,13 @@ package com.krafttools.langkraft.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -30,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.krafttools.langkraft.data.ContentRepository
@@ -69,11 +72,18 @@ fun LanguageListScreen(
             modifier = Modifier.fillMaxSize().padding(padding),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             items(corpus.specs, key = { it.code }) { spec ->
                 LanguageCard(
                     spec = spec,
-                    bookmark = positions[spec.code]?.maxByOrNull { it.value }?.value,
+                    entriesFor = { code, t -> corpus.entriesFor(code, t) },
+                    // "Have you started this language", not "how far". Comparing raw
+                    // indices across tiers is meaningless: index 3 is the 3rd exchange in
+                    // one tier and the 2nd phrase in another. Which TIER they were last in
+                    // is answerable, via updated_at, but the value here was only ever used
+                    // as a boolean, so a false comparison bought nothing.
+                    bookmark = positions[spec.code]?.values?.any { it > 0 }?.let { 1 },
                     onClick = { onOpen(spec.code) },
                 )
             }
@@ -82,11 +92,16 @@ fun LanguageListScreen(
 }
 
 @Composable
-private fun LanguageCard(spec: LanguageSpec, bookmark: Int?, onClick: () -> Unit) {
+private fun LanguageCard(
+    spec: LanguageSpec,
+    entriesFor: (String, Int) -> List<Entry>,
+    bookmark: Int?,
+    onClick: () -> Unit,
+) {
     val tierZero = spec.tiers.firstOrNull { it.id == 0 }
     Card(
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().widthIn(max = 640.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
     ) {
         Column(Modifier.padding(16.dp)) {
@@ -101,7 +116,11 @@ private fun LanguageCard(spec: LanguageSpec, bookmark: Int?, onClick: () -> Unit
             tierZero?.let {
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    "Tier 0 · ${tierZero.size} items",
+                    // What SHIPPED, not what the spec claims. The path screen already
+                    // showed available-vs-declared; the home screen claimed the declared
+                    // number, so a language shipping short advertised content that is not
+                    // in the APK.
+                    "Tier 0 · ${entriesFor(spec.code, 0).size} items",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary,
                 )
@@ -158,6 +177,7 @@ fun PathScreen(
                 modifier = Modifier.fillMaxSize().padding(padding),
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 item {
                     Text(
@@ -192,7 +212,7 @@ private fun TierCard(
 ) {
     Card(
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().widthIn(max = 640.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
     ) {
         Column(Modifier.padding(16.dp)) {
@@ -259,13 +279,33 @@ fun TierScreen(
     // Position is the FIRST VISIBLE ITEM, not "items read". Those differ the moment a
     // learner scrolls back to re-read something, and "read" is a claim about their
     // attention, which the app has no business making.
-    val listState = rememberLazyListState(initialFirstVisibleItemIndex = startIndex.coerceAtLeast(0))
+    // The composed item count, derived from the same three conditionals the list below
+    // uses. Both the seed and the clamp read it, so they cannot drift.
+    val totalItems = buildList {
+        if (corpus.toneSetsFor(spec.code, tier).isNotEmpty()) add(2)
+        if (exchanges.isNotEmpty()) add(2 + exchanges.size)
+        if (entries.isNotEmpty()) add(1 + entries.size)
+        if (entries.isEmpty() && exchanges.isEmpty()) add(1)
+    }.sum()
+
+    val listState = rememberLazyListState(
+        // Clamp BOTH ends. An index stored against a larger content set -- a learner who
+        // had 200 items before an update shipped fewer -- is not a valid index, and
+        // handing it to the list produced an out-of-range seed that the collector below
+        // then persisted, so the bad bookmark never healed.
+        initialFirstVisibleItemIndex = startIndex.coerceIn(0, (totalItems - 1).coerceAtLeast(0)),
+    )
 
     // Reported when the scroll settles, never on a timer. A timer would write rows the
     // learner never scrolled to and make the bookmark drift toward wherever they idled.
     LaunchedEffect(listState, spec.code, tier) {
         snapshotFlow { listState.firstVisibleItemIndex }
             .distinctUntilChanged()
+            // `drop(1)` skips the initial emission. Without it, merely OPENING a tier
+            // rewrote the bookmark to the seed value, so a stored position was destroyed
+            // by the act of restoring it and a clamped index was silently overwritten.
+            // A position is recorded when the learner MOVES, not when they arrive.
+            .drop(1)
             .collect { onPosition(it) }
     }
 
@@ -278,8 +318,9 @@ fun TierScreen(
                 modifier = Modifier.fillMaxSize().padding(padding),
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                val toneSets = corpus.toneSetsFor(spec.code)
+                val toneSets = corpus.toneSetsFor(spec.code, tier)
                 if (toneSets.isNotEmpty()) {
                     item {
                         ToneSection(
@@ -344,7 +385,7 @@ fun SectionLabel(title: String, sub: String) {
 @Composable
 fun EntryCard(entry: Entry, spec: LanguageSpec, onFlag: () -> Unit = {}) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().widthIn(max = 640.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
     ) {
         Column(Modifier.padding(16.dp)) {
@@ -403,7 +444,14 @@ fun EntryCard(entry: Entry, spec: LanguageSpec, onFlag: () -> Unit = {}) {
             }
 
             Spacer(Modifier.height(8.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            // FlowRow, not Row. Three tags at 2.0x font scale need ~430dp of a 328dp
+            // card; a Row cannot wrap, so "failed you before" broke onto three lines
+            // beside two single-line pills. That tag appears as soon as the learner taps
+            // the flag once, so this was reachable in shipped content, not latent.
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
                 Tag(if (entry.direction.name == "SAY") "say" else "understand")
                 if (entry.register != "neutral") Tag(entry.register)
                 if (entry.failureFlags.isNotEmpty()) Tag("failed you before")
@@ -416,7 +464,7 @@ fun EntryCard(entry: Entry, spec: LanguageSpec, onFlag: () -> Unit = {}) {
 @Composable
 private fun ExchangeCard(ex: Exchange, spec: LanguageSpec, onFlag: () -> Unit = {}) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().widthIn(max = 640.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
     ) {
         Column(Modifier.padding(16.dp)) {
@@ -425,10 +473,12 @@ private fun ExchangeCard(ex: Exchange, spec: LanguageSpec, onFlag: () -> Unit = 
             ex.turns.forEach { turn ->
                 Row(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
                     Text(
-                        // An optional turn can be skipped without breaking the exchange.
-                        // Real interactions have these, and teaching them as mandatory
-                        // teaches the learner to stall.
-                        if (turn.optional) " · " else if (turn.isYou) "you" else "them",
+                        // Speaker, always. This used to render a bare middle dot for
+                        // optional turns, discarding `speaker` entirely — so 21 shipped
+                        // turns showed " · " where the reader needed to know who speaks.
+                        // Optionality is carried by the caption below, not by hiding the
+                        // speaker: an unattributed line is not obviously yours to say.
+                        if (turn.isYou) "you" else "them",
                         style = MaterialTheme.typography.labelSmall,
                         color = if (turn.isYou) MaterialTheme.colorScheme.primary
                                 else MaterialTheme.colorScheme.onSurfaceVariant,

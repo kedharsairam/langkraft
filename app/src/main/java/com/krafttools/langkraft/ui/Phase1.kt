@@ -8,7 +8,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -99,14 +103,29 @@ private fun ToneSetCard(set: ToneSet, spec: LanguageSpec, onFlag: (ToneSet) -> U
                     Modifier.fillMaxWidth().padding(vertical = 6.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(
-                        v.textNative,
-                        fontFamily = if (spec.isLatinScript) FontFamily.Default else FontFamily.Serif,
-                        fontSize = 30.sp,
-                        lineHeight = 38.sp,
-                        modifier = Modifier.weight(1f),
-                    )
-                    Column {
+                    // The tone number sits with the syllable, inside the weighted group.
+                    // It used to be an unweighted sibling AFTER the gloss, so at 2.0x font
+                    // scale the gloss took the remaining width first and the number was
+                    // laid out at maxWidth 0 -- drawn invisibly. It is the one element
+                    // here that survives being read aloud, so it must not be the one
+                    // squeezed. The gloss moves below rather than competing.
+                    Column(Modifier.weight(1f)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                v.textNative,
+                                fontFamily = if (spec.isLatinScript) FontFamily.Default else FontFamily.Serif,
+                                fontSize = 30.sp,
+                                lineHeight = 38.sp,
+                                modifier = Modifier.weight(1f, fill = false),
+                            )
+                            Text(
+                                "${v.tone}",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.tertiary,
+                                modifier = Modifier.padding(start = 12.dp),
+                            )
+                        }
                         Text(v.textEnglish, style = MaterialTheme.typography.bodyLarge)
                         v.textRomanized?.let {
                             Text(
@@ -116,15 +135,6 @@ private fun ToneSetCard(set: ToneSet, spec: LanguageSpec, onFlag: (ToneSet) -> U
                             )
                         }
                     }
-                    // The tone number is shown because it is the thing a romanization
-                    // carries and a script cannot: it survives being read aloud.
-                    Text(
-                        "${v.tone}",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier.padding(start = 12.dp),
-                    )
                 }
                 v.textNote?.let {
                     Text(
@@ -193,7 +203,7 @@ fun CountryPickerSheet(
         title = { Text("Where did it fail?") },
         text = {
             LazyColumn(
-                Modifier.height(320.dp),
+                Modifier.heightIn(max = 320.dp),
                 contentPadding = PaddingValues(vertical = 4.dp),
                 verticalArrangement = Arrangement.spacedBy(2.dp),
             ) {
@@ -271,10 +281,11 @@ fun SearchScreen(
                 LazyColumn(
                     contentPadding = PaddingValues(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     items(results, key = { it.entry.id }) { hit ->
                         Card(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth().widthIn(max = 640.dp),
                             colors = CardDefaults.cardColors(
                                 containerColor = MaterialTheme.colorScheme.surfaceVariant
                             ),
@@ -346,7 +357,10 @@ private fun SearchBar(value: String, onValueChange: (String) -> Unit, onBack: ()
             value = value,
             onValueChange = onValueChange,
             modifier = Modifier.weight(1f),
-            placeholder = { Text("Search") },
+            // A label, not just a placeholder: a placeholder is not the field's
+            // accessible name, so TalkBack announced an unlabelled edit box. This is the
+            // app's only text input.
+            label = { Text("Search") },
             singleLine = true,
         )
     }

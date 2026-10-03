@@ -1,9 +1,10 @@
 package com.krafttools.langkraft
 
-import android.app.Application
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -38,7 +39,15 @@ class AppState(
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        // Explicitly dark system bars. The default enableEdgeToEdge() branches on the
+        // SYSTEM's dark-mode setting, but this app has no light theme — KraftDark is
+        // applied unconditionally. On a device with system dark mode off, the default
+        // asks for dark icons on a near-black background, and the clock and battery
+        // disappear. It also paints a 90%-white scrim behind a 3-button nav bar.
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+        )
         setContent {
             LangKraftTheme {
                 // Parsed once, remembered for the process lifetime. The corpus is

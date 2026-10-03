@@ -1,8 +1,10 @@
 package com.krafttools.langkraft.data
 
 import android.content.ContentValues
+import android.util.Log
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteDatabaseCorruptException
 import android.database.sqlite.SQLiteOpenHelper
 
 /**
@@ -35,6 +37,9 @@ class ProgressStore(context: Context) : SQLiteOpenHelper(
     null,
     DB_VERSION,
 ) {
+    /** Retained only so a corrupt file can be deleted and rebuilt. */
+    private val appContext: Context = context.applicationContext
+
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
@@ -68,6 +73,19 @@ class ProgressStore(context: Context) : SQLiteOpenHelper(
         db.execSQL("CREATE INDEX idx_flag_entry ON $TABLE_FLAG (entry_id)")
     }
 
+    /**
+     * A downgrade must not brick the app.
+     *
+     * Without this, `SQLiteOpenHelper` throws `Can't downgrade database` on open, before
+     * any of our code runs, so there is no way to clear it from inside the app and every
+     * launch dies the same way. Side-loading an older build is a normal thing to do while
+     * developing, and a phrasebook that cannot be opened is the worst failure this app
+     * has. The data is a bookmark and a list of complaints; recreating it is acceptable.
+     */
+    override fun onDowngrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        onUpgrade(db, oldVersion, newVersion)
+    }
+
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // Nothing here is derived and nothing is expensive to rebuild: position is a
         // bookmark and flags are complaints. Recreating both is safer than a migration
@@ -77,16 +95,36 @@ class ProgressStore(context: Context) : SQLiteOpenHelper(
         onCreate(db)
     }
 
+    /**
+     * Runs a database call, recovering once from a corrupt file.
+     *
+     * The first touch of this store is `allPositions()` during composition of the home
+     * screen, so an unreadable `progress.db` used to kill the process before anything
+     * rendered -- and recurred on every launch, because nothing ever deleted the file.
+     * The content is read-only and unaffected, so the right behaviour is to lose the
+     * bookmark rather than the phrasebook.
+     *
+     * Only corruption is recovered. A genuine I/O failure propagates, because silently
+     * swallowing those would hide a real disk problem behind a bookmark that never saves.
+     */
+    private fun <T> orRecreate(block: () -> T): T = try {
+        block()
+    } catch (e: SQLiteDatabaseCorruptException) {
+        Log.w(TAG, "progress.db unreadable; recreating. Bookmark lost, content intact.", e)
+        appContext.deleteDatabase(DB_NAME)
+        block()
+    }
+
     // ---- position ---------------------------------------------------------
 
     fun position(lang: String, tier: Int): Int =
-        readableDatabase.query(
+        orRecreate { readableDatabase.query(
             TABLE_POSITION, arrayOf("item_index"), "lang = ? AND tier = ?",
             arrayOf(lang, tier.toString()), null, null, null,
-        ).use { c -> if (c.moveToFirst()) c.getInt(0) else 0 }
+        ).use { c -> if (c.moveToFirst()) c.getInt(0) else 0 } }
 
     /** Records where the learner is. Called on leaving a tier, never on a timer. */
-    fun setPosition(lang: String, tier: Int, itemIndex: Int) {
+    fun setPosition(lang: String, tier: Int, itemIndex: Int) = orWrite(Unit) {
         val cv = ContentValues().apply {
             put("lang", lang)
             put("tier", tier)
@@ -99,7 +137,7 @@ class ProgressStore(context: Context) : SQLiteOpenHelper(
     }
 
     /** Every stored position, for the home screen. Languages never opened are absent. */
-    fun allPositions(): Map<String, Map<Int, Int>> {
+    fun allPositions(): Map<String, Map<Int, Int>> = orRecreate {
         val out = mutableMapOf<String, MutableMap<Int, Int>>()
         readableDatabase.query(
             TABLE_POSITION, arrayOf("lang", "tier", "item_index"),
@@ -109,7 +147,7 @@ class ProgressStore(context: Context) : SQLiteOpenHelper(
                 out.getOrPut(c.getString(0)) { mutableMapOf() }[c.getInt(1)] = c.getInt(2)
             }
         }
-        return out
+        out
     }
 
     fun clearPosition(lang: String) {
@@ -123,17 +161,17 @@ class ProgressStore(context: Context) : SQLiteOpenHelper(
      * records a second observation, because "this failed me twice in Morocco" is real
      * information and de-duplicating it would throw the strongest signal away.
      */
-    fun addFlag(lang: String, entryId: String, country: String?) {
+    fun addFlag(lang: String, entryId: String, country: String?): Boolean = orWrite(false) {
         val cv = ContentValues().apply {
             put("lang", lang)
             put("entry_id", entryId)
             put("country", country)
             put("at", System.currentTimeMillis())
         }
-        writableDatabase.insert(TABLE_FLAG, null, cv)
+        writableDatabase.insert(TABLE_FLAG, null, cv) != -1L
     }
 
-    fun flagsFor(lang: String): List<FailureFlag> {
+    fun flagsFor(lang: String): List<FailureFlag> = orRecreate {
         val out = mutableListOf<FailureFlag>()
         readableDatabase.query(
             TABLE_FLAG, arrayOf("entry_id", "country", "at"),
@@ -150,20 +188,37 @@ class ProgressStore(context: Context) : SQLiteOpenHelper(
                 )
             }
         }
-        return out
+        out
     }
 
-    fun flagCount(lang: String): Int =
+    fun flagCount(lang: String): Int = orRecreate {
         readableDatabase.rawQuery(
             "SELECT COUNT(*) FROM $TABLE_FLAG WHERE lang = ?", arrayOf(lang)
         ).use { c -> if (c.moveToFirst()) c.getInt(0) else 0 }
+    }
 
     /** Clears a language's flags. Used by the spec-review tool, never by the UI. */
     fun clearFlags(lang: String) {
         writableDatabase.delete(TABLE_FLAG, "lang = ?", arrayOf(lang))
     }
 
+    /**
+     * Runs a write, reporting failure instead of propagating it.
+     *
+     * Called from the scroll-position collector and from tap handlers, both on the main
+     * dispatcher. A `SQLiteDiskFullException` there was an uncaught exception, which means
+     * a full disk could take down a read-only phrasebook that has no reason to care about
+     * the disk. Losing a bookmark is survivable; losing the reader is not.
+     */
+    private fun <T> orWrite(fallback: T, block: () -> T): T = try {
+        orRecreate(block)
+    } catch (e: Exception) {
+        Log.w(TAG, "progress write failed; continuing without saving state.", e)
+        fallback
+    }
+
     companion object {
+        private const val TAG = "LangKraftProgress"
         const val DB_NAME = "progress.db"
         const val DB_VERSION = 1
         const val TABLE_POSITION = "position"

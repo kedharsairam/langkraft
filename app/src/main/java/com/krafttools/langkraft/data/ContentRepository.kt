@@ -45,8 +45,16 @@ class ContentRepository(private val assets: AssetSource) {
         fun exchangesFor(lang: String, tier: Int): List<Exchange> =
             exchanges.filter { it.lang == lang && it.tier == tier }.sortedBy { it.order }
 
-        /** Tone sets render BEFORE phrases: the marks change what every later word means. */
-        fun toneSetsFor(lang: String): List<ToneSet> = toneSets.filter { it.lang == lang }
+        /**
+         * Tone sets for one tier, not one language.
+         *
+         * Tone sets render BEFORE phrases -- the marks change what every later word means
+         * -- but they are still tier-scoped content. Returning all of them made Tier 2 of a
+         * tonal language open on the complete Tier 0 tone section, directly above a
+         * "Nothing authored at this tier yet".
+         */
+        fun toneSetsFor(lang: String, tier: Int): List<ToneSet> =
+            toneSets.filter { it.lang == lang && it.tier == tier }
 
         val hasTones: Boolean get() = toneSets.isNotEmpty()
 
@@ -88,8 +96,16 @@ class ContentRepository(private val assets: AssetSource) {
                     val vo = variety.getJSONArray("variants").getJSONObject(v)
                     Variant(id = vo.getString("id"), label = vo.optString("label"))
                 },
-                scriptPrimary = script.optString("primary"),
-                scriptDirection = script.optString("direction", "ltr"),
+                scriptPrimary = script.optString("primary").ifBlank { "Latin" },
+                scriptDirection = script.optString("direction")
+                    .takeIf { it == "ltr" || it == "rtl" }
+                    ?: error(
+                        "spec ${lang.getString("code")} declares no valid " +
+                            "structure.script.direction (got " +
+                            "'${script.optString("direction")}'). Refusing to guess: a " +
+                            "default would silently render a right-to-left language " +
+                            "left-to-right, which is worse than refusing to open."
+                    ),
                 registerSystem = o.getJSONObject("register").optString("system", "none"),
                 tiers = (0 until tiersArr.length()).map { t ->
                     val to = tiersArr.getJSONObject(t)
@@ -103,7 +119,7 @@ class ContentRepository(private val assets: AssetSource) {
                         // These two shapes disagreeing is the exact drift the loader
                         // tests exist to catch — and it did, on the first run.
                         size = to.optInt("size", 0),
-                        certainty = to.optString("certainty"),
+                        certainty = to.optString("certainty").ifBlank { "low" },
                     )
                 },
             )
