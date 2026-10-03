@@ -3,7 +3,7 @@
 
 export function validSpec() {
   return {
-    language: { code: 'swh', name: 'Swahili', endonym: 'Kiswahili', romanization: null, role: 'course' },
+    language: { code: 'swh', name: 'Swahili', endonym: 'Kiswahili', romanization: null, role: 'course', gloss_mode: 'required' },
     spec_version: '1.0.0',
     status: 'draft',
     variety: {

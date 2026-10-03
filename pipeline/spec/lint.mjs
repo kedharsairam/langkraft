@@ -22,6 +22,7 @@ const ENUMS = {
   'tier.certainty': ['high', 'medium', 'low'],
   'variety.romanization_scheme': ['iso15919', 'rtgs', 'hepburn', 'revised_romanization', 'pinyin', 'gajs_latin', 'bgn_pcgn', 'elid_iso843', 'chat_alphabet', 'practical', null],
   'language.role': ['calibration', 'course'],
+  'language.gloss_mode': ['required', 'same_as_native'],
 };
 
 // Paths that must resolve to a claim object rather than a bare value.
@@ -86,6 +87,7 @@ export function lintSpec(doc, file) {
   const L = doc.language;
   if (!L || !/^[a-z]{3}$/.test(L.code ?? '')) r.err('language.code', 'must be ISO 639-3, three lowercase letters');
   if (!ENUMS['language.role'].includes(L?.role)) r.err('language.role', `must be one of ${ENUMS['language.role']}`);
+  if (!ENUMS['language.gloss_mode'].includes(L?.gloss_mode)) r.err('language.gloss_mode', `must be one of ${ENUMS['language.gloss_mode']}`);
   if (L?.romanization !== null && typeof L?.romanization !== 'string') {
     r.err('language.romanization', 'must be a scheme id or null for Latin-script languages');
   }
@@ -180,16 +182,16 @@ export function lintSpec(doc, file) {
   // ---- Tier 0 sourcing policy ------------------------------------------
   // Tier 0 may only draw on curated sources. If none exists for this language the
   // spec has to say so out loud, so the weakness is visible rather than inferred.
-  const hasCurated = (doc.resources ?? []).some(x => (x.class ?? null) === 'curated');
+  const hasHumanReviewed = (doc.resources ?? []).some(x => x.class === 'curated' || x.class === 'authored');
   const declared = doc.tier0_sources;
   if (declared === 'unavailable') {
-    if (hasCurated) r.err('tier0_sources', 'declared "unavailable" but a curated resource is listed');
+    if (hasHumanReviewed) r.err('tier0_sources', 'declared "unavailable" but a human-reviewed resource is listed');
     const gapMentioned = (doc.review?.known_gaps ?? []).some(g => /tier\s*0/i.test(g));
     if (!gapMentioned) {
       r.err('review.known_gaps', 'tier0_sources is "unavailable" but no known_gap records the consequence. A weaker Tier 0 must be declared, not inferred.');
     }
-  } else if (!hasCurated && declared !== 'unavailable') {
-    r.err('tier0_sources', 'no curated resource is listed. Declare "unavailable" and record the gap, or add a curated source. Tier 0 cannot be corpus-only without saying so.');
+  } else if (!hasHumanReviewed && declared !== 'unavailable') {
+    r.err('tier0_sources', 'no human-reviewed (authored or curated) resource is listed. Declare "unavailable" and record the gap, or add one. Tier 0 cannot be corpus-only without saying so.');
   }
 
   return r;

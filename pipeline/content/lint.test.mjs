@@ -142,9 +142,23 @@ test('an undeclared source is rejected — it cannot be licence-checked', () => 
 
 // ---------------------------------------------------------------------------
 // Exchanges
-test('an exchange with no "you" turn is rejected', () => {
-  const ex = exchange({ turns: [{ turn: 1, speaker: 'them', direction: 'understand', text_native: 'a', text_romanized: 'a', text_english: 'a' }] });
-  expectFail([ex], /no "you" turn is a phrase list/);
+test('an all-"them" exchange WARNS rather than fails', () => {
+  // "What you will hear" is legitimate content for a spoken app and is how a
+  // learner meets receptive vocabulary in conversational order. The warning asks
+  // whether it was intended; the author knows. A genuine phrase list is caught by
+  // the schema's minItems on turns, not by this rule.
+  const ex = exchange({ turns: [
+    { turn: 1, speaker: 'them', direction: 'understand', text_native: 'a', text_romanized: 'a', text_english: 'a' },
+    { turn: 2, speaker: 'them', direction: 'understand', text_native: 'b', text_romanized: 'b', text_english: 'b' },
+  ] });
+  const r = lint([ex]);
+  assert.ok(r.warnings.some(w => /deliberately receptive-only/.test(w)), 'expected a receptive-only warning');
+  assert.equal(r.ok, true, 'a receptive-only exchange must not fail the build');
+});
+
+test('a single-turn exchange is rejected by the schema', () => {
+  const ex = exchange({ turns: [{ turn: 1, speaker: 'you', direction: 'say', text_native: 'a', text_romanized: 'a', text_english: 'a' }] });
+  expectFail([ex], /fewer than 2|minItems/);
 });
 
 test('non-contiguous turn numbers are rejected', () => {
@@ -163,13 +177,23 @@ test('a dangling entry_id is rejected', () => {
   expectFail([ex], /entry_id "tam-9999" does not exist/);
 });
 
-test('a "them" turn linked to a standalone entry WARNS', () => {
-  const r = lint([entry(), exchange({ turns: [
+test('a "them" turn linked to a production entry is REJECTED', () => {
+  // Entries are tagged for how HE uses the phrase. A string he says is often also
+  // one he hears, and linking the two conflates production with reception — which is
+  // exactly the distinction the schema exists to keep honest. Inline the text and
+  // leave entry_id null on the "them" side.
+  expectFail([entry(), exchange({ turns: [
     { turn: 1, speaker: 'you', direction: 'say', entry_id: 'tam-0001', text_native: 'a', text_romanized: 'a', text_english: 'a' },
     { turn: 2, speaker: 'them', direction: 'understand', entry_id: 'tam-0001', text_native: 'b', text_romanized: 'b', text_english: 'b' },
+  ] })], /tagged for production/);
+});
+
+test('a "you" turn linking to its own production entry is permitted', () => {
+  const r = lint([entry(), exchange({ turns: [
+    { turn: 1, speaker: 'you', direction: 'say', entry_id: 'tam-0001', text_native: 'a', text_romanized: 'a', text_english: 'a' },
+    { turn: 2, speaker: 'them', direction: 'understand', text_native: 'b', text_romanized: 'b', text_english: 'b' },
   ] })]);
-  assert.ok(r.warnings.some(w => /wrong side of the conversation/.test(w)));
-  assert.equal(r.ok, true, 'a warning must not fail the build');
+  assert.equal(r.ok, true, r.errors.join('\n  '));
 });
 
 // ---------------------------------------------------------------------------
@@ -204,6 +228,33 @@ test('an empty content set produces no errors', () => {
 
 // ---------------------------------------------------------------------------
 // Shape
+// ---------------------------------------------------------------------------
+// gloss_mode — the calibration language's gloss IS its native text
+// ---------------------------------------------------------------------------
+test('a null gloss is rejected when the spec requires one', () => {
+  expectFail([entry({ text_english: null })], /gloss_mode: same_as_native/);
+});
+
+test('a null gloss is permitted when the spec declares same_as_native', () => {
+  const saved = tamilSpec.language;
+  tamilSpec.language = { ...saved, gloss_mode: 'same_as_native' };
+  try {
+    const { ok } = lint([entry({ text_english: null })]);
+    assert.equal(ok, true);
+  } finally {
+    tamilSpec.language = saved;
+  }
+});
+
+test('a null gloss in an exchange turn is rejected when a gloss is required', () => {
+  const ex = exchange({ turns: [
+    { turn: 1, speaker: 'you', direction: 'say', text_native: 'a', text_romanized: 'a', text_english: null },
+    { turn: 2, speaker: 'them', direction: 'understand', text_native: 'b', text_romanized: 'b', text_english: 'b' },
+  ] });
+  expectFail([ex], /turns\[0\]\.text_english is null/);
+});
+
+// ---------------------------------------------------------------------------
 test('a missing required field is caught by the schema', () => {
   const bad = entry(); delete bad.why;
   expectFail([bad], /why/);

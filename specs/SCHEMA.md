@@ -38,6 +38,7 @@ language:
   endonym: English
   romanization: null                    # null for Latin-script languages
   role: calibration                     # calibration | course
+  gloss_mode: same_as_native            # required | same_as_native — see below
 
 spec_version: 1.0.0                     # semver. Bump minor when content changes.
 status: draft                           # draft | reviewed | shipped | deprecated
@@ -164,14 +165,19 @@ review:
 
 ---
 
-## Content sources — two classes, and the tier policy is enforced
+## Content sources — three classes, and the tier policy is enforced
 
-Every source is one of two classes, and the class decides where its items may be used.
+Every source is one of three classes, and the class decides where its items may be used.
 
 | Class | What it means | Examples |
 |---|---|---|
+| **authored** | Written for this app and reviewed by a competent speaker of the language. Per-language, unrepeatable, and the only class available for some languages | LangKraft editorial, at zero cost |
 | **curated** | Professionally written and reviewed, travel-oriented. Bounded item count, high trust | US State Dept phrasebooks, Peace Corps, FSI/British Council published material |
-| **corpus** | User-contributed, machine-readable, unbounded, no quality floor, general-purpose not travel-domain | Tatoeba |
+| **corpus** | Machine-aggregated, user-contributed, unbounded, **no quality floor**, general-purpose rather than travel-domain | Tatoeba |
+
+**The axis that matters is human-reviewed versus machine-aggregated.** `authored` and
+`curated` are both controlled by a person who knows the language; `corpus` is not, and
+cannot be.
 
 **Tatoeba is `corpus`.** It is the best *available* licensed machine-readable source — 13.4M
 sentences, 429 languages, CC BY, weekly exports — and it is **not** the best *existing* one.
@@ -182,8 +188,8 @@ Japanese-English.
 
 | Tier | Policy | Why |
 |---|---|---|
-| **0 · Courtesy** | **`curated` sources only.** No corpus items permitted | These ~50 items decide whether a local reads you as worth helping. Highest stakes per item in the whole app |
-| **1 · Transaction** | `curated` preferred; `corpus` permitted to fill gaps | Same stakes, and coverage matters more as items multiply |
+| **0 · Courtesy** | **`authored` or `curated`. Never `corpus`.** | These ~50 items decide whether a local reads you as worth helping. Highest stakes per item in the whole app |
+| **1 · Transaction** | Human-reviewed preferred; `corpus` permitted to fill gaps | Same stakes, and coverage matters more as items multiply |
 | **2 · Independence** | `corpus` permitted | You are looking for words for your life, not polish. Coverage beats quality |
 | **3 · Conversation** | `corpus` permitted | Same |
 
@@ -191,20 +197,31 @@ Japanese-English.
 a build failure. That is the entire mechanism, and it exists because Tier 0 is where a
 mediocre phrase costs the most.
 
-### When a language has no curated source
+### Why there are three classes, not two
 
-Some languages will not have one. The spec must then declare it rather than quietly
-substituting:
+An earlier draft had only `curated` and `corpus`, and it produced an immediate contradiction:
+**English declares `tier0_sources: unavailable`** — no professionally published phrasebook
+exists for a language you already speak — **yet the policy barred corpus at Tier 0, so
+English's Tier 0 could not be built at all.**
+
+That was the linter working, on a policy drawn along the wrong axis. The fix is not an
+exception for English. It is recognising that for the calibration language the curation *is*
+judgement by a competent speaker, which is precisely what `authored` means. English Tier 0 is
+therefore `authored`, and it is honestly labelled as such rather than quietly upgraded.
+
+### When a language has no published phrasebook
+
+Declare it rather than substituting:
 
 ```yaml
-tier0_sources: unavailable        # or a list of source ids
+tier0_sources: authored            # or a list of source ids, or 'unavailable'
 known_gaps:
-  - "No curated phrasebook exists for this language. Tier 0 is drawn from corpus items and
-     is therefore lower confidence than every other language's Tier 0."
+  - "No published phrasebook exists for this language. Tier 0 is authored in-app and has
+     had no second reader."
 ```
 
-That entry is the honest outcome, and it is what makes the language's Tier 0 visibly weaker
-rather than invisibly so.
+An `authored` source with one reviewer is weaker than a `curated` one with a review board, and
+the gap entry says so. That is the difference being visible rather than inferred.
 
 ---
 
@@ -224,14 +241,27 @@ speaking and the native script is what verifies it. Latin-script languages set
 | `lang` / `tier` / `domain` | Position. Tier drives the source policy above |
 | `text_native` | The target script |
 | `text_romanized` | Practical romanisation, per the language's scheme. `null` if Latin |
-| `text_english` | The gloss |
+| `text_english` | The gloss. `null` when `language.gloss_mode` is `same_as_native` |
 | `register` | `neutral` by default; language-specific levels where `register.system` demands it |
 | `direction` | **`say` or `understand`** — the receptive/productive split, and the single most defensible field in the schema. You understand far more than you produce |
 | `why` | One line: why this is in the floor. Lets him choose three items on a tired day |
 | `exchange_id` / `exchange_turn` | Links into an exchange. Real interaction is two-sided; a flat phrase list is the wrong shape |
 | `caution` | Optional. What not to say, or where it fails |
-| `source` | Provenance. `{ class: curated\|corpus, id, url, licence }` — `class` is linted against the tier policy |
+| `source` | Provenance. `{ class: authored\|curated\|corpus, id, url, licence }` — `class` is linted against the tier policy |
 | `failure_flags` | Fed back from the app. Written by the pipeline from `progress.db`, never by hand |
+
+### `language.gloss_mode`
+
+The calibration language's gloss *is* its native text, so rendering both would print
+"Hello — Hello". The spec declares which:
+
+```yaml
+language:
+  gloss_mode: same_as_native      # or `required`, the default
+```
+
+`same_as_native` permits `text_english: null`. The renderer shows one line instead of two.
+This is a rendering concern recorded once in the spec rather than special-cased in code.
 
 ### The exchange
 

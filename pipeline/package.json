@@ -11,7 +11,7 @@
     "lint:spec": "node spec/lint.mjs ../specs",
     "lint:content": "node content/lint.mjs ../content",
     "lint:all": "npm run lint:spec && npm run lint:content",
-    "test": "node --test \"spec/*.test.mjs\" \"content/*.test.mjs\"",
+    "test": "node --test \"*/*.test.mjs\"",
     "check": "npm run lint:all && npm test"
   },
   "dependencies": {

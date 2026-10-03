@@ -17,6 +17,9 @@ language:
   endonym: English
   romanization: null              # Latin script — nothing to transliterate
   role: calibration
+  # The gloss IS the native text for this language, so rendering both would print
+  # "Hello — Hello". One line instead of two.
+  gloss_mode: same_as_native
 
 spec_version: 1.0.0
 status: draft
@@ -155,8 +158,17 @@ tiers:
     intent: >
       Not rude. Greet, thank, apologise, say "I'm learning your language", and
       be able to recover from not understanding.
-    size: { value: 50,  source: internal, verified: false, checked: 2026-10-03,
-            note: "Corresponds to the 50-unit courtesy core. The only tier whose composition is close to certain — greetings and courtesy phrases are the most stable, highest-frequency items in any language." }
+    size:
+      value: 48
+      source: internal
+      verified: false
+      checked: 2026-10-03
+      note: >
+        The design estimate was 50 and 48 are authored. The two-item gap is a SCHEMA
+        limitation, not a curation shortfall: "Do you speak ___?" and "I don't speak ___"
+        both need a templated item with a slot, which the content schema does not yet
+        support. Both are Tier 0 for every language in the catalogue, so the gap is recorded
+        rather than padded around. Closing it needs a slots concept, not two more entries.
     certainty: high
 
   - id: 1
@@ -183,15 +195,22 @@ tiers:
 # ---------------------------------------------------------------------------
 # Tier 0 sourcing — declared, not inferred
 # ---------------------------------------------------------------------------
-# English is the one language in this app that STRUCTURALLY cannot have a
-# curated Tier 0. Professionally-written phrasebooks exist for languages you
-# travel to; none exists for a speaker of the language already in his head.
+# English is the one language in this app with no published phrasebook.
+# Professionally-written ones exist for languages you travel to; none exists for
+# a language you already speak. An earlier draft of this spec declared
+# `tier0_sources: unavailable`, which combined with the "never corpus at Tier 0"
+# policy to make English's Tier 0 unbuildable — a contradiction the linter caught.
 #
-# This is recorded rather than papered over, because it means English's Tier 0
-# is the weakest in the catalogue — and it does not matter, since English is a
-# measuring instrument, not a travel aid. The tier SIZES are what is being
-# calibrated. The content is only the test case.
-tier0_sources: unavailable
+# The fix was not an exception. The policy axis is human-reviewed versus
+# machine-aggregated, and for the calibration language the curation IS judgement
+# by a competent speaker. So English Tier 0 is `authored`.
+#
+# The honest weakness, recorded below: one reader, no review board. English's
+# Tier 0 is the least externally corroborated in the catalogue. It does not
+# matter, because English is a measuring instrument rather than a travel aid —
+# what is being calibrated is the tier SIZES, and the content is only the test
+# case.
+tier0_sources: authored
 
 cost:
   # No FSI figure applies: English is the reference language the FSI scale is
@@ -219,9 +238,25 @@ cost:
       calibrates.
 
 resources:
+  - name: "LangKraft editorial"
+    url: null
+    licence: "CC BY-SA 4.0, same as the repository"
+    class: authored
+    checked: 2026-10-03
+    covers:
+      value: >
+        Phrases written for this app and reviewed against a native speaker's judgement
+        of what a traveller actually needs. Tier 0 for English only, because English is
+        the one language with no published phrasebook to draw on.
+      source: internal
+      verified: false
+      checked: 2026-10-03
+      note: "One reviewer. No second reader. The weakest external corroboration in the catalogue."
+
   - name: "Tatoeba sentence pairs (CC BY 2.0 FR)"
     url: "https://tatoeba.org/en/downloads"
     licence: "CC BY 2.0 FR, some CC0"
+    class: corpus
     checked: 2026-10-03
     covers:
       value: "13.4M sentences, 429 languages, English as pivot. Weekly Saturday export."
@@ -259,7 +294,8 @@ review:
   flags_received: 0
   last_reviewed: null
   known_gaps:
-    - "Tier 0 has no curated source. Professionally-written phrasebooks exist for languages you travel to, not for one you already speak. English's Tier 0 is therefore the weakest in the catalogue, and is corpus-derived. Acceptable only because English is a measuring instrument rather than a travel aid."
+    - "The content schema has no support for templated items with slots. 'Do you speak ___?' and 'I don't speak ___' are Tier 0 for every language and cannot currently be expressed. Tier 0 is 48 rather than the designed 50 for exactly this reason."
+    - "Tier 0 is `authored` with one reviewer and no second reader. Professionally-published phrasebooks exist for languages you travel to, not for one you already speak, so nothing external corroborates this Tier 0. Acceptable only because English is a measuring instrument rather than a travel aid — what is being calibrated is the tier sizes, not the content."
     - "No register guidance authored yet. A formality ladder exists but nobody has written the mapping."
     - "No exchanges authored. Tier 0 is currently a flat phrase list, which is the wrong shape."
     - "Tier 0 composition unvalidated against the 'say it / understand it' split."

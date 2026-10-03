@@ -26,9 +26,9 @@
 
     "provenance": {
       "type": "object",
-      "description": "Where one content item came from. `class` is linted against the tier policy: Tier 0 accepts only `curated`.",
+      "description": "Where one content item came from. `class` is linted against the tier policy: Tier 0 accepts `authored` or `curated`, never `corpus`.",
       "properties": {
-        "class": { "enum": ["curated", "corpus"] },
+        "class": { "enum": ["authored", "curated", "corpus"] },
         "id": { "type": "string", "description": "Source id from the spec's resources block." },
         "url": { "type": ["string", "null"] },
         "licence": { "type": "string" },
@@ -58,7 +58,7 @@
         },
         "text_native": { "type": "string" },
         "text_romanized": { "type": ["string", "null"] },
-        "text_english": { "type": "string" },
+        "text_english": { "type": ["string", "null"] },
         "optional": {
           "type": "boolean",
           "default": false,
@@ -88,7 +88,7 @@
           "type": ["string", "null"],
           "description": "Null for Latin-script languages. Never a duplicate of text_native."
         },
-        "text_english": { "type": "string" },
+        "text_english": { "type": ["string", "null"], "description": "Null only when the spec sets language.gloss_mode: same_as_native, i.e. the calibration language whose gloss IS its native text." },
         "register": {
           "type": "string",
           "default": "neutral",
@@ -124,7 +124,7 @@
       },
       "required": [
         "id", "lang", "tier", "domain",
-        "text_native", "text_english",
+        "text_native",
         "register", "direction", "why",
         "source", "failure_flags"
       ]

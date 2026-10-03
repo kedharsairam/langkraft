@@ -159,7 +159,7 @@ test('declaring unavailable WITH the gap recorded is accepted', () => {
 });
 
 test('declaring unavailable while a curated source exists is rejected', () => {
-  expectFail(s => { s.tier0_sources = 'unavailable'; }, /declared "unavailable" but a curated resource is listed/);
+  expectFail(s => { s.tier0_sources = 'unavailable'; }, /declared "unavailable" but a human-reviewed resource is listed/);
 });
 
 // ---------------------------------------------------------------------------
@@ -186,6 +186,23 @@ test('fsi_category null without an explanatory note is rejected', () => {
 
 test('a missing top-level key is rejected', () => {
   expectFail(s => { delete s.register; }, /required top-level key is missing/);
+});
+
+test('gloss_mode must be declared', () => {
+  expectFail(s => { delete s.language.gloss_mode; }, /gloss_mode/);
+});
+
+test('an unknown gloss_mode is rejected', () => {
+  expectFail(s => { s.language.gloss_mode = 'maybe'; }, /gloss_mode/);
+});
+
+test('an authored resource satisfies the Tier 0 gate', () => {
+  const { ok } = lint(s => { s.resources[0].class = 'authored'; });
+  assert.equal(ok, true);
+});
+
+test('a corpus-only resource set still fails the Tier 0 gate', () => {
+  expectFail(s => { s.resources[0].class = 'corpus'; }, /human-reviewed/);
 });
 
 test('non-semver spec_version is rejected', () => {
