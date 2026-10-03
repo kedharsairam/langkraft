@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Kraft dark surface, matching every other Kraft app so the portfolio reads as one body of work. -->
+    <color name="kraft_background">#FF0D1117</color>
+    <color name="kraft_launcher_background">#FF0D1117</color>
+</resources>

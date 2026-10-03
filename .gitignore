@@ -37,6 +37,7 @@ Thumbs.db
 # opposite and are always committed — they are the source of truth, versioned so a
 # correction is a diff you can read.
 content/generated/
+app/src/main/assets/
 *.db
 *.db-wal
 *.db-shm

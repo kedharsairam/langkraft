@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  A vector launcher mark, so no PNG is committed to the repository. BaroKraft's
+  ignore rule exists because root-level PNGs look enough like project files to
+  survive review; the durable answer is to not need one at all.
+
+  Two speech marks meeting: the app's subject is what is said to you, which is
+  half of every exchange.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#9CCBFF"
+        android:pathData="M38,42 L46,42 A4,4 0 0 1 46,50 L38,50 A4,4 0 0 1 46,58 L46,58 L42,58 L42,64 L38,64 Z" />
+    <path
+        android:fillColor="#D5BDE4"
+        android:pathData="M62,42 L70,42 A4,4 0 0 1 70,50 L62,50 A4,4 0 0 1 70,58 L70,58 L66,58 L66,64 L62,64 Z" />
+</vector>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+      ZERO permissions. Not "we chose not to use any" — there is no <uses-permission>
+      line in this file at all, which is a fact rather than a promise.
+
+      The app has no network, no microphone, no storage beyond its own sandbox, and
+      no analytics. Everything it reads ships in the APK. The only user input it
+      accepts is a one-tap "this failed me" flag, which is a click, not a permission.
+    -->
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.LangKraft">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.LangKraft">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

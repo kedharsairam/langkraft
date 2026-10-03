@@ -11,8 +11,10 @@
     "lint:spec": "node spec/lint.mjs ../specs",
     "lint:content": "node content/lint.mjs ../content",
     "lint:all": "npm run lint:spec && npm run lint:content",
+    "emit": "node build/emit-assets.mjs",
     "test": "node --test \"*/*.test.mjs\"",
-    "check": "npm run lint:all && npm test"
+    "check": "npm run lint:all && npm run emit && npm test",
+    "build:apk": "npm run check && cd .. && ./gradlew assembleDebug"
   },
   "dependencies": {
     "ajv": "^8.20.0",

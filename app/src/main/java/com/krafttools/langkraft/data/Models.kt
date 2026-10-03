@@ -1,0 +1,134 @@
+package com.krafttools.langkraft.data
+
+/**
+ * Records exactly as `content/SCHEMA.json` defines them.
+ *
+ * The pipeline is the gate: nothing reaches the app that has not passed
+ * `content/lint.mjs`. So parsing here is strict and throws on anything unexpected
+ * rather than defaulting. A silently-defaulted field is a bug that ships a wrong
+ * floor to the learner, and the whole point of the pipeline was to make that
+ * impossible earlier.
+ */
+
+enum class Direction { SAY, UNDERSTAND;
+
+    companion object {
+        fun parse(raw: String): Direction = when (raw) {
+            "say" -> SAY
+            "understand" -> UNDERSTAND
+            else -> throw IllegalArgumentException(
+                "direction must be 'say' or 'understand', was '$raw'. The pipeline should have rejected this."
+            )
+        }
+    }
+}
+
+/** Where an item came from. `cls` is one of authored | curated | corpus. */
+data class SourceRef(
+    val cls: String,
+    val id: String,
+    val licence: String,
+)
+
+data class FailureFlag(
+    val country: String?,
+    val at: String,
+)
+
+data class Entry(
+    val id: String,
+    override val lang: String,
+    override val tier: Int,
+    override val domain: Int,
+    val textNative: String,
+    /** Null for Latin-script languages. Never a duplicate of [textNative]. */
+    val textRomanized: String?,
+    /** Null only when the spec sets `gloss_mode: same_as_native`. */
+    val textEnglish: String?,
+    val register: String,
+    val direction: Direction,
+    val why: String,
+    val exchangeId: String?,
+    val exchangeTurn: Int?,
+    val caution: String?,
+    override val source: SourceRef,
+    override val failureFlags: List<FailureFlag>,
+) : Record {
+    override val recordId get() = id
+}
+
+data class ExchangeTurn(
+    val turn: Int,
+    val speaker: String,
+    val direction: Direction,
+    val entryId: String?,
+    val textNative: String,
+    val textRomanized: String?,
+    val textEnglish: String?,
+    val optional: Boolean,
+) {
+    val isYou: Boolean get() = speaker == "you"
+}
+
+data class Exchange(
+    val id: String,
+    override val lang: String,
+    override val tier: Int,
+    override val domain: Int,
+    val scenario: String,
+    val turns: List<ExchangeTurn>,
+    override val source: SourceRef,
+    override val failureFlags: List<FailureFlag>,
+) : Record {
+    override val recordId get() = id
+}
+
+sealed interface Record {
+    val recordId: String
+    val lang: String
+    val tier: Int
+    val domain: Int
+    val source: SourceRef
+    val failureFlags: List<FailureFlag>
+}
+
+/** One of the four tiers. Sizes vary per language; ids and order never do. */
+data class Tier(
+    val id: Int,
+    val name: String,
+    val intent: String,
+    val size: Int,
+    val certainty: String,
+)
+
+/**
+ * The per-language spec, trimmed to what the app needs at runtime.
+ *
+ * Only the fields the app actually reads are carried over. Provenance, `why` fields
+ * and the review block stay in the YAML in the repository — they are for the build
+ * and for review, not for a phone.
+ */
+data class LanguageSpec(
+    val code: String,
+    val name: String,
+    val endonym: String,
+    val romanization: String?,
+    val role: String,
+    val glossMode: String,
+    val defaultVariety: String,
+    val variants: List<Variant>,
+    val scriptPrimary: String,
+    val scriptDirection: String,
+    val registerSystem: String,
+    val tiers: List<Tier>,
+) {
+    val isLatinScript: Boolean get() = scriptPrimary.contains("Latin", ignoreCase = true)
+
+    /** True when the gloss IS the native text, so the renderer shows one line. */
+    val glossIsNative: Boolean get() = glossMode == "same_as_native"
+}
+
+data class Variant(
+    val id: String,
+    val label: String,
+)

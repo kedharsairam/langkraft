@@ -164,10 +164,17 @@ export function lintContent(records, specs, schema) {
       }
     }
 
-    // 9. aggregate counters
+    // 9. aggregate counters. Exchange turns are counted as well as entries:
+    //    reception mostly lives on the `them` side, so counting entries alone
+    //    reported Tier 0 as say=41/understand=7 when the true figure is nowhere
+    //    near that. An enforcement statistic that undercounts is worse than none.
     if (k === 'entry') {
       directionCount[rec.direction] = (directionCount[rec.direction] ?? 0) + 1;
       tierCount[rec.tier] = (tierCount[rec.tier] ?? 0) + 1;
+    } else {
+      for (const t of rec.turns ?? []) {
+        directionCount[t.direction] = (directionCount[t.direction] ?? 0) + 1;
+      }
     }
   });
 
@@ -219,7 +226,9 @@ export function lintContent(records, specs, schema) {
     r.warn('aggregate tiers', 'no Tier 0 items. Tier 0 is the near-certain tier and the one that must exist first.');
   }
 
-  r.stats = { total: records.length, tiers: tierCount, directions: directionCount, ids: seenIds.size };
+  r.stats = { total: records.length, entries: records.filter(x => kind(x) === 'entry').length,
+    exchanges: records.filter(x => kind(x) === 'exchange').length,
+    tiers: tierCount, directions: directionCount, ids: seenIds.size };
   return r;
 }
 
@@ -269,6 +278,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     console.log(`\x1b[32mPASS\x1b[0m ${r.stats.total} record(s), ${r.stats.ids} unique id(s)`);
   }
   r.warnings.forEach(w => console.warn(`     ${w}`));
-  console.log(`     tiers ${JSON.stringify(r.stats.tiers)}  directions ${JSON.stringify(r.stats.directions)}`);
+  console.log(`     ${r.stats.entries} entries, ${r.stats.exchanges} exchanges`);
+  console.log(`     tiers ${JSON.stringify(r.stats.tiers)}  directions ${JSON.stringify(r.stats.directions)}  (counts entries AND exchange turns)`);
   process.exit(r.errors.length ? 1 : 0);
 }
