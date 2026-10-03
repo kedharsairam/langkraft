@@ -31,6 +31,7 @@ data class SourceRef(
 )
 
 data class FailureFlag(
+    val entryId: String,
     val country: String?,
     val at: String,
 )
@@ -83,6 +84,38 @@ data class Exchange(
     override val failureFlags: List<FailureFlag>,
 ) : Record {
     override val recordId get() = id
+}
+
+data class ToneVariant(
+    val tone: Int,
+    val toneName: String?,
+    val textNative: String,
+    /** Carries an explicit tone number for a tonal language, e.g. `maa3`. */
+    val textRomanized: String?,
+    val textEnglish: String,
+    val textNote: String?,
+)
+
+/**
+ * A minimal contrast set: one syllable written several ways, differing only by tone.
+ *
+ * This is the only tone content a no-audio app can honestly ship. The app cannot teach the
+ * SOUND of a tone, and pretending otherwise with a tone-number table would be decoration.
+ * What it CAN do is teach the orthographic reality — that the mark is the only difference
+ * between two words a learner would otherwise read identically — and that is a real and
+ * necessary half. The other half is external, which is where listening already lives.
+ */
+data class ToneSet(
+    val id: String,
+    override val lang: String,
+    override val tier: Int,
+    val syllable: String?,
+    val variants: List<ToneVariant>,
+    override val source: SourceRef,
+    override val failureFlags: List<FailureFlag>,
+) : Record {
+    override val recordId get() = id
+    override val domain get() = 0
 }
 
 sealed interface Record {

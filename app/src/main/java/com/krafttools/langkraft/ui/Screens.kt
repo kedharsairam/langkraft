@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
@@ -21,11 +22,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import kotlinx.coroutines.flow.distinctUntilChanged
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.krafttools.langkraft.data.ContentRepository
@@ -42,7 +46,11 @@ import com.krafttools.langkraft.data.LanguageSpec
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LanguageListScreen(corpus: ContentRepository.Corpus, onOpen: (String) -> Unit) {
+fun LanguageListScreen(
+    corpus: ContentRepository.Corpus,
+    positions: Map<String, Map<Int, Int>>,
+    onOpen: (String) -> Unit,
+) {
     Scaffold(
         topBar = {
             // No back destination on the root screen, so this is the one bar that is not
@@ -63,14 +71,18 @@ fun LanguageListScreen(corpus: ContentRepository.Corpus, onOpen: (String) -> Uni
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             items(corpus.specs, key = { it.code }) { spec ->
-                LanguageCard(spec = spec, onClick = { onOpen(spec.code) })
+                LanguageCard(
+                    spec = spec,
+                    bookmark = positions[spec.code]?.maxByOrNull { it.value }?.value,
+                    onClick = { onOpen(spec.code) },
+                )
             }
         }
     }
 }
 
 @Composable
-private fun LanguageCard(spec: LanguageSpec, onClick: () -> Unit) {
+private fun LanguageCard(spec: LanguageSpec, bookmark: Int?, onClick: () -> Unit) {
     val tierZero = spec.tiers.firstOrNull { it.id == 0 }
     Card(
         onClick = onClick,
@@ -94,6 +106,17 @@ private fun LanguageCard(spec: LanguageSpec, onClick: () -> Unit) {
                     color = MaterialTheme.colorScheme.primary,
                 )
             }
+            // The bookmark, and ONLY the bookmark. No percentage, no accuracy, no
+            // "12 of 48 read" — progress in this app means position and nothing else, so
+            // there is deliberately nothing here that could be misread as a score.
+            bookmark?.takeIf { it > 0 }?.let {
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    "Continue where you left off",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
             if (spec.role == "calibration") {
                 Spacer(Modifier.height(4.dp))
                 Text(
@@ -112,7 +135,9 @@ private fun LanguageCard(spec: LanguageSpec, onClick: () -> Unit) {
 fun PathScreen(
     spec: LanguageSpec,
     corpus: ContentRepository.Corpus,
+    positions: Map<String, Map<Int, Int>>,
     onOpenTier: (Int) -> Unit,
+    onOpenSearch: () -> Unit,
     onBack: () -> Unit,
 ) {
     // Arabic, Dari and Urdu are RTL. Without this the whole screen inherits the device's
@@ -120,7 +145,14 @@ fun PathScreen(
     // an English-locale phone learning Arabic still needs an RTL screen.
     DirectionProvider(spec) {
         Scaffold(
-            topBar = { KraftTopBar(title = spec.name, onBack = onBack) },
+            topBar = {
+            KraftTopBar(
+                title = spec.name,
+                onBack = onBack,
+                actionLabel = "Search",
+                onAction = onOpenSearch,
+            )
+        },
         ) { padding ->
             LazyColumn(
                 modifier = Modifier.fillMaxSize().padding(padding),
@@ -144,6 +176,7 @@ fun PathScreen(
                         available = entries.size,
                         declared = tier.size,
                         certainty = tier.certainty,
+                        bookmark = positions[spec.code]?.get(tier.id)?.takeIf { it > 0 },
                         onClick = { onOpenTier(tier.id) },
                     )
                 }
@@ -155,7 +188,7 @@ fun PathScreen(
 @Composable
 private fun TierCard(
     number: Int, name: String, intent: String,
-    available: Int, declared: Int, certainty: String, onClick: () -> Unit,
+    available: Int, declared: Int, certainty: String, bookmark: Int?, onClick: () -> Unit,
 ) {
     Card(
         onClick = onClick,
@@ -180,6 +213,14 @@ private fun TierCard(
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+            bookmark?.let {
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    "Pick up where you stopped",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
             // `certainty` is surfaced rather than hidden. Tier 0 is built to be safe and
             // the higher tiers are hypotheses; the app says which is which instead of
             // presenting a guess with the same confidence as a fact.
@@ -201,6 +242,9 @@ fun TierScreen(
     spec: LanguageSpec,
     tier: Int,
     corpus: ContentRepository.Corpus,
+    startIndex: Int = 0,
+    onPosition: (Int) -> Unit = {},
+    onFlag: (String, String?) -> Unit = { _, _ -> },
     onBack: () -> Unit,
 ) {
     val entries = corpus.entriesFor(spec.code, tier)
@@ -209,25 +253,57 @@ fun TierScreen(
     // reader nothing about which exchange they will actually need.
     val exchanges = corpus.exchangesFor(spec.code, tier)
 
+    // The bookmark. `startIndex` is where the learner was last time; the list is restored
+    // there rather than at the top, which is the entire point of storing a position.
+    //
+    // Position is the FIRST VISIBLE ITEM, not "items read". Those differ the moment a
+    // learner scrolls back to re-read something, and "read" is a claim about their
+    // attention, which the app has no business making.
+    val listState = rememberLazyListState(initialFirstVisibleItemIndex = startIndex.coerceAtLeast(0))
+
+    // Reported when the scroll settles, never on a timer. A timer would write rows the
+    // learner never scrolled to and make the bookmark drift toward wherever they idled.
+    LaunchedEffect(listState, spec.code, tier) {
+        snapshotFlow { listState.firstVisibleItemIndex }
+            .distinctUntilChanged()
+            .collect { onPosition(it) }
+    }
+
     DirectionProvider(spec) {
         Scaffold(
             topBar = { KraftTopBar(title = spec.name, subtitle = TierId.of(tier).title, onBack = onBack) },
         ) { padding ->
             LazyColumn(
+                state = listState,
                 modifier = Modifier.fillMaxSize().padding(padding),
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
+                val toneSets = corpus.toneSetsFor(spec.code)
+                if (toneSets.isNotEmpty()) {
+                    item {
+                        ToneSection(
+                            sets = toneSets,
+                            spec = spec,
+                            onFlag = { onFlag(it.id, null) },
+                        )
+                    }
+                    item { HorizontalDivider() }
+                }
                 if (exchanges.isNotEmpty()) {
                     item {
                         SectionLabel("Exchanges", "Half of every conversation is what they say to you.")
                     }
-                    items(exchanges, key = { it.id }) { ex -> ExchangeCard(ex, spec) }
+                    items(exchanges, key = { it.id }) { ex ->
+                        ExchangeCard(ex, spec, onFlag = { onFlag(ex.id, null) })
+                    }
                     item { HorizontalDivider() }
                 }
                 if (entries.isNotEmpty()) {
                     item { SectionLabel("Phrases", "${entries.size} items") }
-                    items(entries, key = { it.id }) { e -> EntryCard(e, spec) }
+                    items(entries, key = { it.id }) { e ->
+                        EntryCard(e, spec, onFlag = { onFlag(e.id, null) })
+                    }
                 }
                 if (entries.isEmpty() && exchanges.isEmpty()) {
                     item {
@@ -244,7 +320,7 @@ fun TierScreen(
 }
 
 @Composable
-private fun SectionLabel(title: String, sub: String) {
+fun SectionLabel(title: String, sub: String) {
     Column(Modifier.fillMaxWidth()) {
         Text(title, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
         Text(sub, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -266,7 +342,7 @@ private fun SectionLabel(title: String, sub: String) {
  *    would be noise.
  */
 @Composable
-fun EntryCard(entry: Entry, spec: LanguageSpec) {
+fun EntryCard(entry: Entry, spec: LanguageSpec, onFlag: () -> Unit = {}) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
@@ -330,13 +406,15 @@ fun EntryCard(entry: Entry, spec: LanguageSpec) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Tag(if (entry.direction.name == "SAY") "say" else "understand")
                 if (entry.register != "neutral") Tag(entry.register)
+                if (entry.failureFlags.isNotEmpty()) Tag("failed you before")
             }
+            FailureFlagButton(onClick = onFlag)
         }
     }
 }
 
 @Composable
-private fun ExchangeCard(ex: Exchange, spec: LanguageSpec) {
+private fun ExchangeCard(ex: Exchange, spec: LanguageSpec, onFlag: () -> Unit = {}) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),

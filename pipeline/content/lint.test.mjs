@@ -230,6 +230,74 @@ test('an empty content set produces no errors', () => {
 // ---------------------------------------------------------------------------
 // Shape
 // ---------------------------------------------------------------------------
+// Tone sets — the visual half of a language the app cannot teach auditorily
+function toneSet(o = {}) {
+  return {
+    id: 'tha-t0001', lang: 'tha', tier: 0,
+    syllable: 'ma',
+    variants: [
+      { tone: 1, tone_name: 'mid', text_native: 'มา', text_romanized: 'maa1', text_english: 'come' },
+      { tone: 2, tone_name: 'low', text_native: 'ม้า', text_romanized: 'maa2', text_english: 'horse' },
+    ],
+    source: { class: 'authored', id: 'LangKraft editorial', licence: 'CC BY-SA 4.0' },
+    failure_flags: [], ...o,
+  };
+}
+
+const tonalSpec = {
+  language: { code: 'tha', romanization: 'rtgs' },
+  structure: { script: { primary: 'Thai' }, tones: true },
+  tiers: [{ id: 0, size: { value: 40 } }],
+  resources: [{ name: 'LangKraft editorial', licence: 'x', class: 'authored' }],
+};
+
+function lintTonal(records) {
+  // NB: not `const specs = new Map([...specs, ...])`. That shadows the outer `specs`
+  // inside its own initialiser and is a temporal dead zone — the exact error it produces
+  // names neither variable involved, so it costs twenty minutes to find.
+  const merged = new Map([...specs, ['tha', tonalSpec]]);
+  const r = lintContent(records, merged, schema);
+  return { errors: r.errors, warnings: r.warnings, ok: r.errors.length === 0 };
+}
+
+test('a valid tone set passes', () => {
+  const r = lintTonal([toneSet()]);
+  assert.equal(r.ok, true, r.errors.join('\n  '));
+});
+
+test('two variants with the SAME text is rejected — that teaches no contrast', () => {
+  // This is the failure the whole record type exists to prevent: identical words with
+  // different tone numbers, which looks like content and teaches nothing.
+  const r = lintTonal([toneSet({ variants: [
+    { tone: 1, text_native: 'มา', text_romanized: 'maa1', text_english: 'come' },
+    { tone: 2, text_native: 'มา', text_romanized: 'maa2', text_english: 'horse' },
+  ] })]);
+  assert.ok(r.errors.some(e => /the text to DIFFER/.test(e)), r.errors.join('\n  '));
+});
+
+test('a variant with no meaning is rejected', () => {
+  const r = lintTonal([toneSet({ variants: [
+    { tone: 1, text_native: 'มา', text_romanized: 'maa1', text_english: 'come' },
+    { tone: 2, text_native: 'ม้า', text_romanized: 'maa2', text_english: '' },
+  ] })]);
+  assert.ok(r.errors.some(e => /has no meaning/.test(e)), r.errors.join('\n  '));
+});
+
+test('a tone set in a language whose spec says tones:false is rejected', () => {
+  // Swahili, which has a spec and declares tones: false. Using the real catalogue rather
+  // than a fabricated spec means the check runs against a spec that actually ships.
+  const r = lintContent([toneSet({ lang: 'swh' })], specs, schema);
+  assert.ok(r.errors.some(e => /structure.tones: false/.test(e)), r.errors.join('\n  '));
+});
+
+test('a single-variant tone set is rejected by the schema', () => {
+  const r = lintTonal([toneSet({ variants: [
+    { tone: 1, text_native: 'มา', text_romanized: 'maa1', text_english: 'come' },
+  ] })]);
+  assert.ok(r.errors.length > 0);
+});
+
+// ---------------------------------------------------------------------------
 // gloss_mode — the calibration language's gloss IS its native text
 // ---------------------------------------------------------------------------
 test('a null gloss is rejected when the spec requires one', () => {

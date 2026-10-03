@@ -63,6 +63,7 @@ function isLatinScript(spec) {
 
 // ---- record classification -----------------------------------------------
 function kind(rec) {
+  if (Array.isArray(rec.variants)) return 'tone_set';
   return Array.isArray(rec.turns) ? 'exchange' : 'entry';
 }
 
@@ -175,6 +176,30 @@ export function lintContent(records, specs, schema) {
       for (const t of rec.turns ?? []) {
         directionCount[t.direction] = (directionCount[t.direction] ?? 0) + 1;
       }
+    }
+  });
+
+  // ---- cross-record: tone sets ------------------------------------------
+  // The whole pedagogical point of a tone set is that the variants differ ONLY by tone.
+  // Two variants with identical text_native means the learner is shown the same word
+  // twice and taught nothing, which looks like content and is not.
+  records.filter(r2 => kind(r2) === 'tone_set').forEach(ts => {
+    const where = `tone set ${ts.id}`;
+    const seen = new Map();
+    for (const v of ts.variants ?? []) {
+      if (seen.has(v.text_native)) {
+        r.err(where, `variant "${v.text_native}" appears twice (tones ${seen.get(v.text_native)} and ${v.tone}). A contrast set needs the text to DIFFER.`);
+      } else {
+        seen.set(v.text_native, v.tone);
+      }
+      if (!v.text_english) {
+        r.err(where, `tone ${v.tone} has no meaning. Without it the set teaches a squiggle rather than a contrast.`);
+      }
+    }
+    // A tone set in a language the spec says has no tones is a spec/content mismatch.
+    const spec = specs.get(ts.lang);
+    if (spec && spec.structure?.tones !== true) {
+      r.err(where, `spec for "${ts.lang}" declares structure.tones: false, so a tone set cannot belong to it.`);
     }
   });
 

@@ -31,6 +31,7 @@ class ContentRepository(private val assets: AssetSource) {
         val specs: List<LanguageSpec>,
         val entries: List<Entry>,
         val exchanges: List<Exchange>,
+        val toneSets: List<ToneSet> = emptyList(),
     ) {
         val byLanguage: Map<String, List<Entry>> by lazy {
             entries.groupBy { it.lang }
@@ -44,6 +45,11 @@ class ContentRepository(private val assets: AssetSource) {
         fun exchangesFor(lang: String, tier: Int): List<Exchange> =
             exchanges.filter { it.lang == lang && it.tier == tier }.sortedBy { it.order }
 
+        /** Tone sets render BEFORE phrases: the marks change what every later word means. */
+        fun toneSetsFor(lang: String): List<ToneSet> = toneSets.filter { it.lang == lang }
+
+        val hasTones: Boolean get() = toneSets.isNotEmpty()
+
         /** Exchanges containing at least one turn from [entryId]. */
         fun exchangesContaining(entryId: String): List<Exchange> =
             exchanges.filter { ex -> ex.turns.any { it.entryId == entryId } }
@@ -56,6 +62,7 @@ class ContentRepository(private val assets: AssetSource) {
             specs = specs,
             entries = records.filterIsInstance<Entry>(),
             exchanges = records.filterIsInstance<Exchange>(),
+            toneSets = records.filterIsInstance<ToneSet>(),
         )
     }
 
@@ -110,7 +117,11 @@ class ContentRepository(private val assets: AssetSource) {
             .filter { it.isNotEmpty() && !it.startsWith("//") }
             .map { line ->
                 val o = JSONObject(line)
-                if (o.has("turns")) parseExchange(o) else parseEntry(o)
+                when {
+                    o.has("variants") -> parseToneSet(o)
+                    o.has("turns") -> parseExchange(o)
+                    else -> parseEntry(o)
+                }
             }
             .toList()
 
@@ -159,6 +170,29 @@ class ContentRepository(private val assets: AssetSource) {
         )
     }
 
+    private fun parseToneSet(o: JSONObject): ToneSet {
+        val variantsArr = o.getJSONArray("variants")
+        return ToneSet(
+            id = o.getString("id"),
+            lang = o.getString("lang"),
+            tier = o.getInt("tier"),
+            syllable = o.optStringOrNull("syllable"),
+            variants = (0 until variantsArr.length()).map { i ->
+                val vo = variantsArr.getJSONObject(i)
+                ToneVariant(
+                    tone = vo.getInt("tone"),
+                    toneName = vo.optStringOrNull("tone_name"),
+                    textNative = vo.getString("text_native"),
+                    textRomanized = vo.optStringOrNull("text_romanized"),
+                    textEnglish = vo.getString("text_english"),
+                    textNote = vo.optStringOrNull("text_note"),
+                )
+            },
+            source = parseSource(o.getJSONObject("source")),
+            failureFlags = parseFlags(o.optJSONArray("failure_flags")),
+        )
+    }
+
     private fun parseSource(o: JSONObject) = SourceRef(
         cls = o.getString("class"),
         id = o.getString("id"),
@@ -169,7 +203,11 @@ class ContentRepository(private val assets: AssetSource) {
         if (arr == null) return emptyList()
         return (0 until arr.length()).map { i ->
             val o = arr.getJSONObject(i)
-            FailureFlag(country = o.optStringOrNull("country"), at = o.optString("at"))
+            FailureFlag(
+                entryId = o.optString("entry_id"),
+                country = o.optStringOrNull("country"),
+                at = o.optString("at"),
+            )
         }
     }
 

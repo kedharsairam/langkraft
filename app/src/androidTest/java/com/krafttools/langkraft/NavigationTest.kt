@@ -60,12 +60,12 @@ class NavigationTest {
         compose.setContent {
             LangKraftTheme {
                 if (wentBack.value) {
-                    LanguageListScreen(corpus) { }
+                    LanguageListScreen(corpus, positions = emptyMap()) { }
                 } else {
                     PathScreen(
                         spec = corpus.spec("eng")!!,
                         corpus = corpus,
-                        onOpenTier = { },
+                        onOpenTier = { }, positions = emptyMap(), onOpenSearch = { },
                         onBack = { wentBack.value = true },
                     )
                 }
@@ -87,7 +87,7 @@ class NavigationTest {
         compose.setContent {
             LangKraftTheme {
                 if (wentBack.value) {
-                    PathScreen(corpus.spec("eng")!!, corpus, onOpenTier = { }, onBack = { })
+                    PathScreen(corpus.spec("eng")!!, corpus, onOpenTier = { }, positions = emptyMap(), onOpenSearch = { }, onBack = { })
                 } else {
                     TierScreen(
                         spec = corpus.spec("eng")!!,
@@ -111,7 +111,7 @@ class NavigationTest {
         val corpus = corpus()
         compose.setContent {
             LangKraftTheme {
-                PathScreen(corpus.spec("eng")!!, corpus, onOpenTier = { }, onBack = { })
+                PathScreen(corpus.spec("eng")!!, corpus, onOpenTier = { }, positions = emptyMap(), onOpenSearch = { }, onBack = { })
             }
         }
         // A missing node throws here rather than failing silently at tap time.

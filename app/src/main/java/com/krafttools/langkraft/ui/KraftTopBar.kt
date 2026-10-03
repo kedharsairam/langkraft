@@ -5,6 +5,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -35,6 +36,8 @@ fun KraftTopBar(
     title: String,
     onBack: () -> Unit,
     subtitle: String? = null,
+    actionLabel: String? = null,
+    onAction: (() -> Unit)? = null,
 ) {
     TopAppBar(
         title = {
@@ -50,6 +53,13 @@ fun KraftTopBar(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
                 )
+            }
+        },
+        actions = {
+            // Search is the one thing a reader needs mid-sentence: you are standing in
+            // front of something and you need one specific phrase in two seconds.
+            if (actionLabel != null && onAction != null) {
+                TextButton(onClick = onAction) { Text(actionLabel) }
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
