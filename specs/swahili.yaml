@@ -1,0 +1,335 @@
+# Swahili — the second spec, v1
+#
+# Swahili is the second language and the first one where the app is being tested for
+# something English could not test: whether a spec for a language the author does not
+# speak natively survives the pipeline honestly.
+#
+# READ known_gaps BEFORE TRUSTING TIER 0.
+
+language:
+  code: swh
+  name: Swahili
+  endonym: Kiswahili
+  romanization: null            # Latin script
+  role: course
+  gloss_mode: required
+
+spec_version: 0.1.0
+status: draft
+
+variety:
+  # Coastal Kenyan standard. Chosen over sw-TZ for two reasons: East Africa is the
+  # region where Swahili actually converses, and Kenya's coastal variety is what
+  # GLOSS teaches and what the wider corpus is written in.
+  #
+  # This choice has a hard edge and it is recorded in `traps` below: in Nairobi this is
+  # the wrong variety, because Nairobi speaks Sheng.
+  default: sw-KE
+  romanization_scheme: null
+  rationale:
+    value: >
+      Standard Kiswahili, coastal Kenyan. Analytic with nominal-class agreement, so
+      noun classes must be learned explicitly rather than absorbed from verb morphology.
+      No gender, no tone, and consonant-only syllable onsets — which makes it one of the
+      cheapest languages in the catalogue per hour.
+    source: "https://gloss.dliflc.edu/ — Swahili course present; FSI Category II, 828 h"
+    verified: true
+    checked: 2026-10-03
+    note: >
+      The morphology characterisation is from general knowledge of the language and was
+      NOT re-verified against a grammar in this pass. Treat it as reasoning, not a source.
+
+  variants:
+    - id: sw-TZ
+      label: Tanzanian
+      notes:
+        value: >
+          Zanzibar, Dar es Salaam, Arusha. Functionally interchangeable with sw-KE for
+          courtesy and transactions. East African Swahili is a single continuum here and
+          the mutual intelligibility is far higher than the separate ISO codes suggest.
+        source: internal
+        verified: false
+        checked: 2026-10-03
+    - id: sw-KE
+      label: Kenyan (coastal)
+      notes:
+        value: "Mombasa, Malindi, Lamu, Diani. Standard Kiswahili is what is spoken here."
+        source: internal
+        verified: false
+        checked: 2026-10-03
+
+  # The single most important thing a Swahili traveller needs to be told, and it is not
+  # a dialect preference — it is a failure mode that no amount of study fixes.
+  fails_in:
+    - territory: Kenya (Nairobi)
+      reason:
+        value: >
+          Nairobi's street language is **Sheng**, an urban patois mixing Swahili, English
+          and Kikuyu/Luo. Standard Kiswahili is described as "increasingly rare in Nairobi"
+          even in the situations where Kiswahili is required, and "very common in Coastal
+          Kenya". A learner of this spec can be competent and still not understood in
+          Kenya's largest city. This is a country-pack warning, not a dialect choice.
+        source: "https://www.reddit.com/r/swahilib/comments/14ivp5t/sheng/ ; https://en.wikipedia.org/wiki/Sheng_slang"
+        verified: true
+        checked: 2026-10-03
+        note: "Partially corrected: the reddit URL slug is r/swahili, not r/swahilib."
+    - territory: DRC (Kisangani)
+      reason:
+        value: >
+          Congolese Swahili is spoken and mutually intelligible with the coast, which is
+          the cheapest multi-country buy in East Africa. Recorded as partial, not solid.
+        source: internal
+        verified: false
+        checked: 2026-10-03
+
+structure:
+  # Noun classes (18, of which ~7 in common use) are the whole difficulty. Verb
+  # morphology is regular and light; the noun class is not. Class agreement is marked
+  # by prefixes, so it is partly agglutinative — which is why this is `analytic` rather
+  # than isolating, and why item counts sit mid-range rather than at the top.
+  morphology: analytic
+  tones: false
+  word_order: SVO
+  sounds_absent_from_l1:
+    - "The aspirated /p/ /t/ /k/ written 'ch', 't', 'c' — 'kitabu' is not 'kitabhu'"
+    - "The 'ny' cluster and its palatalised pronunciation"
+    - "No aspirated or breathy-voiced consonants, and no tonal contrast — a relief next
+       after Thai, Mandarin and Hindi"
+  script:
+    primary: Latin
+    direction: ltr
+
+register:
+  # Noun class agreement doubles as a politeness system: `mzee` (elder) before a person's
+  # name, and the choice between `wa` and `wawake` plural forms, are respect markers. This
+  # is a second-class dimension, not the first-class politeness-particle system of Thai
+  # or Japanese.
+  system: none
+  notes:
+    value: >
+      Respect is carried by `mzee` (elder) placed before a name, and by correct noun-class
+      agreement, rather than by particles. Getting the class wrong is conspicuous but not
+      rude; the app therefore teaches class as part of the noun, not as a politeness axis.
+    source: internal
+    verified: false
+    checked: 2026-10-03
+
+coverage:
+  territories:
+    value: >
+      Genuine conversation: Tanzania, Kenya (coast, NOT Nairobi). Works in towns across
+      Uganda, eastern DRC and Mayotte. Fails in Rwanda, Burundi, Zambia, Malawi,
+      Zimbabwe, South Africa and Mozambique. Two countries of solid coverage, which makes
+      this the cheapest real conversation available in the catalogue — and the cheapest is
+      not the same as the most valuable.
+    source: "session ses_f0405e201ffehrwApvdiGupQEq — Africa pass, re-checked 2026-10-03"
+    verified: false
+    checked: 2026-10-03
+    note: >
+      The tutor's correction stands and was verified independently: Swahili is NOT a
+      six-country language. Zulu is a different Bantu branch and not mutually intelligible.
+      Kinyarwanda is a cousin, not a variety, and Rwanda switched its schools from French
+      to English.
+  adjacent:
+    - language: { code: swh, name: Congo Swahili }
+      overlap:
+        value: "High. Recognisable, with vocabulary drift. Partial credit."
+        source: internal
+        verified: false
+        checked: 2026-10-03
+      note: "This is the 'you already know this' feature doing its first real work."
+    - language: { code: kin, name: Kinyarwanda }
+      overlap:
+        value: >
+          Low and asymmetric. A cousin of Swahili at the Bantu level, not mutually
+          intelligible in practice. Rwanda's medium of instruction is now English.
+        source: internal
+        verified: false
+        checked: 2026-10-03
+      note: "Recorded because this is the specific mistake the research caught."
+  traps:
+    - territory: Kenya (Nairobi)
+      reason:
+        value: "Sheng, not Swahili. See fails_in."
+        source: "https://en.wikipedia.org/wiki/Sheng_slang"
+        verified: true
+        checked: 2026-10-03
+    - territory: South Africa
+      reason:
+        value: >
+          English works and Zulu is a different Bantu branch. A Swahili learner expecting
+          to be understood in Southern Africa is not.
+        source: internal
+        verified: false
+        checked: 2026-10-03
+
+tiers:
+  - id: 0
+    name: Courtesy
+    intent: >
+      Not rude. Greet, thank, apologise, say you are learning the language, and recover
+      from not understanding.
+    size:
+      value: 42
+      source: internal
+      verified: false
+      checked: 2026-10-03
+      note: >
+        Deliberately SMALLER than English's 48, and that is the finding rather than a
+        shortfall. Swahili's courtesy core is genuinely tighter: the greeting is one
+        exchange (`Habari gani?` / `Nzuri`) rather than a choice across morning, afternoon
+        and evening, and Swahili has no register ladder to cover. A smaller number here
+        is evidence that per-language tiers are real and not a constant in disguise.
+    certainty: high
+
+  - id: 1
+    name: Transaction
+    intent: "Prices, food, tickets, directions, a room."
+    size:
+      value: 140
+      source: internal
+      verified: false
+      checked: 2026-10-03
+      note: "Slightly below English's 150. Untested."
+    certainty: medium
+
+  - id: 2
+    name: Independence
+    intent: "Handle an unexpected problem unaided for a week."
+    size:
+      value: 500
+      source: internal
+      verified: false
+      checked: 2026-10-03
+      note: "Unchanged from English. Noun classes make the noun half harder and the verb half easier; the net is a guess."
+    certainty: low
+
+  - id: 3
+    name: Conversation
+    intent: "Fifteen minutes with a stranger, no English fallback."
+    size:
+      value: 1200
+      source: internal
+      verified: false
+      checked: 2026-10-03
+      note: "Extrapolated."
+    certainty: low
+
+# Tier 0 for Swahili is AUTHORED, not drawn from a published phrasebook. Unlike English,
+# there are no free professionally-curated Swahili phrasebooks in the catalogue, so the
+# curation is judgement — by an author who does not speak Swahili natively. That is the
+# single most important thing to know about this language's Tier 0 and it is why
+# `known_gaps` is longer here than for any other language.
+tier0_sources: authored
+
+cost:
+  fsi_category:
+    value: II
+    source: "https://www.state.gov/foreign-language-training"
+    verified: true
+    checked: 2026-10-03
+    note: "Swahili is named in FSI Category II, 828 class hours to ILR 3. An English-L1 baseline."
+  fsi_hours_to_ilr3:
+    value: 828
+    source: "https://www.state.gov/foreign-language-training"
+    verified: true
+    checked: 2026-10-03
+  hours_to_floor:
+    value:
+      tier_0: 35
+      tier_1: 100
+      tier_2: 340
+      tier_3: 820
+    source: internal
+    verified: false
+    checked: 2026-10-03
+    note: >
+      Derived from ~50 minutes per item including all review, higher than English's 45
+      because noun-class agreement has to be learned alongside each noun rather than
+      alongside each verb. This is an assumption, not an observation.
+
+resources:
+  - name: "LangKraft editorial"
+    url: null
+    licence: "CC BY-SA 4.0, same as the repository"
+    class: authored
+    checked: 2026-10-03
+    covers:
+      value: "Tier 0 phrases and exchanges for Swahili."
+      source: internal
+      verified: true
+      checked: 2026-10-03
+      note: >
+        Authored by a NON-NATIVE speaker of Swahili. Cross-checked against 441 attested
+        English-Swahili pairs from Tatoeba for the forms that matter, which confirmed
+        Habari gani?, Jina langu ni, Ninatoka, Sielewi, Tafadhali, Kwaheri and Asante.
+        That corpus did NOT contain pole (sorry), karibu (welcome) or asante sana, so
+        those three rest on general knowledge and have not been attested.
+
+  - name: "Tatoeba English-Swahili pairs (CC BY 2.0 FR)"
+    url: "https://tatoeba.org/en/downloads"
+    licence: "CC BY 2.0 FR, some CC0"
+    class: corpus
+    checked: 2026-10-03
+    covers:
+      value: >
+        441 English-Swahili sentence pairs in the OPUS v2023-04-12 export. Used here as a
+        VERIFICATION corpus for authored forms, not as content — it is `corpus` and Tier 0
+        forbids that. Small: 441 pairs cannot cover a courtesy floor on their own.
+      source: "https://object.pouta.csc.fi/OPUS-Tatoeba/v2023-04-12/moses/en-swh.txt.zip"
+      verified: true
+      checked: 2026-10-03
+
+  - name: "GLOSS (Defense Language Institute)"
+    url: "https://gloss.dliflc.edu/"
+    licence: "Public domain"
+    class: curated
+    checked: 2026-10-03
+    covers:
+      value: >
+        Swahili course present among 40+ varieties, including seven Arabic dialects,
+        Serbian, Dari and Farsi. No password. Lesson-level Anki decks and video lessons.
+      source: "https://gloss.dliflc.edu/"
+      verified: true
+      checked: 2026-10-03
+      note: "Confirms the tutor's claim that Serbian is NOT short of free resources."
+
+  - name: "Microsoft Edge TTS — sw-KE, sw-TZ"
+    url: null
+    licence: "No API key required. No explicit commercial-use grant — see PRODUCT.md"
+    class: authored
+    checked: 2026-10-03
+    covers:
+      value: "Two Swahili voices, sw-KE and sw-TZ, 2 each."
+      source: "queried live"
+      verified: true
+      checked: 2026-10-03
+      note: "Recorded for completeness. LangKraft carries no audio, so this is not used."
+
+  - name: "radio-browser.info"
+    url: "https://www.radio-browser.info/"
+    licence: "Public"
+    class: corpus
+    checked: 2026-10-03
+    covers:
+      value: "Free radio streams, a common way to build listening hours at zero cost."
+      source: internal
+      verified: false
+      checked: 2026-10-03
+      note: "NOT verified from this machine in this pass. The tutor's agent reported it working; that claim is inherited, not re-checked."
+
+attribution:
+  - source: "Tatoeba contributors"
+    licence: "CC BY 2.0 FR (some CC0)"
+    author_credit: "Individual contributors, listed per-sentence in the export"
+
+review:
+  flags_received: 0
+  last_reviewed: null
+  known_gaps:
+    - "Tier 0 is authored by a NON-NATIVE speaker and has not been reviewed by anyone who speaks Swahili daily. This is materially weaker than English's Tier 0 and it must be checked before being relied on in East Africa. If you know a Swahili speaker, this is the highest-value review in the project."
+    - "pole (sorry), karibu (welcome) and asante sana were not attested in the 441-pair verification corpus. They are standard but rest on general knowledge."
+    - "No exchanges authored for Swahili yet."
+    - "No register guidance. The mzee respect construction is recorded in the spec but not taught anywhere in the content."
+    - "Noun-class agreement is not modelled in the content schema at all. Every noun needs its class prefix, and the schema has nowhere to put it. This is the actual way to write Swahili and it is missing."
+    - "radio-browser.info recorded but not verified from this machine."

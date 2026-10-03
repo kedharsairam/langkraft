@@ -198,15 +198,23 @@ export function lintContent(records, specs, schema) {
     }
 
     turns.forEach((t, i) => {
-      if (t.entry_id && !seenIds.has(t.entry_id)) {
+      const entry = t.entry_id ? seenIds.get(t.entry_id) : null;
+      if (t.entry_id && !entry) {
         r.err(`${where} turn ${i + 1}`, `entry_id "${t.entry_id}" does not exist`);
+        return;
       }
-      // A `them` turn must NOT link to a standalone entry. Entries are tagged for how HE
-      // uses the phrase, and a string he says is often also one he hears. Linking the two
-      // conflates "the learner produces this" with "the learner hears this", which is the
-      // receptive/productive split this schema exists to keep honest.
-      if (t.speaker === 'them' && t.entry_id) {
-        r.err(`${where} turn ${i + 1}`, `a "them" turn links to entry "${t.entry_id}", but that entry is tagged for production. Inline the text and leave entry_id null — the same words serve both sides.`);
+      // Direction-aware, not speaker-aware. An entry records how HE uses a phrase.
+      //  - a `you` turn may link to a `say` entry
+      //  - a `them` turn may link to an `understand` entry
+      // Linking across that boundary conflates production with reception, which is the
+      // split the `direction` field exists to keep honest. When the same words genuinely
+      // serve both sides — "Jina lako ni nani?" is something he asks AND something he is
+      // asked — the entry keeps his usage and the turn inlines its own text.
+      if (entry && t.direction === 'say' && entry.direction !== 'say') {
+        r.err(`${where} turn ${i + 1}`, `links to "${t.entry_id}" which is tagged understand, but the turn is production.`);
+      }
+      if (entry && t.direction === 'understand' && entry.direction !== 'understand') {
+        r.err(`${where} turn ${i + 1}`, `a "them" turn links to "${t.entry_id}", which is tagged for production. Inline the text and leave entry_id null — the same words serve both sides.`);
       }
     });
   });

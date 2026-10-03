@@ -2,6 +2,7 @@ package com.krafttools.langkraft
 
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasScrollAction
 import androidx.compose.ui.test.hasText
@@ -145,6 +146,61 @@ class NavigationTest {
         compose.onAllNodes(
             hasText("optional — the exchange works without it", substring = true)
         ).onFirst().assertIsDisplayed()
+    }
+
+    @Test
+    fun swahiliShowsAGlossAndEnglishDoesNot() {
+        // The gloss_mode parameter, proven per language rather than assumed. English sets
+        // same_as_native so its gloss IS its native text and rendering both would print
+        // "Hello — Hello". Swahili sets required, so its gloss must appear.
+        val corpus = corpus()
+
+        compose.setContent {
+            LangKraftTheme {
+                TierScreen(spec = corpus.spec("swh")!!, tier = 0, corpus = corpus, onBack = { })
+            }
+        }
+        compose.onNodeWithText("Habari gani?").assertIsDisplayed()
+        compose.onNodeWithText("How are you?").assertIsDisplayed()
+
+    }
+
+    @Test
+    fun englishCarriesNoGlossBecauseItsGlossIsItsNativeText() {
+        // The other half of the same parameter, and the reason it exists: rendering both
+        // would print "Hello — Hello".
+        val corpus = corpus()
+        compose.setContent {
+            LangKraftTheme {
+                TierScreen(spec = corpus.spec("eng")!!, tier = 0, corpus = corpus, onBack = { })
+            }
+        }
+        // Scroll first: a LazyColumn does not compose off-screen items, so an
+        // un-scrolled assertExists fails for a reason that has nothing to do with the
+        // thing under test.
+        compose.onNode(hasScrollAction()).performScrollToNode(hasText("Hello"))
+        compose.onNodeWithText("Hello").assertIsDisplayed()
+        // The phrase must appear EXACTLY once. A rendered gloss would put "Hello" on
+        // screen a second time, which is the "Hello — Hello" this parameter exists to
+        // prevent. Matching on the text alone cannot distinguish the two, so the count
+        // is what carries the assertion.
+        compose.onAllNodes(hasText("Hello")).assertCountEquals(1)
+    }
+
+    @Test
+    fun aLatinLanguageRendersNoRomanisation() {
+        // Both languages are Latin, so neither may show a romanisation line. This is the
+        // rule that will break first when a non-Latin language arrives, and it is cheap
+        // to hold now.
+        val corpus = corpus()
+        compose.setContent {
+            LangKraftTheme {
+                TierScreen(spec = corpus.spec("swh")!!, tier = 0, corpus = corpus, onBack = { })
+            }
+        }
+        compose.onNodeWithText("Habari gani?").assertIsDisplayed()
+        // A romanisation would duplicate the native text; assert one Text, not two.
+        compose.onAllNodes(hasText("Habari gani?")).assertCountEquals(1)
     }
 
     @Test
