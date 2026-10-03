@@ -42,7 +42,7 @@ class ContentRepository(private val assets: AssetSource) {
             entries.filter { it.lang == lang && it.tier == tier }
 
         fun exchangesFor(lang: String, tier: Int): List<Exchange> =
-            exchanges.filter { it.lang == lang && it.tier == tier }
+            exchanges.filter { it.lang == lang && it.tier == tier }.sortedBy { it.order }
 
         /** Exchanges containing at least one turn from [entryId]. */
         fun exchangesContaining(entryId: String): List<Exchange> =
@@ -140,6 +140,7 @@ class ContentRepository(private val assets: AssetSource) {
             tier = o.getInt("tier"),
             domain = o.getInt("domain"),
             scenario = o.getString("scenario"),
+            order = o.optInt("order", Int.MAX_VALUE),
             turns = (0 until turnsArr.length()).map { t ->
                 val to = turnsArr.getJSONObject(t)
                 ExchangeTurn(

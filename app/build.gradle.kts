@@ -112,4 +112,10 @@ dependencies {
     androidTestImplementation("androidx.test:rules:1.7.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.7.0")
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.7.0")
+
+    // Compose UI testing. ui-test-manifest ships the ComponentActivity that
+    // createComposeRule needs; it is debugImplementation because it must never reach
+    // a release build.
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
 }

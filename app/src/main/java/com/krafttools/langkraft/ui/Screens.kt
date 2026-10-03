@@ -44,7 +44,18 @@ import com.krafttools.langkraft.data.LanguageSpec
 @Composable
 fun LanguageListScreen(corpus: ContentRepository.Corpus, onOpen: (String) -> Unit) {
     Scaffold(
-        topBar = { TopAppBar(title = { Text("LangKraft") }, colors = kraftBarColors()) },
+        topBar = {
+            // No back destination on the root screen, so this is the one bar that is not
+            // KraftTopBar — and it takes no handler by design, because there is nothing
+            // to go back to.
+            TopAppBar(
+                title = { Text("LangKraft") },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    titleContentColor = MaterialTheme.colorScheme.onBackground,
+                ),
+            )
+        },
     ) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding),
@@ -105,13 +116,7 @@ fun PathScreen(
     onBack: () -> Unit,
 ) {
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(spec.name) },
-                navigationIcon = { Text("‹", Modifier.padding(16.dp), fontSize = 28.sp) },
-                colors = kraftBarColors(),
-            )
-        },
+        topBar = { KraftTopBar(title = spec.name, onBack = onBack) },
     ) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding),
@@ -153,11 +158,15 @@ private fun TierCard(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
     ) {
         Column(Modifier.padding(16.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("$number", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
-                Spacer(Modifier.height(0.dp))
-                Text("  $name", style = MaterialTheme.typography.titleMedium)
-            }
+            // One Text, not two. Rendering the number and the name separately made a
+            // screen reader announce "0" and "Courtesy" as unrelated items, and left the
+            // number unassociated with the tier it labels.
+            Text(
+                text = "$number · $name",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
             Spacer(Modifier.height(6.dp))
             Text(intent, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(Modifier.height(8.dp))
@@ -190,17 +199,13 @@ fun TierScreen(
     onBack: () -> Unit,
 ) {
     val entries = corpus.entriesFor(spec.code, tier)
+    // Order comes from the content, curated by usefulness. Sorting here by scenario
+    // name was arbitrary: "Asking a local..." before "Bumping into someone" tells a
+    // reader nothing about which exchange they will actually need.
     val exchanges = corpus.exchangesFor(spec.code, tier)
-        .sortedBy { it.scenario }
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("${TierId.of(tier).title} · ${spec.name}") },
-                navigationIcon = { Text("‹", Modifier.padding(16.dp), fontSize = 28.sp) },
-                colors = kraftBarColors(),
-            )
-        },
+        topBar = { KraftTopBar(title = spec.name, subtitle = TierId.of(tier).title, onBack = onBack) },
     ) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding),
@@ -335,27 +340,40 @@ private fun ExchangeCard(ex: Exchange, spec: LanguageSpec) {
             ex.turns.forEach { turn ->
                 Row(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
                     Text(
-                        if (turn.isYou) "you" else "them",
+                        // An optional turn can be skipped without breaking the exchange.
+                        // Real interactions have these, and teaching them as mandatory
+                        // teaches the learner to stall.
+                        if (turn.optional) " · " else if (turn.isYou) "you" else "them",
                         style = MaterialTheme.typography.labelSmall,
                         color = if (turn.isYou) MaterialTheme.colorScheme.primary
                                 else MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(end = 12.dp),
                     )
                     Column(Modifier.weight(1f)) {
+                        val tone =
+                            if (turn.optional) MaterialTheme.colorScheme.onSurfaceVariant
+                            else MaterialTheme.colorScheme.onSurface
                         Text(
                             turn.textNative,
                             fontFamily = if (spec.isLatinScript) FontFamily.Default else FontFamily.Serif,
                             fontSize = 20.sp,
+                            color = tone,
                         )
                         turn.textRomanized?.let {
                             Text(it, fontFamily = FontFamily.Serif, fontSize = 20.sp,
-                                color = MaterialTheme.colorScheme.primary)
+                                color = if (turn.optional) MaterialTheme.colorScheme.onSurfaceVariant
+                                        else MaterialTheme.colorScheme.primary)
                         }
                         if (!spec.glossIsNative) {
                             turn.textEnglish?.let {
                                 Text(it, style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant)
                             }
+                        }
+                        if (turn.optional) {
+                            Text("optional — the exchange works without it",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.tertiary)
                         }
                     }
                 }
@@ -378,9 +396,3 @@ private fun Tag(text: String) {
         )
     }
 }
-
-@Composable
-fun kraftBarColors() = TopAppBarDefaults.topAppBarColors(
-    containerColor = MaterialTheme.colorScheme.background,
-    titleContentColor = MaterialTheme.colorScheme.onBackground,
-)

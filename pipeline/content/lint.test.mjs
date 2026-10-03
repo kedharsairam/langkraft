@@ -40,6 +40,7 @@ function entry(o = {}) {
 function exchange(o = {}) {
   return {
     id: 'tam-x0001', lang: 'tam', tier: 0, domain: 1, scenario: 'greeting a shopkeeper',
+    order: 1,
     turns: [
       { turn: 1, speaker: 'you', direction: 'say', text_native: 'வணக்கம்', text_romanized: 'vaṇakkam', text_english: 'hello' },
       { turn: 2, speaker: 'them', direction: 'understand', text_native: 'வணக்கம்', text_romanized: 'vaṇakkam', text_english: 'hello' },

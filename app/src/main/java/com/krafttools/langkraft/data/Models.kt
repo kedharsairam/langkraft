@@ -76,6 +76,8 @@ data class Exchange(
     override val tier: Int,
     override val domain: Int,
     val scenario: String,
+    /** Curated display order. Alphabetical is arbitrary and tells a reader nothing. */
+    val order: Int,
     val turns: List<ExchangeTurn>,
     override val source: SourceRef,
     override val failureFlags: List<FailureFlag>,
