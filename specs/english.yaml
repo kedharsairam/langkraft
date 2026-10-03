@@ -1,0 +1,266 @@
+# English — calibration spec, v1
+#
+# English is NOT a course to take. Kedhar is already B2-C1 spoken.
+# Its job is to answer one question the other 19 languages depend on:
+#
+#   ARE THE TIER SIZES RIGHT?
+#
+# Everything below marked `verified: false` is a design hypothesis. English is
+# the only language where we can test a hypothesis honestly, because he can
+# introspect on his own usage of the language from the inside. If Tier 1 turns
+# out to be too small or too large, it is fixed here before it is applied to
+# seventeen other specs.
+
+language:
+  code: eng
+  name: English
+  endonym: English
+  romanization: null              # Latin script — nothing to transliterate
+  role: calibration
+
+spec_version: 1.0.0
+status: draft
+
+variety:
+  # English inverts the usual direction. For Levantine Arabic he chooses the
+  # variety to SOUND local. For English he is not trying to sound American —
+  # he is trying to understand whoever is speaking to him. So the variant axis
+  # here is about RECEPTION, and the default should be the safest to comprehend
+  # rather than the most neutral to produce.
+  default: en-US
+  romanization_scheme: null
+  rationale:
+    value: >
+      en-US chosen as the comprehension default because it is the largest native
+      variety and the most used as a lingua franca in media, so exposure to it
+      dominates. Production is explicitly not the goal for this language, so
+      there is no accent to acquire.
+    source: "internal analysis, session ses_f0405e201ffehrwApvdiGupQEq"
+    verified: false
+    checked: 2026-10-03
+    note: >
+      Untested. The first trip outside India is the test.
+
+  variants:
+    - id: en-US
+      label: American
+      notes:
+        value: >
+          The default. Largest native variety and the lingua franca of English-language
+          media, so exposure to it dominates. No accent to acquire — production is not
+          the goal for this language.
+        source: internal
+        verified: false
+        checked: 2026-10-03
+    - id: en-GB
+      label: British
+      notes:
+        value: >
+          Non-rhotic. Vocabulary differences (lift, queue, flat) are
+          comprehension-only concerns; pronunciation differences do not matter
+          here because the app carries no audio.
+        source: internal
+        verified: false
+        checked: 2026-10-03
+    - id: en-IN
+      label: Indian
+      notes:
+        value: >
+          Kedhar's own variety as an L1-Telugu speaker. Noted for a different
+          reason: it is the register he defaults to when speaking, which
+          matters only because it is where his pronunciation is hardest to
+          unlearn if he ever wants to sound otherwise. Irrelevant to this app.
+        source: internal
+        verified: false
+        checked: 2026-10-03
+    - id: en-AU
+      label: Australian
+      notes:
+        value: "Comprehension only. No production consequence."
+        source: internal
+        verified: false
+        checked: 2026-10-03
+
+  fails_in: []                    # English fails nowhere. That is the finding.
+
+structure:
+  # Derivationally synthetic (-ly, -ness, -tion, -able); inflectionally almost
+  # analytic. Not a heavy-morphology language, so item counts should sit toward
+  # the middle of the range rather than the low end.
+  morphology: moderately_synthetic
+  tones: false
+  word_order: SVO
+  sounds_absent_from_l1: []
+  script:
+    primary: Latin
+    direction: ltr
+
+register:
+  system: formality
+  notes:
+    value: >
+      English has a formality ladder (contractions, "would you like" vs "do you
+      want") and titles (Mr / Ms / Dr) but NOT a politeness-particle system.
+      Compare Thai or Japanese, where the wrong level is worse than bad grammar
+      and register must be taught as a first-class dimension. For English it is
+      a minor dimension and should not consume Tier 0 budget.
+    source: internal
+    verified: false
+    checked: 2026-10-03
+
+coverage:
+  territories:
+    value: >
+      English fails in no territory in a way that matters for this app's
+      metric. This is the entire argument for keeping it in a language list
+      optimised for country coverage: it is the floor that never drops to zero.
+    source: "session ses_f0405e201ffehrwApvdiGupQEq — Asia-Pacific pass, 'best floor, fails softly, never to zero'"
+    verified: false
+    checked: 2026-10-03
+    note: >
+      Deliberately NOT given as a number. Every published count of English-
+      speaking territories is a count of official status or self-report, and
+      this app's metric is "one real conversation with an ordinary local who
+      does not work in tourism". No source was found that measures that. A
+      number here would be exactly the kind of unsourced figure this schema
+      exists to prevent.
+  adjacent:
+    - language: { code: fil, name: Filipino }
+      overlap:
+        value: "Large English lexicon component; spoken to a variable degree."
+        source: internal
+        verified: false
+        checked: 2026-10-03
+      note: "Relevant to the Philippines entry in the country pack, not to English itself."
+  traps:
+    - territory: Netherlands
+      reason:
+        value: "High English proficiency, low willingness to use it with strangers."
+        source: internal
+        verified: false
+        checked: 2026-10-03
+    - territory: Japan
+      reason:
+        value: "English is taught and read but rarely offered in service interactions."
+        source: internal
+        verified: false
+        checked: 2026-10-03
+
+# ---------------------------------------------------------------------------
+# The calibration hypothesis
+# ---------------------------------------------------------------------------
+tiers:
+  - id: 0
+    name: Courtesy
+    intent: >
+      Not rude. Greet, thank, apologise, say "I'm learning your language", and
+      be able to recover from not understanding.
+    size: { value: 50,  source: internal, verified: false, checked: 2026-10-03,
+            note: "Corresponds to the 50-unit courtesy core. The only tier whose composition is close to certain — greetings and courtesy phrases are the most stable, highest-frequency items in any language." }
+    certainty: high
+
+  - id: 1
+    name: Transaction
+    intent: "Prices, food, tickets, directions, a room. Transactions complete end to end."
+    size: { value: 150, source: internal, verified: false, checked: 2026-10-03,
+            note: "The '60-80 items = scripted exchange, ~200 = survives surprises' finding places the true scripted/unscripted boundary somewhere below this. Test: does 150 carry a week of independent travel?" }
+    certainty: medium
+
+  - id: 2
+    name: Independence
+    intent: "Handle an unexpected problem — a broken shower, a stolen passport, a wrong charge."
+    size: { value: 500, source: internal, verified: false, checked: 2026-10-03,
+            note: "Lowest confidence of any tier. The claim is that the first ~200 items are almost all structure and the 200-500 band is where content arrives. Untested." }
+    certainty: low
+
+  - id: 3
+    name: Conversation
+    intent: "Fifteen minutes with a stranger about your life, with no English fallback."
+    size: { value: 1200, source: internal, verified: false, checked: 2026-10-03,
+            note: "Extrapolated. Not independently motivated." }
+    certainty: low
+
+# ---------------------------------------------------------------------------
+# Tier 0 sourcing — declared, not inferred
+# ---------------------------------------------------------------------------
+# English is the one language in this app that STRUCTURALLY cannot have a
+# curated Tier 0. Professionally-written phrasebooks exist for languages you
+# travel to; none exists for a speaker of the language already in his head.
+#
+# This is recorded rather than papered over, because it means English's Tier 0
+# is the weakest in the catalogue — and it does not matter, since English is a
+# measuring instrument, not a travel aid. The tier SIZES are what is being
+# calibrated. The content is only the test case.
+tier0_sources: unavailable
+
+cost:
+  # No FSI figure applies: English is the reference language the FSI scale is
+  # written against. Saying "Category 0" would invent a category that does not
+  # exist, so the field is null and the reason is recorded here.
+  fsi_category: null
+  fsi_category_note: >
+    English is the FSI scale's own L1 baseline. There is no published figure
+    because there is nothing to measure — the scale measures acquisition FROM
+    English.
+  fsi_hours_to_ilr3: null
+  hours_to_floor:
+    value:
+      tier_0: 40
+      tier_1: 110
+      tier_2: 375
+      tier_3: 900
+    source: internal
+    verified: false
+    checked: 2026-10-03
+    note: >
+      Derived from ~45 minutes per item including all review. A design
+      assumption, not an observation. Included so that the OTHER specs have a
+      comparable cost model to inherit — which is the second thing English
+      calibrates.
+
+resources:
+  - name: "Tatoeba sentence pairs (CC BY 2.0 FR)"
+    url: "https://tatoeba.org/en/downloads"
+    licence: "CC BY 2.0 FR, some CC0"
+    checked: 2026-10-03
+    covers:
+      value: "13.4M sentences, 429 languages, English as pivot. Weekly Saturday export."
+      source: "https://en.wikipedia.org/wiki/Tatoeba"
+      verified: true
+      checked: 2026-10-03
+      note: "Attribution is a licence obligation. In-app credits screen, no URL."
+
+  - name: "Wiktionary + Open English WordNet"
+    url: null
+    licence: "CC BY-SA 4.0 / CC BY 4.0"
+    checked: 2026-10-03
+    covers:
+      value: "Already processed into dictionary.db by englishkraft. Reusable directly."
+      source: internal
+      verified: true
+      checked: 2026-10-03
+
+  - name: "Cambridge Dictionary — Grammar"
+    url: "https://dictionary.cambridge.org/grammar/"
+    licence: "Not open. Reference only, not bundled."
+    checked: 2026-10-03
+    covers:
+      value: "Grammar reference for the Tier 2 past/future/conditional patterns."
+      source: internal
+      verified: false
+      checked: 2026-10-03
+
+attribution:
+  - source: "Tatoeba contributors"
+    licence: "CC BY 2.0 FR (some CC0)"
+    author_credit: "Individual contributors, listed per-sentence in the export"
+
+review:
+  flags_received: 0
+  last_reviewed: null
+  known_gaps:
+    - "Tier 0 has no curated source. Professionally-written phrasebooks exist for languages you travel to, not for one you already speak. English's Tier 0 is therefore the weakest in the catalogue, and is corpus-derived. Acceptable only because English is a measuring instrument rather than a travel aid."
+    - "No register guidance authored yet. A formality ladder exists but nobody has written the mapping."
+    - "No exchanges authored. Tier 0 is currently a flat phrase list, which is the wrong shape."
+    - "Tier 0 composition unvalidated against the 'say it / understand it' split."
+    - "No country pack for any territory."

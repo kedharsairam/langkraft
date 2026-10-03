@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kedharsairam/langkraft/content/SCHEMA.json",
+  "title": "LangKraft content records",
+  "description": "Two record types. `entry` is a single item. `exchange` is a two-sided sequence, because half of every real conversation is what the other person says. Storage format is JSONL, one record per line.",
+
+  "$defs": {
+    "claim": {
+      "type": "object",
+      "description": "A factual claim with its provenance. A bare value without a source is a lint failure — this is the gate that makes 'I could not find a figure' distinguishable from 'I invented a figure'.",
+      "properties": {
+        "value": { "description": "The claim itself. Any type." },
+        "source": {
+          "type": "string",
+          "description": "URL, or 'internal' for design reasoning. Must not be absent."
+        },
+        "verified": {
+          "type": "boolean",
+          "description": "true only if a critic agent fetched `source` and confirmed it says this. false is honest and permitted. ABSENT is a failure."
+        },
+        "checked": { "type": "string", "format": "date" },
+        "note": { "type": "string" }
+      },
+      "required": ["value", "source", "verified", "checked"]
+    },
+
+    "provenance": {
+      "type": "object",
+      "description": "Where one content item came from. `class` is linted against the tier policy: Tier 0 accepts only `curated`.",
+      "properties": {
+        "class": { "enum": ["curated", "corpus"] },
+        "id": { "type": "string", "description": "Source id from the spec's resources block." },
+        "url": { "type": ["string", "null"] },
+        "licence": { "type": "string" },
+        "external_id": {
+          "type": ["string", "null"],
+          "description": "Row id in the upstream source, e.g. a Tatoeba sentence id. Makes the item traceable back."
+        }
+      },
+      "required": ["class", "id", "licence"]
+    },
+
+    "exchange_turn": {
+      "type": "object",
+      "properties": {
+        "turn": { "type": "integer", "minimum": 1 },
+        "speaker": {
+          "enum": ["you", "them"],
+          "description": "Only these two. A learner is one person in a conversation; everything else is noise."
+        },
+        "direction": {
+          "enum": ["say", "understand"],
+          "description": "Inherited from the referenced entry, repeated here so an exchange can be read without a join."
+        },
+        "entry_id": {
+          "type": ["string", "null"],
+          "description": "Null when this turn has no standalone entry — which is the normal case for the `them` side."
+        },
+        "text_native": { "type": "string" },
+        "text_romanized": { "type": ["string", "null"] },
+        "text_english": { "type": "string" },
+        "optional": {
+          "type": "boolean",
+          "default": false,
+          "description": "True when a turn can be skipped without breaking the exchange. Real interactions have these and omitting them teaches the learner to stall."
+        }
+      },
+      "required": ["turn", "speaker", "direction", "text_native", "text_english"]
+    },
+
+    "entry": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable and never reused. Content is corrected by revision, not replacement, so a learner's history survives a spec change."
+        },
+        "lang": { "type": "string", "pattern": "^[a-z]{3}$", "description": "ISO 639-3" },
+        "tier": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "domain": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12,
+          "description": "1 greetings/courtesy, 2 numbers/time, 3 money, 4 food, 5 accommodation, 6 transport, 7 directions, 8 shopping, 9 health, 10 emergencies, 11 people, 12 repair/survival"
+        },
+        "text_native": { "type": "string" },
+        "text_romanized": {
+          "type": ["string", "null"],
+          "description": "Null for Latin-script languages. Never a duplicate of text_native."
+        },
+        "text_english": { "type": "string" },
+        "register": {
+          "type": "string",
+          "default": "neutral",
+          "description": "neutral, or a language-specific level where the spec's register.system demands one."
+        },
+        "direction": {
+          "enum": ["say", "understand"],
+          "description": "The receptive/productive split. A learner is spoken to faster than he speaks, so most items are `understand`."
+        },
+        "why": {
+          "type": "string",
+          "description": "One line. Why this item is in the floor. Lets him pick three on a tired day."
+        },
+        "exchange_id": { "type": ["string", "null"] },
+        "exchange_turn": { "type": ["integer", "null"] },
+        "caution": {
+          "type": ["string", "null"],
+          "description": "What not to say, or where this fails. Optional but strongly preferred."
+        },
+        "source": { "$ref": "#/$defs/provenance" },
+        "failure_flags": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "country": { "type": ["string", "null"] },
+              "at": { "type": "string", "format": "date-time" }
+            },
+            "required": ["at"]
+          },
+          "description": "Written by the pipeline from the app's 'this failed me' flag. Never edited by hand."
+        }
+      },
+      "required": [
+        "id", "lang", "tier", "domain",
+        "text_native", "text_english",
+        "register", "direction", "why",
+        "source", "failure_flags"
+      ]
+    },
+
+    "exchange": {
+      "type": "object",
+      "description": "A two-sided sequence. `scenario` names a situation, not a topic: 'checking into a room', not 'accommodation'. Topics are what a syllabus uses; situations are what a traveller meets.",
+      "properties": {
+        "id": { "type": "string" },
+        "lang": { "type": "string", "pattern": "^[a-z]{3}$" },
+        "tier": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "scenario": { "type": "string" },
+        "domain": { "type": "integer", "minimum": 1, "maximum": 12 },
+        "turns": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/exchange_turn" },
+          "minItems": 2,
+          "description": "Minimum two: an exchange with one turn is a phrase."
+        },
+        "source": { "$ref": "#/$defs/provenance" },
+        "failure_flags": { "type": "array" }
+      },
+      "required": ["id", "lang", "tier", "scenario", "domain", "turns", "source", "failure_flags"]
+    }
+  },
+
+  "oneOf": [
+    { "$ref": "#/$defs/entry" },
+    { "$ref": "#/$defs/exchange" }
+  ]
+}

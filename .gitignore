@@ -1,0 +1,51 @@
+# Node — the build-time pipeline
+node_modules/
+package-lock.json.bak
+*.log
+npm-debug.log*
+
+# Gradle / Android
+.gradle/
+build/
+local.properties
+.kotlin/
+*.apk
+*.aab
+*.ap_
+*.dex
+captures/
+.cxx/
+
+# Signing material never belongs in git. Like every Kraft app there is no release
+# keystore: no store distribution, and a published APK should be debug-signed so
+# that what a reader downloads is a build the author also built.
+*.jks
+*.keystore
+keystore.properties
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated corpora. Content under content/ is authored and committed; anything the
+# pipeline EMITS is a build artefact and is rebuilt, not stored. Specs are the
+# opposite and are always committed — they are the source of truth, versioned so a
+# correction is a diff you can read.
+content/generated/
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite-journal
+
+# Scratch artefacts of adb sweeps. Written as a general rule rather than a list of
+# names, because the list only ever grows: an ignore file that names /u.xml does
+# not stop the next /p.xml, it only records that somebody forgot one.
+# Every real asset lives under app/src/main/res or in a named asset directory.
+/*.xml
+/*.png
