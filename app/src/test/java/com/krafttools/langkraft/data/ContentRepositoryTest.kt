@@ -74,13 +74,33 @@ class ContentRepositoryTest {
     }
 
     @Test
-    fun `no them-turn links to a production entry`() {
-        // The rule that keeps production and reception from being conflated.
-        corpusFrom(realContent, realSpecs).exchanges.forEach { ex ->
-            ex.turns.filterNot { it.isYou }.forEach { turn ->
-                assertNull("${ex.id} turn ${turn.turn} links a them-turn to an entry", turn.entryId)
+    fun `a them-turn links only to an UNDERSTAND entry`() {
+        // Direction-aware, not speaker-aware. An entry tagged `understand` records the
+        // thing the learner HEARS, so a `them` turn pointing at it is the intended shape.
+        // An entry tagged `say` is his production, and linking the two conflates them.
+        val corpus = corpusFrom(realContent, realSpecs)
+        val byId = (corpus.entries.associateBy { it.id })
+        corpus.exchanges.forEach { ex ->
+            ex.turns.forEach { turn ->
+                val entry = turn.entryId?.let(byId::get)
+                if (entry != null) {
+                    assertEquals(
+                        "${ex.id} turn ${turn.turn} links across the production/reception boundary",
+                        turn.direction, entry.direction,
+                    )
+                }
             }
         }
+    }
+
+    @Test
+    fun `eng-x0012 keeps its receptive-only links`() {
+        // Regression guard for the rule change: these three were stripped when the rule
+        // was speaker-only and restored when it became direction-aware. They are all
+        // tagged `understand`, so the links are correct and must not be removed again.
+        val x = corpusFrom(realContent, realSpecs).exchanges.single { it.id == "eng-x0012" }
+        assertEquals(3, x.turns.count { it.entryId != null })
+        assertTrue("receptive-only exchange", x.turns.none { it.isYou })
     }
 
     @Test

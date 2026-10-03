@@ -216,14 +216,18 @@ class NavigationTest {
             }
         }
 
+        // The exchange section renders FIRST, so before scrolling only the exchange copy
+        // is composed — a count taken here is 1 by accident, not by correctness. Scroll
+        // to the phrases section so the standalone entries exist too.
+        compose.onNode(hasScrollAction()).performScrollToNode(hasText("Hello"))
         compose.onNodeWithText("வணக்கம்").assertIsDisplayed()          // the script
         compose.onNodeWithText("vaṇakkam").assertIsDisplayed()         // the romanization
         compose.onNodeWithText("Hello").assertIsDisplayed()            // the gloss
 
-        // Exactly one of each. If the romanization were dropped for a non-Latin language,
-        // or the script silently fell back to the romanization, one of these would be 0.
-        compose.onAllNodes(hasText("வணக்கம்")).assertCountEquals(1)
-        compose.onAllNodes(hasText("vaṇakkam")).assertCountEquals(1)
+        // Both present. If the romanization were dropped for a non-Latin language, or the
+        // script silently fell back, one of these would be 0.
+        assertTrue(compose.onAllNodes(hasText("வணக்கம்")).fetchSemanticsNodes().isNotEmpty())
+        assertTrue(compose.onAllNodes(hasText("vaṇakkam")).fetchSemanticsNodes().isNotEmpty())
     }
 
     @Test

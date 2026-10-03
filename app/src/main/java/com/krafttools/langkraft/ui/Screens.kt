@@ -115,33 +115,38 @@ fun PathScreen(
     onOpenTier: (Int) -> Unit,
     onBack: () -> Unit,
 ) {
-    Scaffold(
-        topBar = { KraftTopBar(title = spec.name, onBack = onBack) },
-    ) { padding ->
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(padding),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            item {
-                Text(
-                    if (spec.defaultVariety.isNotBlank()) "${spec.defaultVariety} · ${spec.scriptDirection.uppercase()}"
-                    else spec.endonym,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-            items(spec.tiers, key = { it.id }) { tier ->
-                val entries = corpus.entriesFor(spec.code, tier.id)
-                TierCard(
-                    number = tier.id,
-                    name = tier.name,
-                    intent = tier.intent,
-                    available = entries.size,
-                    declared = tier.size,
-                    certainty = tier.certainty,
-                    onClick = { onOpenTier(tier.id) },
-                )
+    // Arabic, Dari and Urdu are RTL. Without this the whole screen inherits the device's
+    // LTR default and every card is mirrored wrongly. Driven by the SPEC, not the device:
+    // an English-locale phone learning Arabic still needs an RTL screen.
+    DirectionProvider(spec) {
+        Scaffold(
+            topBar = { KraftTopBar(title = spec.name, onBack = onBack) },
+        ) { padding ->
+            LazyColumn(
+                modifier = Modifier.fillMaxSize().padding(padding),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                item {
+                    Text(
+                        if (spec.defaultVariety.isNotBlank()) "${spec.defaultVariety} · ${spec.scriptDirection.uppercase()}"
+                        else spec.endonym,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                items(spec.tiers, key = { it.id }) { tier ->
+                    val entries = corpus.entriesFor(spec.code, tier.id)
+                    TierCard(
+                        number = tier.id,
+                        name = tier.name,
+                        intent = tier.intent,
+                        available = entries.size,
+                        declared = tier.size,
+                        certainty = tier.certainty,
+                        onClick = { onOpenTier(tier.id) },
+                    )
+                }
             }
         }
     }
@@ -204,32 +209,34 @@ fun TierScreen(
     // reader nothing about which exchange they will actually need.
     val exchanges = corpus.exchangesFor(spec.code, tier)
 
-    Scaffold(
-        topBar = { KraftTopBar(title = spec.name, subtitle = TierId.of(tier).title, onBack = onBack) },
-    ) { padding ->
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(padding),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            if (exchanges.isNotEmpty()) {
-                item {
-                    SectionLabel("Exchanges", "Half of every conversation is what they say to you.")
+    DirectionProvider(spec) {
+        Scaffold(
+            topBar = { KraftTopBar(title = spec.name, subtitle = TierId.of(tier).title, onBack = onBack) },
+        ) { padding ->
+            LazyColumn(
+                modifier = Modifier.fillMaxSize().padding(padding),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                if (exchanges.isNotEmpty()) {
+                    item {
+                        SectionLabel("Exchanges", "Half of every conversation is what they say to you.")
+                    }
+                    items(exchanges, key = { it.id }) { ex -> ExchangeCard(ex, spec) }
+                    item { HorizontalDivider() }
                 }
-                items(exchanges, key = { it.id }) { ex -> ExchangeCard(ex, spec) }
-                item { HorizontalDivider() }
-            }
-            if (entries.isNotEmpty()) {
-                item { SectionLabel("Phrases", "${entries.size} items") }
-                items(entries, key = { it.id }) { e -> EntryCard(e, spec) }
-            }
-            if (entries.isEmpty() && exchanges.isEmpty()) {
-                item {
-                    Text(
-                        "Nothing authored at this tier yet.",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
+                if (entries.isNotEmpty()) {
+                    item { SectionLabel("Phrases", "${entries.size} items") }
+                    items(entries, key = { it.id }) { e -> EntryCard(e, spec) }
+                }
+                if (entries.isEmpty() && exchanges.isEmpty()) {
+                    item {
+                        Text(
+                            "Nothing authored at this tier yet.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
                 }
             }
         }
