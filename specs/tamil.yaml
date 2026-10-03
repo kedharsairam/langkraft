@@ -1,0 +1,270 @@
+# Tamil — the script test, v1
+#
+# English and Swahili are both Latin, so the conjunct and shaping path in the app has
+# never been exercised. Tamil exists in the catalogue primarily to close that risk: a
+# wrong Tamil glyph is a SILENT failure, and silent failures are the ones that ship.
+#
+# READ known_gaps. This spec is thinner than Swahili's and says why.
+
+language:
+  code: tam
+  name: Tamil
+  endonym: தமிழ்
+  romanization: iso15919
+  role: course
+  gloss_mode: required
+
+spec_version: 0.1.0
+status: draft
+
+variety:
+  # ta-IN only. Spoken Tamil is one variety across Tamil Nadu, and the other locales in
+  # the catalogue (ta-LK Jaffna, ta-MY, ta-SG) differ in lexicon and formal registers
+  # rather than in the courtesy layer. Sri Lankan Tamil in particular uses a noticeably
+  # different spoken register for the same functions.
+  default: ta-IN
+  romanization_scheme: iso15919
+  rationale:
+    value: >
+      Standard colloquial Tamil as spoken in Tamil Nadu. ISO 15919 romanisation rather than
+      a learner scheme, because for Tamil the standard is genuinely readable — `vaṇakkam`,
+      `tayavuseythu` — and a second, unofficial scheme would just be a second thing to
+      learn. Devanagari ṇ/ḻ are written ṇ and ḻ.
+    source: internal
+    verified: false
+    checked: 2026-10-03
+    note: >
+      The readability judgement is the author's. The romanisation scheme itself is the ISO
+      standard, not a preference.
+
+  variants:
+    - id: ta-IN
+      label: Tamil Nadu
+      notes:
+        value: "Chennai, Coimbatore, Madurai. Colloquial standard."
+        source: internal
+        verified: false
+        checked: 2026-10-03
+    - id: ta-LK
+      label: Sri Lankan
+      notes:
+        value: >
+          Jaffna. Mutual intelligibility is high but the register for courtesy is
+          noticeably different, and Sri Lankan Tamil preserves some older vocabulary.
+        source: internal
+        verified: false
+        checked: 2026-10-03
+      note: "Recorded because a traveller in Jaffna should know the register differs."
+    - id: ta-SG
+      label: Singapore
+      notes:
+        value: >
+          The only significant diaspora community. Matters for Kedhar specifically:
+          Tamil Nadu, Jaffna, Malaysian and Singaporean Tamil form one corridor that
+          connects to languages already on his list.
+        source: internal
+        verified: false
+        checked: 2026-10-03
+
+  fails_in: []
+
+structure:
+  # Dravidian: agglutinative with obligatory case suffixes, two genders, and a
+  # consonant-only onset system. Agglutinative cuts the other way from Thai here: Tamil
+  # can be said with very few words because affixes carry the grammar.
+  morphology: heavily_synthetic
+  tones: false
+  word_order: SOV
+  sounds_absent_from_l1:
+    - "The full retroflex series ṭ ṇ ḷ ḻ against Telugu's ṭ ṇ ḷ — Tamil adds ḻ, so
+       அழகு (aḻaku, beauty) is harder than the Telugu cognate, not easier"
+    - "Geminate obstruents written doubled, e.g. வணக்கம் vaṇakkam — absent in most
+       Trans-Dravidian scripts"
+    - "Long vowels written with a trailing ṭ, e.g. கீதம் kīṭam"
+  script:
+    primary: Tamil
+    direction: ltr
+
+register:
+  # The one place where Tamil is genuinely harder than English or Swahili, and the
+  # research was explicit that the wrong level is worse than bad grammar.
+  system: politeness_levels
+  notes:
+    value: >
+      Respect is carried by a suffix on the NAME — `sir`, `akka`/`thambi`, `naal` — and by
+      `vanakkam` versus `thongu vanakkam` (a plainer greeting used between intimates).
+      Using the intimate form with a stranger or an older person is a genuine social
+      error, not a stylistic choice. This makes politeness a first-class content
+      dimension for Tamil in a way it is not for Swahili.
+    source: internal
+    verified: false
+    checked: 2026-10-03
+    note: "Not yet taught anywhere in the content. Recorded as a gap."
+
+coverage:
+  territories:
+    value: >
+      Tamil Nadu is the only place where Tamil is the everyday language of ordinary
+      people. Elsewhere it is a diaspora language: Jaffna in Sri Lanka, and significant
+      communities in Malaysia and Singapore. One country of real coverage, which makes
+      this the worst countries-per-hour ratio on the list.
+    source: "session ses_f0405e201ffehrwApvdiGupQEq, re-checked 2026-10-03"
+    verified: false
+    checked: 2026-10-03
+    note: >
+      Kept for a reason that is not coverage. Kedhar speaks Telugu; Tamil shares the
+      Dravidian branch, so this is the language most likely to be learned efficiently by
+      him, and the only non-Latin script in the catalogue so far. Both are personal
+      reasons, and the spec says so rather than pretending it is a coverage decision.
+  adjacent:
+    - language: { code: tel, name: Telugu }
+      overlap:
+        value: >
+          Low lexical, high structural. Grammar, case suffixes and word order transfer
+          directly; the vocabulary does not. Kedhar's L1 is Telugu, so this is his
+          strongest structural advantage in the catalogue.
+        source: internal
+        verified: false
+        checked: 2026-10-03
+      note: "Recorded as the 'you already know this' feature for a structural rather than lexical cluster."
+  traps: []
+
+tiers:
+  - id: 0
+    name: Courtesy
+    intent: "Not rude. Greet, thank, apologise, and recover from not understanding."
+    size:
+      value: 30
+      source: internal
+      verified: false
+      checked: 2026-10-03
+      note: >
+        SMALLER than English's 48 and Swahili's 42, and the reason is confidence, not
+        linguistics. Reduced from 32 after authoring, because வணக்கம் had been written
+        three times to show it does three jobs — which is a property of the word and
+        belongs in one `why` field, not in three duplicate rows. Tamil's politeness system genuinely needs more items, not fewer, so
+        if anything this is understated. It is smaller because fewer forms have been
+        verified against a corpus — Tatoeba has no English-Tamil bitext, so unlike
+        Swahili there is no attestation corpus to check against at all. Recording the
+        number honestly is better than padding it to reach an estimate.
+    certainty: high
+
+  - id: 1
+    name: Transaction
+    intent: "Prices, food, tickets, directions, a room."
+    size:
+      value: 150
+      source: internal
+      verified: false
+      checked: 2026-10-03
+      note: "Untested."
+    certainty: medium
+
+  - id: 2
+    name: Independence
+    intent: "Handle an unexpected problem unaided."
+    size:
+      value: 550
+      source: internal
+      verified: false
+      checked: 2026-10-03
+      note: >
+        Higher than every other language in the catalogue, because agglutination means
+        productive capacity arrives from affixes rather than from more words — but each
+        noun also drags its case suffixes with it. A guess in both directions.
+    certainty: low
+
+  - id: 3
+    name: Conversation
+    intent: "Fifteen minutes with a stranger."
+    size:
+      value: 1400
+      source: internal
+      verified: false
+      checked: 2026-10-03
+      note: "Extrapolated, and higher than the others for the same reason as Tier 2."
+    certainty: low
+
+tier0_sources: authored
+
+cost:
+  fsi_category:
+    value: III
+    source: "https://www.state.gov/foreign-language-training"
+    verified: true
+    checked: 2026-10-03
+    note: >
+      Tamil is named in FSI Category III, 1,012 class hours to ILR 3. Note that Telugu is
+      ALSO Category III — which is the one citable data point that exists for Kedhar's L1,
+      and it cuts against the naive argument that Tamil will be easy for him: Telugu
+      itself is rated a hard language for an English speaker, script and morphology
+      included.
+  fsi_hours_to_ilr3:
+    value: 1012
+    source: "https://www.state.gov/foreign-language-training"
+    verified: true
+    checked: 2026-10-03
+  hours_to_floor:
+    value:
+      tier_0: 45
+      tier_1: 130
+      tier_2: 420
+      tier_3: 1050
+    source: internal
+    verified: false
+    checked: 2026-10-03
+    note: >
+      Higher than Swahili per item. This INCLUDES a Telugu-L1 discount of roughly 25% on
+      structure, and is still higher — because the discount is an unverified assumption
+      and the script cost is real.
+
+resources:
+  - name: "LangKraft editorial"
+    url: null
+    licence: "CC BY-SA 4.0, same as the repository"
+    class: authored
+    checked: 2026-10-03
+    covers:
+      value: "Tier 0 phrases and exchanges for Tamil."
+      source: internal
+      verified: false
+      checked: 2026-10-03
+      note: >
+        Authored by a NON-NATIVE speaker of Tamil. Much weaker attestation than even the
+        Swahili content: Tatoeba publishes no English-Tamil bitext in any OPUS release, so
+        there was no parallel corpus to check forms against. Five forms
+        (vaṇakkam, tayavuseythu, nallatu, naṉṟi, and the how-are-you question) were
+        confirmed against a published phrase list; the remainder rest on general
+        knowledge and are UNATTESTED.
+
+  - name: "Noto Sans Tamil (system)"
+    url: null
+    licence: "SIL Open Font License 1.1"
+    class: authored
+    checked: 2026-10-03
+    covers:
+      value: >
+        /system/fonts/NotoSansTamil-VF.ttf on the test device, a variable font with
+        weights 400-700. This is what renders every Tamil glyph in the app today.
+      source: "adb shell dumpsys font on Realme RMX3998, Android 16"
+      verified: true
+      checked: 2026-10-03
+      note: >
+        RECORDED AS A RISK, NOT A SOLUTION. Relying on the system font means the rendering
+        depends on the device, and a missing or older font substitutes silently. Android
+        has shipped Noto for every Indic script since 4.x so the practical risk is low,
+        but it is not zero and it is not this app's decision to make. Bundling the font
+        is the deterministic fix and costs ~300 KB per script; not yet done.
+
+attribution: []
+
+review:
+  flags_received: 0
+  last_reviewed: null
+  known_gaps:
+    - "Tier 0 is authored by a NON-NATIVE speaker and, unlike Swahili, could not be cross-checked against ANY parallel corpus — Tatoeba publishes no English-Tamil bitext. Treat every item as unverified except the five confirmed forms."
+    - "Politeness suffixes (sir, akka, thambi, naal) are recorded in the spec and appear nowhere in the content. For a language whose politeness level is a social error rather than a style choice, this is the largest content gap in the catalogue."
+    - "Case suffixes are not modelled. Tamil nouns obligatorily take -ஐ / -ஆ / -ஓ case endings depending on role, and the schema has nowhere to record them."
+    - "Noun-class agreement, a Swahili gap, is also a Tamil gap for a different reason: gender agreement on verbs. Neither is modelled."
+    - "Relying on the system Tamil font rather than bundling one. See the resources entry."
+    - "Coverage justification is personal, not strategic. One country. If Kedhar's reason for learning Tamil is not a personal one, this is the first language to drop."

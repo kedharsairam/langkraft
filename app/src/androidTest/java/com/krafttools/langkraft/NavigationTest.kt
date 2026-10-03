@@ -204,6 +204,47 @@ class NavigationTest {
     }
 
     @Test
+    fun tamilShowsBothScriptsAndTheyAreDistinct() {
+        // The rule that two Latin-script languages could not exercise, and the reason
+        // Tamil is in the catalogue. A wrong conjunct is a SILENT failure — no crash, no
+        // log line, just a wrong character — so the only defence is asserting that both
+        // lines are present and are not the same string.
+        val corpus = corpus()
+        compose.setContent {
+            LangKraftTheme {
+                TierScreen(spec = corpus.spec("tam")!!, tier = 0, corpus = corpus, onBack = { })
+            }
+        }
+
+        compose.onNodeWithText("வணக்கம்").assertIsDisplayed()          // the script
+        compose.onNodeWithText("vaṇakkam").assertIsDisplayed()         // the romanization
+        compose.onNodeWithText("Hello").assertIsDisplayed()            // the gloss
+
+        // Exactly one of each. If the romanization were dropped for a non-Latin language,
+        // or the script silently fell back to the romanization, one of these would be 0.
+        compose.onAllNodes(hasText("வணக்கம்")).assertCountEquals(1)
+        compose.onAllNodes(hasText("vaṇakkam")).assertCountEquals(1)
+    }
+
+    @Test
+    fun tamilRendersTheRomanizationWithItsDiacritics() {
+        // ISO 15919 needs ṇ ṟ ḷ ḻ ṉ. If the romanization font lacks them the reader sees
+        // a tofu box where the retroflex marker should be, which defeats the entire
+        // reason the romanization exists.
+        val corpus = corpus()
+        compose.setContent {
+            LangKraftTheme {
+                TierScreen(spec = corpus.spec("tam")!!, tier = 0, corpus = corpus, onBack = { })
+            }
+        }
+        compose.onNodeWithText("vaṇakkam").assertIsDisplayed()
+        compose.onNode(hasScrollAction()).performScrollToNode(hasText("tayavuseythu"))
+        compose.onNodeWithText("tayavuseythu").assertIsDisplayed()
+        compose.onNode(hasScrollAction()).performScrollToNode(hasText("naṉṟi"))
+        compose.onNodeWithText("naṉṟi").assertIsDisplayed()
+    }
+
+    @Test
     fun anEmptyTierSaysSoRatherThanRenderingNothing() {
         val corpus = corpus()
         compose.setContent {
