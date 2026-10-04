@@ -7,6 +7,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { lintContent, loadSchema } from './lint.mjs';
+import { readFileSync } from 'node:fs';
 
 const schema = loadSchema();
 
@@ -229,6 +230,58 @@ test('an empty content set produces no errors', () => {
 
 // ---------------------------------------------------------------------------
 // Shape
+// ---------------------------------------------------------------------------
+// User-facing prose. `why` and `caution` render verbatim on the phone.
+function withProse(f, over = {}) {
+  return entry({ why: f, ...over });
+}
+
+test('a why that describes the authoring pipeline is rejected', () => {
+  // This is not a style preference. Models.kt used to claim these fields were "for the
+  // build and for review, not for a phone" while Screens.kt rendered them, and twenty-one
+  // entries consequently shipped build notes as product copy — including one whose text
+  // began "SOURCED honestly:".
+  for (const word of ['attested', 'bitext', 'curated', 'provenance', 'Wikivoyage', 'Tatoeba']) {
+    const r = lint([withProse(`The ${word} for this is unclear.`)]);
+    assert.ok(
+      r.errors.some(e => /must be user-facing/.test(e)),
+      `"${word}" should be rejected: ${r.errors.join(' ')}`
+    );
+  }
+});
+
+test('a numeric entry reference is rejected because the reader cannot follow it', () => {
+  const r = lint([withProse('Same spelling as the middle of entry 5, different tone.')]);
+  assert.ok(
+    r.errors.some(e => /numeric entry reference/.test(e)),
+    r.errors.join(' ')
+  );
+});
+
+test('a why written for the reader passes', () => {
+  const r = lint([withProse('Point at the thing as you say it; นี่ means "this, here".')]);
+  assert.equal(r.ok, true, r.errors.join(' '));
+});
+
+test('the real corpus has no pipeline vocabulary in user-facing prose', () => {
+  // Guards the whole shipped catalogue, not a fixture. Read the emitted asset rather than
+  // the sources so this covers every language at once.
+  const shipped = readFileSync(
+    new URL('../../app/src/main/assets/content.jsonl', import.meta.url).pathname, 'utf8'
+  ).split('\n').filter(l => l.trim()).map(l => JSON.parse(l));
+  const offenders = [];
+  for (const rec of shipped) {
+    for (const fld of ['why', 'caution']) {
+      const v = rec[fld];
+      if (typeof v !== 'string') continue;
+      if (/\b(attested|bitext|curated|provenance|Wikivoyage|Tatoeba)\b|\bentr(?:y|ies)\s+\d+/i.test(v)) {
+        offenders.push(`${rec.id}.${fld}`);
+      }
+    }
+  }
+  assert.deepEqual(offenders, [], `pipeline vocabulary shipped to the phone: ${offenders.join(', ')}`);
+});
+
 // ---------------------------------------------------------------------------
 // Tone sets — the visual half of a language the app cannot teach auditorily
 function toneSet(o = {}) {

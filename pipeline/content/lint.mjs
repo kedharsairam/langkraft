@@ -61,6 +61,28 @@ function isLatinScript(spec) {
   return /Latin/i.test(spec?.structure?.script?.primary ?? '');
 }
 
+// Vocabulary that describes how content was PRODUCED rather than how to use it.
+//
+// `why` and `caution` render verbatim into the shipping UI, so a phrase's own build notes
+// become the reader's instructions. Kept as a module-level table so it is constructed once
+// and so the list is reviewable in one place.
+const BUILD_VOCAB = [
+  [/\battested\b/i, "'attested'"],
+  [/\bbitexts?\b/i, "'bitext'"],
+  [/\bcurated\b/i, "'curated'"],
+  [/\bauthored\b/i, "'authored'"],
+  [/\bprovenance\b/i, "'provenance'"],
+  [/\bcorpus\b/i, "'corpus'"],
+  [/\bpipeline\b/i, "'pipeline'"],
+  [/\bWikivoyage\b/i, "'Wikivoyage'"],
+  [/\bWikibooks?\b/i, "'Wikibooks'"],
+  [/\bTatoeba\b/i, "'Tatoeba'"],
+  [/\bWiktionary\b/i, "'Wiktionary'"],
+  [/\bSOURCED\b/, "'SOURCED'"],
+  [/\bentr(?:y|ies)\s+\d+/i, 'a numeric entry reference a reader cannot follow'],
+  [/\bthis Tier \d/i, "a tier reference"],
+];
+
 // ---- record classification -----------------------------------------------
 function kind(rec) {
   if (Array.isArray(rec.variants)) return 'tone_set';
@@ -162,6 +184,27 @@ export function lintContent(records, specs, schema) {
         r.err(where, `duplicate text_native, already used by "${normalized.get(key)}"`);
       } else {
         normalized.set(key, rec.id);
+      }
+    }
+
+    // 8b. `why` and `caution` are RENDERED VERBATIM on the phone, which makes them
+    // product copy rather than build notes. Fifteen Thai entries breached that before this
+    // rule existed: cross-references such as "the same spelling as the middle of entry 5",
+    // which a reader cannot follow, and words like "attested", "bitext" and "curated",
+    // which describe how the content was produced rather than how to use the phrase.
+    //
+    // Models.kt claimed these fields were "for the build and for review, not for a phone"
+    // while Screens.kt rendered them. The comment was the thing that was wrong; both sides
+    // are aligned now and this rule holds the line between them.
+    if (typeof rec.why === 'string' || typeof rec.caution === 'string') {
+      for (const fld of ['why', 'caution']) {
+        const v = rec[fld];
+        if (typeof v !== 'string') continue;
+        for (const [re, label] of BUILD_VOCAB) {
+          if (re.test(v)) {
+            r.err(rec.id, `${fld} is shown on the phone, so it must be user-facing, but it contains ${label}: "${v.slice(0, 80)}..."`);
+          }
+        }
       }
     }
 

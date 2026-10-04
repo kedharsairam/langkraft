@@ -137,18 +137,29 @@ class ProgressStore(context: Context) : SQLiteOpenHelper(
     }
 
     /** Every stored position, for the home screen. Languages never opened are absent. */
-    fun allPositions(): Map<String, Map<Int, Int>> = orRecreate {
-        val out = mutableMapOf<String, MutableMap<Int, Int>>()
+    fun allPositions(): Map<String, List<Position>> = orRecreate {
+        val out = mutableMapOf<String, MutableList<Position>>()
         readableDatabase.query(
-            TABLE_POSITION, arrayOf("lang", "tier", "item_index"),
+            TABLE_POSITION, arrayOf("lang", "tier", "item_index", "updated_at"),
             null, null, null, null, null,
         ).use { c ->
             while (c.moveToNext()) {
-                out.getOrPut(c.getString(0)) { mutableMapOf() }[c.getInt(1)] = c.getInt(2)
+                out.getOrPut(c.getString(0)) { mutableListOf() } += Position(
+                    tier = c.getInt(1),
+                    itemIndex = c.getInt(2),
+                    updatedAt = c.getLong(3),
+                )
             }
         }
         out
     }
+
+    /** One stored bookmark. [updatedAt] is what "which tier was I last in" actually needs. */
+    data class Position(
+        val tier: Int,
+        val itemIndex: Int,
+        val updatedAt: Long,
+    )
 
     fun clearPosition(lang: String) {
         writableDatabase.delete(TABLE_POSITION, "lang = ?", arrayOf(lang))

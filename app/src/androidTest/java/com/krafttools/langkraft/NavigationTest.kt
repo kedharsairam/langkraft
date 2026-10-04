@@ -103,7 +103,61 @@ class NavigationTest {
         compose.waitForIdle()
 
         assertTrue("the back control did nothing — drawn but inert", wentBack.value)
-        compose.onNodeWithText("1 · Transaction").assertIsDisplayed()
+        // Only POPULATED tiers are cards. Tier 1 has no content, so it is not rendered as
+        // something pressable — it appears below as plain scope. Asserting the card here
+        // would be asserting the dead-end behaviour this change removed.
+        compose.onNodeWithText("0 · Courtesy").assertIsDisplayed()
+        compose.onNodeWithText("Not written yet").assertIsDisplayed()
+    }
+
+    /**
+     * An unauthored tier must not be pressable.
+     *
+     * Three of the four tier cards used to be tappable, rippled, said "0 of 150 authored"
+     * in pipeline vocabulary, and led to a screen with one line of grey text on it. That
+     * is a retry affordance that cannot succeed, repeated three times on the main
+     * navigation — the same principle the app's own failure screen refuses to break.
+     */
+    @Test
+    fun anUnauthoredTierIsNotOfferedAsSomethingYouCanPress() {
+        val corpus = corpus()
+        val spec = corpus.spec("tha")!!
+        compose.setContent {
+            LangKraftTheme {
+                PathScreen(
+                    spec = spec, corpus = corpus, positions = emptyMap(),
+                    onOpenTier = { }, onOpenSearch = { }, onBack = { },
+                )
+            }
+        }
+        compose.waitForIdle()
+        // Tier 0 has content, so it is a card.
+        compose.onNodeWithText("0 · Courtesy").assertExists()
+        // Tiers 1-3 do not, so they are listed as scope rather than as buttons. The block
+        // sits below the single populated card, and a LazyColumn does not compose items
+        // that have not been scrolled into view — so it has to be scrolled to, not merely
+        // asserted on.
+        compose.onNodeWithText("Not written yet").assertExists()
+        // substring = true: hasText defaults to EXACT match and the rendered line is
+        // "Transaction — Prices, food, tickets, directions, a room."
+        compose.onNode(hasScrollAction())
+            .performScrollToNode(hasText("Transaction", substring = true))
+        compose.onNodeWithText("Transaction", substring = true).assertIsDisplayed()
+        // And no pipeline vocabulary anywhere on the screen.
+        compose.onNodeWithText("authored", substring = true).assertDoesNotExist()
+    }
+
+    /** The empty state must still be reachable and must explain itself. */
+    @Test
+    fun anUnauthoredTierOpensToAnExplanationRatherThanABlankScreen() {
+        val corpus = corpus()
+        compose.setContent {
+            LangKraftTheme {
+                TierScreen(spec = corpus.spec("tha")!!, tier = 3, corpus = corpus, onBack = { })
+            }
+        }
+        compose.waitForIdle()
+        compose.onNodeWithText("Nothing authored at this tier yet.").assertExists()
     }
 
     @Test

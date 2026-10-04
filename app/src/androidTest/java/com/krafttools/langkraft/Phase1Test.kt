@@ -71,9 +71,33 @@ class Phase1Test {
         db.setPosition("zz2", 1, 9)
         val all = db.allPositions()["zz2"]
         assertNotNull("a language with positions must appear in allPositions", all)
-        assertEquals(5, all!![0])
-        assertEquals(9, all[1])
+        assertEquals(5, all!!.first { it.tier == 0 }.itemIndex)
+        assertEquals(9, all.first { it.tier == 1 }.itemIndex)
         db.clearPosition("zz2")
+    }
+
+    /**
+     * "Resume in X" depends on picking the most RECENT tier.
+     *
+     * `updated_at` was written on every save and read by nothing, so the home screen could
+     * only ask "has this language been opened at all" — which is why "continue where you
+     * left off" was a promise the tap could not keep.
+     */
+    @Test
+    fun allPositionsCarriesTheTimestampThatDecidesWhichTierWasLast() {
+        val db = ProgressStore(compose.activity)
+        db.clearPosition("zz5")
+        db.setPosition("zz5", 0, 4)
+        Thread.sleep(5)
+        db.setPosition("zz5", 2, 7)
+        val positions = db.allPositions()["zz5"]!!
+        assertEquals(2, positions.size)
+        assertEquals(
+            "the most recent tier must win, whichever index is larger",
+            2,
+            positions.maxByOrNull { it.updatedAt }!!.tier,
+        )
+        db.clearPosition("zz5")
     }
 
     @Test
@@ -209,7 +233,9 @@ class Phase1Test {
             LangKraftTheme {
                 PathScreen(
                     spec = spec, corpus = c,
-                    positions = if (withBookmark.value) mapOf("eng" to mapOf(0 to 12)) else emptyMap(),
+                    positions = if (withBookmark.value) mapOf(
+                        "eng" to listOf(ProgressStore.Position(0, 12, 1L))
+                    ) else emptyMap(),
                     onOpenTier = { }, onOpenSearch = { }, onBack = { },
                 )
             }

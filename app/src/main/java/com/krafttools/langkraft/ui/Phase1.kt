@@ -92,7 +92,7 @@ private fun ToneSetCard(set: ToneSet, spec: LanguageSpec, onFlag: (ToneSet) -> U
             set.syllable?.let {
                 Text(
                     it,
-                    fontFamily = if (spec.isLatinScript) FontFamily.Default else FontFamily.Serif,
+                    fontFamily = scriptFontFamily(spec.scriptPrimary),
                     fontSize = 15.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -113,24 +113,44 @@ private fun ToneSetCard(set: ToneSet, spec: LanguageSpec, onFlag: (ToneSet) -> U
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
                                 v.textNative,
-                                fontFamily = if (spec.isLatinScript) FontFamily.Default else FontFamily.Serif,
+                                fontFamily = scriptFontFamily(spec.scriptPrimary),
                                 fontSize = 30.sp,
                                 lineHeight = 38.sp,
                                 modifier = Modifier.weight(1f, fill = false),
                             )
-                            Text(
-                                "${v.tone}",
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.tertiary,
-                                modifier = Modifier.padding(start = 12.dp),
-                            )
+                            // Number AND name. `toneName` was parsed and populated for
+                            // every Thai variant and then never rendered, so the app
+                            // asserted that tones matter while showing the reader a
+                            // numeral. The name is what someone can actually hold on to.
+                            Column(Modifier.padding(start = 12.dp)) {
+                                Text(
+                                    "${v.tone}",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.tertiary,
+                                )
+                                v.toneName?.let {
+                                    Text(
+                                        it,
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    )
+                                }
+                            }
                         }
                         Text(v.textEnglish, style = MaterialTheme.typography.bodyLarge)
                         v.textRomanized?.let {
+                            // All four variants of a set romanize IDENTICALLY, which is
+                            // the whole lesson. Rendering that at the same size as the
+                            // gloss above it was the one choice that hid the finding.
                             Text(
                                 it,
-                                fontFamily = FontFamily.Serif,
+                                style = MaterialTheme.typography.titleMedium,
+                                // Romanization is LATIN text -- RTGS, ISO, whatever the spec names -- so
+                    // it wears the app's Latin face. Only the language's own script needs a
+                    // bundled font, and giving romanization a serif made it look like a
+                    // third language rather than a transcription of the second.
+                    fontFamily = FontFamily.Default,
                                 color = MaterialTheme.colorScheme.primary,
                             )
                         }
@@ -175,7 +195,11 @@ fun FailureFlagButton(onClick: () -> Unit, enabled: Boolean = true) {
     Surface(
         onClick = onClick,
         enabled = enabled,
-        color = MaterialTheme.colorScheme.surface,
+        // surfaceContainerHighest, not `surface`. `surface` IS the page background, so
+        // every tag and flag button was a black hole punched through a grey card, with a
+        // 4dp radius inside a 12dp one. It read as a rendering gap rather than a control.
+        color = MaterialTheme.colorScheme.surfaceContainerHighest,
+        shape = MaterialTheme.shapes.small,
         modifier = Modifier.padding(top = 12.dp),
     ) {
         Text(
@@ -291,16 +315,28 @@ fun SearchScreen(
                             ),
                         ) {
                             Column(Modifier.padding(16.dp)) {
+                                // Same hierarchy as EntryCard: romanization is what the
+                                // reader says aloud and carries the accent; the script is
+                                // the check. This screen had it the other way round, so the
+                                // same phrase was ranked differently on two screens of the
+                                // same language.
+                                hit.entry.textRomanized?.let {
+                                    Text(
+                                        it,
+                                        style = MaterialTheme.typography.titleLarge,
+                                        // Romanization is LATIN text -- RTGS, ISO, whatever the spec names -- so
+                    // it wears the app's Latin face. Only the language's own script needs a
+                    // bundled font, and giving romanization a serif made it look like a
+                    // third language rather than a transcription of the second.
+                    fontFamily = FontFamily.Default,
+                                        color = MaterialTheme.colorScheme.primary,
+                                    )
+                                }
                                 Text(
                                     hit.entry.textNative,
-                                    fontFamily = if (spec.isLatinScript) FontFamily.Default
-                                                 else FontFamily.Serif,
-                                    fontSize = 24.sp,
+                                    fontFamily = scriptFontFamily(spec.scriptPrimary),
+                                    style = MaterialTheme.typography.titleLarge,
                                 )
-                                hit.entry.textRomanized?.let {
-                                    Text(it, fontFamily = FontFamily.Serif, fontSize = 20.sp,
-                                         color = MaterialTheme.colorScheme.primary)
-                                }
                                 if (!spec.glossIsNative) {
                                     hit.entry.textEnglish?.let {
                                         Text(it, style = MaterialTheme.typography.bodyLarge)

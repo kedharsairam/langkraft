@@ -26,6 +26,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,6 +43,7 @@ import com.krafttools.langkraft.data.ContentRepository
 import com.krafttools.langkraft.data.Entry
 import com.krafttools.langkraft.data.Exchange
 import com.krafttools.langkraft.data.LanguageSpec
+import com.krafttools.langkraft.data.ProgressStore
 
 /**
  * The language list. The home screen, and the whole app at one language.
@@ -51,7 +56,7 @@ import com.krafttools.langkraft.data.LanguageSpec
 @Composable
 fun LanguageListScreen(
     corpus: ContentRepository.Corpus,
-    positions: Map<String, Map<Int, Int>>,
+    positions: Map<String, List<ProgressStore.Position>>,
     onOpen: (String) -> Unit,
 ) {
     Scaffold(
@@ -78,12 +83,13 @@ fun LanguageListScreen(
                 LanguageCard(
                     spec = spec,
                     entriesFor = { code, t -> corpus.entriesFor(code, t) },
-                    // "Have you started this language", not "how far". Comparing raw
-                    // indices across tiers is meaningless: index 3 is the 3rd exchange in
-                    // one tier and the 2nd phrase in another. Which TIER they were last in
-                    // is answerable, via updated_at, but the value here was only ever used
-                    // as a boolean, so a false comparison bought nothing.
-                    bookmark = positions[spec.code]?.values?.any { it > 0 }?.let { 1 },
+                    // Which TIER they were last in, by recency. Not by index: index 3 is
+                    // the 3rd exchange in one tier and the 2nd phrase in another, so
+                    // comparing raw indices across tiers is meaningless. `updated_at` was
+                    // written on every save and read by nothing, which is why this had
+                    // degraded into a boolean that could not keep its promise.
+                    bookmark = positions[spec.code]?.maxByOrNull { it.updatedAt }
+                        ?.takeIf { it.itemIndex > 0 }?.tier,
                     onClick = { onOpen(spec.code) },
                 )
             }
@@ -106,6 +112,20 @@ private fun LanguageCard(
     ) {
         Column(Modifier.padding(16.dp)) {
             Text(spec.name, style = MaterialTheme.typography.titleLarge)
+            // The language's OWN name, in its own script. This was dead code: every spec
+            // declares an endonym, the model parses it, and the tier screen's
+            // `else spec.endonym` branch could never run because `defaultVariety` is
+            // always populated. So Kiswahili, தமிழ் and ไทย were carried in memory and
+            // never shown anywhere. A language app that does not show the language's own
+            // name is missing the one piece of texture only a language app can offer.
+            if (spec.endonym.isNotBlank() && spec.endonym != spec.name) {
+                Text(
+                    spec.endonym,
+                    fontFamily = scriptFontFamily(spec.scriptPrimary),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
             if (spec.defaultVariety.isNotBlank()) {
                 Text(
                     spec.defaultVariety,
@@ -125,13 +145,14 @@ private fun LanguageCard(
                     color = MaterialTheme.colorScheme.primary,
                 )
             }
-            // The bookmark, and ONLY the bookmark. No percentage, no accuracy, no
-            // "12 of 48 read" — progress in this app means position and nothing else, so
-            // there is deliberately nothing here that could be misread as a score.
-            bookmark?.takeIf { it > 0 }?.let {
+            // The bookmark. Position only: no percentage, no accuracy, no "12 of 48 read",
+            // because those claim something about the learner's attention that the app
+            // cannot know. What it DOES say is where, because a promise of "continue"
+            // that does not continue is worse than no promise at all.
+            bookmark?.takeIf { it > 0 }?.let { tier ->
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    "Continue where you left off",
+                    "Resume in ${spec.tiers.firstOrNull { it.id == tier }?.name ?: "tier $tier"}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -139,7 +160,7 @@ private fun LanguageCard(
             if (spec.role == "calibration") {
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    "Calibration language — not a course to take.",
+                    "English — what the other three are measured against.",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.tertiary,
                 )
@@ -154,7 +175,7 @@ private fun LanguageCard(
 fun PathScreen(
     spec: LanguageSpec,
     corpus: ContentRepository.Corpus,
-    positions: Map<String, Map<Int, Int>>,
+    positions: Map<String, List<ProgressStore.Position>>,
     onOpenTier: (Int) -> Unit,
     onOpenSearch: () -> Unit,
     onBack: () -> Unit,
@@ -180,35 +201,91 @@ fun PathScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 item {
-                    Text(
-                        if (spec.defaultVariety.isNotBlank()) "${spec.defaultVariety} · ${spec.scriptDirection.uppercase()}"
-                        else spec.endonym,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
+                    // The endonym leads, because a language's own name for itself is the
+                    // most useful thing on this screen. `th-TH · LTR` was here instead: a
+                    // raw BCP-47 tag and a direction acronym, both developer vocabulary,
+                    // occupying the most prominent slot above the actual content. Direction
+                    // is still stated, but only when it is the unusual case.
+                    Column(Modifier.fillMaxWidth()) {
+                        Text(
+                            spec.endonym.ifBlank { spec.name },
+                            fontFamily = scriptFontFamily(spec.scriptPrimary),
+                            style = MaterialTheme.typography.headlineSmall,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
+                        Text(
+                            buildString {
+                                if (spec.defaultVariety.isNotBlank()) append(spec.defaultVariety)
+                                if (spec.scriptDirection == "rtl") append("  ·  right to left")
+                            }.trim(),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
                 }
-                items(spec.tiers, key = { it.id }) { tier ->
-                    val entries = corpus.entriesFor(spec.code, tier.id)
+
+                // Only tiers that HAVE content are rendered as things you can press.
+                // Three of the four tier cards were tappable, rippled, said "0 of 150
+                // authored" in pipeline vocabulary, and led to a screen containing one
+                // line of grey text. That is a retry affordance that cannot succeed,
+                // three times over, on the main navigation — the exact thing the app's
+                // own failure screen refuses to do on principle.
+                //
+                // The tiers still exist. They appear below, unpressable and unadorned,
+                // which reads as editorial scope rather than as a fault or a promise.
+                val populated = spec.tiers.filter { tierHasContent(corpus, spec.code, it.id) }
+                val empty = spec.tiers.filterNot { tierHasContent(corpus, spec.code, it.id) }
+
+                items(populated, key = { it.id }) { tier ->
                     TierCard(
                         number = tier.id,
                         name = tier.name,
                         intent = tier.intent,
-                        available = entries.size,
-                        declared = tier.size,
+                        available = corpus.entriesFor(spec.code, tier.id).size,
                         certainty = tier.certainty,
-                        bookmark = positions[spec.code]?.get(tier.id)?.takeIf { it > 0 },
+                        bookmark = positions[spec.code]?.firstOrNull { it.tier == tier.id }
+                        ?.takeIf { it.itemIndex > 0 }?.itemIndex,
                         onClick = { onOpenTier(tier.id) },
                     )
+                }
+
+                if (empty.isNotEmpty()) {
+                    item {
+                        Column(Modifier.padding(top = 12.dp)) {
+                            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                            Spacer(Modifier.height(12.dp))
+                            Text(
+                                "Not written yet",
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                            Spacer(Modifier.height(4.dp))
+                            empty.forEach { tier ->
+                                Text(
+                                    "${tier.name} — ${tier.intent.trim()}",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.padding(vertical = 3.dp),
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 }
 
+/** Whether a tier has anything a reader could open. Tone sets count: they are content. */
+private fun tierHasContent(corpus: ContentRepository.Corpus, code: String, tier: Int): Boolean =
+    corpus.entriesFor(code, tier).isNotEmpty() ||
+        corpus.exchangesFor(code, tier).isNotEmpty() ||
+        corpus.toneSetsFor(code, tier).isNotEmpty()
+
 @Composable
 private fun TierCard(
     number: Int, name: String, intent: String,
-    available: Int, declared: Int, certainty: String, bookmark: Int?, onClick: () -> Unit,
+    available: Int, certainty: String, bookmark: Int?, onClick: () -> Unit,
 ) {
     Card(
         onClick = onClick,
@@ -228,8 +305,12 @@ private fun TierCard(
             Spacer(Modifier.height(6.dp))
             Text(intent, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(Modifier.height(8.dp))
+            // A plain count. It used to read "48 of 48 authored", where "authored" is
+            // pipeline vocabulary and the ratio reads as a shortfall to a reader who has
+            // never heard of a spec. Now that only populated tiers are pressable, the
+            // count can only ever be a real number, so it is stated as one.
             Text(
-                "$available of $declared authored",
+                "$available ${if (available == 1) "phrase" else "phrases"}",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -267,6 +348,14 @@ fun TierScreen(
     onFlag: (String, String?) -> Unit = { _, _ -> },
     onBack: () -> Unit,
 ) {
+    // The second tap. `FailureFlagButton` documents "One tap, then an optional country",
+    // and on this screen that never happened: three call sites passed a hardcoded null
+    // and no picker was ever opened, so the documented flow existed on exactly one of the
+    // four surfaces that render the button.
+    var flagTarget by remember { mutableStateOf<String?>(null) }
+    val countries = remember { CountryList.ALL }
+    val requestFlag: (String) -> Unit = { id -> flagTarget = id }
+
     val entries = corpus.entriesFor(spec.code, tier)
     // Order comes from the content, curated by usefulness. Sorting here by scenario
     // name was arbitrary: "Asking a local..." before "Bumping into someone" tells a
@@ -326,7 +415,7 @@ fun TierScreen(
                         ToneSection(
                             sets = toneSets,
                             spec = spec,
-                            onFlag = { onFlag("tone:" + it.id, null) },
+                            onFlag = { requestFlag("tone:" + it.id) },
                         )
                     }
                     item { HorizontalDivider() }
@@ -336,14 +425,32 @@ fun TierScreen(
                         SectionLabel("Exchanges", "Half of every conversation is what they say to you.")
                     }
                     items(exchanges, key = { it.id }) { ex ->
-                        ExchangeCard(ex, spec, onFlag = { onFlag("exchange:" + ex.id, null) })
+                        ExchangeCard(ex, spec, onFlag = { requestFlag("exchange:" + ex.id) })
                     }
                     item { HorizontalDivider() }
                 }
                 if (entries.isNotEmpty()) {
-                    item { SectionLabel("Phrases", "${entries.size} items") }
+                    item {
+                        SectionLabel(
+                            "Phrases",
+                            "${entries.size} items",
+                            position = "${(listState.firstVisibleItemIndex + 1).coerceAtMost(entries.size + 1)} / ${entries.size}",
+                        )
+                    }
                     items(entries, key = { it.id }) { e ->
-                        EntryCard(e, spec, onFlag = { onFlag("entry:" + e.id, null) })
+                        EntryCard(e, spec, onFlag = { requestFlag("entry:" + e.id) })
+                    }
+                }
+                flagTarget?.let { target ->
+                    item {
+                        CountryPickerSheet(
+                            countries = countries,
+                            onPick = { country ->
+                                onFlag(target, country)
+                                flagTarget = null
+                            },
+                            onDismiss = { flagTarget = null },
+                        )
                     }
                 }
                 if (entries.isEmpty() && exchanges.isEmpty()) {
@@ -361,9 +468,32 @@ fun TierScreen(
 }
 
 @Composable
-fun SectionLabel(title: String, sub: String) {
+fun SectionLabel(title: String, sub: String, position: String? = null) {
     Column(Modifier.fillMaxWidth()) {
-        Text(title, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                title,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.weight(1f),
+            )
+            // POSITION, not progress. The app's rule is that progress means where you are
+            // and never how well you did, so this is `firstVisibleItemIndex / itemCount`
+            // and nothing more: no percentage sign, no bar, no ring, no completion state,
+            // no colour change when the list ends.
+            //
+            // It was absent, and the absence was over-applied. "12 of 48" where 12 is the
+            // first visible item makes no claim about attention or comprehension — it is
+            // the one number every dictionary and phrasebook in existence shows, and its
+            // absence made a working reader feel lost in a 28-screen list.
+            position?.let {
+                Text(
+                    it,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
         Text(sub, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
@@ -394,7 +524,7 @@ fun EntryCard(entry: Entry, spec: LanguageSpec, onFlag: () -> Unit = {}) {
                 // Non-Latin needs a font with the right conjuncts. A fallback font
                 // substitutes silently and produces a wrong glyph rather than a
                 // crash, so this is deliberately NOT the default font family.
-                fontFamily = if (spec.isLatinScript) FontFamily.Default else FontFamily.Serif,
+                fontFamily = scriptFontFamily(spec.scriptPrimary),
                 fontSize = if (entry.textRomanized != null) 20.sp else 26.sp,
                 lineHeight = if (entry.textRomanized != null) 30.sp else 34.sp,
             )
@@ -403,7 +533,11 @@ fun EntryCard(entry: Entry, spec: LanguageSpec, onFlag: () -> Unit = {}) {
                 Spacer(Modifier.height(4.dp))
                 Text(
                     it,
-                    fontFamily = FontFamily.Serif,
+                    // Romanization is LATIN text -- RTGS, ISO, whatever the spec names -- so
+                    // it wears the app's Latin face. Only the language's own script needs a
+                    // bundled font, and giving romanization a serif made it look like a
+                    // third language rather than a transcription of the second.
+                    fontFamily = FontFamily.Default,
                     fontSize = 24.sp,
                     lineHeight = 30.sp,
                     color = MaterialTheme.colorScheme.primary,
@@ -490,12 +624,12 @@ private fun ExchangeCard(ex: Exchange, spec: LanguageSpec, onFlag: () -> Unit = 
                             else MaterialTheme.colorScheme.onSurface
                         Text(
                             turn.textNative,
-                            fontFamily = if (spec.isLatinScript) FontFamily.Default else FontFamily.Serif,
+                            fontFamily = scriptFontFamily(spec.scriptPrimary),
                             fontSize = 20.sp,
                             color = tone,
                         )
                         turn.textRomanized?.let {
-                            Text(it, fontFamily = FontFamily.Serif, fontSize = 20.sp,
+                            Text(it, fontFamily = FontFamily.Default, fontSize = 20.sp,
                                 color = if (turn.optional) MaterialTheme.colorScheme.onSurfaceVariant
                                         else MaterialTheme.colorScheme.primary)
                         }
@@ -520,7 +654,10 @@ private fun ExchangeCard(ex: Exchange, spec: LanguageSpec, onFlag: () -> Unit = 
 @Composable
 private fun Tag(text: String) {
     Surface(
-        color = MaterialTheme.colorScheme.surface,
+        // surfaceContainerHighest rather than `surface`. `surface` IS the page
+        // background, so every tag was a black hole punched through a grey card. The
+        // radius also matched the card's, which made the hole look like a crop.
+        color = MaterialTheme.colorScheme.surfaceContainerHighest,
         shape = MaterialTheme.shapes.extraSmall,
     ) {
         Text(
