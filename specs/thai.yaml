@@ -1,0 +1,583 @@
+# Thai — v1
+#
+# The fourth language, and the first that is TONAL and the first whose register
+# is a hard requirement rather than a nicety.
+#
+# It was chosen deliberately, and not because Thai is a common destination. It is
+# the only language in the catalogue that stresses the system in three places at
+# once: a tone system, a non-Latin script, and marks written ABOVE the vowel. If
+# Thai works, the remaining languages are variations on it. Thai in particular
+# also proves the tone-stage UI, which until now has been built, linted, and
+# never rendered on a device.
+#
+# Kedhar is a Telugu L1 speaker. That buys nothing structural here — Thai shares
+# no morphology, no agglutination and no case suffixes with Telugu or Tamil. What
+# it does buy is Dravidian-influenced familiarity with "grammar is a suffix
+# system", which is the opposite of Thai's isolating structure, so the
+# assumption has to be actively suppressed rather than merely ignored.
+
+language:
+  code: tha
+  name: Thai
+  endonym: ไทย
+  romanization: rtgs
+  role: course
+  # The gloss is NOT the native text for Thai — it is English, which is the whole
+  # point of the app for a language the learner cannot read. `required`.
+  gloss_mode: required
+
+spec_version: 1.0.0
+status: draft
+
+variety:
+  # Central Thai (Bangkok). Not a choice about how Kedhar wants to sound — it is
+  # the variety that is understood everywhere in the country, which is the same
+  # reception-first logic as English's en-US.
+  default: th-TH
+  romanization_scheme: rtgs
+  rationale:
+    value: >
+      Central Thai chosen as the comprehension default because it is understood
+      nationwide, whereas Isan and Southern Thai are not reliably understood by
+      speakers of each other. A traveller's failure mode is not sounding local,
+      it is being not understood by someone who is otherwise being helpful.
+    source: "internal analysis; the three-variety intelligibility finding is a standard one in Thai linguistics"
+    verified: false
+    checked: 2026-10-04
+    note: >
+      Untested, and untestable from here. The first trip is the test. The failure
+      this protects against is concrete: a traveller in Isan or the deep south
+      speaking central Thai is normally understood but replies in the local
+      variety, which the learner then does not understand. That asymmetry is a
+      Tier 1 concern, not a Tier 0 one.
+
+  variants:
+    - id: th-TH
+      label: Central Thai
+      notes:
+        value: >
+          Bangkok and the central plains. The default, and the safest to comprehend.
+          Also the variety taught by essentially every course and phrasebook, so
+          external material matches it.
+        source: internal
+        verified: false
+        checked: 2026-10-04
+    - id: th-ISAN
+      label: Isan (Northeastern)
+      notes:
+        value: >
+          Comprehension-only. Not mutually intelligible with Central Thai for
+          reciprocal conversation, though a Central Thai speaker is generally
+          understood. A traveller who needs to go deeper than a transaction
+          needs this, which is a Tier 2 problem.
+        source: internal
+        verified: false
+        checked: 2026-10-04
+        note: "Reachable at destinations Kedhar has not identified. Recorded, not authored."
+    - id: th-S
+      label: Southern Thai
+      notes:
+        value: >
+          Comprehension-only. The most distinct of the three, with a tone-split in
+          many words. Worth noting that the tone-split is a place where a minimal
+          pair from Central Thai may not survive as a contrast at all.
+        source: internal
+        verified: false
+        checked: 2026-10-04
+
+  fails_in: []
+    # NOT FILLED IN, and this is a real gap rather than a finding.
+    # The honest entry for Thailand would name the specific situations where a
+    # foreigner's central-Thai fails: rural areas off the tourist circuit, and
+    # conversations with vendors in markets where the register expected of a
+    # customer is markedly less deferential than a phrasebook implies. Neither
+    # has been researched. An empty list here means UNKNOWN, and must not be
+    # read as the English-style finding of "fails nowhere".
+
+structure:
+  # Isolating. This is the important morphological fact and it cuts AGAINST the
+  # intuition from Tamil: Thai has essentially no inflection and no agglutination,
+  # so affixes cannot carry the grammar and the vocabulary has to. That means MORE
+  # items are needed to reach the same functional coverage, not fewer.
+  #
+  # Compare Swahili (moderately synthetic, noun classes) and Tamil (heavily
+  # synthetic, case suffixes). Thai is the far end of the axis.
+  morphology: isolating
+  tones: true
+  # Five phonemic tones. The learner-facing count is 5, and the one genuine
+  # dispute is over the HIGH tone, not the mid tone.
+  tone_count: 5
+  tone_names: [mid, low, falling, high, rising]
+  tone_marks: 4
+  word_order: SVO
+  sounds_absent_from_l1:
+    - "Five-way tonal contrast on every syllable. A Telugu L1 speaker uses
+       pitch-accent for lexical stress, not for meaning, so a learner's instinct
+       that tone is decorative has to be actively unlearned. This is the single
+       hardest thing about the language for this L1."
+    - "Tone determined by the INITIAL consonant's class, so tone is not freely
+       chosen per syllable — it is a property of the word. No amount of practice
+       at sounding vowels produces this."
+    - "Above-vowel tone marks (วรรณยุกต์), which stack over vowel signs. A
+       learner adding a tone mark in the wrong vertical position produces a
+       different word, not a misspelling."
+    - "The เ-ำ vowel pair, where ำ does NOT canonically decompose in Unicode.
+       Verified: NFD('น้ำ') leaves U+0E33 intact. Any future parser must not
+       assume otherwise."
+  script:
+    primary: Thai
+    direction: ltr
+
+register:
+  # The one place where Thai is harder than English, Swahili or Tamil, and where
+  # the wrong choice is a social error rather than a stylistic one.
+  #
+  # The polite particle marks the SPEAKER'S GENDER, not the listener's. Using the
+  # wrong one is a mistake every Thai notices immediately. The common learner
+  # error is picking by the gender of the person being addressed.
+  system: politeness_levels
+  gender_marked: true
+  neutral_option_verified: false
+  notes:
+    value: >
+      A particle is appended to a statement: ครับ (khráp/khrap) by a man,
+      ค่ะ (khá/kha) by a woman, คะ (kha) in questions. It encodes the SPEAKER's
+      gender. Choosing by the listener's gender is the documented common mistake.
+      Translations in real corpora write the pair as "ค่ะ/ครับ" — a slash form
+      meaning either — which is direct evidence that bilingual authors treat it as
+      one slot with a gender variable rather than two separate forms.
+
+      Crucially, there is NO verified gender-neutral polite particle. The sources
+      found while researching this say the opposite of what a phrasebook wants:
+      one states "men can use both, but ค่ะ should be used with caution", and none
+      offers a safe default. So the app must NOT claim one. Bare speech with the
+      particle omitted is grammatically fine and merely slightly more abrupt.
+      ไม่เป็นไร (mâi bpen rai / "it's OK") is an interjection, not a politeness
+      particle, is not gender-marked, and works on its own — it is the closest
+      thing to a safe neutral form and it is recorded as an interjection.
+
+      Note also จ้ะ (ja), which encodes social RANK rather than gender and is
+      used when addressing a person of lower status. It is therefore not a safe
+      default either.
+    source: "Wiktionary entries for ครับ/ค่ะ/คะ/ไม่เป็นไร; http://www.speakrealthai.com/polite.html; attested slash-form usage in the OPUS en-th Tatoeba bitext"
+    verified: true
+    checked: 2026-10-04
+    note: >
+      The GENDER of the user is not something this app knows, and the product
+      rules forbid asking. So the particle is a slot the learner fills by choosing
+      a variant, not something the app picks. That is a design consequence of the
+      no-input rule meeting a language where the polite default is gendered, and
+      it is recorded here because it is a genuine tension, not an oversight.
+
+coverage:
+  territories:
+    value: >
+      UNKNOWN, and recorded as unknown rather than guessed. The `fails_in` list is
+      empty and that is a gap, not the English-style finding. Research needed: where
+      central Thai plus a polite register is not enough — plausibly rural areas off
+      the tourist circuit, and market transactions where the deferential register a
+      phrasebook implies is not the register a vendor expects from a customer.
+    source: internal
+    verified: false
+    checked: 2026-10-04
+  adjacent:
+    - language: { code: lao, name: Lao }
+      overlap:
+        value: "Very close cognates; some vocabulary shared. A learner who has Thai will not be lost in Laos, though the tones differ systematically."
+        source: internal
+        verified: false
+        checked: 2026-10-04
+      note: "Relevant only if Lao is ever added."
+  traps:
+    - territory: Malaysia (southern provinces)
+      reason:
+        value: "Southern Thai is spoken across the border and is not reliably mutually intelligible with Central Thai."
+        source: internal
+        verified: false
+        checked: 2026-10-04
+    - territory: Thailand (rural, non-tourist)
+      reason:
+        value: "Assumed, not researched. Central Thai plus deferential register may be insufficient where the local variety differs."
+        source: internal
+        verified: false
+        checked: 2026-10-04
+
+# ---------------------------------------------------------------------------
+# The four per-language parameters, unchanged from the other three specs
+# ---------------------------------------------------------------------------
+tiers:
+  - id: 0
+    name: Courtesy
+    intent: >
+      Not rude. Greet, thank, apologise, say "I am learning Thai", ask the price
+      of something, and recover from not being understood.
+    size:
+      value: 63
+      source: internal
+      verified: false
+      checked: 2026-10-04
+      note: >
+        THE ESTIMATE WAS TOO LOW, and this is recorded as a finding rather than
+        trimmed back to hit the number.
+
+        The design target for every Tier 0 in the app is 50. English shipped 48,
+        UNDER its target, because a slots concept was missing. Thai came in 13
+        OVER, for the reason this spec's own morphology note predicts: Thai is
+        isolating, so affixes cannot carry the grammar and each item has to be a
+        whole idea. Reconciling the Tier 0 budget also meant dropping eleven
+        entries that existed only in the Tatoeba bitext, which is `corpus` and
+        which Tier 0 forbids as a content source — and every gap those eleven
+        left had to be backfilled from curated material, which is where most of
+        the overshoot went.
+
+        So this is the first evidence that the 50 floor is language-dependent, and
+        it goes the way the morphology argument predicted rather than the way the
+        round number suggested. It is one language and one non-native author, so
+        it is a hypothesis with a data point, not a finding. If Thai needs 63,
+        an isolating language with a five-way tone contrast and a gendered
+        politeness slot probably needs more than 50 generally, and the 50 floor
+        should be read as a floor for analytic European languages rather than a
+        target for all twenty.
+    certainty: high
+
+  - id: 1
+    name: Transaction
+    intent: "Prices, food, tickets, directions, a room. Transactions complete end to end."
+    size:
+      value: 150
+      source: internal
+      verified: false
+      checked: 2026-10-04
+      note: >
+        The 150 that English and Tamil declare too. Thai's isolating structure
+        argues for MORE items than an analytic language needs, but its tier-0
+        politeness requirement front-loads work that an English Tier 1 does not
+        have. Net: same size, different composition. Untested.
+    certainty: medium
+
+  - id: 2
+    name: Independence
+    intent: "Handle an unexpected problem — a lost passport, a wrong charge, an illness."
+    size:
+      value: 500
+      source: internal
+      verified: false
+      checked: 2026-10-04
+      note: "Lowest confidence of any tier, inherited from the other three specs unchanged. Global assumption, not a Thai-specific finding."
+    certainty: low
+
+  - id: 3
+    name: Conversation
+    intent: "Fifteen minutes with a stranger about your life, with no English fallback."
+    size:
+      value: 1200
+      source: internal
+      verified: false
+      checked: 2026-10-04
+      note: "Extrapolated. Not independently motivated. Inherits English's Tier 3 note."
+    certainty: low
+
+tier0_sources: curated
+  # Thai is the first language where `curated` is honest rather than a courtesy.
+  # English had to be `authored` because no published phrasebook exists for a
+  # language you already speak. Thai is a language you travel TO, and it has:
+  #
+  #   - Wikivoyage's Thai phrasebook, CC BY-SA 4.0. Human-written, peer-reviewed,
+  #     and its section headings are literally the traveller scenarios this app's
+  #     tiers are organised around: Transportation, Lodging, Money, Eating,
+  #     Shopping. Under this project's own axis — human-reviewed versus
+  #     machine-aggregated — that is `curated`.
+  #   - Several published commercial phrasebooks (Lonely Planet, Berlitz, Collins,
+  #     Tuttle). Catalogue records verified via OpenLibrary; CONTENTS NOT READ, so
+  #     nothing has been taken from them. Listed as declared-but-unused.
+  #
+  # Tatoeba is deliberately NOT listed as a tier0 source. It is user-contributed,
+  # therefore `corpus`, which Tier 0 forbids. Its role here is VALIDATION: the
+  # English-Thai bitext exists (1,193 pairs, Tatoeba v2026-07-08) and is used to
+  # mark which entries are attested. That is the opposite of Tamil, which has no
+  # English bitext at all.
+
+cost:
+  fsi_category:
+    value: III
+    source: "https://www.state.gov/foreign-language-training/"
+    verified: true
+    checked: 2026-10-04
+    note: >
+      Thai is Category III, the same category as Tamil, 1,012 class hours to ILR 3
+      (Speaking + Listening). Two things follow. First, the naive "Tamil is cheap
+      because it is close" argument does not generalise to "related languages are
+      cheap" — Thai is unrelated to Telugu and rated exactly as hard. Second, and
+      correcting this project's own earlier record: the State Dept table lists
+      NINE Category I languages (Danish, Dutch, French, Italian, Norwegian,
+      Portuguese, Romanian, Spanish, Swedish), not five, and the catalogue is not
+      twenty languages. The DSCA's own table is unreachable and is not cited.
+
+      A historical variance exists and is recorded rather than smoothed: pre-2021
+      State Dept material gives Category III as 1,100 hours. This spec uses the
+      current 1,012 figure. Do not mix the two.
+  fsi_hours_to_ilr3:
+    value: 1012
+    source: "https://www.state.gov/foreign-language-training/"
+    verified: true
+    checked: 2026-10-04
+    note: "Target is ILR 3 Speaking + Listening. No official per-level hour breakdown for ILR 1/2/4/5 was found for ANY language, so those fields are absent from every spec rather than invented."
+  hours_to_floor:
+    value:
+      tier_0: 60
+      tier_1: 180
+      tier_2: 560
+      tier_3: 1300
+    source: internal
+    verified: false
+    checked: 2026-10-04
+    note: >
+      Higher per item than every other spec, and the only one where the increase is
+      not mainly a script cost. Thai is isolating, so each item is a whole idea
+      rather than an affix, AND a five-way tonal contrast has to be attached to
+      every one of them, AND the register slot has to be chosen. Three multipliers
+      on the same item, not one. Untested.
+
+resources:
+  - name: "Wikivoyage: Thai phrasebook"
+    url: "https://en.wikivoyage.org/wiki/Thai_phrasebook"
+    licence: "CC BY-SA 4.0"
+    class: curated
+    checked: 2026-10-04
+    covers:
+      value: >
+        Human-written, peer-reviewed traveller phrases. Section headings are the
+        traveller scenarios directly: Greeting and leave-taking, Basics, Problems,
+        Numbers, Time, Transportation, Lodging, Money, Eating, Shopping. Also
+        carries ค่ะ and ครับ in quantity, which makes it a register reference as
+        well as a phrase source.
+      source: "https://en.wikivoyage.org/wiki/Thai_phrasebook"
+      verified: true
+      checked: 2026-10-04
+      note: >
+        The page's HTML carries a stale licenses/by-sa/3.0 string in one place from
+        its revision history; the 4.0 deed is authoritative and is what is recorded
+        here. Attribution is a licence obligation, so it appears in-app.
+        Already contains ไม่เป็นไร and both คุณชื่ออะไรครับ / คุณชื่ออะไรคะ.
+
+  - name: "Tatoeba en-th sentence pairs (CC BY 2.0 FR)"
+    url: "https://opus.nlpl.eu/legacy/Tatoeba.php"
+    licence: "CC BY 2.0 FR, some CC0"
+    class: corpus
+    checked: 2026-10-04
+    covers:
+      value: >
+        1,193 English-Thai sentence pairs, Tatoeba v2026-07-08, downloaded and
+        verified by three independent counting methods. Used to VALIDATE authored
+        content, never as a content source: it is machine-aggregated, which Tier 0
+        forbids.
+      source: "https://opus.nlpl.eu/legacy/Tatoeba/v2026-07-08/en-th_sample.html"
+      verified: true
+      checked: 2026-10-04
+      note: >
+        Tatoeba requires PER-SENTENCE author attribution, so this is an attribution
+        obligation per item, not one blanket credit. This is the first language in
+        the app where an attested bitext exists at all — the opposite of Tamil, and
+        the reason Thai Tier 0 can be cross-checked at all.
+
+  - name: "Wiktionary (Thai entries)"
+    url: "https://en.wiktionary.org"
+    licence: "CC BY-SA 4.0"
+    class: curated
+    checked: 2026-10-04
+    covers:
+      value: "Definitions and romanization for individual Thai words, used to verify the register particles and tone values."
+      source: "https://en.wiktionary.org"
+      verified: true
+      checked: 2026-10-04
+      note: "There is NO Appendix:Thai phrasebook — the category has 28 entries, almost all greetings. Not usable as a phrase source."
+
+  - name: "NECTEC Thai Language Standardization (thaistd.pdf)"
+    url: "https://www.nectec.or.th/it-standards/thaistd.pdf"
+    licence: "Government publication, reference only, not bundled"
+    class: curated
+    checked: 2026-10-04
+    covers:
+      value: "The orthographic facts behind the tone stage: 5 tones (Saman/Ek/Tho/Tri/Chattawa), 4 tone marks, 3 consonant classes."
+      source: "https://www.nectec.or.th/it-standards/thaistd.pdf"
+      verified: true
+      checked: 2026-10-04
+      note: "A computing standard, not phrase content. Used for orthography only."
+
+  - name: "Published commercial phrasebooks (declared, NOT used)"
+    url: "https://openlibrary.org/search?q=thai+phrasebook"
+    licence: "Not open. Catalogue records verified, contents not read, nothing taken."
+    class: curated
+    checked: 2026-10-04
+    covers:
+      value: >
+        Lonely Planet (Cummings 1995, ISBN 086442275X; Evans 2004), Berlitz
+        (ISBN 9789812467911), Collins (ISBN 9780007246847), Tuttle/Golding (ISBN
+        9794600395), Aaron Handel "Thai phrase book with tones" (2006, ISBN
+        9789748815091 — directly relevant to the tone work). Recorded so that the
+        next author does not re-research them.
+      source: "OpenLibrary API records, retrieved and transcribed"
+      verified: true
+      checked: 2026-10-04
+      note: >
+        Catalogue records and subject tags only. NO phrase has been lifted from any
+        of them, because reading them is required first and that has not happened.
+        A 1944 US War Department "Thai (Siamese) phrase book" appeared and was
+        REJECTED: HathiTrust marks it "restricted material", so it is not
+        public domain and its licence is unverified.
+
+  - name: "LangKraft editorial"
+    url: null
+    licence: "CC BY-SA 4.0, same as the repository"
+    class: authored
+    checked: 2026-10-04
+    covers:
+      value: "Tone minimal-pair sets, exchange turn sequencing, and the `why` and `caution` prose on every entry."
+      source: internal
+      verified: false
+      checked: 2026-10-04
+      note: "One reviewer, no second reader — same weakness as English Tier 0, and recorded here rather than only in the knowledge base."
+
+romanization_note:
+  scheme: RTGS
+  full_name: "Royal Thai General System of Transcription"
+  value: >
+    RTGS is the official THAI NATIONAL romanization, published by the Royal
+    Institute of Thailand. It is almost identical to ISO 11940-2, and the two are
+    distinct systems; the international machine-readable standard is ISO 11940, not
+    RTGS.
+  source: "https://en.wikipedia.org/wiki/Royal_Thai_General_System_of_Transcription"
+  verified: true
+  checked: 2026-10-04
+  lossy: true
+  lossiness:
+    value: >
+      RTGS is LOSSY and non-reversible. The 1932 committee explicitly considered
+      tone and quantity marks "unneeded" and left them out. So RTGS cannot
+      distinguish the five tones, cannot distinguish short from long vowels, and
+      merges IPA /o/ with /ɔ/ and /tɕ/ with /tɕʰ/.
+
+      This is the single most important fact in this file for the tone stage. If
+      the romanization carries no tone, the tone number shown beside each variant
+      is the ONLY machine-readable carrier of the contrast, which is why the UI
+      shows it explicitly and why the tone stage exists at all.
+    source: "https://en.wikipedia.org/wiki/Romanization_of_Thai"
+    verified: true
+    checked: 2026-10-04
+  warning:
+    value: >
+      A TONE-MARKED romanization using circumflex accents (khráp, khá, mâi bpen rai)
+      is a widely used TEACHING convention and is NOT RTGS. Under RTGS these are
+      khrap, kha, mai pen rai. Verified by running an RTGS implementation against
+      its own published examples first, then against these words. This spec uses
+      RTGS and shows tone numbers separately; it does not mix the two conventions,
+      because a romanization that half-marks tone is the worst of both.
+    source: "internal, cross-checked against https://en.wikipedia.org/wiki/Royal_Thai_General_System_of_Transcription"
+    verified: true
+    checked: 2026-10-04
+  publisher_conflict:
+    value: >
+      UNRESOLVED. The RTGS article attributes it to the Royal Institute of Thailand;
+      Wikidata records the standards body as the Royal Society of Thailand. These
+      are different bodies and the scheme's own Thai name contains ราชบัณฑิตยสถาน,
+      literally "of the Royal Society". Wikipedia is also internally inconsistent,
+      giving 1917 in its lead and 1932 in its history section. Recorded as
+      unresolved rather than picked.
+    source: "https://www.wikidata.org/wiki/Q1268261 vs https://en.wikipedia.org/wiki/Royal_Thai_General_System_of_Transcription"
+    verified: false
+    checked: 2026-10-04
+
+tone_note:
+  count: 5
+  names: [mid, low, falling, high, rising]
+  source: "https://en.wikipedia.org/wiki/Thai_language"
+  verified: true
+  checked: 2026-10-04
+  dispute:
+    value: >
+      Some early accounts posit a SIXTH tone, a glotally-constricted high tone. There
+      is agreement on the labels Low, Mid, High, Rising, Falling. The dispute is over
+      the HIGH tone, NOT over the mid tone.
+    source: "Slayden, 'Central Thai Phonology', 2009, http://www.thai-language.com/resources/slayden-thai-phonology.pdf"
+    verified: true
+    checked: 2026-10-04
+    note: "Corrects an assumption recorded in the research brief for this spec, which had placed the dispute in the wrong tone."
+  live_syllable_rule:
+    value: >
+      CRITICAL FOR THE TONE STAGE. The full five-way complement exists only in LIVE
+      syllables — those ending in a long vowel or a sonorant /m n ŋ j w/. DEAD
+      syllables (short vowel, or plosive-final) carry only THREE tonal distinctions:
+      low, high, falling.
+
+      So every minimal-pair set in the content must use live syllables. A set built
+      from dead syllables would silently teach a contrast that does not exist.
+    source: "https://en.wikipedia.org/wiki/Thai_language"
+    verified: true
+    checked: 2026-10-04
+  consonant_class_rule:
+    value: >
+      THE TONE NUMBER CANNOT BE READ OFF THE MARK. This is the correction that matters
+      most for the tone stage, and it is the thing most Thai-learning material gets
+      wrong.
+
+      Thai consonants belong to three classes, and the same mark yields a DIFFERENT tone
+      depending on which class the INITIAL consonant belongs to:
+
+        | mark           | mid class (ก จ ฎ ฏ ด ต บ ป อ) | high class (ข ฃ ฉ ฐ ถ ผ ฝ ศ ษ ส ห) | low class (everything else) |
+        |----------------|------------------------------|--------------------------------|-----------------------------|
+        | none, live     | 1 mid                        | 5 RISING                      | 1 mid                       |
+        | ่ mai ek       | 2 low                        | 2 low                         | 3 FALLING                   |
+        | ้ mai tho      | 3 falling                    | 3 falling                     | 4 HIGH                      |
+        | ๊ mai tri      | 4 high                       | 4 high                        | 4 high                      |
+        | ๋ mai chattawa | 5 rising                     | 5 rising                      | 5 rising                    |
+
+      Consequences the tone stage must not hide:
+        - "No mark = mid tone" is true ONLY of mid-class initials. For a high-class
+          initial, no mark is RISING: ขาว 'white' is tone 5, not tone 1.
+        - For a low-class initial, mai ek is FALLING not low, and mai tho is HIGH not
+          falling: ค่ำ 'evening' is tone 3, ค้ำ 'to support' is tone 4.
+
+      Because the numbering is contested in the popular literature — many Thai schools
+      and culture posts label ขาว as mid and ข้าว as high — the tone stage ships
+      mid-class-initial sets as its core, where the textbook numbering is exactly right,
+      and includes high-class and low-class sets precisely to mark the disagreement
+      rather than to hide it.
+    source: "http://www.thai-language.com/ref/tone-rules; https://th.wikipedia.org/wiki/อักษรไทย; https://en.wiktionary.org/wiki/Module:th-pron; corroborated by the native example set คา ข่าว ข้า/ค่า ค้า ขา with IPA"
+    verified: true
+    checked: 2026-10-04
+    note: >
+      Cross-validated with a computer built from these rules against 61 test cases with
+      zero mismatches, including the Wikipedia native example set above. This finding
+      CORRECTS an assumption recorded earlier in this file's research, which held that
+      a mark maps to one fixed tone.
+
+  mark_and_length_cooccur:
+    value: >
+      A tone mark and the vowel-length mark ั DO combine in one syllable. Verified
+      empirically against the en-th bitext: 162 occurrences across 13 distinct
+      syllables. Clean examples: นั่ง (to sit) = NO + ั + ่ + ง, and ตั้ง (to stand,
+      set up) = TO + ั + ้ + ง.
+    source: "computed over Tatoeba v2026-07-08 en-th TMX; codepoints U+0E19 U+0E31 U+0E48 U+0E07 and U+0E15 U+0E31 U+0E49 U+0E07"
+    verified: true
+    checked: 2026-10-04
+
+attribution:
+  - source: "Wikivoyage contributors"
+    licence: "CC BY-SA 4.0"
+    author_credit: "Wikivoyage contributors, per Wikivoyage attribution page"
+  - source: "Tatoeba contributors (per-sentence authors)"
+    licence: "CC BY 2.0 FR (some CC0)"
+    author_credit: "Individual contributors, recorded per entry where an attested pair was used"
+
+review:
+  flags_received: 0
+  last_reviewed: null
+  known_gaps:
+    - "NO TONE CONTENT IS AUTHORED YET, despite this being the whole reason Thai was chosen. The tone stage has a schema, a linter, a UI and a test fixture, and has still never been rendered on a device. This is the largest single gap in the project and it is on the language that was picked to close exactly this gap."
+    - "No native Thai speaker has reviewed any of this. The register analysis is sourced and the particle meanings are verified, but no sentence has been read by a Thai speaker. Same class of risk as Swahili and Tamil, and larger: Thai has a register system where being wrong is a social error, not a misunderstanding."
+    - "coverage.territories and variety.fails_in are recorded as UNKNOWN. An empty fails_in here means unknown, and must not be read as the English finding of 'fails nowhere'. English can make that claim; Thai cannot yet."
+    - "The polite particle is a gender slot the user must fill by choosing a variant. There is no verified neutral form, the app cannot know the user's gender, and the rules forbid asking. The interaction between that constraint and Thai's register system is UNRESOLVED."
+    - "The content schema has no slots, so 'I don't speak Thai' / 'Do you speak English?' cannot be templated. In Thai this is the phrase that sets the register of the whole interaction, which makes the missing slots concept more costly here than in any other language."
+    - "No country pack for Thailand, which is the single largest travel market for a first language in this catalogue."
+    - "No commercial phrasebook has been read. Six are catalogued; contents unverified; nothing lifted."
+    - "RTGS publisher is recorded as an unresolved conflict between the Royal Institute of Thailand and the Royal Society of Thailand."

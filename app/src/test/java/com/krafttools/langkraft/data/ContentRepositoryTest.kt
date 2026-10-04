@@ -175,4 +175,93 @@ class ContentRepositoryTest {
         }.exceptionOrNull()
         assertTrue(thrown is IllegalArgumentException)
     }
+
+    @Test
+    fun `an empty specs array is rejected rather than rendering an empty catalogue`() {
+        // Without this, `[]` parsed fine and the home screen rendered a bare "LangKraft"
+        // bar over nothing. That reads as "no languages are supported" rather than "this
+        // build is damaged", which is the more expensive misreading.
+        val thrown = runCatching {
+            corpusFrom(realContent, "[]")
+        }.exceptionOrNull()
+        assertNotNull("an empty spec list must fail", thrown)
+        assertTrue(
+            "the message should say the bundle is damaged, was: ${thrown?.message}",
+            thrown?.message?.contains("damaged") == true,
+        )
+    }
+
+    @Test
+    fun `a spec with no script direction is rejected rather than defaulting to ltr`() {
+        // The one field with no safe default. Guessing "ltr" would render a right-to-left
+        // language left-to-right, silently, while the header printed "LTR" and looked
+        // deliberate. Refusing to open is the honest outcome.
+        val thrown = runCatching { corpusFrom(realContent, oneSpecWithout("direction")) }.exceptionOrNull()
+        assertNotNull("a spec with no declared direction must not parse", thrown)
+        assertTrue(
+            "the message should name the offending language, was: ${thrown?.message}",
+            thrown?.message?.contains("direction") == true,
+        )
+    }
+
+    @Test
+    fun `a spec with an invalid script direction is rejected`() {
+        val thrown = runCatching {
+            corpusFrom(realContent, oneSpecWithScriptField("direction", "sideways"))
+        }.exceptionOrNull()
+        assertNotNull("an unrecognised direction must not parse", thrown)
+    }
+
+    @Test
+    fun `a valid direction in either script still parses`() {
+        // The counterpart to the two rejections above. A guard that rejected everything
+        // would pass them, so prove both accepted values actually survive.
+        for (dir in listOf("ltr", "rtl")) {
+            val corpus = corpusFrom(realContent, oneSpecWithScriptField("direction", dir))
+            assertEquals(dir, corpus.spec("eng")!!.scriptDirection)
+        }
+    }
+
+    @Test
+    fun `an absent script primary reads as Latin rather than as non-Latin`() {
+        // The predicate is `"".contains("Latin")`, so an empty fallback is NOT neutral --
+        // it reads as non-Latin and picks a serif face for Latin text. The default has to
+        // err toward Latin.
+        val corpus = corpusFrom(realContent, oneSpecWithout("primary"))
+        val eng = corpus.spec("eng")!!
+        assertEquals("Latin", eng.scriptPrimary)
+        assertTrue("absent script must default to Latin", eng.isLatinScript)
+    }
+
+    @Test
+    fun `an absent tier certainty reads as low so the unproven label survives`() {
+        // The UI tests `certainty == "low"` to decide whether to warn. An empty fallback
+        // would erase that warning and present a Tier 2/3 hypothesis as fact.
+        val real = org.json.JSONArray(realSpecs).getJSONObject(0)
+        real.getJSONArray("tiers").getJSONObject(0).remove("certainty")
+        val corpus = corpusFrom(realContent, org.json.JSONArray().put(real).toString())
+        assertEquals("low", corpus.spec("eng")!!.tiers.first().certainty)
+    }
+
+    // ---- single-language spec fixtures -------------------------------------
+    //
+    // Built from the real English spec rather than by string-editing the shared catalogue.
+    // `String.replace` replaces EVERY occurrence, so deleting `"direction": "ltr"` from
+    // the four-language file rewrote all four and left duplicate `primary` keys. The JSON
+    // parse error then fired first and the assertion reported that instead of the behaviour
+    // under test — which is how three tests were green-looking and wrong.
+    private fun englishSpec(): org.json.JSONObject =
+        org.json.JSONArray(realSpecs).getJSONObject(0)
+
+    private fun oneSpecWithout(key: String): String {
+        val spec = englishSpec()
+        spec.getJSONObject("structure").getJSONObject("script").remove(key)
+        return org.json.JSONArray().put(spec).toString()
+    }
+
+    private fun oneSpecWithScriptField(key: String, value: String): String {
+        val spec = englishSpec()
+        spec.getJSONObject("structure").getJSONObject("script").put(key, value)
+        return org.json.JSONArray().put(spec).toString()
+    }
 }

@@ -148,6 +148,6 @@ class RtlDirectionTest {
                 it.scriptDirection == "ltr" || it.scriptDirection == "rtl",
             )
         }
-        assertEquals("catalogue size changed; update this test deliberately", 3, corpus.specs.size)
+        assertEquals("catalogue size changed; update this test deliberately", 4, corpus.specs.size)
     }
 }

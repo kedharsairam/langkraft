@@ -326,7 +326,7 @@ fun TierScreen(
                         ToneSection(
                             sets = toneSets,
                             spec = spec,
-                            onFlag = { onFlag(it.id, null) },
+                            onFlag = { onFlag("tone:" + it.id, null) },
                         )
                     }
                     item { HorizontalDivider() }
@@ -336,14 +336,14 @@ fun TierScreen(
                         SectionLabel("Exchanges", "Half of every conversation is what they say to you.")
                     }
                     items(exchanges, key = { it.id }) { ex ->
-                        ExchangeCard(ex, spec, onFlag = { onFlag(ex.id, null) })
+                        ExchangeCard(ex, spec, onFlag = { onFlag("exchange:" + ex.id, null) })
                     }
                     item { HorizontalDivider() }
                 }
                 if (entries.isNotEmpty()) {
                     item { SectionLabel("Phrases", "${entries.size} items") }
                     items(entries, key = { it.id }) { e ->
-                        EntryCard(e, spec, onFlag = { onFlag(e.id, null) })
+                        EntryCard(e, spec, onFlag = { onFlag("entry:" + e.id, null) })
                     }
                 }
                 if (entries.isEmpty() && exchanges.isEmpty()) {

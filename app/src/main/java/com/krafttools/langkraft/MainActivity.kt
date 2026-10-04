@@ -16,6 +16,7 @@ import androidx.navigation.navArgument
 import com.krafttools.langkraft.data.ContentRepository
 import com.krafttools.langkraft.data.ProgressStore
 import com.krafttools.langkraft.data.SearchIndex
+import com.krafttools.langkraft.ui.CorpusLoadFailed
 import com.krafttools.langkraft.ui.LangKraftTheme
 import com.krafttools.langkraft.ui.LanguageListScreen
 import com.krafttools.langkraft.ui.PathScreen
@@ -53,13 +54,19 @@ class MainActivity : ComponentActivity() {
                 // Parsed once, remembered for the process lifetime. The corpus is
                 // read-only and shipped in the APK, so there is nothing to refresh and
                 // nothing to invalidate.
-                val state = remember {
-                    AppState(
-                        corpus = ContentRepository.from(applicationContext).load(),
-                        progress = ProgressStore(applicationContext),
-                    )
-                }
-                LangKraftNav(state)
+                //
+                // runCatching because this runs inside composition and NOTHING above it
+                // catches. A truncated content.jsonl or a `[]` in specs.json used to throw
+                // straight out of setContent and kill the process with nothing on screen.
+                // For an app that ships all its own bytes and cannot fetch replacements,
+                // a corrupt APK is unrecoverable by the learner, so the failure has to be
+                // legible rather than a stack trace in a logcat nobody reads.
+                val loaded = remember { runCatching { ContentRepository.from(applicationContext).load() } }
+
+                loaded.fold(
+                    onSuccess = { corpus -> LangKraftNav(AppState(corpus, ProgressStore(applicationContext))) },
+                    onFailure = { CorpusLoadFailed(it) },
+                )
             }
         }
     }
@@ -152,7 +159,7 @@ private fun LangKraftNav(state: AppState) {
                     index = state.search,
                     spec = spec,
                     onFlag = { entry, country ->
-                        state.progress.addFlag(lang, entry.id, country)
+                        state.progress.addFlag(lang, "entry:" + entry.id, country)
                     },
                     onBack = { nav.popBackStack() },
                 )

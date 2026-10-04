@@ -4,10 +4,26 @@ package com.krafttools.langkraft.data
  * Records exactly as `content/SCHEMA.json` defines them.
  *
  * The pipeline is the gate: nothing reaches the app that has not passed
- * `content/lint.mjs`. So parsing here is strict and throws on anything unexpected
- * rather than defaulting. A silently-defaulted field is a bug that ships a wrong
- * floor to the learner, and the whole point of the pipeline was to make that
- * impossible earlier.
+ * `content/lint.mjs`, and since 2026-10-04 the Gradle build actually runs those linters
+ * rather than only emitting assets.
+ *
+ * **But this file is not uniformly strict, and an earlier version of this comment said
+ * it was, which was false in a way that mattered.** Roughly a third of the fields fall
+ * back to a default via `optString`. That is only defensible where the fallback is the
+ * SAFE side of a judgement:
+ *
+ *  - `script.primary` -> "Latin". The predicate is `"".contains("Latin")`, so an empty
+ *    fallback reads as NON-Latin and picks a serif face for Latin text. The default has
+ *    to be Latin or the failure lands on the wrong language.
+ *  - `certainty` -> "low". The UI tests `== "low"`, so an empty fallback would erase the
+ *    "Unproven estimate" label and present a hypothesis as fact.
+ *
+ * Where no fallback is safe, parsing throws. `script.direction` is the example: guessing
+ * "ltr" would silently render a right-to-left language left-to-right, so a missing or
+ * invalid value refuses to open the app instead.
+ *
+ * The rule for adding a field: default it only if the wrong answer is harmless, and say
+ * in a comment which way the default errs.
  */
 
 enum class Direction { SAY, UNDERSTAND;

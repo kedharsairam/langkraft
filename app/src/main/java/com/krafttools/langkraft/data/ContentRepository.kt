@@ -77,6 +77,10 @@ class ContentRepository(private val assets: AssetSource) {
     // ---- specs ------------------------------------------------------------
     private fun parseSpecs(raw: String): List<LanguageSpec> {
         val arr = JSONArray(raw)
+        // An empty spec list is a broken bundle, not a language catalogue with nothing in
+        // it. Left unchecked it rendered an empty home screen under a bare title, which
+        // reads as "no languages supported" rather than "this build is damaged".
+        require(arr.length() > 0) { "specs.json contains no languages; this build is damaged." }
         return (0 until arr.length()).map { i ->
             val o = arr.getJSONObject(i)
             val lang = o.getJSONObject("language")
