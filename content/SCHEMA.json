@@ -71,7 +71,11 @@
             "string",
             "null"
           ],
-          "description": "The named speaker who wrote this sentence. REQUIRED for class `attested`. Not optional metadata: CC BY 2.0 FR asks for the author of any reused sentence, and \"Tatoeba contributors\" does not discharge that."
+          "description": "The named contributor who wrote this sentence. REQUIRED for class `attested`. Not optional metadata: CC BY 2.0 FR asks for the author of any reused sentence, and \"Tatoeba contributors\" does not discharge that. A contributor is NOT necessarily a native speaker of that language: see catalogue/ATTESTATION_LIMITS.md, which documents one contributor supplying about a third of the pool in all 20 languages, and Tatoeba exposing no nativeness signal at all."
+        },
+        "contributor_share": {
+          "type": "number",
+          "description": "Fraction of this language's attested pool supplied by `author` at selection time. Recorded so concentration is visible per item rather than only in an aggregate. A high value means the entry leans on one person's usage, which is weaker evidence than the word \"attested\" suggests on its own."
         },
         "corroborating_sentences": {
           "type": "array",

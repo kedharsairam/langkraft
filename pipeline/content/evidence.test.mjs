@@ -124,6 +124,91 @@ test('attested with an empty author is rejected', () => {
 
 // ---- corroboration ---------------------------------------------------------
 
+// ---- concentration: the CK finding -----------------------------------------
+//
+// One contributor supplies ~1/3 of the attested pool in EVERY harvested language and has
+// 1000+ sentences in 20 languages. The tests below make that degrade visibly rather than
+// being rediscovered as a surprise later.
+
+test('a dominant contributor downgrades attested to concentrated', () => {
+  const rec = {
+    ...base,
+    source: {
+      class: 'attested',
+      id: 'Tatoeba',
+      licence: 'CC BY 2.0 FR',
+      author: 'CK',
+      external_id: '1',
+      contributor_share: 0.43,
+    },
+  };
+  assert.equal(deriveConfidence(rec), 'attested_concentrated');
+});
+
+test('concentrated ranks BELOW plain attested', () => {
+  // The whole point of the level: same kind of evidence, less of it.
+  const spread = {
+    ...base,
+    source: {
+      class: 'attested', id: 'T', licence: 'CC BY 2.0 FR',
+      author: 'a', external_id: '1', contributor_share: 0.01,
+    },
+  };
+  const dominated = {
+    ...base,
+    source: {
+      class: 'attested', id: 'T', licence: 'CC BY 2.0 FR',
+      author: 'CK', external_id: '2', contributor_share: 0.43,
+    },
+  };
+  assert.ok(
+    evidenceFor(dominated).rank > evidenceFor(spread).rank,
+    'one contributor dominating the pool must rank as weaker evidence',
+  );
+});
+
+test('independent corroboration OUTRANKS concentration', () => {
+  // Two different speakers agreeing is a real sample, even if one of them writes a lot.
+  // Concentration is checked after corroboration for exactly this reason.
+  const corroborated = {
+    ...base,
+    source: {
+      class: 'attested', id: 'T', licence: 'CC BY 2.0 FR',
+      author: 'CK', external_id: '1', contributor_share: 0.43,
+      corroborating_sentences: ['999'],
+    },
+  };
+  assert.equal(deriveConfidence(corroborated), 'attested_corroborated');
+});
+
+test('contributor_share is carried into the emitted evidence block', () => {
+  // Concentration has to be inspectable in the shipped asset, not only in an aggregate.
+  const rec = {
+    ...base,
+    source: {
+      class: 'attested', id: 'T', licence: 'CC BY 2.0 FR',
+      author: 'CK', external_id: '1', contributor_share: 0.43,
+    },
+  };
+  assert.equal(evidenceFor(rec).contributor_share, 0.43);
+});
+
+test('a missing contributor_share is NOT treated as concentration', () => {
+  // Absent means unknown, and unknown must not silently become "bad" or silently become
+  // "fine" — it stays plain `attested` with the share reported as null.
+  const rec = {
+    ...base,
+    source: { class: 'attested', id: 'T', licence: 'CC BY 2.0 FR', author: 'a', external_id: '1' },
+  };
+  assert.equal(deriveConfidence(rec), 'attested');
+  assert.equal(evidenceFor(rec).contributor_share, null);
+});
+
+test('attested is entitled to concentrated', () => {
+  assert.ok(confidenceIsEntitled('attested', 'attested_concentrated'));
+  assert.ok(!confidenceIsEntitled('authored', 'attested_concentrated'));
+});
+
 test('an independent second sentence raises attested to corroborated', () => {
   const rec = {
     ...base,

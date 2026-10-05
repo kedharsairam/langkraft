@@ -46,6 +46,29 @@
  */
 
 /**
+ * HOW MUCH A CONTRIBUTOR'S SHARE DEGRADES AN ENTRY
+ *
+ * One contributor, CK, supplies about a third of the attested pool in every harvested
+ * language, and has 1000+ sentences in 20 languages including Swahili, Tamil, Thai and
+ * Korean. Nobody is a native speaker of 20 languages. The Thai evidence is direct: 249 of
+ * 250 CK Thai sentences carry no politeness particle, which native Thai uses almost
+ * universally, so those sentences are translated word lists rather than speech.
+ *
+ * Tatoeba exposes no nativeness signal to correct for this -- `native=yes`, `own=yes`,
+ * `is_native=1` and `username=` are all silently ignored, returning plausible data while
+ * changing nothing. A filter that pretends to work is worse than one that errors.
+ *
+ * So the concentration is corrected here, mechanically and visibly, rather than left as an
+ * aggregate somebody has to remember. A sentence from one person dominating a language's
+ * pool is evidence about that one person; it is weaker than the same sentence from among a
+ * dozen contributors, and the entry must say so.
+ *
+ * The threshold is deliberately blunt. It is a review trigger, not a probability: it marks
+ * an entry as leaning on a single contributor's usage so it can be read with that in mind.
+ */
+export const CONCENTRATION_DEGRADES_AT = 0.1;
+
+/**
  * Confidence, in descending order of what would have to be true.
  *
  * `note` exists because a bare label teaches the reader nothing. Each level states what the
@@ -58,23 +81,30 @@ export const CONFIDENCE = {
   },
   attested: {
     rank: 2,
-    note: 'Written by a named speaker. Provenance verified; fitness for the job is editorial.',
+    note: 'Written by a named contributor. Provenance verified; nativeness unknown, fitness for the job is editorial.',
+  },
+  attested_concentrated: {
+    // Ranks below plain `attested` on purpose. This is the CK case: a real sentence written
+    // by a real person, but one person who supplies most of the pool and is demonstrably a
+    // translator rather than a speaker in several of these languages.
+    rank: 3,
+    note: 'One contributor supplies most of this language’s pool. Their usage is not a broad sample.',
   },
   authored_single: {
-    rank: 3,
+    rank: 4,
     note: 'Written for this app. Reasoning recorded; no native-speaker confirmation.',
   },
   authored_corpus_aligned: {
     // Weaker than authored_single, not stronger, despite the name. Alignment with a corpus
     // is a weak signal that a phrasing is plausible, not a substitute for a speaker
     // confirming it, and it is ranked below unaided authoring on purpose.
-    rank: 4,
+    rank: 5,
     note: 'Written for this app, and similar wording occurs in the corpus. Not confirmed.',
   },
   unattributed: {
     // Not shippable. Present so that an entry with no evidence FAILS loudly rather than
     // being quietly scored.
-    rank: 5,
+    rank: 6,
     note: 'No evidence recorded.',
   },
 };
@@ -82,7 +112,7 @@ export const CONFIDENCE = {
 /** Classes permitted in Tier 0, and the confidence each one is entitled to claim. */
 const CLASS_CONFIDENCE = {
   curated: ['attested_corroborated'],
-  attested: ['attested', 'attested_corroborated'],
+  attested: ['attested', 'attested_corroborated', 'attested_concentrated'],
   authored: ['authored_single', 'authored_corpus_aligned'],
   corpus: [], // barred from Tier 0 by policy
 };
@@ -123,6 +153,14 @@ export function deriveConfidence(record) {
       (id) => String(id) !== String(src.external_id),
     );
     if (others.length > 0) return 'attested_corroborated';
+
+    // Concentration downgrade. Checked after corroboration because independent agreement
+    // outweighs a single contributor's share: two different speakers is a real sample even
+    // if one of them writes a lot.
+    const share = src.contributor_share;
+    if (typeof share === 'number' && share >= CONCENTRATION_DEGRADES_AT) {
+      return 'attested_concentrated';
+    }
     return 'attested';
   }
 
@@ -160,6 +198,9 @@ export function evidenceFor(record) {
     author: src.author ?? null,
     licence: src.licence ?? null,
     external_id: src.external_id ?? null,
+    // Carried through so concentration is inspectable in the shipped data rather than only
+    // in an aggregate that a later reader has to go looking for.
+    contributor_share: typeof src.contributor_share === 'number' ? src.contributor_share : null,
   };
 }
 
