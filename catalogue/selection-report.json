@@ -1,0 +1,4658 @@
+{
+  "ind": {
+    "greeting": {
+      "pool": 33,
+      "selected": 6,
+      "authors_in_pool": 21,
+      "dominant_author": "CK",
+      "dominant_share": 0.273,
+      "capped": false
+    },
+    "how_are_you": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 11,
+      "dominant_author": "CK",
+      "dominant_share": 0.278,
+      "capped": false
+    },
+    "thanks": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.353,
+      "capped": false
+    },
+    "welcome": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "lukaszpp",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "sorry": {
+      "pool": 40,
+      "selected": 6,
+      "authors_in_pool": 23,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "goodbye": {
+      "pool": 30,
+      "selected": 6,
+      "authors_in_pool": 14,
+      "dominant_author": "CK",
+      "dominant_share": 0.567,
+      "capped": false
+    },
+    "name": {
+      "pool": 30,
+      "selected": 6,
+      "authors_in_pool": 20,
+      "dominant_author": "CK",
+      "dominant_share": 0.167,
+      "capped": false
+    },
+    "understand": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "speak_lang": {
+      "pool": 5,
+      "selected": 5,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "repeat": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 3,
+      "dominant_author": "zvaigzne",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "learn_lang": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "Adelpa",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "help": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "no_understand": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 14,
+      "dominant_author": "CK",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "price": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "expensive": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "card": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.357,
+      "capped": false
+    },
+    "change": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "hungry": {
+      "pool": 28,
+      "selected": 6,
+      "authors_in_pool": 14,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "order": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.429,
+      "capped": false
+    },
+    "water": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.778,
+      "capped": true
+    },
+    "spicy": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "Spamster",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "vegetarian": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.667,
+      "capped": false
+    },
+    "allergic": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "frpzzd",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "delicious": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "bill": {
+      "pool": 5,
+      "selected": 5,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.8,
+      "capped": false
+    },
+    "toilet": {
+      "pool": 5,
+      "selected": 5,
+      "authors_in_pool": 5,
+      "dominant_author": "slyfin",
+      "dominant_share": 0.2,
+      "capped": false
+    },
+    "bus": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.571,
+      "capped": false
+    },
+    "train": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.526,
+      "capped": false
+    },
+    "taxi": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 3,
+      "dominant_author": "_undertoad",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "ticket": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 4,
+      "dominant_author": "Swift",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "airport": {
+      "pool": 5,
+      "selected": 5,
+      "authors_in_pool": 4,
+      "dominant_author": "ddnktr",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "left_right": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.6,
+      "capped": false
+    },
+    "straight": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.667,
+      "capped": false
+    },
+    "near_far": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.429,
+      "capped": false
+    },
+    "where_is": {
+      "pool": 22,
+      "selected": 6,
+      "authors_in_pool": 16,
+      "dominant_author": "CK",
+      "dominant_share": 0.273,
+      "capped": false
+    },
+    "how_to_get": {
+      "pool": 0,
+      "selected": 0,
+      "authors_in_pool": 0,
+      "dominant_author": null,
+      "dominant_share": null,
+      "capped": false
+    },
+    "hotel": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.667,
+      "capped": false
+    },
+    "checkout": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.667,
+      "capped": false
+    },
+    "hot_water": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "shopping": {
+      "pool": 21,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "CK",
+      "dominant_share": 0.429,
+      "capped": false
+    },
+    "police": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "doctor": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CH",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "sick": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.778,
+      "capped": false
+    },
+    "lost": {
+      "pool": 5,
+      "selected": 5,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "what_time": {
+      "pool": 12,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.417,
+      "capped": false
+    },
+    "today": {
+      "pool": 56,
+      "selected": 6,
+      "authors_in_pool": 22,
+      "dominant_author": "CK",
+      "dominant_share": 0.554,
+      "capped": false
+    },
+    "tomorrow": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "no": {
+      "pool": 22,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.682,
+      "capped": true
+    },
+    "i_want": {
+      "pool": 28,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.536,
+      "capped": false
+    },
+    "good_night": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.533,
+      "capped": false
+    }
+  },
+  "spa": {
+    "greeting": {
+      "pool": 26,
+      "selected": 6,
+      "authors_in_pool": 20,
+      "dominant_author": "CK",
+      "dominant_share": 0.154,
+      "capped": false
+    },
+    "how_are_you": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "DJ_Saidez",
+      "dominant_share": 0.1,
+      "capped": false
+    },
+    "thanks": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 11,
+      "dominant_author": "CK",
+      "dominant_share": 0.214,
+      "capped": false
+    },
+    "welcome": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.2,
+      "capped": false
+    },
+    "sorry": {
+      "pool": 28,
+      "selected": 6,
+      "authors_in_pool": 19,
+      "dominant_author": "CK",
+      "dominant_share": 0.286,
+      "capped": false
+    },
+    "goodbye": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "name": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "CN",
+      "dominant_share": 0.125,
+      "capped": false
+    },
+    "understand": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 14,
+      "dominant_author": "CK",
+      "dominant_share": 0.3,
+      "capped": false
+    },
+    "speak_lang": {
+      "pool": 13,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CM",
+      "dominant_share": 0.154,
+      "capped": false
+    },
+    "repeat": {
+      "pool": 33,
+      "selected": 6,
+      "authors_in_pool": 19,
+      "dominant_author": "CK",
+      "dominant_share": 0.424,
+      "capped": false
+    },
+    "learn_lang": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "help": {
+      "pool": 13,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.538,
+      "capped": false
+    },
+    "no_understand": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "price": {
+      "pool": 26,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "expensive": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.286,
+      "capped": false
+    },
+    "cheap": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CM",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "card": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.429,
+      "capped": false
+    },
+    "change": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "hungry": {
+      "pool": 24,
+      "selected": 6,
+      "authors_in_pool": 17,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "order": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.294,
+      "capped": false
+    },
+    "water": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.632,
+      "capped": true
+    },
+    "spicy": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "vegetarian": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 3,
+      "dominant_author": "Hybrid",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "allergic": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "lukaszpp",
+      "dominant_share": 0.286,
+      "capped": false
+    },
+    "delicious": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.353,
+      "capped": false
+    },
+    "bill": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.2,
+      "capped": false
+    },
+    "toilet": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.429,
+      "capped": false
+    },
+    "bus": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "train": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CN",
+      "dominant_share": 0.2,
+      "capped": false
+    },
+    "taxi": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "araneo",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "ticket": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.438,
+      "capped": false
+    },
+    "airport": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.375,
+      "capped": false
+    },
+    "left_right": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "CK",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "straight": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.267,
+      "capped": false
+    },
+    "near_far": {
+      "pool": 23,
+      "selected": 6,
+      "authors_in_pool": 14,
+      "dominant_author": "CK",
+      "dominant_share": 0.348,
+      "capped": false
+    },
+    "where_is": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.529,
+      "capped": false
+    },
+    "how_to_get": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.353,
+      "capped": false
+    },
+    "address": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CM",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "hotel": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "CK",
+      "dominant_share": 0.35,
+      "capped": false
+    },
+    "checkout": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "towel": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "hot_water": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "shopping": {
+      "pool": 25,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.56,
+      "capped": true
+    },
+    "size": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "lukaszpp",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "card_gift": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "police": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "doctor": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "sick": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.45,
+      "capped": false
+    },
+    "pharmacy": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 4,
+      "dominant_author": "Lepotdeterre",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "lost": {
+      "pool": 12,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.417,
+      "capped": false
+    },
+    "stolen": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "emergency": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "what_time": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "today": {
+      "pool": 27,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.556,
+      "capped": true
+    },
+    "tomorrow": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.313,
+      "capped": false
+    },
+    "opening_hours": {
+      "pool": 11,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.455,
+      "capped": false
+    },
+    "yes": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "DJ_Saidez",
+      "dominant_share": 0.222,
+      "capped": false
+    },
+    "no": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.444,
+      "capped": false
+    },
+    "i_want": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "good_night": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "CK",
+      "dominant_share": 0.368,
+      "capped": false
+    }
+  },
+  "hin": {
+    "greeting": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 14,
+      "dominant_author": "CK",
+      "dominant_share": 0.133,
+      "capped": false
+    },
+    "how_are_you": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "thanks": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.286,
+      "capped": false
+    },
+    "welcome": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "lukaszpp",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "sorry": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "goodbye": {
+      "pool": 12,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "name": {
+      "pool": 12,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CN",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "understand": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.444,
+      "capped": false
+    },
+    "speak_lang": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "saeb",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "repeat": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "learn_lang": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CN",
+      "dominant_share": 0.143,
+      "capped": false
+    },
+    "help": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.778,
+      "capped": false
+    },
+    "no_understand": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "price": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "expensive": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "card": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 3,
+      "dominant_author": "blay_paul",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "hungry": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "order": {
+      "pool": 5,
+      "selected": 5,
+      "authors_in_pool": 5,
+      "dominant_author": "frpzzd",
+      "dominant_share": 0.2,
+      "capped": false
+    },
+    "water": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "saeb",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "vegetarian": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "delicious": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "toilet": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "kieranjpball",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "train": {
+      "pool": 5,
+      "selected": 5,
+      "authors_in_pool": 4,
+      "dominant_author": "aeriph",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "ticket": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "minshirui",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "airport": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "Eevee",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "left_right": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.375,
+      "capped": false
+    },
+    "straight": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.667,
+      "capped": false
+    },
+    "near_far": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "where_is": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "hotel": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "towel": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "shopping": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "police": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "sick": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "lost": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.667,
+      "capped": false
+    },
+    "what_time": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "today": {
+      "pool": 27,
+      "selected": 6,
+      "authors_in_pool": 16,
+      "dominant_author": "CK",
+      "dominant_share": 0.296,
+      "capped": false
+    },
+    "tomorrow": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.667,
+      "capped": false
+    },
+    "no": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.714,
+      "capped": false
+    },
+    "i_want": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "good_night": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "Pun_intended",
+      "dominant_share": 0.5,
+      "capped": false
+    }
+  },
+  "fra": {
+    "greeting": {
+      "pool": 32,
+      "selected": 6,
+      "authors_in_pool": 24,
+      "dominant_author": "Hybrid",
+      "dominant_share": 0.094,
+      "capped": false
+    },
+    "how_are_you": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.375,
+      "capped": false
+    },
+    "thanks": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.444,
+      "capped": false
+    },
+    "welcome": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.2,
+      "capped": false
+    },
+    "sorry": {
+      "pool": 22,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.409,
+      "capped": false
+    },
+    "goodbye": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "name": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "Hybrid",
+      "dominant_share": 0.188,
+      "capped": false
+    },
+    "understand": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "Miktsoanit",
+      "dominant_share": 0.15,
+      "capped": false
+    },
+    "speak_lang": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 16,
+      "dominant_author": "_undertoad",
+      "dominant_share": 0.063,
+      "capped": false
+    },
+    "repeat": {
+      "pool": 31,
+      "selected": 6,
+      "authors_in_pool": 18,
+      "dominant_author": "CK",
+      "dominant_share": 0.452,
+      "capped": false
+    },
+    "learn_lang": {
+      "pool": 13,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "Adelpa",
+      "dominant_share": 0.308,
+      "capped": false
+    },
+    "help": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.438,
+      "capped": false
+    },
+    "no_understand": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.625,
+      "capped": false
+    },
+    "price": {
+      "pool": 22,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "expensive": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "zumley",
+      "dominant_share": 0.143,
+      "capped": false
+    },
+    "cheap": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 3,
+      "dominant_author": "Schierbeck",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "card": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "change": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.357,
+      "capped": false
+    },
+    "hungry": {
+      "pool": 23,
+      "selected": 6,
+      "authors_in_pool": 18,
+      "dominant_author": "CK",
+      "dominant_share": 0.174,
+      "capped": false
+    },
+    "order": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 11,
+      "dominant_author": "Eldad",
+      "dominant_share": 0.143,
+      "capped": false
+    },
+    "water": {
+      "pool": 23,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.565,
+      "capped": false
+    },
+    "spicy": {
+      "pool": 13,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.385,
+      "capped": false
+    },
+    "vegetarian": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "lesgles",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "allergic": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "AlanF_US",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "delicious": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.647,
+      "capped": true
+    },
+    "bill": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "toilet": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "shekitten",
+      "dominant_share": 0.111,
+      "capped": false
+    },
+    "bus": {
+      "pool": 13,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.462,
+      "capped": false
+    },
+    "train": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.235,
+      "capped": false
+    },
+    "taxi": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.286,
+      "capped": false
+    },
+    "ticket": {
+      "pool": 23,
+      "selected": 6,
+      "authors_in_pool": 16,
+      "dominant_author": "CK",
+      "dominant_share": 0.217,
+      "capped": false
+    },
+    "airport": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "langulo",
+      "dominant_share": 0.111,
+      "capped": false
+    },
+    "left_right": {
+      "pool": 23,
+      "selected": 6,
+      "authors_in_pool": 11,
+      "dominant_author": "CK",
+      "dominant_share": 0.304,
+      "capped": true
+    },
+    "straight": {
+      "pool": 11,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CM",
+      "dominant_share": 0.273,
+      "capped": false
+    },
+    "near_far": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "CK",
+      "dominant_share": 0.263,
+      "capped": false
+    },
+    "where_is": {
+      "pool": 12,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.417,
+      "capped": false
+    },
+    "how_to_get": {
+      "pool": 12,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "gleki",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "address": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "Eldad",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "hotel": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.467,
+      "capped": false
+    },
+    "checkout": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.222,
+      "capped": false
+    },
+    "hot_water": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 4,
+      "dominant_author": "marloncori",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "shopping": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "size": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "card_gift": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "police": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.556,
+      "capped": false
+    },
+    "doctor": {
+      "pool": 12,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "sick": {
+      "pool": 22,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.409,
+      "capped": false
+    },
+    "pharmacy": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "colwem",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "lost": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.375,
+      "capped": false
+    },
+    "stolen": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.429,
+      "capped": false
+    },
+    "emergency": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "what_time": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "AlanF_US",
+      "dominant_share": 0.167,
+      "capped": false
+    },
+    "today": {
+      "pool": 21,
+      "selected": 6,
+      "authors_in_pool": 15,
+      "dominant_author": "CK",
+      "dominant_share": 0.19,
+      "capped": false
+    },
+    "tomorrow": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.45,
+      "capped": false
+    },
+    "opening_hours": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.214,
+      "capped": false
+    },
+    "yes": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.143,
+      "capped": false
+    },
+    "no": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "i_want": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.286,
+      "capped": false
+    },
+    "good_night": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    }
+  },
+  "ara": {
+    "greeting": {
+      "pool": 23,
+      "selected": 6,
+      "authors_in_pool": 20,
+      "dominant_author": "CN",
+      "dominant_share": 0.087,
+      "capped": false
+    },
+    "how_are_you": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "exjimmy",
+      "dominant_share": 0.1,
+      "capped": false
+    },
+    "thanks": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.2,
+      "capped": false
+    },
+    "welcome": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 3,
+      "dominant_author": "harshnisar",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "sorry": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 11,
+      "dominant_author": "CK",
+      "dominant_share": 0.235,
+      "capped": false
+    },
+    "goodbye": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.471,
+      "capped": false
+    },
+    "name": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "Hybrid",
+      "dominant_share": 0.188,
+      "capped": false
+    },
+    "understand": {
+      "pool": 23,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "CK",
+      "dominant_share": 0.348,
+      "capped": false
+    },
+    "speak_lang": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.375,
+      "capped": false
+    },
+    "repeat": {
+      "pool": 11,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.364,
+      "capped": false
+    },
+    "learn_lang": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.188,
+      "capped": false
+    },
+    "help": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.526,
+      "capped": true
+    },
+    "no_understand": {
+      "pool": 13,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.231,
+      "capped": false
+    },
+    "price": {
+      "pool": 11,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.727,
+      "capped": true
+    },
+    "expensive": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.3,
+      "capped": false
+    },
+    "card": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.556,
+      "capped": false
+    },
+    "change": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.143,
+      "capped": false
+    },
+    "hungry": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.588,
+      "capped": false
+    },
+    "order": {
+      "pool": 11,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.182,
+      "capped": false
+    },
+    "water": {
+      "pool": 13,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.538,
+      "capped": false
+    },
+    "spicy": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "vegetarian": {
+      "pool": 5,
+      "selected": 5,
+      "authors_in_pool": 5,
+      "dominant_author": "Keith",
+      "dominant_share": 0.2,
+      "capped": false
+    },
+    "allergic": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "abburns",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "delicious": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.222,
+      "capped": false
+    },
+    "bill": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "toilet": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "bus": {
+      "pool": 11,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "Amastan",
+      "dominant_share": 0.636,
+      "capped": false
+    },
+    "train": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.278,
+      "capped": false
+    },
+    "taxi": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "lukaszpp",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "ticket": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "airport": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.571,
+      "capped": false
+    },
+    "left_right": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "straight": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "near_far": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.667,
+      "capped": true
+    },
+    "where_is": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.316,
+      "capped": false
+    },
+    "how_to_get": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.667,
+      "capped": false
+    },
+    "address": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "Eldad",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "hotel": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.222,
+      "capped": false
+    },
+    "checkout": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "towel": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "shopping": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.412,
+      "capped": false
+    },
+    "police": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 3,
+      "dominant_author": "Amastan",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "doctor": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "sick": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.429,
+      "capped": false
+    },
+    "pharmacy": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "lukaszpp",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "lost": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.375,
+      "capped": false
+    },
+    "stolen": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "saeb",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "emergency": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "what_time": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.222,
+      "capped": false
+    },
+    "today": {
+      "pool": 28,
+      "selected": 6,
+      "authors_in_pool": 14,
+      "dominant_author": "CK",
+      "dominant_share": 0.393,
+      "capped": false
+    },
+    "tomorrow": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 11,
+      "dominant_author": "CK",
+      "dominant_share": 0.412,
+      "capped": false
+    },
+    "opening_hours": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "no": {
+      "pool": 12,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.583,
+      "capped": false
+    },
+    "i_want": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "CK",
+      "dominant_share": 0.278,
+      "capped": false
+    },
+    "good_night": {
+      "pool": 13,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "OsoHombre",
+      "dominant_share": 0.077,
+      "capped": false
+    }
+  },
+  "swh": {
+    "greeting": {
+      "pool": 11,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.182,
+      "capped": false
+    },
+    "how_are_you": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "Zifre",
+      "dominant_share": 0.3,
+      "capped": false
+    },
+    "thanks": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 3,
+      "dominant_author": "mailohilohi",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "sorry": {
+      "pool": 5,
+      "selected": 5,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.6,
+      "capped": false
+    },
+    "goodbye": {
+      "pool": 11,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.273,
+      "capped": false
+    },
+    "name": {
+      "pool": 5,
+      "selected": 5,
+      "authors_in_pool": 5,
+      "dominant_author": "jamessilver",
+      "dominant_share": 0.2,
+      "capped": false
+    },
+    "understand": {
+      "pool": 11,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.636,
+      "capped": false
+    },
+    "repeat": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.667,
+      "capped": false
+    },
+    "learn_lang": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "help": {
+      "pool": 6,
+      "selected": 5,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.833,
+      "capped": true
+    },
+    "no_understand": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "price": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "cheap": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "card": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 3,
+      "dominant_author": "CM",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "hungry": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "vinkara",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "order": {
+      "pool": 5,
+      "selected": 5,
+      "authors_in_pool": 5,
+      "dominant_author": "Dorenda",
+      "dominant_share": 0.2,
+      "capped": false
+    },
+    "bill": {
+      "pool": 5,
+      "selected": 5,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "bus": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "train": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "ticket": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "kalyanshrestha",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "left_right": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.667,
+      "capped": false
+    },
+    "straight": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.667,
+      "capped": false
+    },
+    "where_is": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "ecorralest101",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "shopping": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "ecorralest101",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "police": {
+      "pool": 0,
+      "selected": 0,
+      "authors_in_pool": 0,
+      "dominant_author": null,
+      "dominant_share": null,
+      "capped": false
+    },
+    "sick": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "lost": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "harshnisar",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "today": {
+      "pool": 24,
+      "selected": 6,
+      "authors_in_pool": 15,
+      "dominant_author": "CK",
+      "dominant_share": 0.375,
+      "capped": false
+    },
+    "tomorrow": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "Eccles17",
+      "dominant_share": 0.167,
+      "capped": false
+    },
+    "no": {
+      "pool": 8,
+      "selected": 4,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": true
+    },
+    "i_want": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.444,
+      "capped": false
+    },
+    "good_night": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "hakkeb",
+      "dominant_share": 1,
+      "capped": false
+    }
+  },
+  "tam": {
+    "greeting": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 3,
+      "dominant_author": "CN",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "how_are_you": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 4,
+      "dominant_author": "CN",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "thanks": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 4,
+      "dominant_author": "saeb",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "sorry": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "pierrephi",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "goodbye": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 3,
+      "dominant_author": "rul",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "name": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "frpzzd",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "understand": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "CC",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "help": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CH",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "price": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "hungry": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "toilet": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "kieranjpball",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "size": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "sundown",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "what_time": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 4,
+      "dominant_author": "Hybrid",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "today": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "DriedGrapes31",
+      "dominant_share": 0.286,
+      "capped": false
+    },
+    "i_want": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.714,
+      "capped": false
+    },
+    "good_night": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "Singaravelu",
+      "dominant_share": 1,
+      "capped": false
+    }
+  },
+  "por": {
+    "greeting": {
+      "pool": 31,
+      "selected": 6,
+      "authors_in_pool": 18,
+      "dominant_author": "CK",
+      "dominant_share": 0.29,
+      "capped": false
+    },
+    "how_are_you": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.375,
+      "capped": false
+    },
+    "thanks": {
+      "pool": 11,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.455,
+      "capped": false
+    },
+    "welcome": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.2,
+      "capped": false
+    },
+    "sorry": {
+      "pool": 26,
+      "selected": 6,
+      "authors_in_pool": 15,
+      "dominant_author": "CK",
+      "dominant_share": 0.462,
+      "capped": false
+    },
+    "goodbye": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.471,
+      "capped": false
+    },
+    "name": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CN",
+      "dominant_share": 0.2,
+      "capped": false
+    },
+    "understand": {
+      "pool": 24,
+      "selected": 6,
+      "authors_in_pool": 18,
+      "dominant_author": "CK",
+      "dominant_share": 0.208,
+      "capped": false
+    },
+    "speak_lang": {
+      "pool": 13,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.308,
+      "capped": false
+    },
+    "repeat": {
+      "pool": 27,
+      "selected": 6,
+      "authors_in_pool": 17,
+      "dominant_author": "CK",
+      "dominant_share": 0.37,
+      "capped": false
+    },
+    "learn_lang": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "Adelpa",
+      "dominant_share": 0.188,
+      "capped": false
+    },
+    "help": {
+      "pool": 12,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "no_understand": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.3,
+      "capped": false
+    },
+    "price": {
+      "pool": 22,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "expensive": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.429,
+      "capped": false
+    },
+    "cheap": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "card": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.375,
+      "capped": false
+    },
+    "change": {
+      "pool": 12,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.417,
+      "capped": false
+    },
+    "hungry": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "order": {
+      "pool": 13,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.615,
+      "capped": true
+    },
+    "water": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.733,
+      "capped": true
+    },
+    "spicy": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.643,
+      "capped": true
+    },
+    "vegetarian": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "allergic": {
+      "pool": 5,
+      "selected": 5,
+      "authors_in_pool": 4,
+      "dominant_author": "lukaszpp",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "delicious": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.7,
+      "capped": true
+    },
+    "bill": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.3,
+      "capped": false
+    },
+    "toilet": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "bus": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.667,
+      "capped": false
+    },
+    "train": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.2,
+      "capped": false
+    },
+    "taxi": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "araneo",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "ticket": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.579,
+      "capped": false
+    },
+    "airport": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.375,
+      "capped": false
+    },
+    "left_right": {
+      "pool": 23,
+      "selected": 6,
+      "authors_in_pool": 14,
+      "dominant_author": "CK",
+      "dominant_share": 0.435,
+      "capped": false
+    },
+    "straight": {
+      "pool": 11,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.364,
+      "capped": false
+    },
+    "near_far": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.722,
+      "capped": false
+    },
+    "where_is": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.467,
+      "capped": false
+    },
+    "how_to_get": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.353,
+      "capped": false
+    },
+    "address": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CM",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "hotel": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "checkout": {
+      "pool": 5,
+      "selected": 5,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.8,
+      "capped": false
+    },
+    "towel": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "Eccles17",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "hot_water": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.667,
+      "capped": false
+    },
+    "shopping": {
+      "pool": 21,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.714,
+      "capped": false
+    },
+    "size": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "lukaszpp",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "police": {
+      "pool": 7,
+      "selected": 5,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.857,
+      "capped": true
+    },
+    "doctor": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "sick": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "pharmacy": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 4,
+      "dominant_author": "Lepotdeterre",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "lost": {
+      "pool": 13,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.462,
+      "capped": false
+    },
+    "stolen": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "Hybrid",
+      "dominant_share": 0.167,
+      "capped": false
+    },
+    "emergency": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "what_time": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "today": {
+      "pool": 21,
+      "selected": 6,
+      "authors_in_pool": 15,
+      "dominant_author": "CK",
+      "dominant_share": 0.286,
+      "capped": false
+    },
+    "tomorrow": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 11,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "opening_hours": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "yes": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.286,
+      "capped": false
+    },
+    "no": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "i_want": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 11,
+      "dominant_author": "CK",
+      "dominant_share": 0.353,
+      "capped": false
+    },
+    "good_night": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "CK",
+      "dominant_share": 0.188,
+      "capped": false
+    }
+  },
+  "nld": {
+    "greeting": {
+      "pool": 34,
+      "selected": 6,
+      "authors_in_pool": 21,
+      "dominant_author": "CK",
+      "dominant_share": 0.265,
+      "capped": false
+    },
+    "how_are_you": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "thanks": {
+      "pool": 11,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.182,
+      "capped": false
+    },
+    "welcome": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "Spamster",
+      "dominant_share": 0.167,
+      "capped": false
+    },
+    "sorry": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 14,
+      "dominant_author": "CK",
+      "dominant_share": 0.35,
+      "capped": false
+    },
+    "goodbye": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.286,
+      "capped": false
+    },
+    "name": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 15,
+      "dominant_author": "CK",
+      "dominant_share": 0.2,
+      "capped": false
+    },
+    "understand": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 14,
+      "dominant_author": "CK",
+      "dominant_share": 0.263,
+      "capped": false
+    },
+    "speak_lang": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 17,
+      "dominant_author": "grindeldore",
+      "dominant_share": 0.111,
+      "capped": false
+    },
+    "repeat": {
+      "pool": 31,
+      "selected": 6,
+      "authors_in_pool": 17,
+      "dominant_author": "CK",
+      "dominant_share": 0.484,
+      "capped": false
+    },
+    "learn_lang": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "Adelpa",
+      "dominant_share": 0.211,
+      "capped": false
+    },
+    "help": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.571,
+      "capped": false
+    },
+    "no_understand": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "price": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.737,
+      "capped": false
+    },
+    "expensive": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "Tom9358",
+      "dominant_share": 0.375,
+      "capped": false
+    },
+    "cheap": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 4,
+      "dominant_author": "Adelpa",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "card": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.444,
+      "capped": false
+    },
+    "change": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.286,
+      "capped": false
+    },
+    "hungry": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.45,
+      "capped": false
+    },
+    "order": {
+      "pool": 13,
+      "selected": 6,
+      "authors_in_pool": 11,
+      "dominant_author": "CK",
+      "dominant_share": 0.154,
+      "capped": false
+    },
+    "water": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.833,
+      "capped": true
+    },
+    "spicy": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "vegetarian": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "adamtrousers",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "allergic": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "lukaszpp",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "delicious": {
+      "pool": 12,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "bill": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "toilet": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "slyfin",
+      "dominant_share": 0.143,
+      "capped": false
+    },
+    "bus": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "train": {
+      "pool": 12,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.417,
+      "capped": false
+    },
+    "taxi": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "ticket": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.467,
+      "capped": false
+    },
+    "airport": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.444,
+      "capped": false
+    },
+    "left_right": {
+      "pool": 30,
+      "selected": 6,
+      "authors_in_pool": 14,
+      "dominant_author": "CK",
+      "dominant_share": 0.3,
+      "capped": false
+    },
+    "straight": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.316,
+      "capped": false
+    },
+    "near_far": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.3,
+      "capped": false
+    },
+    "where_is": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 11,
+      "dominant_author": "CK",
+      "dominant_share": 0.235,
+      "capped": false
+    },
+    "how_to_get": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.6,
+      "capped": false
+    },
+    "address": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CM",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "hotel": {
+      "pool": 11,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CM",
+      "dominant_share": 0.273,
+      "capped": false
+    },
+    "checkout": {
+      "pool": 9,
+      "selected": 5,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.889,
+      "capped": true
+    },
+    "wifi": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "andibing",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "towel": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "hot_water": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 3,
+      "dominant_author": "marloncori",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "shopping": {
+      "pool": 22,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "CK",
+      "dominant_share": 0.409,
+      "capped": false
+    },
+    "size": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "keira_n",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "police": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.667,
+      "capped": false
+    },
+    "doctor": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.429,
+      "capped": false
+    },
+    "sick": {
+      "pool": 24,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "pharmacy": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 4,
+      "dominant_author": "Lepotdeterre",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "lost": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.643,
+      "capped": false
+    },
+    "stolen": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "AlanF_US",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "emergency": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "Lebensfreude",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "what_time": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.125,
+      "capped": false
+    },
+    "today": {
+      "pool": 26,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.577,
+      "capped": false
+    },
+    "tomorrow": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 11,
+      "dominant_author": "CK",
+      "dominant_share": 0.444,
+      "capped": false
+    },
+    "opening_hours": {
+      "pool": 5,
+      "selected": 5,
+      "authors_in_pool": 5,
+      "dominant_author": "glossboss",
+      "dominant_share": 0.2,
+      "capped": false
+    },
+    "yes": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.222,
+      "capped": false
+    },
+    "no": {
+      "pool": 13,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.538,
+      "capped": false
+    },
+    "i_want": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "good_night": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 16,
+      "dominant_author": "CK",
+      "dominant_share": 0.111,
+      "capped": false
+    }
+  },
+  "ita": {
+    "greeting": {
+      "pool": 34,
+      "selected": 6,
+      "authors_in_pool": 25,
+      "dominant_author": "CK",
+      "dominant_share": 0.176,
+      "capped": false
+    },
+    "how_are_you": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "thanks": {
+      "pool": 13,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.308,
+      "capped": false
+    },
+    "welcome": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.222,
+      "capped": false
+    },
+    "sorry": {
+      "pool": 24,
+      "selected": 6,
+      "authors_in_pool": 15,
+      "dominant_author": "CK",
+      "dominant_share": 0.375,
+      "capped": true
+    },
+    "goodbye": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.438,
+      "capped": false
+    },
+    "name": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 16,
+      "dominant_author": "carlosalberto",
+      "dominant_share": 0.158,
+      "capped": false
+    },
+    "understand": {
+      "pool": 26,
+      "selected": 6,
+      "authors_in_pool": 22,
+      "dominant_author": "CK",
+      "dominant_share": 0.192,
+      "capped": false
+    },
+    "speak_lang": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "CK",
+      "dominant_share": 0.133,
+      "capped": false
+    },
+    "repeat": {
+      "pool": 28,
+      "selected": 6,
+      "authors_in_pool": 17,
+      "dominant_author": "CK",
+      "dominant_share": 0.429,
+      "capped": false
+    },
+    "learn_lang": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.235,
+      "capped": false
+    },
+    "help": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.467,
+      "capped": false
+    },
+    "no_understand": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "price": {
+      "pool": 23,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.565,
+      "capped": false
+    },
+    "expensive": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.6,
+      "capped": false
+    },
+    "cheap": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.571,
+      "capped": false
+    },
+    "pay_cash": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "shekitten",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "card": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.375,
+      "capped": false
+    },
+    "change": {
+      "pool": 13,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.308,
+      "capped": false
+    },
+    "hungry": {
+      "pool": 23,
+      "selected": 6,
+      "authors_in_pool": 14,
+      "dominant_author": "CK",
+      "dominant_share": 0.435,
+      "capped": false
+    },
+    "order": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 11,
+      "dominant_author": "CK",
+      "dominant_share": 0.353,
+      "capped": false
+    },
+    "water": {
+      "pool": 23,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.739,
+      "capped": true
+    },
+    "spicy": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.6,
+      "capped": true
+    },
+    "vegetarian": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 3,
+      "dominant_author": "Amastan",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "allergic": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "AlanF_US",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "delicious": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.55,
+      "capped": false
+    },
+    "bill": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "toilet": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "bus": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "train": {
+      "pool": 24,
+      "selected": 6,
+      "authors_in_pool": 11,
+      "dominant_author": "CK",
+      "dominant_share": 0.417,
+      "capped": false
+    },
+    "taxi": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 3,
+      "dominant_author": "_undertoad",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "ticket": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.444,
+      "capped": false
+    },
+    "airport": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.222,
+      "capped": false
+    },
+    "left_right": {
+      "pool": 32,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "CK",
+      "dominant_share": 0.344,
+      "capped": false
+    },
+    "straight": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.357,
+      "capped": false
+    },
+    "near_far": {
+      "pool": 21,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.524,
+      "capped": false
+    },
+    "where_is": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 15,
+      "dominant_author": "CK",
+      "dominant_share": 0.211,
+      "capped": false
+    },
+    "how_to_get": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.45,
+      "capped": false
+    },
+    "address": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "Eldad",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "hotel": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "checkout": {
+      "pool": 9,
+      "selected": 5,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.889,
+      "capped": true
+    },
+    "wifi": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "andibing",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "hot_water": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "shopping": {
+      "pool": 20,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.55,
+      "capped": false
+    },
+    "card_gift": {
+      "pool": 0,
+      "selected": 0,
+      "authors_in_pool": 0,
+      "dominant_author": null,
+      "dominant_share": null,
+      "capped": false
+    },
+    "police": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "doctor": {
+      "pool": 12,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.417,
+      "capped": false
+    },
+    "sick": {
+      "pool": 24,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.417,
+      "capped": false
+    },
+    "pharmacy": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 3,
+      "dominant_author": "carlosalberto",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "lost": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.526,
+      "capped": true
+    },
+    "stolen": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 4,
+      "dominant_author": "Hybrid",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "emergency": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "AlanF_US",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "what_time": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "today": {
+      "pool": 27,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.556,
+      "capped": false
+    },
+    "tomorrow": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.556,
+      "capped": false
+    },
+    "opening_hours": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "yes": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "DJ_Saidez",
+      "dominant_share": 0.222,
+      "capped": false
+    },
+    "no": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.412,
+      "capped": false
+    },
+    "i_want": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.375,
+      "capped": false
+    },
+    "good_night": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    }
+  },
+  "deu": {
+    "greeting": {
+      "pool": 29,
+      "selected": 6,
+      "authors_in_pool": 19,
+      "dominant_author": "CK",
+      "dominant_share": 0.207,
+      "capped": false
+    },
+    "how_are_you": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.375,
+      "capped": false
+    },
+    "thanks": {
+      "pool": 12,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "welcome": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CC",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "sorry": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 11,
+      "dominant_author": "CK",
+      "dominant_share": 0.263,
+      "capped": false
+    },
+    "goodbye": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.278,
+      "capped": false
+    },
+    "name": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 14,
+      "dominant_author": "CK",
+      "dominant_share": 0.167,
+      "capped": false
+    },
+    "understand": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.368,
+      "capped": false
+    },
+    "speak_lang": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.294,
+      "capped": false
+    },
+    "repeat": {
+      "pool": 37,
+      "selected": 6,
+      "authors_in_pool": 20,
+      "dominant_author": "CK",
+      "dominant_share": 0.486,
+      "capped": false
+    },
+    "learn_lang": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "Adelpa",
+      "dominant_share": 0.313,
+      "capped": false
+    },
+    "help": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.571,
+      "capped": false
+    },
+    "no_understand": {
+      "pool": 12,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.583,
+      "capped": false
+    },
+    "price": {
+      "pool": 24,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.542,
+      "capped": false
+    },
+    "expensive": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.3,
+      "capped": false
+    },
+    "cheap": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.714,
+      "capped": true
+    },
+    "pay_cash": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 2,
+      "dominant_author": "sundown",
+      "dominant_share": 0.75,
+      "capped": false
+    },
+    "card": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.125,
+      "capped": false
+    },
+    "change": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "no_receipt": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "hungry": {
+      "pool": 27,
+      "selected": 6,
+      "authors_in_pool": 17,
+      "dominant_author": "CK",
+      "dominant_share": 0.407,
+      "capped": false
+    },
+    "order": {
+      "pool": 11,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.364,
+      "capped": false
+    },
+    "water": {
+      "pool": 25,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.52,
+      "capped": false
+    },
+    "spicy": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.529,
+      "capped": false
+    },
+    "vegetarian": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "allergic": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CC",
+      "dominant_share": 0.143,
+      "capped": false
+    },
+    "delicious": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.353,
+      "capped": false
+    },
+    "bill": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.222,
+      "capped": false
+    },
+    "toilet": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "sundown",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "bus": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.563,
+      "capped": false
+    },
+    "train": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "sundown",
+      "dominant_share": 0.474,
+      "capped": false
+    },
+    "taxi": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.375,
+      "capped": false
+    },
+    "ticket": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.222,
+      "capped": false
+    },
+    "airport": {
+      "pool": 11,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.273,
+      "capped": false
+    },
+    "left_right": {
+      "pool": 24,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.458,
+      "capped": true
+    },
+    "straight": {
+      "pool": 11,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.273,
+      "capped": false
+    },
+    "near_far": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.438,
+      "capped": false
+    },
+    "where_is": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.647,
+      "capped": false
+    },
+    "how_to_get": {
+      "pool": 17,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.294,
+      "capped": false
+    },
+    "address": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "CM",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "hotel": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.474,
+      "capped": false
+    },
+    "checkout": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.571,
+      "capped": false
+    },
+    "wifi": {
+      "pool": 0,
+      "selected": 0,
+      "authors_in_pool": 0,
+      "dominant_author": null,
+      "dominant_share": null,
+      "capped": false
+    },
+    "towel": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "Eccles17",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "hot_water": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "shopping": {
+      "pool": 22,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.682,
+      "capped": true
+    },
+    "size": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "sundown",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "card_gift": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "police": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.778,
+      "capped": true
+    },
+    "doctor": {
+      "pool": 14,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.357,
+      "capped": false
+    },
+    "sick": {
+      "pool": 19,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.421,
+      "capped": false
+    },
+    "pharmacy": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 3,
+      "dominant_author": "Lepotdeterre",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "lost": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": true
+    },
+    "stolen": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.286,
+      "capped": false
+    },
+    "emergency": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 1,
+      "dominant_author": "CK",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "what_time": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "sundown",
+      "dominant_share": 0.444,
+      "capped": false
+    },
+    "today": {
+      "pool": 25,
+      "selected": 6,
+      "authors_in_pool": 11,
+      "dominant_author": "CK",
+      "dominant_share": 0.48,
+      "capped": false
+    },
+    "tomorrow": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "opening_hours": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "yes": {
+      "pool": 4,
+      "selected": 4,
+      "authors_in_pool": 4,
+      "dominant_author": "Bernie75",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "no": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.667,
+      "capped": true
+    },
+    "i_want": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.563,
+      "capped": false
+    },
+    "good_night": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    }
+  },
+  "srp": {
+    "greeting": {
+      "pool": 23,
+      "selected": 6,
+      "authors_in_pool": 18,
+      "dominant_author": "CK",
+      "dominant_share": 0.174,
+      "capped": false
+    },
+    "how_are_you": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    },
+    "thanks": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.222,
+      "capped": false
+    },
+    "welcome": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "harshnisar",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "sorry": {
+      "pool": 22,
+      "selected": 6,
+      "authors_in_pool": 13,
+      "dominant_author": "CK",
+      "dominant_share": 0.409,
+      "capped": false
+    },
+    "goodbye": {
+      "pool": 18,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.556,
+      "capped": false
+    },
+    "name": {
+      "pool": 13,
+      "selected": 6,
+      "authors_in_pool": 10,
+      "dominant_author": "CN",
+      "dominant_share": 0.231,
+      "capped": false
+    },
+    "understand": {
+      "pool": 22,
+      "selected": 6,
+      "authors_in_pool": 12,
+      "dominant_author": "CK",
+      "dominant_share": 0.409,
+      "capped": false
+    },
+    "speak_lang": {
+      "pool": 8,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.25,
+      "capped": false
+    },
+    "repeat": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.667,
+      "capped": true
+    },
+    "learn_lang": {
+      "pool": 13,
+      "selected": 6,
+      "authors_in_pool": 9,
+      "dominant_author": "CK",
+      "dominant_share": 0.308,
+      "capped": false
+    },
+    "help": {
+      "pool": 12,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.75,
+      "capped": false
+    },
+    "no_understand": {
+      "pool": 16,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "price": {
+      "pool": 9,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.444,
+      "capped": false
+    },
+    "expensive": {
+      "pool": 6,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "zvaigzne",
+      "dominant_share": 0.167,
+      "capped": false
+    },
+    "card": {
+      "pool": 10,
+      "selected": 6,
+      "authors_in_pool": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.3,
+      "capped": false
+    },
+    "change": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.667,
+      "capped": false
+    },
+    "hungry": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 6,
+      "dominant_author": "CK",
+      "dominant_share": 0.6,
+      "capped": false
+    },
+    "order": {
+      "pool": 15,
+      "selected": 6,
+      "authors_in_pool": 8,
+      "dominant_author": "CK",
+      "dominant_share": 0.4,
+      "capped": false
+    },
+    "water": {
+      "pool": 11,
+      "selected": 6,
+      "authors_in_pool": 5,
+      "dominant_author": "CK",
+      "dominant_share": 0.636,
+      "capped": true
+    },
+    "vegetarian": {
+      "pool": 2,
+      "selected": 2,
+      "authors_in_pool": 2,
+      "dominant_author": "rike",
+      "dominant_share": 0.5,
+      "capped": false
+    },
+    "allergic": {
+      "pool": 1,
+      "selected": 1,
+      "authors_in_pool": 1,
+      "dominant_author": "frpzzd",
+      "dominant_share": 1,
+      "capped": false
+    },
+    "delicious": {
+      "pool": 7,
+      "selected": 6,
+      "authors_in_pool": 4,
+      "dominant_author": "CK",
+      "dominant_share": 0.571,
+      "capped": false
+    },
+    "bill": {
+      "pool": 3,
+      "selected": 3,
+      "authors_in_pool": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.333,
+      "capped": false
+    }
+  }
+}

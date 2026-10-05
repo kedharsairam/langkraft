@@ -1,0 +1,110 @@
+{
+  "ind": {
+    "rows": 712,
+    "contributors": 177,
+    "concepts_covered": 50,
+    "concepts_missing": 13,
+    "dominant_author": "CK",
+    "dominant_share": 0.434,
+    "selected": 252
+  },
+  "spa": {
+    "rows": 896,
+    "contributors": 243,
+    "concepts_covered": 60,
+    "concepts_missing": 3,
+    "dominant_author": "CK",
+    "dominant_share": 0.359,
+    "selected": 328
+  },
+  "hin": {
+    "rows": 273,
+    "contributors": 97,
+    "concepts_covered": 41,
+    "concepts_missing": 22,
+    "dominant_author": "CK",
+    "dominant_share": 0.377,
+    "selected": 167
+  },
+  "fra": {
+    "rows": 915,
+    "contributors": 242,
+    "concepts_covered": 59,
+    "concepts_missing": 4,
+    "dominant_author": "CK",
+    "dominant_share": 0.322,
+    "selected": 329
+  },
+  "ara": {
+    "rows": 574,
+    "contributors": 165,
+    "concepts_covered": 55,
+    "concepts_missing": 8,
+    "dominant_author": "CK",
+    "dominant_share": 0.343,
+    "selected": 267
+  },
+  "swh": {
+    "rows": 175,
+    "contributors": 65,
+    "concepts_covered": 32,
+    "concepts_missing": 31,
+    "dominant_author": "CK",
+    "dominant_share": 0.371,
+    "selected": 109
+  },
+  "tam": {
+    "rows": 46,
+    "contributors": 22,
+    "concepts_covered": 16,
+    "concepts_missing": 47,
+    "dominant_author": "CK",
+    "dominant_share": 0.326,
+    "selected": 44
+  },
+  "por": {
+    "rows": 832,
+    "contributors": 206,
+    "concepts_covered": 59,
+    "concepts_missing": 4,
+    "dominant_author": "CK",
+    "dominant_share": 0.413,
+    "selected": 328
+  },
+  "nld": {
+    "rows": 825,
+    "contributors": 228,
+    "concepts_covered": 60,
+    "concepts_missing": 3,
+    "dominant_author": "CK",
+    "dominant_share": 0.366,
+    "selected": 313
+  },
+  "ita": {
+    "rows": 942,
+    "contributors": 219,
+    "concepts_covered": 60,
+    "concepts_missing": 3,
+    "dominant_author": "CK",
+    "dominant_share": 0.393,
+    "selected": 325
+  },
+  "deu": {
+    "rows": 952,
+    "contributors": 213,
+    "concepts_covered": 63,
+    "concepts_missing": 0,
+    "dominant_author": "CK",
+    "dominant_share": 0.393,
+    "selected": 340
+  },
+  "srp": {
+    "rows": 278,
+    "contributors": 100,
+    "concepts_covered": 24,
+    "concepts_missing": 39,
+    "dominant_author": "CK",
+    "dominant_share": 0.406,
+    "selected": 125
+  }
+}
