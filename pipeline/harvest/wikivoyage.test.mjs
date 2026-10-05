@@ -50,15 +50,29 @@ test('a non-Latin row is detected from its script regardless of context', () => 
   assert.equal(r.native, 'เปิด');
 });
 
-test('bare-paren pronunciation is left in place rather than guessed at', () => {
-  // Wikivoyage writes Thai pronunciation as a bare "(pèrt)" with no italic markers, which is
-  // indistinguishable from a parenthetical that belongs to the phrase. Guessing wrong either way
-  // is worse than leaving it: the native column is what the app renders, and silently
-  // amputating a real part of a phrase is a content bug, while leaving a pronunciation inline is
-  // visible and correctable by a reader.
+test('a bare parenthetical after a non-Latin phrase is taken as pronunciation', () => {
+  // Wikivoyage writes Thai pronunciation as a bare "(pèrt)" with no italic markers. For Thai,
+  // Japanese, Mandarin and Tamil this column is the only usable form of the phrase, so
+  // discarding it would lose the entry's practical value.
   const r = parsePhraseRow('Open : เปิด (pèrt)');
-  assert.equal(r.native, 'เปิด (pèrt)');
+  assert.equal(r.native, 'เปิด');
+  assert.equal(r.pronunciation, 'pèrt');
+});
+
+test('a genuine parenthetical in a Latin-script phrase is NOT taken as pronunciation', () => {
+  // The opposite case, and the reason the capture above is restricted to non-Latin scripts.
+  // For Indonesian or Swahili, "(to a waiter)" belongs to the phrase and removing it would be a
+  // content bug -- amputating part of what the learner is shown.
+  const r = parsePhraseRow('I am full (after a big meal) : Saya kenyang (setelah makan banyak)');
+  assert.ok(r.native.includes('(setelah makan banyak)'),
+    `parenthetical must survive for a Latin-script phrase: ${r.native}`);
   assert.equal(r.pronunciation, null);
+});
+
+test('a row with no colon is not a phrase row at all', () => {
+  // Prose in the phrase-list section is rejected rather than half-parsed. Documented because it
+  // is what makes the parenthetical test above need a colon on both sides.
+  assert.equal(parsePhraseRow('I am full (after a big meal)'), null);
 });
 
 test('Swahili signs are English-first and must NOT be flipped', () => {

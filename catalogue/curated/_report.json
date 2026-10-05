@@ -1,102 +1,12 @@
 {
-  "ind": {
-    "rows": 601,
-    "concepts": 14,
-    "note": "unmapped sections: date"
-  },
   "spa": {
-    "rows": 463,
+    "rows": 462,
     "concepts": 13,
-    "note": null
-  },
-  "hin": {
-    "rows": 204,
-    "concepts": 9,
-    "note": "unmapped sections: gregorian_calendar, hindu_calendar, writing_the_time_and_date, travel_vocabulary"
-  },
-  "fra": {
-    "rows": 532,
-    "concepts": 12,
-    "note": null
-  },
-  "ara": {
-    "rows": 397,
-    "concepts": 12,
-    "note": null
-  },
-  "swh": {
-    "rows": 420,
-    "concepts": 13,
-    "note": null
-  },
-  "tam": {
-    "rows": 335,
-    "concepts": 12,
-    "note": null
-  },
-  "por": {
-    "rows": 302,
-    "concepts": 12,
-    "note": null
-  },
-  "nld": {
-    "rows": 348,
-    "concepts": 12,
-    "note": null
-  },
-  "ita": {
-    "rows": 388,
-    "concepts": 12,
-    "note": null
-  },
-  "deu": {
-    "rows": 544,
-    "concepts": 13,
-    "note": null
-  },
-  "srp": {
-    "rows": 401,
-    "concepts": 16,
     "note": null
   },
   "tur": {
-    "rows": 0,
-    "concepts": 0,
-    "note": "page \"Turkish phrasebook\" throttled after retries"
-  },
-  "fas": {
-    "rows": 56,
-    "concepts": 2,
-    "note": null
-  },
-  "tha": {
-    "rows": 420,
-    "concepts": 14,
-    "note": null
-  },
-  "rus": {
-    "rows": 424,
+    "rows": 298,
     "concepts": 12,
     "note": null
-  },
-  "jpn": {
-    "rows": 612,
-    "concepts": 16,
-    "note": null
-  },
-  "kor": {
-    "rows": 436,
-    "concepts": 12,
-    "note": null
-  },
-  "vie": {
-    "rows": 320,
-    "concepts": 12,
-    "note": null
-  },
-  "cmn": {
-    "rows": 383,
-    "concepts": 12,
-    "note": "unmapped sections: going_to_the_doctor, financial_forms, writing_dates, telephone_and_the_internet, getting_a_massage"
   }
 }

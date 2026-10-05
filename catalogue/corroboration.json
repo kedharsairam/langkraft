@@ -1,0 +1,1143 @@
+{
+  "ind": {
+    "curated": 601,
+    "attested": 712,
+    "native_corroborations": 6,
+    "corroborating_authors": 5,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": [
+      {
+        "concept": "basics",
+        "native": "Halo.",
+        "pronunciation": "HAH-loh",
+        "english_curated": "Hello.",
+        "english_attested": "Hello!",
+        "attested_author": "CK",
+        "attested_id": 11132555,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Apa kabar?",
+        "pronunciation": "AH-pah KAH-bar?",
+        "english_curated": "How are you?",
+        "english_attested": "How are you?",
+        "attested_author": "CK",
+        "attested_id": 365986,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Sama-sama.",
+        "pronunciation": "SAH-mah SAH-mah",
+        "english_curated": "You're welcome.",
+        "english_attested": "You are welcome!",
+        "attested_author": "harshnisar",
+        "attested_id": 13732523,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Sampai jumpa",
+        "pronunciation": "SAM-pigh JOOM-pah",
+        "english_curated": "See you",
+        "english_attested": "Goodbye!",
+        "attested_author": "minshirui",
+        "attested_id": 4556792,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Berapa harganya?",
+        "pronunciation": "buh-RAH-pah HAR-gah-nyah",
+        "english_curated": "How much (does this cost)?",
+        "english_attested": "How much is this?",
+        "attested_author": "zvaigzne",
+        "attested_id": 1503804,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "shopping",
+        "native": "Terlalu mahal.",
+        "pronunciation": "tuhr-LAH-loo MAH-hahl",
+        "english_curated": "That's too expensive.",
+        "english_attested": "Too expensive!",
+        "attested_author": "jared1981",
+        "attested_id": 1019377,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      }
+    ]
+  },
+  "spa": {
+    "curated": 462,
+    "attested": 896,
+    "native_corroborations": 5,
+    "corroborating_authors": 5,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": [
+      {
+        "concept": "basics",
+        "native": "¿Habla usted inglés?",
+        "pronunciation": "AH-blah oos-TEHD een-GLEHS?",
+        "english_curated": "Do you speak English?",
+        "english_attested": "Do you speak English?",
+        "attested_author": "saeb",
+        "attested_id": 340398,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Buenas tardes",
+        "pronunciation": "BWEH-nahs TAR-dehs",
+        "english_curated": "Good afternoon / Good evening",
+        "english_attested": "Good evening.",
+        "attested_author": "Aurix",
+        "attested_id": 872348,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "No entiendo",
+        "pronunciation": "NOH ehn-TYEHN-doh",
+        "english_curated": "I don't understand",
+        "english_attested": "I do not understand.",
+        "attested_author": "CC",
+        "attested_id": 2874,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "price",
+        "native": "¿Cuánto cuesta?",
+        "pronunciation": "KWAHN-toh KWEHS-tah?",
+        "english_curated": "How much does it cost?",
+        "english_attested": "How much does it cost?",
+        "attested_author": "lukaszpp",
+        "attested_id": 436194,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "food",
+        "native": "La cuenta, por favor.",
+        "pronunciation": "lah KWEHN-tah, pohr fah-BOHR",
+        "english_curated": "The check, please.",
+        "english_attested": "Please bring the bill.",
+        "attested_author": "Hybrid",
+        "attested_id": 2876,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      }
+    ]
+  },
+  "hin": {
+    "curated": 202,
+    "attested": 273,
+    "native_corroborations": 0,
+    "corroborating_authors": 0,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": []
+  },
+  "fra": {
+    "curated": 529,
+    "attested": 915,
+    "native_corroborations": 10,
+    "corroborating_authors": 9,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": [
+      {
+        "concept": "basics",
+        "native": "Parlez-vous anglais ?",
+        "pronunciation": "par-lay VOO ahng-LEH?",
+        "english_curated": "Do you speak English?",
+        "english_attested": "Do you speak English?",
+        "attested_author": "saeb",
+        "attested_id": 9311,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Bonsoir.",
+        "pronunciation": "bong-SWAHR",
+        "english_curated": "Good evening.",
+        "english_attested": "Good evening!",
+        "attested_author": "_undertoad",
+        "attested_id": 333159,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Bonne nuit.",
+        "pronunciation": "bon NWEE",
+        "english_curated": "Good night. (when going to bed)",
+        "english_attested": "Good night!",
+        "attested_author": "Pun_intended",
+        "attested_id": 427110,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Je (ne) comprends pas.",
+        "pronunciation": "zhuh nuh KOHM-prahn pah",
+        "english_curated": "I don't understand.",
+        "english_attested": "I do not understand.",
+        "attested_author": "CC",
+        "attested_id": 3528,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Où sont les toilettes ?",
+        "pronunciation": "OOH sohn leh twah-LET?",
+        "english_curated": "Where is the toilet?",
+        "english_attested": "Where is the toilet?",
+        "attested_author": "CK",
+        "attested_id": 3946,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "problem",
+        "native": "Je suis malade.",
+        "pronunciation": "zhuh swee mah-LAHD",
+        "english_curated": "I'm sick.",
+        "english_attested": "I am ill.",
+        "attested_author": "sharris123",
+        "attested_id": 459031,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "problem",
+        "native": "J'ai besoin d'un médecin.",
+        "pronunciation": "zhay buh-ZWAHN duun may-TSAN",
+        "english_curated": "I need a doctor.",
+        "english_attested": "I need a doctor!",
+        "attested_author": "lukaszpp",
+        "attested_id": 818291,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "food",
+        "native": "L'addition, s'il vous plaît.",
+        "pronunciation": "lah-dee-SYOHN seel voo play",
+        "english_curated": "The check (bill), please.",
+        "english_attested": "Bring the bill, please.",
+        "attested_author": "lukaszpp",
+        "attested_id": 3257954,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "food",
+        "native": "À quelle heure fermez-vous ?",
+        "pronunciation": "ah kell EUR fer-MAY voo",
+        "english_curated": "When is closing time?",
+        "english_attested": "What time do you close?",
+        "attested_author": "darinmex",
+        "attested_id": 427397,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "shopping",
+        "native": "C'est trop cher.",
+        "pronunciation": "say-TRO-shair",
+        "english_curated": "That's too expensive.",
+        "english_attested": "This is too expensive.",
+        "attested_author": "XenoKat",
+        "attested_id": 12361,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      }
+    ]
+  },
+  "ara": {
+    "curated": 397,
+    "attested": 574,
+    "native_corroborations": 3,
+    "corroborating_authors": 2,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": [
+      {
+        "concept": "basics",
+        "native": "صباح الخير",
+        "pronunciation": "sabaH al-khair",
+        "english_curated": "Good morning.",
+        "english_attested": "Good morning.",
+        "attested_author": "_undertoad",
+        "attested_id": 7482088,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "مساء الخير",
+        "pronunciation": "masaa' al-khair",
+        "english_curated": "Good evening.",
+        "english_attested": "Good evening!",
+        "attested_author": "_undertoad",
+        "attested_id": 4926119,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "لَوْ سَمَحْتَ",
+        "pronunciation": "getting attention",
+        "english_curated": "Excuse me.",
+        "english_attested": "Excuse me!",
+        "attested_author": "bionicboy",
+        "attested_id": 13174925,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      }
+    ]
+  },
+  "swh": {
+    "curated": 420,
+    "attested": 175,
+    "native_corroborations": 4,
+    "corroborating_authors": 4,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": [
+      {
+        "concept": "basics",
+        "native": "Habari za leo?",
+        "pronunciation": null,
+        "english_curated": "How are you today?",
+        "english_attested": "How are you on this fine day?",
+        "attested_author": "espamatics",
+        "attested_id": 1120852,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Habari za asubuhi?",
+        "pronunciation": null,
+        "english_curated": "How are you this morning?",
+        "english_attested": "How are you this morning?",
+        "attested_author": "CK",
+        "attested_id": 3085969,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Jina lako nani?",
+        "pronunciation": null,
+        "english_curated": "What is your name?",
+        "english_attested": "What is your name?",
+        "attested_author": "frpzzd",
+        "attested_id": 1121734,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Asante (sana).",
+        "pronunciation": null,
+        "english_curated": "Thank you (very much).",
+        "english_attested": "Thanks a lot!",
+        "attested_author": "Snout",
+        "attested_id": 8986357,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      }
+    ]
+  },
+  "tam": {
+    "curated": 336,
+    "attested": 46,
+    "native_corroborations": 3,
+    "corroborating_authors": 3,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": [
+      {
+        "concept": "basics",
+        "native": "வணக்கம்",
+        "pronunciation": "vuh-nnuhk-kuhm",
+        "english_curated": "Hello.",
+        "english_attested": "Hello.",
+        "attested_author": "LanguageExpert",
+        "attested_id": 11036634,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "நன்றி.",
+        "pronunciation": "nuhn-drih",
+        "english_curated": "Thank you.",
+        "english_attested": "Thank you.",
+        "attested_author": "Asma",
+        "attested_id": 11036645,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "மன்னிக்கவும்",
+        "pronunciation": "getting attention",
+        "english_curated": "Excuse me. (getting attention)",
+        "english_attested": "I'm sorry.",
+        "attested_author": "CK",
+        "attested_id": 11036609,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      }
+    ]
+  },
+  "por": {
+    "curated": 302,
+    "attested": 832,
+    "native_corroborations": 0,
+    "corroborating_authors": 0,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": []
+  },
+  "nld": {
+    "curated": 348,
+    "attested": 825,
+    "native_corroborations": 14,
+    "corroborating_authors": 11,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": [
+      {
+        "concept": "basics",
+        "native": "Hoe gaat het?",
+        "pronunciation": "hoo GAHT hut?",
+        "english_curated": "How are you?",
+        "english_attested": "How are you doing?",
+        "attested_author": "Zifre",
+        "attested_id": 455176,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Hoe heet u?",
+        "pronunciation": "hoo HAYT uu?",
+        "english_curated": "What is your name?",
+        "english_attested": "What is your name?",
+        "attested_author": "frpzzd",
+        "attested_id": 330701,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Graag gedaan.",
+        "pronunciation": "GRAHG guh-DAHN",
+        "english_curated": "You're welcome.",
+        "english_attested": "You are welcome!",
+        "attested_author": "harshnisar",
+        "attested_id": 379419,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Sorry.",
+        "pronunciation": "begging pardon",
+        "english_curated": "Excuse me. (begging pardon)",
+        "english_attested": "Sorry...",
+        "attested_author": "pierrephi",
+        "attested_id": 4451443,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Goedemiddag.",
+        "pronunciation": "GOO-duh-MIH-dahgh",
+        "english_curated": "Good afternoon.",
+        "english_attested": "Good afternoon!",
+        "attested_author": "Meruert",
+        "attested_id": 5774203,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Goedenavond.",
+        "pronunciation": "Goo-duh-NAH-vunt",
+        "english_curated": "Good evening.",
+        "english_attested": "Good evening.",
+        "attested_author": "Aurix",
+        "attested_id": 387596,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Ik begrijp het niet.",
+        "pronunciation": "ick buh-GRAYP hut neet",
+        "english_curated": "I don't understand.",
+        "english_attested": "I do not understand.",
+        "attested_author": "CC",
+        "attested_id": 377811,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Waar is het toilet?",
+        "pronunciation": "wahr is hut twah-LET?",
+        "english_curated": "Where is the toilet?",
+        "english_attested": "Where is the toilet?",
+        "attested_author": "CK",
+        "attested_id": 379482,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "problem",
+        "native": "Ik heb mijn portemonnee verloren.",
+        "pronunciation": "ick HEP meyn por-tuh-mon-NAY vuhr-LOH-run",
+        "english_curated": "I lost my wallet.",
+        "english_attested": "I have lost my wallet.",
+        "attested_author": "CC",
+        "attested_id": 377809,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "problem",
+        "native": "Ik ben ziek.",
+        "pronunciation": "ick ben ZEEK",
+        "english_curated": "I'm sick.",
+        "english_attested": "I am ill.",
+        "attested_author": "sharris123",
+        "attested_id": 448708,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "problem",
+        "native": "Ik heb een dokter nodig.",
+        "pronunciation": "ick hep uhn DOCK-tuhr no-duhg",
+        "english_curated": "I need a doctor.",
+        "english_attested": "I need a doctor!",
+        "attested_author": "lukaszpp",
+        "attested_id": 850659,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "food",
+        "native": "De rekening, alstublieft.",
+        "pronunciation": "duh RAY-kun-ing ALS-tuu-bleeft",
+        "english_curated": "The check, please.",
+        "english_attested": "May I have the bill, please?",
+        "attested_author": "CK",
+        "attested_id": 377812,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "shopping",
+        "native": "Dat is te duur.",
+        "pronunciation": "dit is tuh duhr",
+        "english_curated": "That's too expensive.",
+        "english_attested": "It's too expensive.",
+        "attested_author": "CK",
+        "attested_id": 377762,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "shopping",
+        "native": "Ik wil het niet.",
+        "pronunciation": "ick wil hut neet",
+        "english_curated": "I don't want it.",
+        "english_attested": "I don't want her.",
+        "attested_author": "raggione",
+        "attested_id": 4372779,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      }
+    ]
+  },
+  "ita": {
+    "curated": 386,
+    "attested": 942,
+    "native_corroborations": 7,
+    "corroborating_authors": 4,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": [
+      {
+        "concept": "basics",
+        "native": "Prego.",
+        "pronunciation": "PREH-goh",
+        "english_curated": "You're welcome.",
+        "english_attested": "You are welcome.",
+        "attested_author": "lukaszpp",
+        "attested_id": 397487,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Non lo so.",
+        "pronunciation": "nohn loh soh",
+        "english_curated": "I don’t know.",
+        "english_attested": "I do not know.",
+        "attested_author": "_undertoad",
+        "attested_id": 843132,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Buon pomeriggio.",
+        "pronunciation": "bwohn poh-meh-REE-joh",
+        "english_curated": "Good afternoon.",
+        "english_attested": "Good afternoon.",
+        "attested_author": "CK",
+        "attested_id": 2491622,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Buona notte.",
+        "pronunciation": "bwoh-nah NOHT-teh",
+        "english_curated": "Good night.",
+        "english_attested": "Good night.",
+        "attested_author": "NotApplicable",
+        "attested_id": 745295,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Dov'è il bagno?",
+        "pronunciation": "doh-VEH eel BAHN-yoh",
+        "english_curated": "Where is the bathroom? (someone's home)",
+        "english_attested": "Where is the toilet?",
+        "attested_author": "CK",
+        "attested_id": 394302,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "problem",
+        "native": "Ho bisogno di un dottore.",
+        "pronunciation": "oh bee-ZOH-nyoh dee oon dot-TOH-reh",
+        "english_curated": "I need a doctor.",
+        "english_attested": "I need a doctor.",
+        "attested_author": "CK",
+        "attested_id": 3131444,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "food",
+        "native": "Il conto, per favore.",
+        "pronunciation": "eel KOHN-toh, pehr fah-VOH-reh",
+        "english_curated": "The check, please.",
+        "english_attested": "I'd like the bill, please.",
+        "attested_author": "CK",
+        "attested_id": 4447,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      }
+    ]
+  },
+  "deu": {
+    "curated": 544,
+    "attested": 952,
+    "native_corroborations": 7,
+    "corroborating_authors": 5,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": [
+      {
+        "concept": "basics",
+        "native": "Guten Tag.",
+        "pronunciation": "GOO-ten tahk",
+        "english_curated": "Good day",
+        "english_attested": "Good afternoon.",
+        "attested_author": "CK",
+        "attested_id": 676082,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Guten Abend.",
+        "pronunciation": "GOO-tun AH-bunt",
+        "english_curated": "Good evening.",
+        "english_attested": "Good evening.",
+        "attested_author": "Aurix",
+        "attested_id": 438751,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "problem",
+        "native": "Ich bin krank.",
+        "pronunciation": "eekh been krahnk",
+        "english_curated": "I'm sick.",
+        "english_attested": "I am ill.",
+        "attested_author": "sharris123",
+        "attested_id": 448232,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "problem",
+        "native": "Ich brauche einen Arzt.",
+        "pronunciation": "eekh BROW-khuh IGH-nuh ARTST",
+        "english_curated": "I need a doctor.",
+        "english_attested": "I need a doctor!",
+        "attested_author": "lukaszpp",
+        "attested_id": 642201,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "food",
+        "native": "scharf",
+        "pronunciation": "SHARF",
+        "english_curated": "Spicy",
+        "english_attested": "Is it spicy?",
+        "attested_author": "CK",
+        "attested_id": 13873849,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "food",
+        "native": "Zahlen, bitte.",
+        "pronunciation": "TSAH-len, BIT-tuh",
+        "english_curated": "The check, please.",
+        "english_attested": "I'd like the bill, please.",
+        "attested_author": "CK",
+        "attested_id": 687077,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "shopping",
+        "native": "Das ist zu teuer.",
+        "pronunciation": "dahss ist tsoo TOY-er",
+        "english_curated": "That's too expensive.",
+        "english_attested": "That's too expensive!",
+        "attested_author": "sctld",
+        "attested_id": 524,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      }
+    ]
+  },
+  "srp": {
+    "curated": 401,
+    "attested": 530,
+    "native_corroborations": 0,
+    "corroborating_authors": 0,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": []
+  },
+  "tur": {
+    "curated": 298,
+    "attested": 1059,
+    "native_corroborations": 9,
+    "corroborating_authors": 7,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": [
+      {
+        "concept": "basics",
+        "native": "Nasılsın?",
+        "pronunciation": "na suhl suhn",
+        "english_curated": "How are you?",
+        "english_attested": "How are you getting on?",
+        "attested_author": "_undertoad",
+        "attested_id": 373321,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Bir şey değil.",
+        "pronunciation": "bir shey de yeel",
+        "english_curated": "You're welcome.",
+        "english_attested": "You are welcome.",
+        "attested_author": "lukaszpp",
+        "attested_id": 403964,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Günaydın.",
+        "pronunciation": "Guen eye duhn",
+        "english_curated": "Good morning.",
+        "english_attested": "Good afternoon!",
+        "attested_author": "Meruert",
+        "attested_id": 474019,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "İyi günler.",
+        "pronunciation": "common greeting throughout the day",
+        "english_curated": "Good day. (common greeting throughout the day)",
+        "english_attested": "Good afternoon.",
+        "attested_author": "CK",
+        "attested_id": 483504,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "İyi uykular",
+        "pronunciation": "to sleep",
+        "english_curated": "Good night (to sleep)",
+        "english_attested": "Sleep well!",
+        "attested_author": "bionicboy",
+        "attested_id": 4647398,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "Tuvalet nerede?",
+        "pronunciation": "Too va let ner eh de?",
+        "english_curated": "Where is the toilet?",
+        "english_attested": "Where is the toilet?",
+        "attested_author": "CK",
+        "attested_id": 698004,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "problem",
+        "native": "Bir doktora ihtiyacım var.",
+        "pronunciation": "beer dohk toh rah eeh tee yah jum vahr",
+        "english_curated": "I need a doctor.",
+        "english_attested": "I need a doctor!",
+        "attested_author": "lukaszpp",
+        "attested_id": 2004377,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "food",
+        "native": "Hesap lütfen.",
+        "pronunciation": "heh saap loot fehn",
+        "english_curated": "The check, please.",
+        "english_attested": "Please bring the bill.",
+        "attested_author": "Hybrid",
+        "attested_id": 461559,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "food",
+        "native": "Ne zaman kapatıyorsunuz? ( )",
+        "pronunciation": " ",
+        "english_curated": "When is closing time?",
+        "english_attested": "What time do you close?",
+        "attested_author": "darinmex",
+        "attested_id": 631035,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      }
+    ]
+  },
+  "fas": {
+    "curated": 55,
+    "attested": 372,
+    "native_corroborations": 0,
+    "corroborating_authors": 0,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": []
+  },
+  "tha": {
+    "curated": 420,
+    "attested": 276,
+    "native_corroborations": 7,
+    "corroborating_authors": 6,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": [
+      {
+        "concept": "courtesy",
+        "native": "สวัสดี",
+        "pronunciation": "informal",
+        "english_curated": "Hello.",
+        "english_attested": "Hello.",
+        "attested_author": "LanguageExpert",
+        "attested_id": 7784257,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "courtesy",
+        "native": "สวัสดีครับ",
+        "pronunciation": "polite, speaker is male",
+        "english_curated": "Hello.",
+        "english_attested": "Good morning.",
+        "attested_author": "_undertoad",
+        "attested_id": 3450636,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "courtesy",
+        "native": "ลาก่อน",
+        "pronunciation": "laa kon",
+        "english_curated": "Goodbye.",
+        "english_attested": "Goodbye!",
+        "attested_author": "minshirui",
+        "attested_id": 7878404,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "คุณชื่ออะไร",
+        "pronunciation": "khun chue arai?",
+        "english_curated": "What is your name?",
+        "english_attested": "What is your name?",
+        "attested_author": "frpzzd",
+        "attested_id": 6633670,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "ขอบคุณ[มาก]",
+        "pronunciation": "khop khun [mâak]",
+        "english_curated": "Thank you [very much].",
+        "english_attested": "Thank you ever so much.",
+        "attested_author": "CK",
+        "attested_id": 8675965,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "ขอโทษ",
+        "pronunciation": "begging pardon",
+        "english_curated": "Excuse me. (begging pardon)",
+        "english_attested": "I'm sorry.",
+        "attested_author": "CK",
+        "attested_id": 499088,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "directions",
+        "native": "เลี้ยวซ้าย",
+        "pronunciation": "liaao saai",
+        "english_curated": "Turn left.",
+        "english_attested": "Turn left!",
+        "attested_author": "faraway9911",
+        "attested_id": 8675741,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      }
+    ]
+  },
+  "rus": {
+    "curated": 425,
+    "attested": 1034,
+    "native_corroborations": 4,
+    "corroborating_authors": 3,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": [
+      {
+        "concept": "basics",
+        "native": "Где туалет?",
+        "pronunciation": "gdyeh too-ah-LYEHT?",
+        "english_curated": "Where is the toilet?",
+        "english_attested": "Where is the toilet?",
+        "attested_author": "CK",
+        "attested_id": 615493,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "problem",
+        "native": "Это срочно!.",
+        "pronunciation": "EH-tuh SROHCH-nuh",
+        "english_curated": "It's an emergency.",
+        "english_attested": "Is it an emergency?",
+        "attested_author": "CK",
+        "attested_id": 6956106,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "problem",
+        "native": "Мне нужен врач.",
+        "pronunciation": "mnyeh NOO-zhyhn vrahch",
+        "english_curated": "I need a doctor.",
+        "english_attested": "I need a doctor!",
+        "attested_author": "lukaszpp",
+        "attested_id": 855568,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "food",
+        "native": "Счёт, пожалуйста.",
+        "pronunciation": "shyoht, puh-ZHAH-luh-stuh",
+        "english_curated": "The check, please.",
+        "english_attested": "The bill, please!",
+        "attested_author": "atitarev",
+        "attested_id": 5982168,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      }
+    ]
+  },
+  "jpn": {
+    "curated": 612,
+    "attested": 993,
+    "native_corroborations": 1,
+    "corroborating_authors": 1,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": [
+      {
+        "concept": "shopping",
+        "native": "いくらですか？",
+        "pronunciation": "Ikura desu ka?",
+        "english_curated": "How much is this?",
+        "english_attested": "How much does it cost?",
+        "attested_author": "lukaszpp",
+        "attested_id": 5332,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      }
+    ]
+  },
+  "kor": {
+    "curated": 436,
+    "attested": 432,
+    "native_corroborations": 2,
+    "corroborating_authors": 2,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": [
+      {
+        "concept": "basics",
+        "native": "감사합니다.",
+        "pronunciation": "gamsahamnida",
+        "english_curated": "Thank you.",
+        "english_attested": "Thank you!",
+        "attested_author": "sysko",
+        "attested_id": 1531876,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "안녕.",
+        "pronunciation": "informal",
+        "english_curated": "Goodbye",
+        "english_attested": "Goodbye!",
+        "attested_author": "minshirui",
+        "attested_id": 5548647,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      }
+    ]
+  },
+  "vie": {
+    "curated": 320,
+    "attested": 461,
+    "native_corroborations": 4,
+    "corroborating_authors": 4,
+    "gloss_only": 0,
+    "register_conflicts": 1,
+    "pairs": [
+      {
+        "concept": "basics",
+        "native": "Ông tên là gì?",
+        "pronunciation": "formal, to a man (forties or older, depending on the sensitivity of the person you address)",
+        "english_curated": "What is your name? (formal, to a man (forties or older, depending on the sensitivity of the person you address))",
+        "english_attested": "What is your name?",
+        "attested_author": "frpzzd",
+        "attested_id": 2760541,
+        "tatoeba_author_share": null,
+        "register_conflict": true
+      },
+      {
+        "concept": "basics",
+        "native": "Tôi không hiểu.",
+        "pronunciation": "thoy kohng hee-oh",
+        "english_curated": "I don't understand.",
+        "english_attested": "I do not understand.",
+        "attested_author": "CC",
+        "attested_id": 5815,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "directions",
+        "native": "đi thẳng (...)",
+        "pronunciation": "...",
+        "english_curated": "straight ahead",
+        "english_attested": "Go straight.",
+        "attested_author": "CK",
+        "attested_id": 13682586,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "shopping",
+        "native": "Đắt quá.",
+        "pronunciation": "daht?! kwahh?",
+        "english_curated": "That's too expensive.",
+        "english_attested": "Too expensive!",
+        "attested_author": "jared1981",
+        "attested_id": 13896803,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      }
+    ]
+  },
+  "cmn": {
+    "curated": 386,
+    "attested": 865,
+    "native_corroborations": 0,
+    "corroborating_authors": 0,
+    "gloss_only": 0,
+    "register_conflicts": 0,
+    "pairs": []
+  }
+}

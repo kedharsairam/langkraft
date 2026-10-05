@@ -71,6 +71,15 @@ const UA = { 'User-Agent': 'LangKraft research (offline phrasebook project)' };
  */
 const INFOBOX_REVERSED = new Set(['ind']);
 
+/**
+ * Characters that mark a side as being in a non-Latin target script.
+ *
+ * Used to decide which half of a phrase row is the phrase and which is the gloss, independent of
+ * which template the row came from. Defined at module scope because the `{{Lang}}` override path
+ * needs it before the row-splitting code runs.
+ */
+const NON_LATIN_SCRIPT = /[\u3040-\u30ff\u4e00-\u9fff\uac00-\ud7af\u0e00-\u0e7f\u0600-\u06ff\u0900-\u097f]/;
+
 const PAGE_TITLES = {
   ind: 'Indonesian phrasebook',
   spa: 'Spanish phrasebook',
@@ -317,24 +326,60 @@ export function parsePhraseRow(row, reversed = false) {
   // page: for Thai, Japanese, Mandarin and Tamil it is the only usable form of the phrase, since
   // the learner cannot read the native script yet.
   const pron = /\(''\s*([^']+?)\s*''\)/.exec(row)?.[1] ?? null;
-
-  // Some pages use a {{pron|...}} template instead of italic parentheses.
   const pronTpl = /\{\{\s*pron\s*\|\s*([^}|]+)/i.exec(row)?.[1]?.trim() ?? null;
-  const pronunciation = pron ?? pronTpl;
+  let pronunciation = pron ?? pronTpl;
+
+  // The Arabic page nests the register note INSIDE the pronunciation parentheses:
+  // `; Excuse me.: {{Lang|ar|إسمحلي}}  ''(min faDlak)''` is polite, while
+  // `''(rubbamaa)''` is bare. The leading token of the parenthetical is the register when it is
+  // one of a small known set, and dropping it loses exactly the information the app exists to
+  // show. It is recorded on the row rather than discarded.
+  const pronRegister = /\(\s*(informal|formal|polite|male|female|masculine|feminine|honorific|humile)\b/i
+    .exec(pronunciation ?? '')?.[1] ?? null;
+
+  /**
+   * Resolve `{{Lang|<script>|<text>}}`.
+   *
+   * This template exists on the Arabic and Persian pages to mark which part of the row is in
+   * the target script: `; Yes.: {{Lang|ar|نَعَمْ}}  ''na'am''`. Template-stripping removed it,
+   * so the native column came out as `na'am` -- the romanisation, in Latin letters, filed as
+   * though it were the Arabic. Every Arabic and Dari phrase was wrong in the same way, and the
+   // symptom was an apparently plausible file with zero correct script.
+   */
+  const langTpl = /\{\{\s*Lang\s*\|[^|]*\|\s*([^{}|]+)\}\}/i.exec(row)?.[1]?.trim() ?? null;
+  let nativeOverride = langTpl;
+
+  // Arabic sometimes writes the pronunciation bare rather than in italics:
+  // `; Maybe.: {{Lang|ar|رُبَّمَا}}  ''(rubbamaa)''` still has the italics, but
+  // `; Excuse me.: {{Lang|ar|إسمحلي}}  ''(min faDlak)''` puts the register note inside the
+  // parentheses alongside the pronunciation, so the tail is kept verbatim and left for a reader.
+  // Bare-paren pronunciation, restricted to rows whose PHRASE is in a non-Latin script.
+  //
+  // The restriction is the whole point. In Thai, Japanese, Mandarin, Arabic, Hindi and Tamil the
+  // native script cannot be read by a learner who has not learned it, so the romanisation is the
+  // only usable form of the phrase. In Indonesian or Swahili, a trailing "(after a big meal)" is
+  // part of the phrase itself, and treating it as a pronunciation amputates content the app would
+  // otherwise render. The two cases look identical in the markup and are told apart only by the
+  // script of the text before the parenthesis.
+  if (!pronunciation && !nativeOverride && NON_LATIN_SCRIPT.test(row)) {
+    const bare = /\(\s*([^()]+?)\s*\)\s*$/.exec(row);
+    if (bare && /\p{Script=Latin}/u.test(bare[1])) pronunciation = bare[1].trim();
+  }
 
   let text = cleanWikitext(row);
   if (!text) return null;
 
-  // Strip the trailing pronunciation from the phrase itself so it does not read as part of the
-  // sentence.
-  //
-  // Conditional on having actually found one. A blanket `/\s*\([^)]*\)\s*$/` strip also ate
-  // legitimate trailing parentheticals in the phrase -- a test caught it turning native "Halo."
-  // into an empty string because the row was "Halo. (HAH-loh)" with the italics already
-  // cleaned away, so the pronunciation was no longer recognisable as one.
+  // Remove the pronunciation tail, but only the specific shapes we recognise, so a genuine
+  // parenthetical inside the phrase is not amputated. A blanket `/\([^)]*\)$/` strip was tried
+  // and destroyed real content; it also ran when the pronunciation had not been found, which is
+  // when the parentheses are most likely to belong to the phrase.
   if (pronunciation) {
     text = text
-      .replace(/\s*\([^)]*\)\s*$/, '')
+      // Strip the register note first, so a trailing "(male)" cannot block the pronunciation
+      // parenthesis from being recognised as one shape.
+      .replace(/\s*\(?(male|female|masculine|feminine|plural|singular)\)?\s*$/i, '')
+      .replace(/\s*\(''[^']*''\)\s*$/, '')     // still italic at this point
+      .replace(/\s*\([A-Za-z][^()]*\)\s*$/, '') // bare parenthetical, e.g. (pèrt)
       .trim();
   }
 
@@ -355,11 +400,46 @@ export function parsePhraseRow(row, reversed = false) {
   let english = reversed ? right : left;
   let native = reversed ? left : right;
 
+  // `{{Lang|<script>|<text>}}` is AUTHORITATIVE: its payload is the target-script text, full
+  // stop. The rest of the row is a gloss or a romanisation.
+  //
+  // Without this, template-stripping left `; Yes.: {{Lang|ar|نَعَمْ}} ''na'am''` with no Arabic
+  // anywhere in the row, so the script check found nothing on either side and the parser filed
+  // "Yes." as BOTH the English and the native text. Every Arabic and Dari row was wrong in the
+  // same way, and the file looked perfectly plausible.
+  if (nativeOverride) {
+    native = nativeOverride;
+    // English is the side that is NOT the template payload. In the normal `English : Native`
+    // layout that is `left`; reversed layouts put it on the right.
+    const candidate = reversed ? right : left;
+    if (candidate && candidate !== native) {
+      english = candidate.replace(/\s*\([^)]*\)\s*$/, '').trim();
+    }
+    // Anything left after the payload is the romanisation.
+    if (!pronunciation) {
+      const tail = reversed ? left : right;
+      const tailClean = cleanWikitext(tail).replace(/^\(|\)$/g, '').trim();
+      // The Arabic page writes `; Please. :{{Lang|ar|من فضلك}}:(''min faDlak) (male)''` --
+      // no space before the colon, and the register note trails the pronunciation inside the
+      // same parentheses. Both artifacts have to come off or the pronunciation column reads
+      // ":(min faDlak) (male", which is what it did.
+      const tidy = tailClean
+        .replace(/^[:\s]+/, '')
+        .replace(/['"]+$/, '')
+        .replace(/\s*\(?(male|female|masculine|feminine|plural|singular)\)?\s*$/i, '')
+        .replace(/['"]+$/, '')
+        .trim();
+      if (tidy && tidy !== native && /\p{Script=Latin}/u.test(tidy)) {
+        pronunciation = tidy;
+      }
+    }
+  }
+
   // Independent check that does not depend on template context: for a non-Latin language, the
   // side carrying the target language's script is the native one. If that contradicts the
   // template's ordering, the script wins -- a row that says "Hello : 你好" in an English-first
   // context is still an English-first row.
-  const NON_LATIN = /[぀-ヿ一-鿿가-힯฀-๿؀-ۿऀ-ॿ]/;
+  const NON_LATIN = NON_LATIN_SCRIPT;
   if (NON_LATIN.test(left) !== NON_LATIN.test(right)) {
     const leftIsNative = NON_LATIN.test(left);
     english = leftIsNative ? right : left;
@@ -368,7 +448,12 @@ export function parsePhraseRow(row, reversed = false) {
 
   if (!/\p{L}/u.test(native)) return null;
 
-  return { english: english.trim(), native: native.trim(), pronunciation };
+  return {
+    english: english.trim(),
+    native: native.trim(),
+    pronunciation,
+    register: pronRegister,
+  };
 }
 
 /** Fetches a page's wikitext. */
@@ -514,6 +599,25 @@ async function main() {
     await new Promise((r) => setTimeout(r, 1500));
     const { rows, note } = await harvest(lang.code);
     const path = join(OUT, `${lang.code}.jsonl`);
+
+    // NEVER overwrite a good harvest with an empty one.
+    //
+    // A throttled or partially-failed run returned zero rows for Spanish and Turkish and
+    // overwrote 466 and 299 phrases with nothing. The command printed "0 phrases" and exited
+    // zero, so nothing downstream could tell the difference between "this page has no phrases"
+    // and "this run failed". Two independent sources of that mistake already: a null-result
+    // language reported as a successful empty harvest, and 11 languages reported missing.
+    const existing = existsSync(path)
+      ? readFileSync(path, 'utf8').split('\n').filter(Boolean)
+      : [];
+    if (!rows.length && existing.length) {
+      console.log(
+        `  ${lang.code} ${lang.name}: KEPT existing ${existing.length} phrases; this run ` +
+          `produced none (${note ?? 'no reason recorded'})`,
+      );
+      report[lang.code] = { rows: existing.length, kept: true, note };
+      continue;
+    }
     writeFileSync(path, rows.map((r) => JSON.stringify(r)).join('\n') + (rows.length ? '\n' : ''));
 
     const concepts = new Set(rows.map((r) => r.concept));
