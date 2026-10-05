@@ -155,10 +155,29 @@ data class Tier(
 /**
  * The per-language spec, trimmed to what the app needs at runtime.
  *
- * Only the fields the app actually reads are carried over. Provenance, `why` fields
- * and the review block stay in the YAML in the repository — they are for the build
- * and for review, not for a phone.
+ * Only the fields the app actually reads are carried over. Provenance and the review
+ * block stay in the YAML in the repository, for the build and for review.
+ *
+ * `attribution` is the exception: it IS carried, because a licence obligation is not
+ * documentation. CC BY-SA content was being redistributed with nowhere in the app to
+ * credit it, and bundling two OFL font families added a second obligation with no place
+ * to discharge it either.
  */
+/** One licence the app must discharge. Lives in `data` because the loader parses it. */
+data class Credit(
+    val source: String,
+    val licence: String,
+    val authorCredit: String?,
+    val note: String? = null,
+)
+
+/** Per-language attribution, carried from the spec so a new language brings its own. */
+data class Attribution(
+    val source: String,
+    val licence: String,
+    val authorCredit: String?,
+)
+
 data class LanguageSpec(
     val code: String,
     val name: String,
@@ -171,6 +190,16 @@ data class LanguageSpec(
     val scriptPrimary: String,
     val scriptDirection: String,
     val registerSystem: String,
+    /**
+     * True when the polite form marks the SPEAKER's gender and there is no verified
+     * neutral alternative. Thai only, so far.
+     *
+     * This cannot be resolved by the app. It cannot know the reader's gender, and the
+     * product rules forbid asking, so the particle is a choice the reader makes rather
+     * than a default the app picks.
+     */
+    val registerGenderMarked: Boolean = false,
+    val attribution: List<Attribution> = emptyList(),
     val tiers: List<Tier>,
 ) {
     val isLatinScript: Boolean get() = scriptPrimary.contains("Latin", ignoreCase = true)

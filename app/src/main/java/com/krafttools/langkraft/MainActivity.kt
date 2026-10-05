@@ -17,6 +17,8 @@ import com.krafttools.langkraft.data.ContentRepository
 import com.krafttools.langkraft.data.ProgressStore
 import com.krafttools.langkraft.data.SearchIndex
 import com.krafttools.langkraft.ui.CorpusLoadFailed
+import com.krafttools.langkraft.ui.CreditsScreen
+import com.krafttools.langkraft.ui.FirstRunScreen
 import com.krafttools.langkraft.ui.LangKraftTheme
 import com.krafttools.langkraft.ui.LanguageListScreen
 import com.krafttools.langkraft.ui.PathScreen
@@ -64,7 +66,16 @@ class MainActivity : ComponentActivity() {
                 val loaded = remember { runCatching { ContentRepository.from(applicationContext).load() } }
 
                 loaded.fold(
-                    onSuccess = { corpus -> LangKraftNav(AppState(corpus, ProgressStore(applicationContext))) },
+                    onSuccess = { corpus ->
+                        val progress = ProgressStore(applicationContext)
+                        LangKraftNav(
+                            state = AppState(corpus, progress),
+                            introSeen = progress.meta(ProgressStore.META_INTRO_SEEN) != null,
+                            onIntroDismissed = {
+                                progress.setMeta(ProgressStore.META_INTRO_SEEN, "1")
+                            },
+                        )
+                    },
                     onFailure = { CorpusLoadFailed(it) },
                 )
             }
@@ -73,6 +84,8 @@ class MainActivity : ComponentActivity() {
 }
 
 private object Routes {
+    const val INTRO = "intro"
+    const val CREDITS = "credits"
     const val LANGUAGES = "languages"
     const val PATH = "path/{lang}"
     const val TIER = "tier/{lang}/{tier}"
@@ -84,16 +97,40 @@ private object Routes {
 }
 
 @Composable
-private fun LangKraftNav(state: AppState) {
+private fun LangKraftNav(state: AppState, introSeen: Boolean, onIntroDismissed: () -> Unit) {
     val nav = rememberNavController()
     val corpus = state.corpus
 
-    NavHost(navController = nav, startDestination = Routes.LANGUAGES) {
+    NavHost(
+        navController = nav,
+        // The intro is the start destination only until it has been read once. Making it a
+        // real destination rather than a boolean gate means back navigation behaves, and it
+        // cannot reappear on its own.
+        startDestination = if (introSeen) Routes.LANGUAGES else Routes.INTRO,
+    ) {
+        composable(Routes.INTRO) {
+            FirstRunScreen(onContinue = {
+                onIntroDismissed()
+                nav.navigate(Routes.LANGUAGES) {
+                    popUpTo(Routes.INTRO) { inclusive = true }
+                }
+            })
+        }
+
+        composable(Routes.CREDITS) {
+            CreditsScreen(
+                appCredits = corpus.credits,
+                specs = corpus.specs,
+                onBack = { nav.popBackStack() },
+            )
+        }
+
         composable(Routes.LANGUAGES) {
             LanguageListScreen(
                 corpus = corpus,
                 positions = state.progress.allPositions(),
                 onOpen = { lang -> nav.navigate(Routes.path(lang)) },
+                onCredits = { nav.navigate(Routes.CREDITS) },
             )
         }
 

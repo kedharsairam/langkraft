@@ -29,6 +29,8 @@ class ContentRepository(private val assets: AssetSource) {
 
     data class Corpus(
         val specs: List<LanguageSpec>,
+        /** Global credits: the app itself and the bundled fonts. */
+        val credits: List<Credit> = emptyList(),
         val entries: List<Entry>,
         val exchanges: List<Exchange>,
         val toneSets: List<ToneSet> = emptyList(),
@@ -68,6 +70,11 @@ class ContentRepository(private val assets: AssetSource) {
         val records = parseRecords(assets.open("content.jsonl"))
         return Corpus(
             specs = specs,
+            // Credits are loaded from their own asset and a failure to load them is FATAL,
+            // not ignorable. An app that silently ships with an empty credits screen is
+            // distributing CC BY-SA material with no attribution, which is the exact
+            // failure this asset exists to prevent.
+            credits = parseCredits(assets.open("credits.json")),
             entries = records.filterIsInstance<Entry>(),
             exchanges = records.filterIsInstance<Exchange>(),
             toneSets = records.filterIsInstance<ToneSet>(),
@@ -75,6 +82,20 @@ class ContentRepository(private val assets: AssetSource) {
     }
 
     // ---- specs ------------------------------------------------------------
+    private fun parseCredits(raw: String): List<Credit> {
+        val obj = JSONObject(raw)
+        val arr = obj.optJSONArray("app_credits") ?: JSONArray()
+        return (0 until arr.length()).map {
+            val o = arr.getJSONObject(it)
+            Credit(
+                source = o.optString("source", "Unknown"),
+                licence = o.optString("licence", "Unknown"),
+                authorCredit = o.optStringOrNull("author_credit"),
+                note = o.optStringOrNull("note"),
+            )
+        }
+    }
+
     private fun parseSpecs(raw: String): List<LanguageSpec> {
         val arr = JSONArray(raw)
         // An empty spec list is a broken bundle, not a language catalogue with nothing in
@@ -111,6 +132,15 @@ class ContentRepository(private val assets: AssetSource) {
                             "left-to-right, which is worse than refusing to open."
                     ),
                 registerSystem = o.getJSONObject("register").optString("system", "none"),
+                registerGenderMarked = o.getJSONObject("register").optBoolean("gender_marked", false),
+                attribution = (0 until (o.optJSONArray("attribution")?.length() ?: 0)).map { a ->
+                    val ao = o.getJSONArray("attribution").getJSONObject(a)
+                    Attribution(
+                        source = ao.optString("source", "Unknown"),
+                        licence = ao.optString("licence", "Unknown"),
+                        authorCredit = ao.optStringOrNull("author_credit"),
+                    )
+                },
                 tiers = (0 until tiersArr.length()).map { t ->
                     val to = tiersArr.getJSONObject(t)
                     Tier(

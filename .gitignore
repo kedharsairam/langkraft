@@ -6,7 +6,14 @@ npm-debug.log*
 
 # Gradle / Android
 .gradle/
-build/
+# ROOT-ANCHORED, and app/build/ named explicitly. A bare `build/` matches ANY directory
+# called build at any depth -- including pipeline/build/, which holds emit-assets.mjs.
+# That made the asset emitter untracked, so `git status` never showed it being edited and
+# a clean clone had no emit script at all: `preBuild -> emitAssets` died with
+# MODULE_NOT_FOUND for every build variant, debug and release alike. A build that only
+# works on the machine that built it is not a build.
+/build/
+app/build/
 local.properties
 .kotlin/
 *.apk

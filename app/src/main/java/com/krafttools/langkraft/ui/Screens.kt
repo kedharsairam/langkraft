@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.snapshotFlow
@@ -58,6 +59,7 @@ fun LanguageListScreen(
     corpus: ContentRepository.Corpus,
     positions: Map<String, List<ProgressStore.Position>>,
     onOpen: (String) -> Unit,
+    onCredits: () -> Unit = {},
 ) {
     Scaffold(
         topBar = {
@@ -66,6 +68,13 @@ fun LanguageListScreen(
             // to go back to.
             TopAppBar(
                 title = { Text("LangKraft") },
+                // Credits lives here, in the chrome, rather than three taps deep. The app
+                // redistributes CC BY-SA content and two OFL font families and both
+                // licences require the credit to be findable; burying it would not
+                // discharge the obligation.
+                actions = {
+                    TextButton(onClick = onCredits) { Text("Credits") }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background,
                     titleContentColor = MaterialTheme.colorScheme.onBackground,

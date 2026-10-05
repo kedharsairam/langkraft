@@ -44,7 +44,7 @@ class ProgressStore(context: Context) : SQLiteOpenHelper(
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
             """
-            CREATE TABLE $TABLE_POSITION (
+            CREATE TABLE IF NOT EXISTS $TABLE_POSITION (
                 lang        TEXT    NOT NULL,
                 tier        INTEGER NOT NULL,
                 item_index  INTEGER NOT NULL,
@@ -56,12 +56,24 @@ class ProgressStore(context: Context) : SQLiteOpenHelper(
 
         db.execSQL(
             """
-            CREATE TABLE $TABLE_FLAG (
+            CREATE TABLE IF NOT EXISTS $TABLE_FLAG (
                 id         INTEGER PRIMARY KEY AUTOINCREMENT,
                 lang       TEXT    NOT NULL,
                 entry_id   TEXT    NOT NULL,
                 country    TEXT,
                 at         INTEGER NOT NULL
+            )
+            """.trimIndent()
+        )
+
+        // A third table for a single fact, kept separate from position and flags so that
+        // clearing either of those — which onUpgrade does — cannot un-dismiss the intro
+        // and greet the reader again.
+        db.execSQL(
+            """
+            CREATE TABLE IF NOT EXISTS $TABLE_META (
+                key   TEXT NOT NULL PRIMARY KEY,
+                value TEXT NOT NULL
             )
             """.trimIndent()
         )
@@ -90,8 +102,16 @@ class ProgressStore(context: Context) : SQLiteOpenHelper(
         // Nothing here is derived and nothing is expensive to rebuild: position is a
         // bookmark and flags are complaints. Recreating both is safer than a migration
         // path nobody has exercised, and losing a bookmark costs one tap.
+        //
+        // app_meta is PRESERVED across an upgrade. It holds one fact — has the intro been
+        // read — and dropping it would greet the reader again on every app update, which
+        // is the one thing a first-run screen must never do.
         db.execSQL("DROP TABLE IF EXISTS $TABLE_POSITION")
         db.execSQL("DROP TABLE IF EXISTS $TABLE_FLAG")
+        // NOT dropped, and not recreated: app_meta survives, and onCreate's
+        // IF NOT EXISTS makes re-running it harmless. The previous version pre-created
+        // this table and then let onCreate create it again, which threw
+        // "table app_meta already exists" on every launch and bricked the app.
         onCreate(db)
     }
 
@@ -228,10 +248,30 @@ class ProgressStore(context: Context) : SQLiteOpenHelper(
         fallback
     }
 
+    // ---- app meta -----------------------------------------------------------
+    // Not progress, not a flag. Deliberately not a counter and not a score: the intro is
+    // shown until it has been read once and then never again, which is all this records.
+    fun meta(key: String): String? = orRecreate {
+        readableDatabase.rawQuery("SELECT value FROM $TABLE_META WHERE key = ?", arrayOf(key))
+            .use { if (it.moveToFirst()) it.getString(0) else null }
+    }
+
+    fun setMeta(key: String, value: String) = orWrite(Unit) {
+        writableDatabase.insertWithOnConflict(
+            TABLE_META, null,
+            android.content.ContentValues().apply {
+                put("key", key); put("value", value)
+            },
+            SQLiteDatabase.CONFLICT_REPLACE,
+        )
+    }
+
     companion object {
         private const val TAG = "LangKraftProgress"
+        const val META_INTRO_SEEN = "intro_seen"
+        const val TABLE_META = "app_meta"
         const val DB_NAME = "progress.db"
-        const val DB_VERSION = 1
+        const val DB_VERSION = 2
         const val TABLE_POSITION = "position"
         const val TABLE_FLAG = "failure_flag"
     }
