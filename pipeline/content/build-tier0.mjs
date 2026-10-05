@@ -197,8 +197,17 @@ const SIGNS = {
 };
 
 /** Raised, echoed and printed English. Reads correctly; almost never something you would say. */
-const SIGN_WORDS =
-  /^\s*(open|closed|entrance|exit|push|pull|toilet|wc|men|women|forbidden|no entry|entry|in|out|stop|cash only|visa|mastercard|free wi-?fi|no smoking|[a-z ]+)\s*$/i;
+const SIGN_WORDS = new RegExp(
+  '^\\s*(' + [
+    'open', 'closed', 'entrance', 'exit', 'push', 'pull', 'toilet', 'wc',
+    'men', 'women', 'forbidden', 'no entry', 'entry', 'in', 'out', 'stop',
+    'cash only', 'visa', 'mastercard', 'free wi-?fi', 'no smoking',
+    'check', 'check ?in', 'check ?out', 'stairs', 'lift', 'elevator',
+    'taxi', 'bar', 'restaurant', 'hotel', 'information', 'emergency',
+    'exit only', 'way out', 'way in', 'no entry',
+  ].join('|') + ')\\b',
+  'i',
+);
 
 const FALLBACK = {
   direction: 'understand',
@@ -279,7 +288,10 @@ function scenarioFor(row, domain) {
     /^\s*(buka|tutup|masuk|keluar|dorong|tarik|dila[ra]rang|pria|wanita)\b/i.test(native) ||
     // ALL CAPS with no lowercase letters is how sign text is written on these pages.
     (native.length > 1 && native === native.toUpperCase() && /^\p{Lu}/u.test(native));
-  if (looksLikeSign && domain === 1) return SIGNS;
+  // Any domain, not just 1. Restricting it to domain 1 was wrong: the Mandarin page files its
+  // signs under directions (domain 7), so `入口 [rùkǒu]` came out as a `say` entry with
+  // navigation advice and no romanisation. It is a sign wherever the page put it.
+  if (looksLikeSign) return SIGNS;
 
   if (domain === 1) {
     if (/\b(hello|hi\b|good (morning|afternoon|evening)|how are you|welcome|nice to meet)\b/.test(en)) {
@@ -523,4 +535,4 @@ function main() {
 // main() is invoked by the caller; kept separate so the YAML import stays lazy.
 if (import.meta.url === `file://${process.argv[1]}`) main();
 
-export { main as buildAll, SCENARIO, DOMAIN, romanised, tidy };
+export { main as buildAll, SCENARIO, DOMAIN, romanised, tidy, scenarioFor, SIGNS };

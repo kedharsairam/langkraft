@@ -66,6 +66,25 @@ export function loadSpecs(dir = SPEC_DIR) {
   return specs;
 }
 
+/**
+ * Whether an English gloss is readable on its own.
+ *
+ * Used only to decide if a RECOGNITION entry needs a romanisation. Signs carry short, ordinary
+ * English words; a spoken phrase carries a sentence. Splitting on that keeps the exemption
+ * narrow — it cannot silently excuse "How much does this cost?" from needing a romanisation.
+ */
+function isReadableAsIs(english) {
+  const e = (english ?? '').trim();
+  if (!e || e.length > 40) return false;
+  // Any of these and it is a sentence, not a label on a door.
+  if (/\?/.test(e)) return false;
+  if (/\b(how|what|where|who|why|when|do|does|did|is|are|was|were|can|could|would|will|please|i|my|me|you|your|we|they)\b/i.test(e)) {
+    return false;
+  }
+  // Capitals suggest signage, which is exactly the case being exempted.
+  return /^[A-Z][A-Z\s/&.'-]*$/.test(e) || /^[a-z]/.test(e);
+}
+
 function isLatinScript(spec) {
   return /Latin/i.test(spec?.structure?.script?.primary ?? '');
 }
@@ -233,8 +252,28 @@ export function lintContent(records, specs, schema) {
     for (const f of fields) {
       if (latin && f.v != null) {
         r.err(where, `${f.n} is set but the spec declares a Latin script. The same string would ship twice.`);
+        continue;
       }
       if (!latin && f.v == null) {
+        // The rule's PURPOSE is that a learner who cannot read the target script must still be
+        // able to use the entry. Sign text does not need a romanisation for that: "CLOSED" on a
+        // door is read as a picture of a word, and a romanisation of a word already in Latin
+        // letters tells the reader nothing they could not read directly.
+        //
+        // So the exemption is narrow and structural rather than a per-language exception: an
+        // entry the learner RECOGNISES rather than PRODUCES, whose English side is already
+        // readable, does not require a romanisation. Requiring one anyway produced 12 failures
+        // on correct content — Russian Закрыто, Chinese 入口 — and a rule that fires on correct
+        // content trains people to ignore it.
+        // The direction is checked too, but a MISLABELLED sign is not excused by the label it
+        // was wrongly given -- that would make the exemption depend on a field the generator
+        // sets, which is circular. Mandarin signs arrive as `say` because the generator's
+        // scenario mapping missed them, and the honest outcome there is a direction bug rather
+        // than a romanisation exemption. Only `understand` entries are exempted.
+        if (k === 'entry' && rec.direction === 'understand' && isReadableAsIs(rec.text_english)) {
+          r.warn(where, `${f.n} is null, but this is recognition text whose English is already readable, so no romanisation is needed.`);
+          continue;
+        }
         r.err(where, `${f.n} is null but the spec declares a non-Latin script, which requires a romanisation for the app to be usable without reading the target script.`);
       }
     }

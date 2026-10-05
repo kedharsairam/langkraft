@@ -7,7 +7,7 @@
     "written": 48,
     "domains": 10,
     "depth": 48,
-    "ratio": "37:11"
+    "ratio": "39:9"
   },
   "spa": {
     "skipped_romanized_only": 0,
@@ -17,7 +17,7 @@
     "written": 57,
     "domains": 9,
     "depth": 57,
-    "ratio": "46:11"
+    "ratio": "38:19"
   },
   "hin": {
     "skipped_romanized_only": 19,
@@ -27,7 +27,7 @@
     "written": 25,
     "domains": 8,
     "depth": 39,
-    "ratio": "24:1"
+    "ratio": "22:3"
   },
   "fra": {
     "skipped_romanized_only": 0,
@@ -37,7 +37,7 @@
     "written": 56,
     "domains": 9,
     "depth": 56,
-    "ratio": "46:10"
+    "ratio": "47:9"
   },
   "ara": {
     "skipped_romanized_only": 30,
@@ -47,7 +47,7 @@
     "written": 27,
     "domains": 9,
     "depth": 52,
-    "ratio": "13:14"
+    "ratio": "19:8"
   },
   "swh": {
     "skipped_romanized_only": 0,
@@ -67,7 +67,7 @@
     "written": 12,
     "domains": 9,
     "depth": 24,
-    "ratio": "5:7"
+    "ratio": "9:3"
   },
   "por": {
     "skipped_romanized_only": 0,
@@ -77,7 +77,7 @@
     "written": 52,
     "domains": 9,
     "depth": 56,
-    "ratio": "39:13"
+    "ratio": "36:16"
   },
   "nld": {
     "skipped_romanized_only": 0,
@@ -87,7 +87,7 @@
     "written": 57,
     "domains": 9,
     "depth": 57,
-    "ratio": "49:8"
+    "ratio": "50:7"
   },
   "ita": {
     "skipped_romanized_only": 0,
@@ -107,7 +107,7 @@
     "written": 60,
     "domains": 10,
     "depth": 60,
-    "ratio": "46:14"
+    "ratio": "48:12"
   },
   "srp": {
     "skipped_romanized_only": 0,
@@ -117,7 +117,7 @@
     "written": 50,
     "domains": 10,
     "depth": 50,
-    "ratio": "36:14"
+    "ratio": "35:15"
   },
   "tur": {
     "skipped_romanized_only": 0,
@@ -127,7 +127,7 @@
     "written": 57,
     "domains": 9,
     "depth": 58,
-    "ratio": "48:9"
+    "ratio": "50:7"
   },
   "fas": {
     "skipped_romanized_only": 6,
@@ -147,7 +147,7 @@
     "written": 37,
     "domains": 9,
     "depth": 37,
-    "ratio": "27:10"
+    "ratio": "31:6"
   },
   "rus": {
     "skipped_romanized_only": 0,
@@ -157,7 +157,7 @@
     "written": 57,
     "domains": 9,
     "depth": 58,
-    "ratio": "44:13"
+    "ratio": "42:15"
   },
   "jpn": {
     "skipped_romanized_only": 0,
@@ -167,7 +167,7 @@
     "written": 57,
     "domains": 10,
     "depth": 57,
-    "ratio": "49:8"
+    "ratio": "51:6"
   },
   "kor": {
     "skipped_romanized_only": 0,
@@ -177,7 +177,7 @@
     "written": 48,
     "domains": 9,
     "depth": 48,
-    "ratio": "38:10"
+    "ratio": "40:8"
   },
   "vie": {
     "skipped_romanized_only": 0,
@@ -187,7 +187,7 @@
     "written": 46,
     "domains": 9,
     "depth": 46,
-    "ratio": "34:12"
+    "ratio": "32:14"
   },
   "cmn": {
     "skipped_romanized_only": 1,
@@ -197,6 +197,6 @@
     "written": 53,
     "domains": 9,
     "depth": 53,
-    "ratio": "45:8"
+    "ratio": "41:12"
   }
 }
