@@ -25,14 +25,14 @@
     "note": null
   },
   "swh": {
-    "rows": 346,
-    "concepts": 13,
-    "note": null
+    "rows": 345,
+    "kept": true,
+    "note": "page \"Swahili phrasebook\" throttled after retries"
   },
   "tam": {
     "rows": 265,
-    "concepts": 12,
-    "note": null
+    "kept": true,
+    "note": "page \"Tamil phrasebook\" throttled after retries"
   },
   "por": {
     "rows": 251,
@@ -46,13 +46,13 @@
   },
   "ita": {
     "rows": 314,
-    "kept": true,
-    "note": "page \"Italian phrasebook\" throttled after retries"
+    "concepts": 12,
+    "note": null
   },
   "deu": {
     "rows": 470,
-    "kept": true,
-    "note": "page \"German phrasebook\" throttled after retries"
+    "concepts": 13,
+    "note": null
   },
   "srp": {
     "rows": 322,
@@ -61,13 +61,13 @@
   },
   "tur": {
     "rows": 267,
-    "concepts": 12,
-    "note": null
+    "kept": true,
+    "note": "page \"Turkish phrasebook\" throttled after retries"
   },
   "fas": {
     "rows": 54,
-    "concepts": 2,
-    "note": null
+    "kept": true,
+    "note": "page \"Dari phrasebook\" throttled after retries"
   },
   "tha": {
     "rows": 345,
@@ -81,13 +81,13 @@
   },
   "jpn": {
     "rows": 527,
-    "kept": true,
-    "note": "page \"Japanese phrasebook\" throttled after retries"
+    "concepts": 16,
+    "note": null
   },
   "kor": {
     "rows": 363,
-    "kept": true,
-    "note": "page \"Korean phrasebook\" throttled after retries"
+    "concepts": 12,
+    "note": null
   },
   "vie": {
     "rows": 248,
@@ -96,7 +96,7 @@
   },
   "cmn": {
     "rows": 333,
-    "concepts": 12,
-    "note": "unmapped sections: going_to_the_doctor, financial_forms, writing_dates, telephone_and_the_internet, getting_a_massage"
+    "kept": true,
+    "note": "page \"Chinese phrasebook\" throttled after retries"
   }
 }

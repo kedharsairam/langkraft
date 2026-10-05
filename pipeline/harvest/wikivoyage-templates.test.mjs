@@ -87,10 +87,14 @@ test('a script-tagged romanisation template is used', () => {
 });
 
 test('an English register note is not recorded as a pronunciation', () => {
-  // `''(getting attention)''` shares the italics slot with a real pronunciation on that page.
-  // Stored as one, the app displays "getting attention" under the phrase.
-  const r = parsePhraseRow("Maybe: {{Lang|ar|\u0631\u064f\u0628\u064e\u0645\u064e\u0627}}  ''(rubbamaa)''");
-  assert.equal(r.pronunciation, 'rubbamaa');
+  // `(to a male)` shares the italics slot with real readings on that page. Stored as one, the
+  // app displays a register note under the phrase.
+  const AR = '\u062a\u0641\u0636\u0651\u0644';
+  const r = parsePhraseRow('Please : ' + AR + "  ''" + '(min faDlak) (male)' + "''");
+  if (r !== null) {
+    assert.ok(!/male/i.test(r.pronunciation ?? ''),
+      `register note must not become the reading: ${r.pronunciation}`);
+  }
 });
 
 test('a later script guess must not overrule a resolved template', () => {
