@@ -70,8 +70,28 @@ function isLatinScript(spec) {
   return /Latin/i.test(spec?.structure?.script?.primary ?? '');
 }
 
-import { checkToneSet } from './thai-orthography.mjs';
+import { checkToneSet as checkThaiToneSet } from './thai-orthography.mjs';
+import { checkToneSet as checkVietnameseToneSet } from './vietnamese-orthography.mjs';
 import { evidenceFor, confidenceIsEntitled } from './evidence.mjs';
+
+/**
+ * Which validator each tonal language gets.
+ *
+ * The mapping is explicit and total because the failure it prevents is silent and confident.
+ * Thai tone is determined by the CLASS of the initial consonant combined with the tone mark.
+ * Vietnamese tone is determined by the VOWEL NUCLEUS combined with the mark. Handing Thai's
+ * rules to Vietnamese would produce specific, wrong tone numbers that look verified -- which is
+ * worse than no validator, because a reviewer would not re-check them.
+ *
+ * So a language with no entry here is NOT validated, and that is reported rather than quietly
+ * skipped. Mandarin is the known gap: it is tonal with a THIRD system again, where the tone is
+ * carried by the syllable as a whole rather than by the initial consonant or the nucleus. It
+ * has no validator yet, and tone content must not ship for it until one exists.
+ */
+const TONE_VALIDATORS = {
+  tha: { fn: checkThaiToneSet, system: 'initial consonant class x tone mark' },
+  vie: { fn: checkVietnameseToneSet, system: 'vowel nucleus x tone mark' },
+};
 
 // Vocabulary that describes how content was PRODUCED rather than how to use it.
 //
@@ -273,7 +293,22 @@ export function lintContent(records, specs, schema) {
   // consonant's class and the mark written, so a wrong number is a bug a lookup can find --
   // see thai-orthography.mjs for what this deliberately cannot check.
   records.filter(r2 => kind(r2) === 'tone_set').forEach(ts => {
-    for (const p of checkToneSet(ts)) r.err(ts.id, p.message);
+    const validator = TONE_VALIDATORS[ts.lang];
+    if (!validator) {
+      // Refuse rather than skip. Falling through would leave a tonal language's tone numbers
+      // unchecked while the build reported success, which is the "looks verified, nothing
+      // verifies it" failure this whole mechanism exists to prevent.
+      r.err(ts.id,
+        `no tone validator for "${ts.lang}". Tone sets ship with a tone number as the central ` +
+        `claim about the language, and that number must be mechanically checked or not shipped. ` +
+        `Validators exist for: ${Object.entries(TONE_VALIDATORS).map(([c, v]) => `${c} (${v.system})`).join('; ')}.`);
+      return;
+    }
+    for (const issue of validator.fn(ts)) {
+      const msg = issue.msg ?? issue.message ?? String(issue);
+      if (issue.severity === 'warn') r.warn(ts.id, msg);
+      else r.err(ts.id, msg);
+    }
   });
 
   records.filter(r2 => kind(r2) === 'tone_set').forEach(ts => {
