@@ -1,90 +1,82 @@
 {
+  "ind": {
+    "kept": 48,
+    "generated": 48
+  },
+  "spa": {
+    "kept": 57,
+    "generated": 57
+  },
   "hin": {
-    "skipped_romanized_only": 19,
-    "dropped_counter_suffixes": 0,
-    "curated": 146,
-    "attested": 273,
-    "corroborated": 0,
-    "written": 25,
-    "domains": 8,
-    "depth": 39,
-    "ratio": "22:3"
+    "kept": 25,
+    "generated": 25
+  },
+  "fra": {
+    "kept": 56,
+    "generated": 56
   },
   "ara": {
-    "skipped_romanized_only": 30,
-    "dropped_counter_suffixes": 0,
-    "curated": 325,
-    "attested": 574,
-    "corroborated": 3,
-    "written": 27,
-    "domains": 9,
-    "depth": 52,
-    "ratio": "19:8"
+    "kept": 27,
+    "generated": 27
+  },
+  "swh": {
+    "kept": 50,
+    "generated": 30
   },
   "tam": {
-    "skipped_romanized_only": 45,
-    "dropped_counter_suffixes": 0,
-    "curated": 265,
-    "attested": 46,
-    "corroborated": 2,
-    "written": 12,
-    "domains": 9,
-    "depth": 24,
-    "ratio": "9:3"
+    "kept": 38,
+    "generated": 11
+  },
+  "por": {
+    "kept": 52,
+    "generated": 53
+  },
+  "nld": {
+    "kept": 57,
+    "generated": 57
+  },
+  "ita": {
+    "kept": 57,
+    "generated": 57
+  },
+  "deu": {
+    "kept": 60,
+    "generated": 60
+  },
+  "srp": {
+    "kept": 50,
+    "generated": 50
+  },
+  "tur": {
+    "kept": 57,
+    "generated": 57
   },
   "fas": {
-    "skipped_romanized_only": 6,
-    "dropped_counter_suffixes": 0,
-    "curated": 54,
-    "attested": 372,
-    "corroborated": 0,
-    "written": 8,
-    "domains": 2,
-    "depth": 48,
-    "ratio": "0:8"
+    "kept": 8,
+    "generated": 8
+  },
+  "tha": {
+    "kept": 77,
+    "generated": 37
   },
   "rus": {
-    "skipped_romanized_only": 0,
-    "dropped_counter_suffixes": 0,
-    "curated": 337,
-    "attested": 1034,
-    "corroborated": 1,
-    "written": 57,
-    "domains": 9,
-    "depth": 58,
-    "ratio": "42:15"
+    "kept": 57,
+    "generated": 57
   },
   "jpn": {
-    "skipped_romanized_only": 0,
-    "dropped_counter_suffixes": 2,
-    "curated": 527,
-    "attested": 993,
-    "corroborated": 1,
-    "written": 57,
-    "domains": 10,
-    "depth": 57,
-    "ratio": "51:6"
+    "kept": 57,
+    "generated": 57
   },
   "kor": {
-    "skipped_romanized_only": 0,
-    "dropped_counter_suffixes": 0,
-    "curated": 363,
-    "attested": 432,
-    "corroborated": 0,
-    "written": 48,
-    "domains": 9,
-    "depth": 48,
-    "ratio": "40:8"
+    "kept": 48,
+    "generated": 48
+  },
+  "vie": {
+    "kept": 46,
+    "generated": 46
   },
   "cmn": {
-    "skipped_romanized_only": 1,
-    "dropped_counter_suffixes": 0,
-    "curated": 333,
-    "attested": 865,
-    "corroborated": 7,
-    "written": 53,
-    "domains": 9,
-    "depth": 53,
-    "ratio": "46:7"
+    "kept": 53,
+    "generated": 53
   }
 }

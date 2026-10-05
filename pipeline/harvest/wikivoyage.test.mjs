@@ -63,7 +63,11 @@ test('a genuine parenthetical in a Latin-script phrase is NOT taken as pronuncia
   // The opposite case, and the reason the capture above is restricted to non-Latin scripts.
   // For Indonesian or Swahili, "(to a waiter)" belongs to the phrase and removing it would be a
   // content bug -- amputating part of what the learner is shown.
-  const r = parsePhraseRow('I am full (after a big meal) : Saya kenyang (setelah makan banyak)');
+  // `latinScript` is what the harvester passes for a language the catalogue records as Latin, and
+  // it is the reason the parenthetical is not read as a pronunciation. Asserted here through the
+  // real call path rather than by special-casing the parser, so the option is exercised by the
+  // test that depends on it.
+  const r = parsePhraseRow('I am full (after a big meal) : Saya kenyang (setelah makan banyak)', false, { latinScript: true });
   assert.ok(r.native.includes('(setelah makan banyak)'),
     `parenthetical must survive for a Latin-script phrase: ${r.native}`);
   assert.equal(r.pronunciation, null);
@@ -85,7 +89,10 @@ test('Swahili signs are English-first and must NOT be flipped', () => {
 });
 
 test('a colon inside the native text does not split the row', () => {
-  const r = parsePhraseRow('WC / KAMAR KECIL: Toilet', true);
+  // `latinScript` matters here for the same reason it does above: the phrase is already Latin, so
+  // `KAMAR KECIL` beside it is more phrase rather than a reading. Without the flag the bare
+  // word-walk treats the slash as a boundary and files "KAMAR KECIL" as the pronunciation.
+  const r = parsePhraseRow('WC / KAMAR KECIL: Toilet', true, { latinScript: true });
   assert.equal(r.native, 'WC / KAMAR KECIL');
   assert.equal(r.english, 'Toilet');
 });

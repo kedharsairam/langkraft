@@ -137,7 +137,8 @@
       "tones": false,
       "state": "planned",
       "tatoeba_code": "pes",
-      "tatoeba_en_pairs_note": "not measured under the correct code pes yet; the earlier 1000 was a false reading"
+      "tatoeba_en_pairs_note": "not measured under the correct code pes yet; the earlier 1000 was a false reading",
+      "phrasebook_reading_script": "own"
     },
     {
       "code": "tha",
@@ -187,5 +188,6 @@
       "tones": true,
       "state": "planned"
     }
-  ]
+  ],
+  "note_phrasebook_reading_script": "Optional. 'own' means the phrasebook writes its reading in the language's own script rather than transliterated. Only Dari does: the page writes the phrase in Latin and the Dari in Arabic script inside the italics, so a parser requiring a Latin reading rejects every phrase on it. Measured on the harvested page: 54 rows, 0 with a reading, before this was recorded; the whole page was unusable. Left out of the code as a set of language codes precisely so that adding a language never means editing the parser."
 }

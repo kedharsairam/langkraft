@@ -40,6 +40,13 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
+import { pathToFileURL } from 'node:url';
+
+import { parsePhraseRow } from './phrase-row.mjs';
+
+/** The active parser. The implementation lives in `phrase-row.mjs`; see the note on `parsePhraseRowLegacy`. */
+export { parsePhraseRow };
+
 const ROOT = new URL('../..', import.meta.url).pathname;
 const OUT = join(ROOT, 'catalogue', 'curated');
 
@@ -80,7 +87,7 @@ const INFOBOX_REVERSED = new Set(['ind']);
  */
 const NON_LATIN_SCRIPT = /[\u3040-\u30ff\u4e00-\u9fff\uac00-\ud7af\u0e00-\u0e7f\u0600-\u06ff\u0900-\u097f]/;
 
-const PAGE_TITLES = {
+export const PAGE_TITLES_EXPORT = {
   ind: 'Indonesian phrasebook',
   spa: 'Spanish phrasebook',
   hin: 'Hindi phrasebook',
@@ -320,7 +327,22 @@ export function cleanWikitext(s) {
  * Returns null when the row cannot be read as a phrase pair -- which happens, and silently
  * accepting those is how a harvester fills with prose fragments.
  */
-export function parsePhraseRow(row, reversed = false) {
+/**
+ * THE PRE-2026-10-06 PARSER. Retained ONLY as the diff baseline for `diff-parsers.mjs`.
+ *
+ * This is the implementation that accumulated six rounds of patches, each widening a character
+ * class to fix one language and breaking another. It is not called by the harvester. It is kept
+ * because `harvest/diff-parsers.mjs` compares the two across all 9,117 phrase rows on the twenty
+ * pages, and that comparison is the evidence that the replacement is better rather than merely
+ * different — a new parser with no baseline is a new parser with no proof.
+ *
+ * Reading it is discouraged. `extractReading` in `reading.mjs` is the implementation.
+ *
+ * If this function is ever made reachable again, the diff harness goes with it: a baseline that
+ * has quietly become the active path is worse than no baseline, because it would then be
+ * reporting a comparison of the code against itself.
+ */
+export function parsePhraseRowLegacy(row, reversed = false) {
   if (!row) return null;
 
   /**
@@ -755,8 +777,8 @@ async function fetchWikitext(title) {
  * traveller scenario it was written for, then parses only the phrase rows inside sections that
  * are actually phrase lists.
  */
-async function harvest(code) {
-  const title = PAGE_TITLES[code];
+async function harvest(code, lang) {
+  const title = PAGE_TITLES_EXPORT[code];
   if (!title) return { rows: [], note: `no page title mapped for ${code}` };
 
   const fetched = await fetchWikitext(title);
@@ -831,7 +853,16 @@ async function harvest(code) {
     if (!inPhraseList || !section) continue;
     if (!line.startsWith(';')) continue;
 
-    const parsed = parsePhraseRow(line.slice(1), inInfobox && INFOBOX_REVERSED.has(code));
+    /**
+     * Per-language facts the parser cannot infer, taken from the catalogue rather than from a list
+     * in the code. `latinScript` follows from `script` and needs no field: a language written in
+     * Latin has no reading column, because its phrase IS the Latin text. `phrasebook_reading_script`
+     * is a property of how one page is written and has to be stated — see the catalogue note.
+     */
+    const parsed = parsePhraseRow(line.slice(1), inInfobox && INFOBOX_REVERSED.has(code), {
+      latinScript: lang.script === 'Latin',
+      readingInTargetScript: lang.phrasebook_reading_script === 'own',
+    });
     if (!parsed) continue;
 
     // Deduplicate on the native text: many phrasebooks list a form in Basics and again under
@@ -848,9 +879,26 @@ async function harvest(code) {
     // rejects. Flagged here so the caller can decide, rather than silently mislabelled.
     const nativeIsLatin = /^\p{Script=Latin}[\p{Script=Latin}\p{M}\p{N}\s\p{P}]*$/u.test(parsed.native);
 
+    /**
+     * `romanized_only` means the row carries NO text in the target script — not that the phrase
+     * happens to be in Latin.
+     *
+     * Testing the phrase alone flagged 45 of the 55 Dari rows, including `Salaam.` with `سلام`
+     * beside it. Those rows are the opposite of romanisation-only: the Latin is the phrase a
+     * speaker recognises and the Arabic script is the Dari they need, which is the whole row. The
+     * flag existed to catch rows that have ONLY a romanisation, so the reading has to be tested as
+     * well as the phrase — the column a language puts its target script in is a property of the
+     * page, not a fixed one.
+     */
+    const anyTargetScript =
+      !nativeIsLatin ||
+      (parsed.pronunciation != null &&
+        /\p{L}/u.test(parsed.pronunciation) &&
+        /[^\p{Script=Latin}\p{M}\p{P}\p{Z}\p{N}\p{S}\p{C}]/u.test(parsed.pronunciation));
+
     rows.push({
       code,
-      romanized_only: nativeIsLatin,
+      romanized_only: !anyTargetScript,
       native: parsed.native,
       english: parsed.english,
       pronunciation: parsed.pronunciation,
@@ -879,7 +927,7 @@ async function main() {
     // Be a good citizen of a volunteer-run site. 1.5s between pages is far under what the
     // harvester could take and far above what risks another throttle.
     await new Promise((r) => setTimeout(r, 1500));
-    const { rows, note } = await harvest(lang.code);
+    const { rows, note } = await harvest(lang.code, lang);
     const path = join(OUT, `${lang.code}.jsonl`);
 
     // NEVER overwrite a good harvest with an empty one.
@@ -914,7 +962,28 @@ async function main() {
   console.log('  -> catalogue/curated/*.jsonl');
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+/**
+ * Only harvest when RUN, never when imported.
+ *
+ * This file exports `parsePhraseRow`, and the test suite imports it. With `main()` called at the
+ * bottom unconditionally, every import fetched all twenty phrasebook pages — the test suite went
+ * from 3.2 seconds to 95, and any test asserting on parse output was asserting on output
+ * produced by a live network harvest it did not ask for. A module that runs work on import is a
+ * module nobody can safely import.
+ *
+ * The guard is `import.meta.url` against the entry script, which is the standard test and also
+ * holds under `node --test`, where the entry is the runner rather than this file.
+ */
+const isEntryPoint =
+  process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (isEntryPoint) {
+  main().catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+} else {
+  // Importing must not touch the network or the filesystem. Said out loud rather than left as
+  // an absence, because the failure it prevents is invisible when it happens.
+  console.log('  (imported as a module — not harvesting)');
+}

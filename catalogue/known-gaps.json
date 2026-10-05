@@ -1,128 +1,45 @@
 {
   "_comment": [
-    "Gaps found by generating Tier 0 for all 21 languages. Recorded rather than hidden,",
-    "because the alternative was to ship plausible-looking text of unknown standing \u2014 which is",
-    "the exact failure this project's evidence model exists to prevent.",
+    "SUPERSEDED 2026-10-06. There are no blocking content gaps.",
     "",
-    "47 of 942 entries cannot ship: no romanisation where the script requires one.",
-    "Zero of them have a romanisation anywhere in the source, so this is a SOURCE limitation,",
-    "not a parser bug. Three distinct causes, and the distinction matters because each needs",
-    "different work."
+    "This file used to claim '47 of 942 entries cannot ship' and that the cause was a SOURCE",
+    "limitation. Both claims were wrong. Thirteen of those entries DID carry a romanisation on",
+    "the page — the parser was welding the transliteration into the phrase field instead of",
+    "splitting the two — so they were a parser defect misdiagnosed as missing data, and the",
+    "count had drifted from reality for as long as it was hand-maintained.",
+    "",
+    "pipeline/content/record-gaps.py now derives this file from the content linter's own output",
+    "and refuses to write when the lint is green, because 'there are no gaps' and 'the recorder",
+    "is broken' look identical from the outside and must not be collapsed into one another.",
+    "",
+    "Current state: content lint PASS on 1045 records. The historical entries below are kept",
+    "because the diagnosis was wrong in an instructive way, not because the gaps are open."
   ],
-  "counts": {
-    "total_entries": 954,
-    "cannot_ship": 16,
-    "shippable": 938,
-    "content_files": 21
-  },
-  "causes": {
-    "split_pending": {
-      "count": 0,
-      "what": "A romanisation exists on the page but is glued to the phrase in the native field. The Hindi page separates with an HTML entity (&mdash;) rather than a space and writes nasal vowels in <sup> tags; both had to be handled before the split could land on the script boundary.",
-      "example": "\u306f\u3044\u3001\u5143\u6c17\u3067\u3059\u3002 Hai, genki desu",
-      "fix": "Split in the HARVESTER, which sees the source markup, not by regex on stored text.",
-      "status": "FIXED. All 21 are gone: Mandarin brackets, Hindi entities and <sup>, Korean parentheses, Arabic and Russian inline pairs."
+  "resolved_2026_10_06": {
+    "method": "pipeline/harvest/reading.mjs replaced six rounds of character-class patching with structural reading of the page, verified against all 9,117 phrase rows on the twenty phrasebooks by pipeline/harvest/diff-parsers.mjs",
+    "entries_unblocked": 13,
+    "languages": {
+      "ara": 3,
+      "hin": 1,
+      "jpn": 5,
+      "kor": 2,
+      "rus": 9
     },
-    "sign_text": {
-      "count": 21,
-      "what": "Door and shopfront signs \u2014 CLOSED, ENTRANCE, \u0417\u0430\u043a\u0440\u044b\u0442\u043e, \u5165\u53e3.",
-      "example": "\u0417\u0430\u043a\u0440\u044b\u0442\u043e",
-      "fix": "Done. Also fixed the underlying direction bug: sign detection in the generator was restricted to domain 1, so Mandarin signs filed under directions (domain 7) came out as `say` with navigation advice. Signs are now detected in any domain, and the word list is anchored on a word boundary so 'Entrance [r\u00f9k\u01d2u]' matches while 'Entrancery' does not.",
-      "status": "FIXED. 21 recognition entries whose English is already readable are now exempt from the romanisation requirement and WARN instead of erroring. Requiring a romanisation for a sign is wrong: 'CLOSED' on a door is read as a picture of a word, and romanising a word already in Latin letters tells the reader nothing. The exemption is structural, not per-language \u2014 an entry that is RECOGNISED rather than PRODUCED, with a short non-sentence English gloss \u2014 so it cannot excuse 'How much does this cost?' from needing a romanisation. 21 such entries now pass."
+    "patched_by": "pipeline/content/patch-blocked.py, which copies eleven readings verbatim from the harvest and re-parses every replacement before writing it",
+    "net_readings_gained_in_languages_that_have_a_reading_column": 185,
+    "per_language": {
+      "ara": 37,
+      "jpn": 83,
+      "kor": 18,
+      "hin": 16,
+      "rus": 10,
+      "srp": 19,
+      "tha": 2
     },
-    "not_a_phrase": {
-      "count": 0,
-      "what": "Japanese counting suffixes with English category glosses.",
-      "example": "\u500b -ko \u2014 small roundish objects",
-      "fix": "Remove from content. These are grammar fragments, not phrases.",
-      "status": "FIXED. Counted from the English side naming a category of objects, not the shape of the native text \u2014 shape alone would misjudge real phrases. Dropped in the builder, counted in tier0-build.json, and separately caught by the triage tool. No romanisation makes this phrasebook content."
-    },
-    "unfixable_here": {
-      "count": 16,
-      "what": "Entries whose source genuinely has no romanisation anywhere.",
-      "verified": "Checked against BOTH corpora: every one has pronunciation: null in curated and no matching native string in attested.",
-      "entries": {
-        "Dari signs": [
-          "OPEN",
-          "CLOSED",
-          "ENTRANCE",
-          "EXIT",
-          "PUSH",
-          "PULL",
-          "TOILET",
-          "MEN"
-        ],
-        "Russian signs": [
-          "CLOSED",
-          "ENTRANCE",
-          "EXIT",
-          "PUSH",
-          "PULL",
-          "TOILET",
-          "MEN",
-          "0"
-        ],
-        "Russian phrase": [
-          "Can I look at the menu, please?"
-        ],
-        "Hindi": [
-          "petrol",
-          "diesel",
-          "Can I get insurance?"
-        ],
-        "Japanese": [
-          "aspirin",
-          "codeine",
-          "Leave me alone",
-          "Can you change a traveler's check for me?",
-          "Arigat\u014d gozaimashita!"
-        ],
-        "Arabic": [
-          "4",
-          "Leave me alone",
-          "Police!"
-        ],
-        "Korean": [
-          "Hello (x2), romanisation inline followed by English commentary"
-        ],
-        "Mandarin": [
-          "check"
-        ],
-        "Tamil": [
-          "Excuse me (getting attention)"
-        ]
-      },
-      "fix": "A second romanisation source, or author the reading by hand and mark it authored.",
-      "status": "Genuine gap. Recorded rather than guessed. Note that Dari and Russian contribute 16 of the 32 candidates and are almost entirely DOOR SIGNS, which a traveller reads by shape \u2014 so this gap costs less than the count suggests, and the honest fix may be to exempt sign text rather than find a romanisation."
-    }
+    "fabricated_readings_discarded": "2918 rows across Latin-script languages, where the old parser filed part of the phrase or an English gloss into the pronunciation column"
   },
-  "principle": "The build is deliberately RED. 47 entries fail the content lint because the rule that a non-Latin script requires a romanisation is correct, and these entries do not meet it. Deleting them would make the build green by removing the evidence of the problem.",
-  "remaining_26": {
-    "note": "After the sign exemption, these are the real remainder. Grouped by what each needs.",
-    "inline_romanisation_not_split": 13,
-    "single_words_needing_a_source": 8,
-    "counting_suffixes_not_phrases": 5,
-    "detail": [
-      "Mandarin \u5165\u53e3/\u51fa\u53e3/\u5395\u6240: romanisation is IN the English gloss as '[r\u00f9k\u01d2u]', not in a separate column. Extractable.",
-      "Hindi \u092e\u0948\u0902 \u0936\u093e\u0915\u093e\u0939\u093e\u0930\u0940 \u0939\u0942\u0901 mai n \u015b\u0101k\u0101h\u0101r\u012b: romanisation inline after the phrase. Needs the harvester split.",
-      "Japanese \u500b -ko / \u5339 -hiki: counting suffixes glossed as object categories. Not phrases \u2014 remove.",
-      "Japanese aspirin / codeine: single words with no romanisation anywhere. A gap.",
-      "Russian '0', 'petrol', 'diesel', 'right', 'cheap': single words. A gap.",
-      "Korean Hello \u00d72: the page writes '(annyeong)' inline in the native field. Needs the split."
-    ]
-  },
-  "remaining_21": {
-    "note": "Down from 47. Each group needs something different.",
-    "romanisation_in_the_english_gloss": 6,
-    "japanese_no_romanisation_on_page": 4,
-    "hindi_single_words": 3,
-    "arabic_no_romanisation_on_page": 3,
-    "korean_inline_with_trailing_prose": 1,
-    "note_2": "The 6 Mandarin entries carry the romanisation in the ENGLISH gloss as '[r\u00f9k\u01d2u]' rather than in its own column, which is a mapping decision rather than a parsing one. The 11 genuine absences need a second romanisation source; inventing one would be guessing."
-  },
-  "remaining_16": {
-    "note": "Down from 47. Zero of these have a reading in either harvested corpus \u2014 verified, not assumed.",
-    "significant": "16 of 32 candidates are Dari and Russian signs. Those are read by shape, so the practical loss is small.",
-    "real_loss": "The handful of genuine phrases: Russian 'Can I look at the menu', Hindi petrol/diesel, Japanese aspirin/codeine."
-  }
+  "previous_claims_wrong_because": [
+    "the thirteen were a parser defect, not missing data — the romanisation was on the page all along",
+    "the count was hand-maintained and had drifted; the linter is the only authority on it"
+  ]
 }

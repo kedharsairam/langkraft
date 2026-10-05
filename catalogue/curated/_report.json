@@ -1,21 +1,21 @@
 {
   "ind": {
-    "rows": 521,
+    "rows": 515,
     "concepts": 14,
     "note": "unmapped sections: date"
   },
   "spa": {
-    "rows": 382,
+    "rows": 361,
     "concepts": 13,
     "note": null
   },
   "hin": {
-    "rows": 146,
+    "rows": 149,
     "concepts": 9,
     "note": "unmapped sections: gregorian_calendar, hindu_calendar, writing_the_time_and_date, travel_vocabulary"
   },
   "fra": {
-    "rows": 430,
+    "rows": 420,
     "concepts": 12,
     "note": null
   },
@@ -25,52 +25,52 @@
     "note": null
   },
   "swh": {
-    "rows": 345,
-    "kept": true,
-    "note": "page \"Swahili phrasebook\" throttled after retries"
+    "rows": 347,
+    "concepts": 13,
+    "note": null
   },
   "tam": {
-    "rows": 265,
-    "kept": true,
-    "note": "page \"Tamil phrasebook\" throttled after retries"
+    "rows": 240,
+    "concepts": 12,
+    "note": null
   },
   "por": {
-    "rows": 251,
+    "rows": 271,
     "concepts": 12,
     "note": null
   },
   "nld": {
-    "rows": 283,
+    "rows": 280,
     "concepts": 12,
     "note": null
   },
   "ita": {
-    "rows": 314,
+    "rows": 300,
     "concepts": 12,
     "note": null
   },
   "deu": {
-    "rows": 470,
+    "rows": 465,
     "concepts": 13,
     "note": null
   },
   "srp": {
-    "rows": 322,
+    "rows": 334,
     "concepts": 16,
     "note": null
   },
   "tur": {
-    "rows": 267,
-    "kept": true,
-    "note": "page \"Turkish phrasebook\" throttled after retries"
+    "rows": 268,
+    "concepts": 12,
+    "note": null
   },
   "fas": {
-    "rows": 54,
-    "kept": true,
-    "note": "page \"Dari phrasebook\" throttled after retries"
+    "rows": 55,
+    "concepts": 2,
+    "note": null
   },
   "tha": {
-    "rows": 345,
+    "rows": 346,
     "concepts": 14,
     "note": null
   },
@@ -80,17 +80,17 @@
     "note": null
   },
   "jpn": {
-    "rows": 527,
+    "rows": 545,
     "concepts": 16,
     "note": null
   },
   "kor": {
-    "rows": 363,
+    "rows": 365,
     "concepts": 12,
     "note": null
   },
   "vie": {
-    "rows": 248,
+    "rows": 250,
     "concepts": 12,
     "note": null
   },

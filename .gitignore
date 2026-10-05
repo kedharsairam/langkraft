@@ -57,3 +57,6 @@ app/src/main/assets/
 # Every real asset lives under app/src/main/res or in a named asset directory.
 /*.xml
 /*.png
+# Page cache for the parser diff harness. Fetched from Wikipedia, reproducible at any time,
+# and a few MB of wikitext that would otherwise churn in every commit.
+pipeline/.page-cache/
