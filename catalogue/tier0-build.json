@@ -1,0 +1,65 @@
+{
+  "ind": {
+    "skipped": "no spec"
+  },
+  "spa": {
+    "skipped": "no spec"
+  },
+  "hin": {
+    "skipped": "no spec"
+  },
+  "fra": {
+    "skipped": "no spec"
+  },
+  "ara": {
+    "skipped": "no spec"
+  },
+  "swh": {
+    "kept": 50,
+    "generated": 30
+  },
+  "tam": {
+    "kept": 38,
+    "generated": 12
+  },
+  "por": {
+    "skipped": "no spec"
+  },
+  "nld": {
+    "skipped": "no spec"
+  },
+  "ita": {
+    "skipped": "no spec"
+  },
+  "deu": {
+    "skipped": "no spec"
+  },
+  "srp": {
+    "skipped": "no spec"
+  },
+  "tur": {
+    "skipped": "no spec"
+  },
+  "fas": {
+    "skipped": "no spec"
+  },
+  "tha": {
+    "kept": 77,
+    "generated": 37
+  },
+  "rus": {
+    "skipped": "no spec"
+  },
+  "jpn": {
+    "skipped": "no spec"
+  },
+  "kor": {
+    "skipped": "no spec"
+  },
+  "vie": {
+    "skipped": "no spec"
+  },
+  "cmn": {
+    "skipped": "no spec"
+  }
+}

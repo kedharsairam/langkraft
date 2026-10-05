@@ -318,6 +318,38 @@ export function cleanWikitext(s) {
 export function parsePhraseRow(row, reversed = false) {
   if (!row) return null;
 
+  /**
+   * Fill-in-the-blank rows are TEMPLATES, not phrases.
+   *
+   * `; How do I get to _____ ? : _____ ku eppadi pOvathu?` and `; ...the train station? : ...
+   * pugai vandi nilayam` are patterns for building a sentence, not things anyone says. Shipping
+   * them puts a row of underscores in front of a learner, and the underscores are not in any
+   * language. Rejected rather than harvested: the concept is real, but this row is not its
+   * realisation.
+   *
+   * The ellipsis prefix is the tell -- a real phrase does not begin with "...".
+   */
+  // A continuation row. `; ...bedsheets? : ...pOrvai (''...'')` completes the previous phrase,
+// and `; Does the room come with... : ... roomOda varumaa? (''...'')` inherits from it.
+  //
+  // The test is on the NATIVE side after the colon, not on the row. An earlier version tested the
+  // English side and concluded the row was fine, because "Does the room come with" does contain
+  // letters -- it always does. What marks a continuation is the phrase itself beginning with an
+  // ellipsis, and that ships as "... roomOda varumaa?", which is an ellipsis, a noun and a
+  // verb with nothing to say what completes it.
+  const colonAt = row.indexOf(':');
+  if (colonAt > 0) {
+    const nativeSide = row.slice(colonAt + 1);
+    if (/^\s*(?:\{\{[^}]*\}\}\s*)?\.{2,}/.test(nativeSide)) return null;
+  }
+  if (/^\s*\.{2,}/.test(row)) return null;
+
+  // A blanked word slot makes the row a template whatever it starts with. The Tamil page also
+  // writes `; How do I get to _____ ? : _____ ku eppadi pOvathu?`, where the phrase begins with
+  // the blank rather than an ellipsis, so the ellipsis test above does not catch it. Underscore
+  // runs are the giveaway: five or more, since single underscores appear inside words.
+  if (/_{4,}/.test(row)) return null;
+
   // Pronunciation FIRST, from the raw wikitext.
   //
   // cleanWikitext strips '' italic markup, turning "(''HAH-loh'')" into "(HAH-loh)" -- so
@@ -325,9 +357,20 @@ export function parsePhraseRow(row, reversed = false) {
   // cleaning silently returned null for every row and discarded the most valuable column on the
   // page: for Thai, Japanese, Mandarin and Tamil it is the only usable form of the phrase, since
   // the learner cannot read the native script yet.
-  const pron = /\(''\s*([^']+?)\s*''\)/.exec(row)?.[1] ?? null;
+  const pronRaw = /\(''\s*([^']+?)\s*''\)/.exec(row)?.[1] ?? null;
   const pronTpl = /\{\{\s*pron\s*\|\s*([^}|]+)/i.exec(row)?.[1]?.trim() ?? null;
-  let pronunciation = pron ?? pronTpl;
+
+  // A PLACEHOLDER, not a pronunciation.
+  //
+  // The Tamil page writes its fill-in-the-blank rows as `(''...'')`:
+  //   `; ...the train station? : ...pugai vandi nilayam (''...'')`
+  // Taken literally that became the pronunciation "...", and the phrase then rendered as
+  // "...pugai vandi nilayam (...)" -- which is what shipped into a content file until the
+  // linter complained about a missing romanization and led here. Placeholders are dropped
+  // rather than carried, so the phrase is kept and the missing column is honestly missing.
+  const isPlaceholder = (v) => !v || /^\.{2,}$/.test(v.trim()) || /^[\s.…_-]+$/.test(v.trim());
+  const pron = isPlaceholder(pronRaw) ? null : pronRaw;
+  let pronunciation = pron ?? (isPlaceholder(pronTpl) ? null : pronTpl);
 
   // The Arabic page nests the register note INSIDE the pronunciation parentheses:
   // `; Excuse me.: {{Lang|ar|إسمحلي}}  ''(min faDlak)''` is polite, while
@@ -363,7 +406,12 @@ export function parsePhraseRow(row, reversed = false) {
   // script of the text before the parenthesis.
   if (!pronunciation && !nativeOverride && NON_LATIN_SCRIPT.test(row)) {
     const bare = /\(\s*([^()]+?)\s*\)\s*$/.exec(row);
-    if (bare && /\p{Script=Latin}/u.test(bare[1])) pronunciation = bare[1].trim();
+    // Checked for placeholder-ness too, because the same pages use a bare "(...)" where the
+    // italic form would hold real text, and taking it literally rendered "...pugai vandi
+    // nilayam (...)" into a content file.
+    if (bare && !isPlaceholder(bare[1]) && /\p{Script=Latin}/u.test(bare[1])) {
+      pronunciation = bare[1].trim();
+    }
   }
 
   let text = cleanWikitext(row);
@@ -373,12 +421,17 @@ export function parsePhraseRow(row, reversed = false) {
   // parenthetical inside the phrase is not amputated. A blanket `/\([^)]*\)$/` strip was tried
   // and destroyed real content; it also ran when the pronunciation had not been found, which is
   // when the parentheses are most likely to belong to the phrase.
-  if (pronunciation) {
+  if (pronunciation || pronRaw || pronTpl) {
+    // Strip whenever a pronunciation slot was PRESENT, even when its content was rejected as a
+    // placeholder. Keying the strip on `pronunciation` being non-null left the discarded
+    // "(...)" attached to the phrase, so the entry rendered as "Ethavathu speciala irruka (...)"
+    // -- which is the exact artefact the placeholder check exists to remove.
     text = text
       // Strip the register note first, so a trailing "(male)" cannot block the pronunciation
       // parenthesis from being recognised as one shape.
       .replace(/\s*\(?(male|female|masculine|feminine|plural|singular)\)?\s*$/i, '')
       .replace(/\s*\(''[^']*''\)\s*$/, '')     // still italic at this point
+      .replace(/\s*\(\s*(?:\.{2,}|[.…_-]{2,})\s*\)\s*$/, '') // discarded placeholder
       .replace(/\s*\([A-Za-z][^()]*\)\s*$/, '') // bare parenthetical, e.g. (pèrt)
       .trim();
   }
@@ -567,8 +620,17 @@ async function harvest(code) {
     if (seen.has(key)) continue;
     seen.add(key);
 
+    // A row whose phrase came out in Latin script for a language that has its own script is a
+    // romanization-only row: the Tamil page writes `; Is there a house specialty? : ''Ethavathu
+    // speciala irruka''` with no Tamil characters at all. The text is real and usable, but it is
+    // a romanisation, and recording it as `native` would leave the entry with no target-script
+    // text and no separate romanization column -- which is exactly what the content linter
+    // rejects. Flagged here so the caller can decide, rather than silently mislabelled.
+    const nativeIsLatin = /^\p{Script=Latin}[\p{Script=Latin}\p{M}\p{N}\s\p{P}]*$/u.test(parsed.native);
+
     rows.push({
       code,
+      romanized_only: nativeIsLatin,
       native: parsed.native,
       english: parsed.english,
       pronunciation: parsed.pronunciation,

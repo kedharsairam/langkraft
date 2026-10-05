@@ -1,12 +1,102 @@
 {
+  "ind": {
+    "rows": 521,
+    "concepts": 14,
+    "note": "unmapped sections: date"
+  },
   "spa": {
-    "rows": 462,
+    "rows": 382,
     "concepts": 13,
     "note": null
   },
-  "tur": {
-    "rows": 298,
+  "hin": {
+    "rows": 146,
+    "concepts": 9,
+    "note": "unmapped sections: gregorian_calendar, hindu_calendar, writing_the_time_and_date, travel_vocabulary"
+  },
+  "fra": {
+    "rows": 430,
     "concepts": 12,
     "note": null
+  },
+  "ara": {
+    "rows": 327,
+    "concepts": 12,
+    "note": null
+  },
+  "swh": {
+    "rows": 346,
+    "concepts": 13,
+    "note": null
+  },
+  "tam": {
+    "rows": 265,
+    "concepts": 12,
+    "note": null
+  },
+  "por": {
+    "rows": 251,
+    "concepts": 12,
+    "note": null
+  },
+  "nld": {
+    "rows": 283,
+    "concepts": 12,
+    "note": null
+  },
+  "ita": {
+    "rows": 314,
+    "concepts": 12,
+    "note": null
+  },
+  "deu": {
+    "rows": 470,
+    "kept": true,
+    "note": "page \"German phrasebook\" throttled after retries"
+  },
+  "srp": {
+    "rows": 322,
+    "concepts": 16,
+    "note": null
+  },
+  "tur": {
+    "rows": 267,
+    "concepts": 12,
+    "note": null
+  },
+  "fas": {
+    "rows": 54,
+    "concepts": 2,
+    "note": null
+  },
+  "tha": {
+    "rows": 345,
+    "concepts": 14,
+    "note": null
+  },
+  "rus": {
+    "rows": 337,
+    "concepts": 12,
+    "note": null
+  },
+  "jpn": {
+    "rows": 527,
+    "concepts": 16,
+    "note": null
+  },
+  "kor": {
+    "rows": 363,
+    "concepts": 12,
+    "note": null
+  },
+  "vie": {
+    "rows": 250,
+    "concepts": 12,
+    "note": null
+  },
+  "cmn": {
+    "rows": 336,
+    "concepts": 12,
+    "note": "unmapped sections: going_to_the_doctor, financial_forms, writing_dates, telephone_and_the_internet, getting_a_massage"
   }
 }

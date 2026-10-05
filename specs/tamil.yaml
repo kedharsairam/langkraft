@@ -219,6 +219,29 @@ cost:
       and the script cost is real.
 
 resources:
+  - name: "Wikivoyage: Tamil phrasebook"
+    url: "https://en.wikivoyage.org/wiki/Tamil"
+    licence: "CC BY-SA 4.0"
+    class: curated
+    checked: 2026-10-05
+    covers:
+      value: >
+        Human-written, peer-reviewed traveller phrases, organised by scenario: Basics, Numbers,
+        Time, Money, Shopping, Eating, Transportation, Lodging, Directions, Problems. Also carries ค่ะ and குர்bon register guidance in quantity, which makes it a register reference as well as a phrase source.
+      source: "https://en.wikivoyage.org/wiki/Tamil"
+      verified: true
+      checked: 2026-10-05
+      note: >
+        The `curated` evidence class -- the strongest available to a solo project, because it is
+        the one class nobody will produce for us at the scale Tier 0 needs. Section headings are
+        the traveller scenarios directly, so this also supplies the grouping a corpus cannot.
+        Attribution is a licence obligation, so it appears in-app on the credits screen.
+        HARVESTED 336 PHRASES
+        IMPORTANT: 240 of the 336 harvested rows are ROMANISATION ONLY -- the page writes Tamil
+        phrases in Latin script with no Tamil characters. Those cannot become entries, because
+        `text_native` is required and `text_romanized` may not duplicate it, so they are a real
+        gap in this language's content rather than something more harvesting fixes.
+
   - name: "LangKraft editorial"
     url: null
     licence: "CC BY-SA 4.0, same as the repository"

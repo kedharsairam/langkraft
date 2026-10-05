@@ -249,6 +249,25 @@ cost:
       alongside each verb. This is an assumption, not an observation.
 
 resources:
+  - name: "Wikivoyage: Swahili phrasebook"
+    url: "https://en.wikivoyage.org/wiki/Swahili"
+    licence: "CC BY-SA 4.0"
+    class: curated
+    checked: 2026-10-05
+    covers:
+      value: >
+        Human-written, peer-reviewed traveller phrases, organised by scenario: Basics, Numbers,
+        Time, Money, Shopping, Eating, Transportation, Lodging, Directions, Problems. Carries the sign list (OPEN, CLOSED, ENTRANCE) which is recognition content rather than speech.
+      source: "https://en.wikivoyage.org/wiki/Swahili"
+      verified: true
+      checked: 2026-10-05
+      note: >
+        The `curated` evidence class -- the strongest available to a solo project, because it is
+        the one class nobody will produce for us at the scale Tier 0 needs. Section headings are
+        the traveller scenarios directly, so this also supplies the grouping a corpus cannot.
+        Attribution is a licence obligation, so it appears in-app on the credits screen.
+        HARVESTED 420 PHRASES
+
   - name: "LangKraft editorial"
     url: null
     licence: "CC BY-SA 4.0, same as the repository"
