@@ -26,15 +26,24 @@ import { join } from 'path';
 const SCHEMA_PATH = new URL('../../content/SCHEMA.json', import.meta.url).pathname;
 const SPEC_DIR = new URL('../../specs/', import.meta.url).pathname;
 
-// The axis is human-reviewed versus machine-aggregated, not published versus not.
-// `authored` and `curated` are both controlled by someone who knows the language;
-// `corpus` is not and cannot be, so it is barred from Tier 0.
-const HUMAN_REVIEWED = new Set(['authored', 'curated']);
+// Four sourcing classes, and the middle one is the reason the original three were wrong.
+//
+// The original axis was human-reviewed versus machine-aggregated: `authored` and `curated`
+// are both controlled by someone who knows the language, `corpus` is not, so it was barred
+// from Tier 0. Tatoeba fits none of those honestly. Nobody selected its sentences for a
+// phrasebook, so they are not `curated`. But each one was deliberately written by a named
+// native speaker, so calling it `corpus` — which meant "assembled with no native-speaker
+// involvement" — was wrong in the direction that mattered, and it barred from Tier 0 the one
+// class of real native-speaker text this project can actually obtain without a review team.
+//
+// `attested` names the middle: machine-aggregated in collection, human-authored in content.
+// It sits between `curated` (a speaker chose this for a phrasebook, which we cannot get) and
+// `authored` (we wrote it ourselves).
 const TIER_SOURCING = {
-  0: HUMAN_REVIEWED,          // courtesy — quality over coverage, always
-  1: new Set(['authored', 'curated', 'corpus']),
-  2: new Set(['authored', 'curated', 'corpus']),
-  3: new Set(['authored', 'curated', 'corpus']),
+  0: new Set(['attested', 'authored', 'curated']),  // courtesy — quality over coverage, always
+  1: new Set(['attested', 'authored', 'curated', 'corpus']),
+  2: new Set(['attested', 'authored', 'curated', 'corpus']),
+  3: new Set(['attested', 'authored', 'curated', 'corpus']),
 };
 
 // From the research: production cards must outnumber recognition cards 2:1, because
@@ -62,6 +71,7 @@ function isLatinScript(spec) {
 }
 
 import { checkToneSet } from './thai-orthography.mjs';
+import { evidenceFor, confidenceIsEntitled } from './evidence.mjs';
 
 // Vocabulary that describes how content was PRODUCED rather than how to use it.
 //
@@ -143,6 +153,36 @@ export function lintContent(records, specs, schema) {
     const declared = (spec.resources ?? []).some(x => x.name === rec.source?.id);
     if (!declared && rec.source?.id !== 'internal') {
       r.err(where, `source "${rec.source?.id}" is not listed in ${rec.lang}.spec.resources. An undeclared source cannot be licence-checked.`);
+    }
+
+    // 5a. THE EVIDENCE GATE.
+    //
+    // This is the single rule standing in for a native-speaker review team, which this
+    // project will never have. Every entry must be able to state where it came from in terms
+    // strong enough to check, and a Tier 0 entry whose confidence cannot be derived is a
+    // build failure.
+    //
+    // Note what this does and does not do. It does NOT reject `authored` — wifi passwords
+    // and extra towels have no attestation anywhere in the en-XX bitext, and blocking them
+    // would mean shipping no wifi phrase at all. It requires that an authored entry SAY it
+    // is authored, so the weakness travels with the content instead of being invisible.
+    const ev = k === 'entry' ? evidenceFor(rec) : evidenceFor(rec.source ? rec : null);
+    if (k === 'entry') {
+      if (ev.confidence === 'unattributed') {
+        const cls = rec.source?.class;
+        if (cls === 'attested') {
+          r.err(where, `class "attested" without both a named author and a resolvable external_id. Attestation with nothing to check it against is not attestation — a sentence with no id and no author cannot be verified and cannot be properly attributed under CC BY.`);
+        } else if (rec.tier === 0) {
+          r.err(where, `no evidence derivable for a Tier 0 entry. Every Tier 0 item must resolve to attested, authored or curated provenance.`);
+        } else {
+          r.warn(where, `no evidence derivable; this entry cannot state its own standing.`);
+        }
+      } else if (!confidenceIsEntitled(rec.source.class, ev.confidence)) {
+        r.err(where, `class "${rec.source.class}" claims confidence "${ev.confidence}", which that class is not entitled to.`);
+      }
+      if (ev.confidence === 'authored_corpus_aligned' || ev.confidence === 'authored_single') {
+        r.stats.authored_tier0 = (r.stats.authored_tier0 ?? 0) + (rec.tier === 0 ? 1 : 0);
+      }
     }
 
     // 5b. gloss_mode decides whether a gloss is permitted to be null

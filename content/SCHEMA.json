@@ -36,12 +36,13 @@
     },
     "provenance": {
       "type": "object",
-      "description": "Where one content item came from. `class` is linted against the tier policy: Tier 0 accepts `authored` or `curated`, never `corpus`.",
+      "description": "Where one content item came from. `class` is linted against the tier policy: Tier 0 accepts `attested`, `authored` or `curated`, never `corpus`. `attested` exists because Tatoeba fits none of the original three honestly — nobody selected those sentences for a phrasebook (so not `curated`), but each was deliberately written by a named native speaker (so not `corpus`, which meant assembled with no native-speaker involvement).",
       "properties": {
         "class": {
           "enum": [
             "authored",
             "curated",
+            "attested",
             "corpus"
           ]
         },
@@ -63,7 +64,28 @@
             "string",
             "null"
           ],
-          "description": "Row id in the upstream source, e.g. a Tatoeba sentence id. Makes the item traceable back."
+          "description": "Row id in the upstream source, e.g. a Tatoeba sentence id. Makes the item traceable back. REQUIRED for class `attested`: attestation without a resolvable id is a claim with nothing to check it against."
+        },
+        "author": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The named speaker who wrote this sentence. REQUIRED for class `attested`. Not optional metadata: CC BY 2.0 FR asks for the author of any reused sentence, and \"Tatoeba contributors\" does not discharge that."
+        },
+        "corroborating_sentences": {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "integer"
+            ]
+          },
+          "description": "Independent sentence ids agreeing on the same wording. Distinct ids only — the same author twice is not corroboration, so ids equal to `external_id` are ignored when deriving confidence."
+        },
+        "corpus_aligned": {
+          "type": "boolean",
+          "description": "For class `authored`: similar wording occurs in the corpus. A weak plausibility signal. It ranks BELOW unaided authoring on purpose, because alignment is not a speaker confirming anything."
         }
       },
       "required": [

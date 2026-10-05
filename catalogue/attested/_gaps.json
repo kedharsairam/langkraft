@@ -1,0 +1,20 @@
+{
+  "ind": {
+    "total": 538,
+    "gaps": [
+      "cheap",
+      "pay_cash",
+      "no_receipt",
+      "address",
+      "wifi",
+      "towel",
+      "size",
+      "card_gift",
+      "pharmacy",
+      "stolen",
+      "emergency",
+      "opening_hours",
+      "yes"
+    ]
+  }
+}
