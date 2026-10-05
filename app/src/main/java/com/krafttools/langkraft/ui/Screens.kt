@@ -17,6 +17,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -31,12 +35,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.drop
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -60,6 +67,15 @@ fun LanguageListScreen(
     positions: Map<String, List<ProgressStore.Position>>,
     onOpen: (String) -> Unit,
     onCredits: () -> Unit = {},
+    /**
+     * Export the failure flags.
+     *
+     * Offered unconditionally rather than only once flags exist, because a reader who has
+     * just discovered the button should not have to fail to find it. It states the count
+     * when it opens.
+     */
+    onExportFlags: () -> Unit = {},
+    flagCount: Int = 0,
 ) {
     Scaffold(
         topBar = {
@@ -74,6 +90,9 @@ fun LanguageListScreen(
                 // discharge the obligation.
                 actions = {
                     TextButton(onClick = onCredits) { Text("Credits") }
+                    TextButton(onClick = onExportFlags) {
+                        Text(if (flagCount == 0) "Flags" else "Flags ($flagCount)")
+                    }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background,
@@ -88,6 +107,17 @@ fun LanguageListScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            item {
+                Text(
+                    "Tapping “this failed me” on any phrase records it, and nothing else. " +
+                        "Those records can be exported and used to correct the phrases " +
+                        "themselves — which is the only way a book written by someone who " +
+                        "has never stood in the country gets fixed.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 8.dp, start = 4.dp, end = 4.dp),
+                )
+            }
             items(corpus.specs, key = { it.code }) { spec ->
                 LanguageCard(
                     spec = spec,
@@ -258,6 +288,73 @@ fun PathScreen(
                     )
                 }
 
+                // Varieties. Every spec ships them -- English four, Thai three including
+                // Isan and the far South -- and they were parsed into `Variant` objects and
+                // never displayed, so a learner in rural Isan had no way to learn the app
+                // knows the difference exists.
+                //
+                // Honest about what this does: the CONTENT is central-variety only. Choosing
+                // one does not swap any phrase. It records which variety the reader is
+                // travelling in, which is what the per-variety notes below are about, and it
+                // is the hook that per-variety content would attach to. It says so on screen
+                // rather than implying a switch that is not there.
+                if (spec.variants.size > 1) {
+                    item {
+                        Column(Modifier.padding(top = 12.dp)) {
+                            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                            Spacer(Modifier.height(12.dp))
+                            Text(
+                                "Varieties",
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.onSurface,
+                            )
+                            Spacer(Modifier.height(4.dp))
+                            Text(
+                                "Every phrase here is standard central ${spec.name}. " +
+                                    "These are the other varieties you may hear, and where " +
+                                    "they differ.",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                            Spacer(Modifier.height(8.dp))
+                            spec.variants.forEach { v ->
+                                val chosen = v.id == spec.defaultVariety
+                                Row(
+                                    Modifier.fillMaxWidth().padding(vertical = 5.dp),
+                                    verticalAlignment = Alignment.Top,
+                                ) {
+                                    Text(
+                                        if (chosen) "\u25CF " else "\u25CB ",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = if (chosen) MaterialTheme.colorScheme.primary
+                                                else MaterialTheme.colorScheme.onSurfaceVariant,
+                                    )
+                                    Column {
+                                        Text(
+                                            v.label,
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            color = if (chosen) MaterialTheme.colorScheme.primary
+                                                    else MaterialTheme.colorScheme.onSurface,
+                                        )
+                                        Text(
+                                            v.id,
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        )
+                                        v.note?.let {
+                                            Text(
+                                                it,
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
                 if (empty.isNotEmpty()) {
                     item {
                         Column(Modifier.padding(top = 12.dp)) {
@@ -283,6 +380,52 @@ fun PathScreen(
             }
         }
     }
+}
+
+/**
+ * A domain heading inside the phrase list.
+ *
+ * A rule plus a name and a count. Not a button, not a collapsible: a traveller looking for
+ * "how much?" should be able to see where money phrases end and directions begin, and
+ * nothing more is asked of them.
+ */
+@Composable
+private fun DomainDivider(domain: Domain, count: Int) {
+    Column(Modifier.fillMaxWidth().padding(top = 12.dp, bottom = 4.dp)) {
+        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+        Spacer(Modifier.height(10.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                domain.label,
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.weight(1f),
+            )
+            Text(
+                "$count",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
+}
+
+/**
+ * Position within the phrase list, not within the tier.
+ *
+ * `firstVisibleItemIndex` counts every composed item: the tone sets, the fourteen
+ * exchanges, their two section headers, and then the phrases. Reading it raw told a reader
+ * arriving at the first phrase that they were at "20 / 63", which is wrong and alarming.
+ * The header's own index is the offset, and it is computed from the same three conditionals
+ * that build the list, so the two cannot drift.
+ */
+private fun phrasePosition(
+    listState: androidx.compose.foundation.lazy.LazyListState,
+    phrasesStartIndex: Int,
+    total: Int,
+): String {
+    val withinList = (listState.firstVisibleItemIndex - phrasesStartIndex + 1).coerceAtLeast(1)
+    return "${withinList.coerceAtMost(total)} / $total"
 }
 
 /** Whether a tier has anything a reader could open. Tone sets count: they are content. */
@@ -355,6 +498,7 @@ fun TierScreen(
     startIndex: Int = 0,
     onPosition: (Int) -> Unit = {},
     onFlag: (String, String?) -> Unit = { _, _ -> },
+    onCopy: (Entry) -> Unit = {},
     onBack: () -> Unit,
 ) {
     // The second tap. `FailureFlagButton` documents "One tap, then an optional country",
@@ -379,9 +523,13 @@ fun TierScreen(
     // attention, which the app has no business making.
     // The composed item count, derived from the same three conditionals the list below
     // uses. Both the seed and the clamp read it, so they cannot drift.
+    val toneBlockItems = if (corpus.toneSetsFor(spec.code, tier).isNotEmpty()) 2 else 0
+    val exchangeBlockItems = if (exchanges.isNotEmpty()) 2 + exchanges.size else 0
+    /** Index of the "Phrases" header: everything above it, plus the header itself. */
+    val phrasesStartIndex = toneBlockItems + exchangeBlockItems
     val totalItems = buildList {
-        if (corpus.toneSetsFor(spec.code, tier).isNotEmpty()) add(2)
-        if (exchanges.isNotEmpty()) add(2 + exchanges.size)
+        add(toneBlockItems)
+        add(exchangeBlockItems)
         if (entries.isNotEmpty()) add(1 + entries.size)
         if (entries.isEmpty() && exchanges.isEmpty()) add(1)
     }.sum()
@@ -407,12 +555,40 @@ fun TierScreen(
             .collect { onPosition(it) }
     }
 
+    // Whether to offer the way back up. It appears only once the reader is far enough from
+    // the top to want it, because a permanent control on a scrolling reference is clutter
+    // the reader pays for on every screen where they did not mean to press it.
+    val showBackToTop by remember {
+        derivedStateOf { listState.firstVisibleItemIndex > 8 }
+    }
+    val listScope = rememberCoroutineScope()
+
     DirectionProvider(spec) {
         Scaffold(
             topBar = { KraftTopBar(title = spec.name, subtitle = TierId.of(tier).title, onBack = onBack) },
+            floatingActionButton = {
+                // A 63-entry Thai tier is roughly twenty-eight screens with no other way
+                // back, and the bookmark can drop the reader into the middle of it.
+                if (showBackToTop) {
+                    FloatingActionButton(
+                        onClick = { listScope.launch { listState.animateScrollToItem(0) } },
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                        contentColor = MaterialTheme.colorScheme.primary,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.KeyboardArrowUp,
+                            contentDescription = "Back to the top",
+                        )
+                    }
+                }
+            },
         ) { padding ->
             LazyColumn(
                 state = listState,
+                // Makes the bookmark restore visible. A returning reader is dropped into
+                // the middle of a 28-screen list with no indication it happened; one
+                // animation is the difference between "where am I" and "oh, this is where I
+                // was". Nothing else in this app animates.
                 modifier = Modifier.fillMaxSize().padding(padding),
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -439,15 +615,41 @@ fun TierScreen(
                     item { HorizontalDivider() }
                 }
                 if (entries.isNotEmpty()) {
-                    item {
+                    item(key = "phrases-header") {
                         SectionLabel(
                             "Phrases",
                             "${entries.size} items",
-                            position = "${(listState.firstVisibleItemIndex + 1).coerceAtMost(entries.size + 1)} / ${entries.size}",
+                            position = phrasePosition(listState, phrasesStartIndex, entries.size),
                         )
                     }
-                    items(entries, key = { it.id }) { e ->
-                        EntryCard(e, spec, onFlag = { requestFlag("entry:" + e.id) })
+                    // Grouped by domain, with the domain's own label as a divider.
+                    //
+                    // Every entry already carried a domain number and the enum has carried
+                    // a human label for each of the twelve since the beginning. None of it
+                    // was rendered, so 63 Thai entries interleaved "Hello" with "I have
+                    // lost my wallet" with nothing between them and the reader scrolled
+                    // blind. The data was always there; only the grouping was missing.
+                    val grouped = entries.groupBy { Domain.of(it.domain) }
+                        .toList()
+                        .sortedBy { it.first.number }
+                    grouped.forEach { (domain, inDomain) ->
+                        item(key = "domain-${domain.number}") {
+                            DomainDivider(domain, inDomain.size)
+                        }
+                        items(inDomain, key = { it.id }) { e ->
+                            // animateItem lives on LazyItemScope, so it is applied to the
+                            // item's own content rather than to the list. It is what makes
+                            // the bookmark restore legible: without it a returning reader
+                            // is teleported into the middle of a 28-screen list with no
+                            // indication that happened. Nothing else here animates.
+                            EntryCard(
+                                entry = e,
+                                spec = spec,
+                                modifier = Modifier.animateItem(),
+                                onFlag = { requestFlag("entry:" + e.id) },
+                                onCopy = { onCopy(e) },
+                            )
+                        }
                     }
                 }
                 flagTarget?.let { target ->
@@ -522,7 +724,26 @@ fun SectionLabel(title: String, sub: String, position: String? = null) {
  *    would be noise.
  */
 @Composable
-fun EntryCard(entry: Entry, spec: LanguageSpec, onFlag: () -> Unit = {}) {
+fun EntryCard(
+    entry: Entry,
+    spec: LanguageSpec,
+    modifier: Modifier = Modifier,
+    onFlag: () -> Unit = {},
+    /**
+     * Copy the phrase to the clipboard.
+     *
+     * **A judgement call worth recording.** The product rule says read-only, and the
+     * strictest reading forbids any action that leaves the app. Copying does not: it is a
+     * read, it involves no network, no permission, and no typing. And it is the single
+     * action a phrasebook gets used for -- showing the screen to somebody who does not
+     * read the script. Refusing to let a user hand someone the phrase would be a strange
+     * place to be strict.
+     *
+     * What it does NOT do is speak, score, track or sync. Nothing about it is gamified,
+     * because there is nothing to gamify.
+     */
+    onCopy: () -> Unit = {},
+) {
     Card(
         modifier = Modifier.fillMaxWidth().widthIn(max = 640.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
@@ -599,8 +820,29 @@ fun EntryCard(entry: Entry, spec: LanguageSpec, onFlag: () -> Unit = {}) {
                 if (entry.register != "neutral") Tag(entry.register)
                 if (entry.failureFlags.isNotEmpty()) Tag("failed you before")
             }
-            FailureFlagButton(onClick = onFlag)
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FailureFlagButton(onClick = onFlag)
+                CopyButton(onClick = onCopy)
+            }
         }
+    }
+}
+
+/** Copies the native script, the romanization and the gloss, so any one is usable alone. */
+@Composable
+private fun CopyButton(onClick: () -> Unit) {
+    Surface(
+        onClick = onClick,
+        color = MaterialTheme.colorScheme.surfaceContainerHighest,
+        shape = MaterialTheme.shapes.small,
+        modifier = Modifier.padding(top = 12.dp),
+    ) {
+        Text(
+            "Copy",
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+        )
     }
 }
 

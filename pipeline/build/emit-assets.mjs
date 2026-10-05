@@ -36,7 +36,14 @@ function specToAsset(doc) {
     },
     variety: {
       default: doc.variety?.default ?? null,
-      variants: (doc.variety?.variants ?? []).map(v => ({ id: v.id, label: v.label ?? v.id })),
+      variants: (doc.variety?.variants ?? []).map(v => ({
+        id: v.id,
+        label: v.label ?? v.id,
+        // The note is the guidance; the id is just a code. Thai's Isan entry says
+        // "comprehension-only, not mutually intelligible", which is the whole reason
+        // the reader needs to know the variant exists.
+        note: (v.notes?.value ?? '').trim() || null,
+      })),
     },
     structure: {
       script: {

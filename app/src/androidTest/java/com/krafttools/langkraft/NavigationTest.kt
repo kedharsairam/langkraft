@@ -60,7 +60,7 @@ class NavigationTest {
         compose.setContent {
             LangKraftTheme {
                 if (wentBack.value) {
-                    LanguageListScreen(corpus, positions = emptyMap()) { }
+                    LanguageListScreen(corpus, positions = emptyMap(), onOpen = { })
                 } else {
                     PathScreen(
                         spec = corpus.spec("eng")!!,
@@ -107,7 +107,13 @@ class NavigationTest {
         // something pressable — it appears below as plain scope. Asserting the card here
         // would be asserting the dead-end behaviour this change removed.
         compose.onNodeWithText("0 · Courtesy").assertIsDisplayed()
-        compose.onNodeWithText("Not written yet").assertIsDisplayed()
+        // Scrolled to, not asserted on. The Varieties block sits above this one and Thai
+        // carries three variants with notes, so "Not written yet" is below the fold and a
+        // LazyColumn does not compose items it has not scrolled to. Its absence from the
+        // tree is not its absence from the screen.
+        compose.onNode(hasScrollAction())
+            .performScrollToNode(hasText("Not written yet", substring = true))
+        compose.onNodeWithText("Not written yet", substring = true).assertIsDisplayed()
     }
 
     /**
@@ -133,16 +139,25 @@ class NavigationTest {
         compose.waitForIdle()
         // Tier 0 has content, so it is a card.
         compose.onNodeWithText("0 · Courtesy").assertExists()
-        // Tiers 1-3 do not, so they are listed as scope rather than as buttons. The block
-        // sits below the single populated card, and a LazyColumn does not compose items
-        // that have not been scrolled into view — so it has to be scrolled to, not merely
-        // asserted on.
-        compose.onNodeWithText("Not written yet").assertExists()
+
+        // Everything below has to be SCROLLED to. A LazyColumn does not compose items that
+        // have not been scrolled into view, so absence from the semantics tree is not
+        // absence from the screen — and Thai carries three variants with notes, which puts
+        // both blocks below the fold.
+        compose.onNode(hasScrollAction())
+            .performScrollToNode(hasText("Varieties", substring = true))
+        compose.onNodeWithText("Varieties", substring = true).assertIsDisplayed()
+
+        compose.onNode(hasScrollAction())
+            .performScrollToNode(hasText("Not written yet", substring = true))
+        compose.onNodeWithText("Not written yet", substring = true).assertIsDisplayed()
+
         // substring = true: hasText defaults to EXACT match and the rendered line is
         // "Transaction — Prices, food, tickets, directions, a room."
         compose.onNode(hasScrollAction())
             .performScrollToNode(hasText("Transaction", substring = true))
         compose.onNodeWithText("Transaction", substring = true).assertIsDisplayed()
+
         // And no pipeline vocabulary anywhere on the screen.
         compose.onNodeWithText("authored", substring = true).assertDoesNotExist()
     }

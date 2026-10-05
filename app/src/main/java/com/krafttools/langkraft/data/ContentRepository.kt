@@ -119,7 +119,11 @@ class ContentRepository(private val assets: AssetSource) {
                 defaultVariety = variety.optString("default"),
                 variants = (0 until (variety.optJSONArray("variants")?.length() ?: 0)).map { v ->
                     val vo = variety.getJSONArray("variants").getJSONObject(v)
-                    Variant(id = vo.getString("id"), label = vo.optString("label"))
+                    Variant(
+                        id = vo.getString("id"),
+                        label = vo.optString("label"),
+                        note = vo.optStringOrNull("note"),
+                    )
                 },
                 scriptPrimary = script.optString("primary").ifBlank { "Latin" },
                 scriptDirection = script.optString("direction")

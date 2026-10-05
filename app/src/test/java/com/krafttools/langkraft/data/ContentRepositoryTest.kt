@@ -20,9 +20,20 @@ class ContentRepositoryTest {
 
     private val repo = File("..")
 
+    // The loader reads three assets, not two. Serving specs.json for credits.json made
+    // parseCredits try to JSONObject() an array, and every test in the file failed at once
+    // with a parse error that said nothing about what was actually wrong.
+    private val realCredits: String
+        get() = File(repo, "app/src/main/assets/credits.json").readText()
+
     private fun corpusFrom(contentJsonl: String, specsJson: String): ContentRepository.Corpus =
-        ContentRepository { name -> if (name == "content.jsonl") contentJsonl else specsJson }
-            .load()
+        ContentRepository { name ->
+            when (name) {
+                "content.jsonl" -> contentJsonl
+                "credits.json" -> realCredits
+                else -> specsJson
+            }
+        }.load()
 
     private val realContent: String get() = File(repo, "content/eng-tier0.jsonl").readText()
     private val realSpecs: String get() = File(repo, "app/src/main/assets/specs.json").readText()

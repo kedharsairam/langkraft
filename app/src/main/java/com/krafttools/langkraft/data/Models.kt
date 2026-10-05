@@ -72,6 +72,27 @@ data class Entry(
     override val failureFlags: List<FailureFlag>,
 ) : Record {
     override val recordId get() = id
+
+    /**
+     * What "Copy" puts on the clipboard.
+     *
+     * All three lines, because the reader usually wants to SHOW the phrase and does not
+     * know which line the person in front of them can read. Native leads: it is the
+     * language itself rather than a description of it.
+     *
+     * The romanization is included only when it differs from the native text. For a Latin
+     * language the two are the same string by definition, and printing it twice would make
+     * the app look as though it had not noticed.
+     */
+    fun copyText(): String = buildString {
+        append(textNative)
+        textRomanized
+            ?.takeIf { it.isNotBlank() && it != textNative }
+            ?.let { append("  ·  ").append(it) }
+        textEnglish
+            ?.takeIf { it.isNotBlank() && it != textNative }
+            ?.let { append("  ·  ").append(it) }
+    }
 }
 
 data class ExchangeTurn(
@@ -211,4 +232,6 @@ data class LanguageSpec(
 data class Variant(
     val id: String,
     val label: String,
+    /** Plain-language guidance. Null when the spec declares none. */
+    val note: String? = null,
 )

@@ -5,6 +5,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.SystemBarStyle
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.platform.LocalClipboardManager
+import com.krafttools.langkraft.data.FailureFlag
+import com.krafttools.langkraft.data.FlagExport
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -37,6 +50,13 @@ class AppState(
     val progress: ProgressStore,
 ) {
     val search: SearchIndex by lazy { SearchIndex(corpus) }
+
+    /** Every language that has at least one flag, for the export. */
+    fun flaggableLanguages(): Map<String, List<FailureFlag>> =
+        corpus.specs.mapNotNull { spec ->
+            progress.flagsFor(spec.code).takeIf { it.isNotEmpty() }
+                ?.let { spec.code to it }
+        }.toMap()
 }
 
 class MainActivity : ComponentActivity() {
@@ -53,6 +73,8 @@ class MainActivity : ComponentActivity() {
         )
         setContent {
             LangKraftTheme {
+                val snackbar = remember { SnackbarHostState() }
+                val scope = rememberCoroutineScope()
                 // Parsed once, remembered for the process lifetime. The corpus is
                 // read-only and shipped in the APK, so there is nothing to refresh and
                 // nothing to invalidate.
@@ -68,13 +90,42 @@ class MainActivity : ComponentActivity() {
                 loaded.fold(
                     onSuccess = { corpus ->
                         val progress = ProgressStore(applicationContext)
-                        LangKraftNav(
-                            state = AppState(corpus, progress),
-                            introSeen = progress.meta(ProgressStore.META_INTRO_SEEN) != null,
-                            onIntroDismissed = {
-                                progress.setMeta(ProgressStore.META_INTRO_SEEN, "1")
-                            },
-                        )
+                        val appState = AppState(corpus, progress)
+
+                        // ACTION_CREATE_DOCUMENT rather than a file path: the app holds no
+                        // storage permission, by rule, and this is the only way to hand the
+                        // reader a file without asking for one.
+                        val exportLauncher = rememberLauncherForActivityResult(
+                            ActivityResultContracts.CreateDocument("application/json")
+                        ) { uri ->
+                            if (uri == null) return@rememberLauncherForActivityResult
+                            val flags = appState.flaggableLanguages()
+                            if (flags.isEmpty()) return@rememberLauncherForActivityResult
+                            val doc = FlagExport.buildDocument(corpus, flags)
+                            val n = FlagExport.write(applicationContext, uri, doc)
+                            scope.launch {
+                                snackbar.showSnackbar(
+                                    if (n >= 0) {
+                                        "Saved ${flags.values.sumOf { it.size }} flags. " +
+                                            "Thank you — this is how the phrases get fixed."
+                                    } else {
+                                        "Could not write that file."
+                                    }
+                                )
+                            }
+                        }
+
+                        Box(Modifier.fillMaxSize()) {
+                            LangKraftNav(
+                                state = appState,
+                                snackbar = snackbar,
+                                onExportFlags = { exportLauncher.launch("langkraft-flags.json") },
+                                introSeen = progress.meta(ProgressStore.META_INTRO_SEEN) != null,
+                                onIntroDismissed = {
+                                    progress.setMeta(ProgressStore.META_INTRO_SEEN, "1")
+                                },
+                            )
+                        }
                     },
                     onFailure = { CorpusLoadFailed(it) },
                 )
@@ -97,7 +148,15 @@ private object Routes {
 }
 
 @Composable
-private fun LangKraftNav(state: AppState, introSeen: Boolean, onIntroDismissed: () -> Unit) {
+private fun LangKraftNav(
+    state: AppState,
+    snackbar: SnackbarHostState,
+    onExportFlags: () -> Unit,
+    introSeen: Boolean,
+    onIntroDismissed: () -> Unit,
+) {
+    val scope = rememberCoroutineScope()
+    val clipboard = LocalClipboardManager.current
     val nav = rememberNavController()
     val corpus = state.corpus
 
@@ -131,6 +190,8 @@ private fun LangKraftNav(state: AppState, introSeen: Boolean, onIntroDismissed: 
                 positions = state.progress.allPositions(),
                 onOpen = { lang -> nav.navigate(Routes.path(lang)) },
                 onCredits = { nav.navigate(Routes.CREDITS) },
+                onExportFlags = onExportFlags,
+                flagCount = state.flaggableLanguages().values.sumOf { it.size },
             )
         }
 
@@ -176,7 +237,22 @@ private fun LangKraftNav(state: AppState, introSeen: Boolean, onIntroDismissed: 
                     corpus = corpus,
                     startIndex = startAt,
                     onPosition = { index -> state.progress.setPosition(lang, tier, index) },
-                    onFlag = { id, country -> state.progress.addFlag(lang, id, country) },
+                    onFlag = { id, country ->
+                        state.progress.addFlag(lang, id, country)
+                        scope.launch {
+                            snackbar.showSnackbar(
+                                if (country == null) {
+                                    "Noted. Add a country next time and it becomes a fix."
+                                } else {
+                                    "Noted — $country. Thank you."
+                                }
+                            )
+                        }
+                    },
+                    onCopy = { entry ->
+                        clipboard.setText(AnnotatedString(entry.copyText()))
+                        scope.launch { snackbar.showSnackbar("Copied.") }
+                    },
                     onBack = { nav.popBackStack() },
                 )
             }
