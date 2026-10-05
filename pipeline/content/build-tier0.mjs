@@ -276,6 +276,24 @@ function romanised(native, pronunciation, spec, romanizedOnly = false) {
  * So the domain decides when the concept is too coarse, and the English text is checked for the
  * small number of cases where that matters.
  */
+/**
+ * Whether a row is a counting suffix rather than a phrase.
+ *
+ * The discriminator is the ENGLISH side naming a category of objects, not the shape of the
+ * native text. Shape alone would misjudge real phrases; the category gloss is what makes
+ * `匹 -hiki` a counter and `お願いします` a phrase.
+ */
+function isCounterSuffixRow(row) {
+  const native = tidy(row.native ?? '');
+  const english = tidy(row.english ?? '');
+  if (!/^[\u4e00-\u9fff]{1,2}\s/.test(native)) return false;
+  if (!/\b(objects?|animals?|things?|papers?|tickets?|bottles?|pens?|persons?|pieces?)\b/i.test(english)) {
+    return false;
+  }
+  // A real phrase is a question or a request; a counter is a noun with readings.
+  return !/\b(how|what|where|this|that|do|is|are|please|thank)\b/i.test(english);
+}
+
 function scenarioFor(row, domain) {
   const sc = SCENARIO[row.concept];
   const en = `${row.english ?? ''} ${row.native ?? ''}`.toLowerCase();
@@ -376,11 +394,22 @@ export function buildLanguage(lang, spec, corroboration) {
   // appears under courtesy AND under problems on several. Filling per-domain independently let
   // the second copy through, and the linter caught seven duplicates as a result.
   const claimed = new Set();
+  let droppedCounters = 0;
   for (const row of ordered) {
     const d = DOMAIN[row.concept];
     if (!d) continue;
     const key = tidy(row.native);
     if (!key || claimed.has(key)) continue;
+
+    // Counting suffixes are grammar, not speech. Japanese `個 -ko` and `匹 -hiki, -biki, -piki`
+    // are glossed by the page as CATEGORIES of object -- "small roundish objects", "small
+    // animals" -- which is the signal: a phrasebook entry is something a person says, and a
+    // traveller says "one ticket", not the counter suffix for small animals.
+    //
+    // Dropped rather than repaired. No romanisation makes this phrasebook content, and it was
+    // five blocked entries because the page carries no reading for them at all.
+    if (isCounterSuffixRow(row)) { droppedCounters += 1; continue; }
+
     if (!byDomain.has(d)) byDomain.set(d, []);
     const bucket = byDomain.get(d);
     if (bucket.length >= (DOMAIN_CAP[d] ?? 6)) continue;
@@ -448,6 +477,7 @@ export function buildLanguage(lang, spec, corroboration) {
     entries,
     stats: {
       skipped_romanized_only: skippedRomanizedOnly,
+      dropped_counter_suffixes: droppedCounters,
       curated: curated.length,
       attested: attested.length,
       corroborated: new Set(entries.filter((e) => e.source.external_id).map((e) => e.source.external_id)).size,

@@ -212,3 +212,33 @@ test('the phrase side is cleaned, not taken raw from the split', () => {
   assert.equal(r.native, '你好。');
   assert.ok(!/''/.test(r.pronunciation), `no markup in the romanisation: ${r.pronunciation}`);
 });
+
+// ---- Mandarin puts the pinyin in brackets on the GLOSS side ----------------
+//
+// `Entrance [rùkǒu]`. The reading was present and correct in the harvested row
+// and landing in the English field, where the app would render it as part of the
+// meaning. Six entries had no romanisation while the pinyin sat in plain sight.
+
+test('bracketed pinyin is lifted out of the English gloss', () => {
+  const r = parsePhraseRow('Entrance : 入口 (入口) [rùkǒu]');
+  assert.equal(r.english, 'Entrance', 'the bracket must not survive into the gloss');
+  assert.equal(r.native, '入口');
+  assert.equal(r.pronunciation, 'rùkǒu');
+});
+
+test('a bracket with no traditional variant still splits', () => {
+  // `左 [zuǒ]` has no parenthetical traditional form, so the three-part path cannot fire and
+  // the bracket has to be handled on its own. It previously left "左 [zuǒ]" as the native text.
+  const r = parsePhraseRow('Left : 左 [zuǒ]');
+  assert.equal(r.native, '左');
+  assert.equal(r.pronunciation, 'zuǒ');
+});
+
+test('an English bracket is not mistaken for a romanisation', () => {
+  // "[only on the telephone]" is a register note. Recording it as a pronunciation would put
+  // English commentary in the romanisation column, which is how "getting attention" and
+  // "people" both got there.
+  const r = parsePhraseRow("Hello. [only on the telephone] : 喂。 ''Wéi.''");
+  assert.ok(!/only on the telephone/.test(r.pronunciation ?? ''),
+    `register note must not become the romanisation: ${r.pronunciation}`);
+});

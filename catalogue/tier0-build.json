@@ -1,6 +1,7 @@
 {
   "ind": {
     "skipped_romanized_only": 0,
+    "dropped_counter_suffixes": 0,
     "curated": 521,
     "attested": 712,
     "corroborated": 3,
@@ -11,6 +12,7 @@
   },
   "spa": {
     "skipped_romanized_only": 0,
+    "dropped_counter_suffixes": 0,
     "curated": 382,
     "attested": 896,
     "corroborated": 4,
@@ -21,6 +23,7 @@
   },
   "hin": {
     "skipped_romanized_only": 19,
+    "dropped_counter_suffixes": 0,
     "curated": 146,
     "attested": 273,
     "corroborated": 0,
@@ -31,6 +34,7 @@
   },
   "fra": {
     "skipped_romanized_only": 0,
+    "dropped_counter_suffixes": 0,
     "curated": 430,
     "attested": 915,
     "corroborated": 3,
@@ -41,6 +45,7 @@
   },
   "ara": {
     "skipped_romanized_only": 30,
+    "dropped_counter_suffixes": 0,
     "curated": 325,
     "attested": 574,
     "corroborated": 3,
@@ -51,6 +56,7 @@
   },
   "swh": {
     "skipped_romanized_only": 0,
+    "dropped_counter_suffixes": 0,
     "curated": 346,
     "attested": 175,
     "corroborated": 3,
@@ -61,6 +67,7 @@
   },
   "tam": {
     "skipped_romanized_only": 45,
+    "dropped_counter_suffixes": 0,
     "curated": 265,
     "attested": 46,
     "corroborated": 2,
@@ -71,6 +78,7 @@
   },
   "por": {
     "skipped_romanized_only": 0,
+    "dropped_counter_suffixes": 0,
     "curated": 251,
     "attested": 832,
     "corroborated": 0,
@@ -81,6 +89,7 @@
   },
   "nld": {
     "skipped_romanized_only": 0,
+    "dropped_counter_suffixes": 0,
     "curated": 283,
     "attested": 825,
     "corroborated": 3,
@@ -91,6 +100,7 @@
   },
   "ita": {
     "skipped_romanized_only": 0,
+    "dropped_counter_suffixes": 0,
     "curated": 314,
     "attested": 942,
     "corroborated": 1,
@@ -101,6 +111,7 @@
   },
   "deu": {
     "skipped_romanized_only": 0,
+    "dropped_counter_suffixes": 0,
     "curated": 470,
     "attested": 952,
     "corroborated": 1,
@@ -111,6 +122,7 @@
   },
   "srp": {
     "skipped_romanized_only": 0,
+    "dropped_counter_suffixes": 0,
     "curated": 322,
     "attested": 530,
     "corroborated": 0,
@@ -121,6 +133,7 @@
   },
   "tur": {
     "skipped_romanized_only": 0,
+    "dropped_counter_suffixes": 0,
     "curated": 267,
     "attested": 1059,
     "corroborated": 4,
@@ -131,6 +144,7 @@
   },
   "fas": {
     "skipped_romanized_only": 6,
+    "dropped_counter_suffixes": 0,
     "curated": 54,
     "attested": 372,
     "corroborated": 0,
@@ -141,6 +155,7 @@
   },
   "tha": {
     "skipped_romanized_only": 0,
+    "dropped_counter_suffixes": 0,
     "curated": 345,
     "attested": 276,
     "corroborated": 6,
@@ -151,6 +166,7 @@
   },
   "rus": {
     "skipped_romanized_only": 0,
+    "dropped_counter_suffixes": 0,
     "curated": 337,
     "attested": 1034,
     "corroborated": 1,
@@ -161,6 +177,7 @@
   },
   "jpn": {
     "skipped_romanized_only": 0,
+    "dropped_counter_suffixes": 2,
     "curated": 527,
     "attested": 993,
     "corroborated": 1,
@@ -171,6 +188,7 @@
   },
   "kor": {
     "skipped_romanized_only": 0,
+    "dropped_counter_suffixes": 0,
     "curated": 363,
     "attested": 432,
     "corroborated": 0,
@@ -181,6 +199,7 @@
   },
   "vie": {
     "skipped_romanized_only": 0,
+    "dropped_counter_suffixes": 0,
     "curated": 248,
     "attested": 461,
     "corroborated": 2,
@@ -191,12 +210,13 @@
   },
   "cmn": {
     "skipped_romanized_only": 1,
+    "dropped_counter_suffixes": 0,
     "curated": 333,
     "attested": 865,
     "corroborated": 7,
     "written": 53,
     "domains": 9,
     "depth": 53,
-    "ratio": "41:12"
+    "ratio": "46:7"
   }
 }

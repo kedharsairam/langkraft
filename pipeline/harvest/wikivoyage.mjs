@@ -464,6 +464,36 @@ export function parsePhraseRow(row, reversed = false) {
     .replace(/<br\s*\/?>/gi, ' ')
     .replace(/<[^>]+>/g, '');
   const rightOfRow = normaliseRow.split(':').slice(1).join(':');
+  let englishOverride = null;
+
+  /**
+   * Mandarin puts the pinyin in BRACKETS after the English gloss, in the gloss column.
+   *
+   * `Entrance [rùkǒu]`, `Push [tuī]`, `Toilet [cèsuǒ] / [xǐshǒujiān]`. The reading is present
+   * and correct in the harvested row; it simply lands in `english` because that is where the
+   * page puts it. Six entries therefore had no romanisation while the pinyin sat in plain
+   * sight in the English field, which the app would have displayed as part of the meaning.
+   *
+   * Extracted here rather than in the content builder, for the reason the previous commit
+   * established: the harvester is the only place that sees where the text came from. A split
+   * guessed at stored text corrupted eight entries, and that heuristic was deleted.
+   */
+  const bracketRoman = /\[([^\[\]]*[\p{Script=Latin}][^\[\]]*)\]/u.exec(row);
+  if (bracketRoman && !romanTpl && !langTpl && /[\u4e00-\u9fff]/.test(row)) {
+    const reading = bracketRoman[1].trim();
+    // Guard against capturing an English bracket such as "[only on the telephone]".
+    if (!/\b(only|informal|formal|when|after|before|polite)\b/i.test(reading)) {
+      pronunciation = reading;
+      row = row.replace(/\[[^\[\]]*[\p{Script=Latin}][^\[\]]*\]/gu, '').trim();
+      // Remove it from the gloss so the app does not render "[rùkǒu]" as part of the meaning.
+      // De-bracket the whole ROW, then keep only the part before the colon — the gloss side.
+      // Taking slice(1) instead put the native phrase in the English field, which is the
+      // mirror image of the bug this fixes.
+      englishOverride = row
+        .replace(/\[[^\[\]]*[\p{Script=Latin}][^\[\]]*\]/gu, '')
+        .split(':')[0];
+    }
+  }
   const inline = row.includes('{{') || !hasNonLatin
     ? null
     : /[\uac00-\ud7af]/.test(row)
@@ -684,6 +714,12 @@ export function parsePhraseRow(row, reversed = false) {
   }
 
   if (!/\p{L}/u.test(native)) return null;
+
+  // The bracketed reading has already been lifted out of the gloss above, so use the
+  // de-bracketed version when one was produced.
+  if (englishOverride) {
+    english = cleanWikitext(englishOverride).replace(/\s+/g, ' ').trim() || english;
+  }
 
   return {
     english: english.trim(),
