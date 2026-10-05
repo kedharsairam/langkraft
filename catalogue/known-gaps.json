@@ -1,0 +1,47 @@
+{
+  "_comment": [
+    "Gaps found by generating Tier 0 for all 21 languages. Recorded rather than hidden,",
+    "because the alternative was to ship plausible-looking text of unknown standing — which is",
+    "the exact failure this project's evidence model exists to prevent.",
+    "",
+    "47 of 942 entries cannot ship: no romanisation where the script requires one.",
+    "Zero of them have a romanisation anywhere in the source, so this is a SOURCE limitation,",
+    "not a parser bug. Three distinct causes, and the distinction matters because each needs",
+    "different work."
+  ],
+  "counts": {
+    "total_entries": 942,
+    "cannot_ship": 47,
+    "shippable": 895
+  },
+  "causes": {
+    "split_pending": {
+      "count": 17,
+      "what": "A romanisation exists on the page but is glued to the phrase in the native field.",
+      "example": "はい、元気です。 Hai, genki desu",
+      "fix": "Split in the HARVESTER, which sees the source markup, not by regex on stored text.",
+      "status": "NOT DONE. A regex heuristic was tried and corrupted eight entries by splitting mid-phrase and mid-word. Reverted. Getting 47 failures down to 39 by corrupting content is not a fix, and a green build bought that way is worse than a red one that tells the truth."
+    },
+    "sign_text": {
+      "count": 12,
+      "what": "Door and shopfront signs — CLOSED, ENTRANCE, Закрыто, 入口.",
+      "example": "Закрыто",
+      "fix": "None needed. These are READ, not spoken, so a romanisation is not required for use.",
+      "status": "The lint rule is too broad: it requires a romanisation for every non-Latin entry, regardless of whether the entry is speech. The correct fix is to exempt direction: understand entries whose English side is a sign. Not done — a change to the linter should not be made while the underlying harvest is still moving."
+    },
+    "not_a_phrase": {
+      "count": 5,
+      "what": "Japanese counting suffixes with English category glosses.",
+      "example": "個 -ko — small roundish objects",
+      "fix": "Remove from content. These are grammar fragments, not phrases.",
+      "status": "A traveller says one ticket, not the counter suffix for small animals. No romanisation makes this phrasebook content."
+    },
+    "unfixable_here": {
+      "count": 5,
+      "what": "No romanisation anywhere in the source. Russian signs, and one each of Mandarin, Tamil, Japanese and Arabic.",
+      "fix": "A different romanisation source, or author the romanisation by hand and mark it authored.",
+      "status": "Genuine gap. Recorded rather than filled with a guess."
+    }
+  },
+  "principle": "The build is deliberately RED. 47 entries fail the content lint because the rule that a non-Latin script requires a romanisation is correct, and these entries do not meet it. Deleting them would make the build green by removing the evidence of the problem."
+}

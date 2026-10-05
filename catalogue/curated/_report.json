@@ -21,8 +21,8 @@
   },
   "ara": {
     "rows": 324,
-    "kept": true,
-    "note": "page \"Arabic phrasebook\" throttled after retries"
+    "concepts": 12,
+    "note": null
   },
   "swh": {
     "rows": 346,
@@ -41,13 +41,13 @@
   },
   "nld": {
     "rows": 283,
-    "concepts": 12,
-    "note": null
+    "kept": true,
+    "note": "page \"Dutch phrasebook\" throttled after retries"
   },
   "ita": {
     "rows": 314,
-    "concepts": 12,
-    "note": null
+    "kept": true,
+    "note": "page \"Italian phrasebook\" throttled after retries"
   },
   "deu": {
     "rows": 470,
@@ -81,8 +81,8 @@
   },
   "jpn": {
     "rows": 527,
-    "concepts": 16,
-    "note": null
+    "kept": true,
+    "note": "page \"Japanese phrasebook\" throttled after retries"
   },
   "kor": {
     "rows": 363,

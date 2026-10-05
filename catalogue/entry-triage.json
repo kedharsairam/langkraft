@@ -1,0 +1,44 @@
+{
+  "totals": {
+    "fine": 240,
+    "split_pending": 17,
+    "unfixable_here": 5,
+    "sign_text": 12,
+    "not_a_phrase": 5
+  },
+  "per_language": {
+    "ara": {
+      "fine": 25,
+      "split_pending": 2
+    },
+    "cmn": {
+      "fine": 47,
+      "unfixable_here": 1,
+      "sign_text": 5
+    },
+    "hin": {
+      "fine": 16,
+      "split_pending": 9
+    },
+    "jpn": {
+      "fine": 47,
+      "not_a_phrase": 5,
+      "split_pending": 4,
+      "unfixable_here": 1
+    },
+    "kor": {
+      "fine": 46,
+      "split_pending": 2
+    },
+    "rus": {
+      "fine": 48,
+      "sign_text": 7,
+      "unfixable_here": 2
+    },
+    "tam": {
+      "fine": 11,
+      "unfixable_here": 1
+    }
+  },
+  "repairable": []
+}
