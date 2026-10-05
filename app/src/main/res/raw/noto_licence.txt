@@ -1,22 +1,18 @@
 LangKraft bundled font licence notices
 ====================================
 
-The two script families bundled in this APK are licensed under the SIL Open Font
-License, Version 1.1. The full licence text follows, once, and applies to both.
+Every font in this APK is licensed under the SIL Open Font License, Version 1.1.
+The full licence text follows once and applies to all of them.
 
-  Noto Sans Thai   - Copyright 2022 The Noto Project Authors
-  Noto Sans Tamil  - Copyright 2022 The Noto Project Authors
+The families, their sources and their file lists are in noto_attribution.json,
+which is beside this file. Per-family copyright lines follow the licence.
 
-Neither family declares a Reserved Font Name, so the files are used under their
-original names. That was checked rather than assumed: renaming a font that DOES
-reserve its name is an OFL violation, and renaming one that does not is merely
-unnecessary.
+No family declares a Reserved Font Name, so the files keep their original names.
+Renaming a font that DOES reserve its name would be an OFL violation.
 
-Both are licensed under the same terms, so the licence text is reproduced once
-rather than duplicated verbatim.
+-----------------------------------------------------------------------------
 
-------------------------------------------------------------------------------
-Copyright 2022 The Noto Project Authors (https://github.com/notofonts/thai)
+Copyright 2022 The Noto Project Authors (https://github.com/notofonts/latin-greek-cyrillic)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:

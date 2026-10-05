@@ -82,8 +82,13 @@ val lintAssets = tasks.register<Exec>("lintAssets") {
     description = "Fails the build on invalid specs or content."
     workingDir = rootProject.file("pipeline")
     commandLine("npm", "run", "--silent", "lint:all")
+    // Glyph coverage is verified here too, not only in `npm run check`. A build that does not
+    // fail on a missing glyph is a build that ships tofu, and the previous eight "bundled"
+    // fonts were all HTML error pages that nothing checked.
+    commandLine("python3", "content/font-coverage.py")
     inputs.dir(rootProject.file("specs"))
     inputs.dir(rootProject.file("content"))
+    inputs.dir(rootProject.file("app/src/main/res/font"))
 }
 
 val emitAssets = tasks.register<Exec>("emitAssets") {

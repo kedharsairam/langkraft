@@ -115,8 +115,8 @@ fun CreditsScreen(
                 Spacer(Modifier.height(12.dp))
                 Text(
                     "Font licences require the full licence text to travel with the font. " +
-                        "It is bundled in the APK and readable at " +
-                        "res/raw/noto_licence_notices in the source repository.",
+                        "It is bundled in the APK at res/raw/noto_licence.txt, and every " +
+                        "family\'s source URL is listed beside it in noto_attribution.json.",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.fillMaxWidth(),

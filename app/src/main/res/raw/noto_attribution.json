@@ -1,0 +1,101 @@
+{
+  "note": "Every font bundled in this APK. OFL 1.1 requires the licence to travel with the font, so this is a licence obligation, not credit.",
+  "fonts": [
+    {
+      "family": "Noto Sans Arabic",
+      "script": "arabic",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosansarabic/NotoSansArabic[wdth,wght].ttf",
+      "licence": "SIL Open Font License 1.1",
+      "files": [
+        "notosansarabicbold.ttf",
+        "notosansarabicmedium.ttf",
+        "notosansarabicregular.ttf",
+        "notosansarabicsemibold.ttf"
+      ]
+    },
+    {
+      "family": "Noto Sans",
+      "script": "cyrillic",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosans/NotoSans[wdth,wght].ttf",
+      "licence": "SIL Open Font License 1.1",
+      "files": [
+        "notosanscyrillicbold.ttf",
+        "notosanscyrillicmedium.ttf",
+        "notosanscyrillicregular.ttf",
+        "notosanscyrillicsemibold.ttf"
+      ]
+    },
+    {
+      "family": "Noto Sans Devanagari",
+      "script": "devanagari",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosansdevanagari/NotoSansDevanagari[wdth,wght].ttf",
+      "licence": "SIL Open Font License 1.1",
+      "files": [
+        "notosansdevanagaribold.ttf",
+        "notosansdevanagarimedium.ttf",
+        "notosansdevanagariregular.ttf",
+        "notosansdevanagarisemibold.ttf"
+      ]
+    },
+    {
+      "family": "Noto Sans SC",
+      "script": "han",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosanssc/NotoSansSC[wght].ttf",
+      "licence": "SIL Open Font License 1.1",
+      "files": [
+        "notosansscbold.ttf",
+        "notosansscmedium.ttf",
+        "notosansscregular.ttf",
+        "notosansscsemibold.ttf"
+      ]
+    },
+    {
+      "family": "Noto Sans KR",
+      "script": "hangul",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosanskr/NotoSansKR[wght].ttf",
+      "licence": "SIL Open Font License 1.1",
+      "files": [
+        "notosanskrbold.ttf",
+        "notosanskrmedium.ttf",
+        "notosanskrregular.ttf",
+        "notosanskrsemibold.ttf"
+      ]
+    },
+    {
+      "family": "Noto Sans JP",
+      "script": "japanese",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosansjp/NotoSansJP[wght].ttf",
+      "licence": "SIL Open Font License 1.1",
+      "files": [
+        "notosansjpbold.ttf",
+        "notosansjpmedium.ttf",
+        "notosansjpregular.ttf",
+        "notosansjpsemibold.ttf"
+      ]
+    },
+    {
+      "family": "Noto Sans Tamil",
+      "script": "tamil",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosanstamil/NotoSansTamil[wdth,wght].ttf",
+      "licence": "SIL Open Font License 1.1",
+      "files": [
+        "notosanstamilbold.ttf",
+        "notosanstamilmedium.ttf",
+        "notosanstamilregular.ttf",
+        "notosanstamilsemibold.ttf"
+      ]
+    },
+    {
+      "family": "Noto Sans Thai",
+      "script": "thai",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosansthai/NotoSansThai[wdth,wght].ttf",
+      "licence": "SIL Open Font License 1.1",
+      "files": [
+        "notosansthaibold.ttf",
+        "notosansthaimedium.ttf",
+        "notosansthairegular.ttf",
+        "notosansthaisemibold.ttf"
+      ]
+    }
+  ]
+}

@@ -109,11 +109,13 @@ function main() {
         note: 'The app itself: specs, authored content, and the code.',
       },
       {
-        source: 'Noto Sans Thai, Noto Sans Tamil',
+        source: 'Noto Sans (Arabic, Cyrillic, Devanagari, KR, SC, JP, Thai, Tamil)',
         licence: 'SIL Open Font License 1.1',
         author_credit: 'Google',
-        note: 'Bundled in the APK. The OFL requires the licence to travel with the font, ' +
-          'which is why this line exists.',
+        note: 'Bundled in the APK and subset to the characters this app renders. ' +
+          'The OFL requires the licence to travel with the font, which is why this ' +
+          'line and res/raw/noto_licence.txt both exist. Per-family source URLs are ' +
+          'in res/raw/noto_attribution.json.',
       },
     ],
   };
