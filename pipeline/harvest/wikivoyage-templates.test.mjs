@@ -141,3 +141,74 @@ test('a template row is not claimed by the inline matcher', () => {
     assert.ok(!/Lang\|/.test(r.pronunciation ?? ''), 'romanisation must not be raw template text');
   }
 });
+
+// ---- romanisation must split on the SCRIPT boundary, not an arbitrary one ----
+//
+// A first-match split is fine when the romanisation is one word and wrong the moment it is
+// two. Both of these shipped mangled text before the rule below existed.
+
+test('a two-word romanisation is not split mid-phrase', () => {
+  // Split as native "لف يسار lif" + romanisation "yassar" this becomes two unrelated fragments
+  // on the phone. The split must land on the last script boundary.
+  const r = parsePhraseRow('Left : لف يسار lif yassar');
+  assert.equal(r.native, 'لف يسار');
+  assert.equal(r.pronunciation, 'lif yassar');
+});
+
+test('a parenthetical romanisation followed by English prose is not mined for a word', () => {
+  // "(annyeong) to your friend or younger people" — an unanchored match recorded "people" as
+  // the pronunciation. That is English commentary, not a reading of the Korean.
+  const r = parsePhraseRow('Hello. : 안녕. (annyeong) to your friend or younger people');
+  if (r !== null) {
+    assert.notEqual(r.pronunciation, 'people');
+    assert.ok(!/\(annyeong\)/.test(r.pronunciation ?? ''));
+  }
+});
+
+test('a clean Korean parenthetical romanisation IS captured', () => {
+  const r = parsePhraseRow('Toilet : 화장실 (hwasangsil)');
+  assert.equal(r.native, '화장실');
+  assert.equal(r.pronunciation, 'hwasangsil');
+});
+
+test('a Cyrillic inline pair still splits', () => {
+  const r = parsePhraseRow('Two : два er');
+  assert.equal(r.native, 'два');
+  assert.equal(r.romanized ?? r.pronunciation, 'er');
+});
+
+// ---- the Hindi page: an entity AND a <sup> tag ------------------------------
+//
+// Nine Hindi entries carried their own romanisation inside the native field because the
+// separator is an HTML entity rather than a space and the nasal vowel is in a <sup> tag.
+// Two separate things had to be handled, and fixing one without the other produced a
+// mid-word split that shipped "मैं शाकाहारी हूँ — mai n" as the phrase.
+
+test('an mdash separator splits, and the dash does not stay on the phrase', () => {
+  const r = parsePhraseRow("I'm a vegetarian. : मैं शाकाहारी हूँ &mdash; mai<sup>n</sup> śākāhārī");
+  assert.equal(r.native, 'मैं शाकाहारी हूँ');
+  assert.ok(!/&mdash;/.test(r.native), 'no raw entity may survive into content');
+  assert.ok(!/—/.test(r.native), 'nor the separator the split used');
+});
+
+test('a sup tag does not break the romanisation mid-word', () => {
+  // `<sup>n</sup>` renders a nasal vowel. Left in place it broke the run of Latin letters and
+  // the split landed at "mai n" / "śākāhārī" — the romanisation cut in half.
+  const r = parsePhraseRow("I'm a vegetarian. : मैं शाकाहारी हूँ &mdash; mai<sup>n</sup> śākāhārī");
+  assert.ok(!/mai n/.test(r.pronunciation), `romanisation must be whole, got: ${r.pronunciation}`);
+  assert.ok(r.pronunciation.includes('śākāhārī'));
+});
+
+test('a multi-word romanisation survives the split intact', () => {
+  const r = parsePhraseRow('Left : لف يسار lif yassar');
+  assert.equal(r.native, 'لف يسار');
+  assert.equal(r.pronunciation, 'lif yassar');
+});
+
+test('the phrase side is cleaned, not taken raw from the split', () => {
+  // The resolution step cleaned the value and a later line overwrote it with the raw capture,
+  // so `&mdash;` and a stray `''` reached content as literal text. The cleaned value must win.
+  const r = parsePhraseRow("Hello. : 你好。 (你好。)  ''Nǐ hǎo''.");
+  assert.equal(r.native, '你好。');
+  assert.ok(!/''/.test(r.pronunciation), `no markup in the romanisation: ${r.pronunciation}`);
+});

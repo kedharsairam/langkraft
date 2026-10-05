@@ -11,16 +11,16 @@
   ],
   "counts": {
     "total_entries": 942,
-    "cannot_ship": 26,
-    "shippable": 916
+    "cannot_ship": 21,
+    "shippable": 921
   },
   "causes": {
     "split_pending": {
-      "count": 17,
-      "what": "A romanisation exists on the page but is glued to the phrase in the native field.",
+      "count": 11,
+      "what": "A romanisation exists on the page but is glued to the phrase in the native field. The Hindi page separates with an HTML entity (&mdash;) rather than a space and writes nasal vowels in <sup> tags; both had to be handled before the split could land on the script boundary.",
       "example": "\u306f\u3044\u3001\u5143\u6c17\u3067\u3059\u3002 Hai, genki desu",
       "fix": "Split in the HARVESTER, which sees the source markup, not by regex on stored text.",
-      "status": "NOT DONE. A regex heuristic was tried and corrupted eight entries by splitting mid-phrase and mid-word. Reverted. Getting 47 failures down to 39 by corrupting content is not a fix, and a green build bought that way is worse than a red one that tells the truth."
+      "status": "PARTIALLY FIXED in the harvester: Hindi went from 9 blocked entries to 3, Korean from 2 to 1, and Arabic, Russian, Thai and Mandarin all split cleanly. The separator, word shape and trailing punctuation are now declared once as named parts so they cannot drift apart again -- three separate bugs lived in that one expression and each cost a different language."
     },
     "sign_text": {
       "count": 21,
@@ -37,8 +37,8 @@
       "status": "A traveller says one ticket, not the counter suffix for small animals. No romanisation makes this phrasebook content."
     },
     "unfixable_here": {
-      "count": 3,
-      "what": "Entries where the source genuinely has no romanisation: Japanese aspirin/codeine, Russian 'Can I look at the menu', Tamil 'Excuse me (getting attention)'.",
+      "count": 5,
+      "what": "No romanisation anywhere on the page: Japanese aspirin, codeine and 'Leave me alone'; Hindi petrol, diesel and 'Can I get insurance?'; Arabic '4', 'Leave me alone', 'Police!'.",
       "fix": "A different romanisation source, or author the romanisation by hand and mark it authored.",
       "status": "Genuine gap. Recorded rather than filled with a guess."
     }
@@ -57,5 +57,14 @@
       "Russian '0', 'petrol', 'diesel', 'right', 'cheap': single words. A gap.",
       "Korean Hello \u00d72: the page writes '(annyeong)' inline in the native field. Needs the split."
     ]
+  },
+  "remaining_21": {
+    "note": "Down from 47. Each group needs something different.",
+    "romanisation_in_the_english_gloss": 6,
+    "japanese_no_romanisation_on_page": 4,
+    "hindi_single_words": 3,
+    "arabic_no_romanisation_on_page": 3,
+    "korean_inline_with_trailing_prose": 1,
+    "note_2": "The 6 Mandarin entries carry the romanisation in the ENGLISH gloss as '[r\u00f9k\u01d2u]' rather than in its own column, which is a mapping decision rather than a parsing one. The 11 genuine absences need a second romanisation source; inventing one would be guessing."
   }
 }

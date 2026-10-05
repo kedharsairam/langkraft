@@ -270,7 +270,7 @@
     ]
   },
   "ara": {
-    "curated": 324,
+    "curated": 325,
     "attested": 574,
     "native_corroborations": 3,
     "corroborating_authors": 2,
@@ -1078,7 +1078,7 @@
     ]
   },
   "vie": {
-    "curated": 250,
+    "curated": 248,
     "attested": 461,
     "native_corroborations": 4,
     "corroborating_authors": 4,
@@ -1153,7 +1153,7 @@
       {
         "concept": "basics",
         "native": "你叫什么名字？",
-        "pronunciation": "Nǐ jiào shénme míngzì?",
+        "pronunciation": "jiào shénme míngzì?",
         "english_curated": "What is your name?",
         "english_attested": "What is your name?",
         "attested_author": "frpzzd",
@@ -1164,7 +1164,7 @@
       {
         "concept": "basics",
         "native": "我不会说汉语。",
-        "pronunciation": "Wǒ bú huì shuō hànyǔ",
+        "pronunciation": "bú huì shuō hànyǔ.",
         "english_curated": "I can't speak Chinese.",
         "english_attested": "I do not speak Chinese.",
         "attested_author": "knk4597",
@@ -1175,7 +1175,7 @@
       {
         "concept": "basics",
         "native": "你会说英语吗？",
-        "pronunciation": "ma?''",
+        "pronunciation": "huì shuō Yīngyǔ ma?",
         "english_curated": "Do you speak English?",
         "english_attested": "Do you speak English?",
         "attested_author": "saeb",
@@ -1186,7 +1186,7 @@
       {
         "concept": "basics",
         "native": "晚上好。",
-        "pronunciation": "Wǎnshàng hǎo",
+        "pronunciation": "hǎo.",
         "english_curated": "Good evening.",
         "english_attested": "Good evening.",
         "attested_author": "Aurix",
@@ -1197,7 +1197,7 @@
       {
         "concept": "basics",
         "native": "厕所在哪里？",
-        "pronunciation": "Cèsuǒ zài nǎlǐ?",
+        "pronunciation": "zài nǎlǐ?",
         "english_curated": "Where is the toilet?",
         "english_attested": "Where is the toilet?",
         "attested_author": "CK",
@@ -1208,7 +1208,7 @@
       {
         "concept": "basics",
         "native": "洗手间在哪里？",
-        "pronunciation": "Xǐshǒujiān zài nǎlǐ?",
+        "pronunciation": "zài nǎlǐ?",
         "english_curated": "Where is the bathroom（polite)?",
         "english_attested": "Where is the bathroom?",
         "attested_author": "brauliobezerra",
@@ -1219,7 +1219,7 @@
       {
         "concept": "problem",
         "native": "我生病了。",
-        "pronunciation": "le''",
+        "pronunciation": "shēngbìng le",
         "english_curated": "I'm sick.",
         "english_attested": "I am ill.",
         "attested_author": "sharris123",
@@ -1230,7 +1230,7 @@
       {
         "concept": "problem",
         "native": "我需要医生。",
-        "pronunciation": "wǒ xūyào yīshēng",
+        "pronunciation": "xūyào yīshēng",
         "english_curated": "I need a doctor.",
         "english_attested": "I need a doctor.",
         "attested_author": "CK",
@@ -1241,7 +1241,7 @@
       {
         "concept": "what_time",
         "native": "现在几点？",
-        "pronunciation": "Xiànzài jǐ diǎn?",
+        "pronunciation": "jǐ diǎn?",
         "english_curated": "What time is it?",
         "english_attested": "What time is it right now?",
         "attested_author": "Hybrid",
@@ -1252,7 +1252,7 @@
       {
         "concept": "directions",
         "native": "左转",
-        "pronunciation": "zuǒ zhuǎn",
+        "pronunciation": "zhuǎn",
         "english_curated": "Turn left.",
         "english_attested": "Turn left!",
         "attested_author": "faraway9911",

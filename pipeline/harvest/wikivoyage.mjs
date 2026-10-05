@@ -288,6 +288,11 @@ export function cleanWikitext(s) {
     .replace(/&nbsp;/g, ' ')
     .replace(/&rarr;/g, '→')
     .replace(/&amp;/g, '&')
+    // Dashes, then any remaining entity. `&mdash;` survived into content as literal text
+    // because it was not in the list, and the Hindi page uses it as the separator between a
+    // phrase and its romanisation -- so it landed in the middle of the NATIVE field.
+    .replace(/&mdash;|&#8212;/g, '—')
+    .replace(/&ndash;|&#8211;/g, '–')
     .replace(/&[a-z]+;/g, ' ')
     .replace(/<ref[^>]*>[\s\S]*?<\/ref>/g, '')
     .replace(/<[^>]+>/g, ' ')
@@ -423,12 +428,81 @@ export function parsePhraseRow(row, reversed = false) {
   // one below it: the romanisation must START the trailing run, so a Thai phrase followed by
   // "(pèrt)" is still handled by the parenthesis path rather than being split here.
   const hasNonLatin = /[^\p{Script=Latin}\p{N}\p{P}\p{Zs}]/u.test(row);
+  // The romanisation must ABUT the phrase. A row where English prose follows the parenthetical
+  // romanisation -- `안녕. (annyeong) to your friend or younger people` -- otherwise matched
+  // with "people" as the romanisation, which is a word of English commentary, not a reading.
+  // Two variants, because the failure above was script-specific. Excluding parentheses is right
+  // for Hangul, whose page writes `(annyeong)` and then English commentary, so an unanchored
+  // match grabbed "people". It is WRONG for Arabic, whose rows legitimately contain
+  // parentheses and where the same exclusion split "لف يسار lif yassar" down the middle.
+  // So: the parenthesis-aware form applies only to Hangul, the plain form elsewhere.
+  // Phrase, SEPARATOR, romanisation -- where both separators and word shapes are declared once.
+  //
+  // Three separate bugs lived here and each one cost a language:
+  //   - `\s+` as the separator missed the Hindi page's `&mdash;`, so nine Hindi entries kept
+  //     their own romanisation inside the native text.
+  //   - A single `[A-Za-z ]` group cannot span "mai n śākāhārī", so multi-word romanisations
+  //     either failed or lost a word.
+  //   - Allowing an internal space in the FIRST group split "لف يسار lif yassar" at the wrong
+  //     place and shipped two unrelated fragments.
+  // Declared as named parts so the three of them cannot drift apart again.
+  const SEP = /[\s\u2014\u2013\u2500\u00b7-]+/.source;
+  const WORD = /[A-Za-z\u00c0-\u024f\u02be][A-Za-z\u00c0-\u024f\u02be\u2019'-]*/.source;
+  const TAIL = /[.,;:!?' ]*/.source;
+
+  // Split on a MARKUP-NORMALISED copy of the row, not the raw one.
+  //
+  // The Hindi page writes `mai<sup>n</sup>` for a nasal vowel. The `<sup>` breaks the run of
+  // Latin letters, so the split landed mid-word: native "मैं शाकाहारी हूँ — mai n", romanisation
+  // "śākāhārī". Stripping the tags first leaves "mai n", which is the romanisation as written.
+  //
+  // The phrase side is then taken from the raw row so the separator that identifies the split
+  // point is the one the page actually used.
+  const normaliseRow = row
+    .replace(/<\/?sup[^>]*>/gi, '')
+    .replace(/<\/?sub[^>]*>/gi, '')
+    .replace(/<br\s*\/?>/gi, ' ')
+    .replace(/<[^>]+>/g, '');
+  const rightOfRow = normaliseRow.split(':').slice(1).join(':');
   const inline = row.includes('{{') || !hasNonLatin
     ? null
-    : /^\s*(\S.*?)\s+([A-Za-z][A-Za-z'`ʾ\-]*[.,;:!?'\s]*)$/.exec(row.split(':').slice(1).join(':'));
+    : /[\uac00-\ud7af]/.test(row)
+      // Hangul: parentheses are excluded from the phrase side, because this page writes
+      // "(annyeong)" and then English commentary, and an unanchored match mined "people" out
+      // of it as if it were a reading.
+      ? new RegExp(`^\\s*(\\S[^():]*?)${SEP}(${WORD}(?:${SEP}${WORD})*${TAIL})$`).exec(rightOfRow)
+      // The romanisation is a run of Latin WORDS, not one word plus trailing junk. Allowing an
+      // internal space in the second group made the match stop early, so "لف يسار lif yassar"
+      // split as native "لف يسار lif" and romanisation "yassar" -- which is then shipped to a
+      // learner as two unrelated fragments. Both groups accept spaces, so the split lands on
+      // the last script boundary rather than an arbitrary one.
+      : new RegExp(`^\\s*(\\S.*?)${SEP}(${WORD}(?:${SEP}${WORD})*${TAIL})$`).exec(rightOfRow);
+  // KOREAN writes the romanisation in bare parentheses attached to the phrase:
+  //   `; Hello. : 안녕. (annyeong) to your friend or younger people`
+  // Same shape as Thai's `(pèrt)` but the Korean page does not use italics, so the italic and
+  // bare-paren paths both missed it and the entry's native text became
+  // "안녕. (annyeong) to your friend or younger people" with no romanisation column.
+  //
+  // Restricted to Hangul, for the same reason the inline and three-part matchers are: a
+  // parenthesised tail is only a romanisation on pages that write it that way.
+  if (!pronunciation && !romanTpl && !langTpl && /[\uac00-\ud7af]/.test(row)) {
+    // Anchored to the END of the row, and the parenthesis must contain ONLY romanisation.
+    // A first-match search took "people" out of "(annyeong) to your friend or younger people"
+    // and recorded it as the pronunciation -- the same class of bug as taking "getting
+    // attention" from an English register note.
+    const m = /\(\s*([A-Za-z][A-Za-z'\-]{2,})\s*\)\s*$/.exec(row);
+    if (m) pronunciation = m[1].trim();
+  }
+
   if (inline && !romanTpl && !langTpl && !pron) {
-    pronunciation = inline[2].trim();
-    nativeOverride = inline[1].trim();
+    // Clean the phrase side too. The split runs on RAW wikitext so it can see the separator
+    // this page actually uses, which means the phrase can still carry markup: `&mdash;` from
+    // the Hindi page, and a stray `''` where an italic marker was unbalanced. Both were
+    // shipping into content as literal text.
+    pronunciation = cleanWikitext(inline[2]).trim();
+    // The phrase side keeps the separator it was split on, which leaves a trailing dash.
+    // `मैं शाकाहारी हूँ —` is not a phrase; the dash is punctuation from the page layout.
+    nativeOverride = cleanWikitext(inline[1]).replace(/[\s\u2014\u2013\u00b7-]+$/, '').trim();
   }
 
   /**
@@ -466,6 +540,7 @@ export function parsePhraseRow(row, reversed = false) {
   // pronunciation resolved a few lines above — `0 : صفر Sifr` came back with the whole string in
   // both fields. Order matters: last writer wins, so this must not clobber.
   if (candidate) pronunciation = isPlaceholder(candidate) ? null : candidate;
+  else if (pronunciation && isPlaceholder(pronunciation)) pronunciation = null;
 
   // An English phrase is never a pronunciation. These are register notes and glosses that share
   // the italics slot; storing one makes the app display "getting attention" under a phrase.
@@ -561,10 +636,11 @@ export function parsePhraseRow(row, reversed = false) {
     // assigned the whole thing at resolution time. Take the script that matches the language's
     // and let the romanisation stand separately — `0 : صفر Sifr` must not become an entry whose
     // native text is "صفر Sifr".
-    native = threePart ? threePart[1].trim() : inline
-      ? inline[1].trim()
-      : nativeOverride;
-    if (inline) pronunciation = inline[2].trim();
+    // `nativeOverride` is the CLEANED value set during resolution. Using the raw `inline[1]`
+    // here discarded that cleaning, which is why `&mdash;` and a stray `''` reached content as
+    // literal text even though the resolution step had already removed them.
+    native = threePart ? cleanWikitext(threePart[1]).trim() : nativeOverride;
+    if (inline && !pronunciation) pronunciation = cleanWikitext(inline[2]).trim();
     // English is the side that is NOT the template payload. In the normal `English : Native`
     // layout that is `left`; reversed layouts put it on the right.
     const candidate = reversed ? right : left;

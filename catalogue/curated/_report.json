@@ -20,7 +20,7 @@
     "note": null
   },
   "ara": {
-    "rows": 324,
+    "rows": 325,
     "concepts": 12,
     "note": null
   },
@@ -31,8 +31,8 @@
   },
   "tam": {
     "rows": 265,
-    "concepts": 12,
-    "note": null
+    "kept": true,
+    "note": "page \"Tamil phrasebook\" throttled after retries"
   },
   "por": {
     "rows": 251,
@@ -56,8 +56,8 @@
   },
   "srp": {
     "rows": 322,
-    "kept": true,
-    "note": "page \"Serbian phrasebook\" throttled after retries"
+    "concepts": 16,
+    "note": null
   },
   "tur": {
     "rows": 267,
@@ -66,8 +66,8 @@
   },
   "fas": {
     "rows": 54,
-    "concepts": 2,
-    "note": null
+    "kept": true,
+    "note": "page \"Dari phrasebook\" throttled after retries"
   },
   "tha": {
     "rows": 345,
@@ -90,9 +90,9 @@
     "note": null
   },
   "vie": {
-    "rows": 250,
-    "kept": true,
-    "note": "page \"Vietnamese phrasebook\" throttled after retries"
+    "rows": 248,
+    "concepts": 12,
+    "note": null
   },
   "cmn": {
     "rows": 333,
