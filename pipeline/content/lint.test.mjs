@@ -231,6 +231,63 @@ test('an empty content set produces no errors', () => {
 // ---------------------------------------------------------------------------
 // Shape
 // ---------------------------------------------------------------------------
+// Mechanical Thai orthography
+test('a tone number that contradicts the spelling is rejected', () => {
+  // The whole reason thai-orthography.mjs exists. ค is a LOW-class consonant, so mai tho
+  // over it is HIGH (tone 4). Declaring it tone 3 looks like a reasonable mistake and is
+  // exactly the error a non-native author makes.
+  const r = lintTonal([toneSet({ variants: [
+    { tone: 1, text_native: 'คำ', text_romanized: 'kham', text_english: 'word' },
+    { tone: 3, text_native: 'ค้ำ', text_romanized: 'kham', text_english: 'to prop up' },
+  ] })]);
+  assert.ok(
+    r.errors.some(e => /contradicts the spelling/.test(e)),
+    `expected an orthography error, got: ${r.errors.join(' ')}`
+  );
+});
+
+test('an unmarked HIGH-class consonant is tone 5, not tone 1', () => {
+  // The single most-repeated error in Thai-learning material. ขาว is tone 5.
+  const r = lintTonal([toneSet({ variants: [
+    { tone: 5, text_native: 'ขาว', text_romanized: 'khao', text_english: 'white' },
+    { tone: 3, text_native: 'ข้าว', text_romanized: 'khao', text_english: 'rice' },
+  ] })]);
+  assert.ok(
+    !r.errors.some(e => /contradicts the spelling/.test(e)),
+    `these are both correct and must pass: ${r.errors.join(' ')}`
+  );
+  const wrong = lintTonal([toneSet({ variants: [
+    { tone: 1, text_native: 'ขาว', text_romanized: 'khao', text_english: 'white' },
+    { tone: 3, text_native: 'ข้าว', text_romanized: 'khao', text_english: 'rice' },
+  ] })]);
+  assert.ok(wrong.errors.some(e => /contradicts the spelling/.test(e)));
+});
+
+test('a rising tone on a dead syllable is rejected', () => {
+  // Dead syllables cannot carry a rising tone at all.
+  const r = lintTonal([toneSet({ variants: [
+    { tone: 1, text_native: 'คาด', text_romanized: 'khat', text_english: 'to think' },
+    { tone: 5, text_native: 'คาด', text_romanized: 'khat', text_english: 'imagine' },
+  ] })]);
+  assert.ok(
+    r.errors.some(e => /DEAD syllable/.test(e)),
+    `expected a dead-syllable error, got: ${r.errors.join(' ')}`
+  );
+});
+
+test('a tone set whose variants differ by more than the mark is rejected', () => {
+  // It is not a minimal set, whatever the tones say.
+  const r = lintTonal([toneSet({ variants: [
+    { tone: 1, text_native: 'คำ', text_romanized: 'kham', text_english: 'word' },
+    { tone: 3, text_native: 'ม้า', text_romanized: 'ma', text_english: 'horse' },
+  ] })]);
+  assert.ok(
+    r.errors.some(e => /differ by more than the tone mark|different initial consonants/.test(e)),
+    r.errors.join(' ')
+  );
+});
+
+// ---------------------------------------------------------------------------
 // User-facing prose. `why` and `caution` render verbatim on the phone.
 function withProse(f, over = {}) {
   return entry({ why: f, ...over });
@@ -284,39 +341,44 @@ test('the real corpus has no pipeline vocabulary in user-facing prose', () => {
 
 // ---------------------------------------------------------------------------
 // Tone sets — the visual half of a language the app cannot teach auditorily
-function toneSet(o = {}) {
-  return {
-    id: 'tha-t0001', lang: 'tha', tier: 0,
-    syllable: 'ma',
-    variants: [
-      { tone: 1, tone_name: 'mid', text_native: 'มา', text_romanized: 'maa1', text_english: 'come' },
-      { tone: 2, tone_name: 'low', text_native: 'ม้า', text_romanized: 'maa2', text_english: 'horse' },
-    ],
-    source: { class: 'authored', id: 'LangKraft editorial', licence: 'CC BY-SA 4.0' },
-    failure_flags: [], ...o,
-  };
-}
-
+// Thai is the only TONES:true language in the catalogue, so tone-set rules need a spec
+// that declares it. The other two declare tones: false and must reject tone sets.
 const tonalSpec = {
   language: { code: 'tha', romanization: 'rtgs' },
   structure: { script: { primary: 'Thai' }, tones: true },
   tiers: [{ id: 0, size: { value: 40 } }],
-  resources: [{ name: 'LangKraft editorial', licence: 'x', class: 'authored' }],
+  resources: [{ name: 'Wiktionary (Thai entries)', licence: 'CC BY-SA 4.0', class: 'curated' }],
 };
 
 function lintTonal(records) {
-  // NB: not `const specs = new Map([...specs, ...])`. That shadows the outer `specs`
-  // inside its own initialiser and is a temporal dead zone — the exact error it produces
-  // names neither variable involved, so it costs twenty minutes to find.
+  // NOT `const specs = new Map([...specs, ...])`. That shadows the outer `specs` inside its
+  // own initialiser, which is a temporal dead zone -- the error it produces names neither
+  // variable involved, so it costs twenty minutes to find.
   const merged = new Map([...specs, ['tha', tonalSpec]]);
   const r = lintContent(records, merged, schema);
   return { errors: r.errors, warnings: r.warnings, ok: r.errors.length === 0 };
 }
 
-test('a valid tone set passes', () => {
-  const r = lintTonal([toneSet()]);
-  assert.equal(r.ok, true, r.errors.join('\n  '));
-});
+function toneSet(o = {}) {
+  // The native example set from Thai Wikipedia: คา ข่า ข้า ค้า ขา. Chosen over a
+  // hand-written fixture because the orthography validator checks these numbers against
+  // the consonant class, and the first version of this fixture used มา/ม้า with ม้า
+  // marked tone 2 -- which is wrong, because ม is a LOW-class consonant and mai tho
+  // there is HIGH (tone 4). The validator caught the test data, not the test.
+  return {
+    id: 'tha-t0001', lang: 'tha', tier: 0,
+    syllable: 'kha',
+    variants: [
+      { tone: 1, tone_name: 'mid', text_native: 'คา', text_romanized: 'kha', text_english: 'to stay' },
+      { tone: 2, tone_name: 'low', text_native: 'ข่า', text_romanized: 'kha', text_english: 'to trade' },
+      { tone: 3, tone_name: 'falling', text_native: 'ข้า', text_romanized: 'kha', text_english: 'a type of curry' },
+      { tone: 4, tone_name: 'high', text_native: 'ค้ำ', text_romanized: 'kham', text_english: 'to prop up' },
+      { tone: 5, tone_name: 'rising', text_native: 'ขา', text_romanized: 'kha', text_english: 'to be drunk' },
+    ],
+    source: { class: 'curated', id: 'Wiktionary (Thai entries)', licence: 'CC BY-SA 4.0' },
+    failure_flags: [], ...o,
+  };
+}
 
 test('two variants with the SAME text is rejected — that teaches no contrast', () => {
   // This is the failure the whole record type exists to prevent: identical words with
@@ -330,8 +392,8 @@ test('two variants with the SAME text is rejected — that teaches no contrast',
 
 test('a variant with no meaning is rejected', () => {
   const r = lintTonal([toneSet({ variants: [
-    { tone: 1, text_native: 'มา', text_romanized: 'maa1', text_english: 'come' },
-    { tone: 2, text_native: 'ม้า', text_romanized: 'maa2', text_english: '' },
+    { tone: 1, text_native: 'ขา', text_romanized: 'kha', text_english: 'to be drunk' },
+    { tone: 2, text_native: 'ข่า', text_romanized: 'kha', text_english: '' },
   ] })]);
   assert.ok(r.errors.some(e => /has no meaning/.test(e)), r.errors.join('\n  '));
 });
@@ -345,7 +407,7 @@ test('a tone set in a language whose spec says tones:false is rejected', () => {
 
 test('a single-variant tone set is rejected by the schema', () => {
   const r = lintTonal([toneSet({ variants: [
-    { tone: 1, text_native: 'มา', text_romanized: 'maa1', text_english: 'come' },
+    { tone: 1, text_native: 'ขา', text_romanized: 'kha', text_english: 'to be drunk' },
   ] })]);
   assert.ok(r.errors.length > 0);
 });

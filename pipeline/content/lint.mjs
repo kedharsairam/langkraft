@@ -61,6 +61,8 @@ function isLatinScript(spec) {
   return /Latin/i.test(spec?.structure?.script?.primary ?? '');
 }
 
+import { checkToneSet } from './thai-orthography.mjs';
+
 // Vocabulary that describes how content was PRODUCED rather than how to use it.
 //
 // `why` and `caution` render verbatim into the shipping UI, so a phrase's own build notes
@@ -226,6 +228,14 @@ export function lintContent(records, specs, schema) {
   // The whole pedagogical point of a tone set is that the variants differ ONLY by tone.
   // Two variants with identical text_native means the learner is shown the same word
   // twice and taught nothing, which looks like content and is not.
+  // Mechanical orthography. The tone NUMBER is the app's central claim about Thai and
+  // until this rule it was asserted by hand. Tone is fully determined by the initial
+  // consonant's class and the mark written, so a wrong number is a bug a lookup can find --
+  // see thai-orthography.mjs for what this deliberately cannot check.
+  records.filter(r2 => kind(r2) === 'tone_set').forEach(ts => {
+    for (const p of checkToneSet(ts)) r.err(ts.id, p.message);
+  });
+
   records.filter(r2 => kind(r2) === 'tone_set').forEach(ts => {
     const where = `tone set ${ts.id}`;
     const seen = new Map();
