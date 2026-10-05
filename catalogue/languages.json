@@ -1,0 +1,188 @@
+{
+  "_comment": [
+    "THE CATALOGUE. Authoritative list of every language LangKraft will ever ship.",
+    "It lived only in a conversation until 2026-10-05, and was lost. It is here now so",
+    "that it cannot be lost again. Nothing in the pipeline, the app or the tests may",
+    "hard-code a language list; they all read this file.",
+    "",
+    "English is `role: calibration`: it measures whether the tier sizes are right and is",
+    "structurally not a travel aid, so it is in the catalogue but is not one of the 20.",
+    "",
+    "Tatoeba English-pivot sentence-pair counts are recorded because they decide whether a",
+    "language can be attested-sourced at all. `null` means NOT YET MEASURED -- which is a",
+    "gap to close, not a zero.",
+    "MEASURED 2026-10-05: all 21 languages have an English-pivot bitext of 1000+ sentences or the API cap. 1000 means the API's ceiling, not the true count. Serbian (srp), Dari (fas), Persian (pes) and MSA Arabic (arb) were each confirmed at the cap, so no language in the catalogue is blocked on attestation."
+  ],
+  "calibration": "eng",
+  "languages": [
+    {
+      "code": "ind",
+      "name": "Indonesian",
+      "tatoeba_en_pairs": 1000,
+      "script": "Latin",
+      "tones": false,
+      "state": "planned"
+    },
+    {
+      "code": "spa",
+      "name": "Spanish",
+      "tatoeba_en_pairs": 1000,
+      "script": "Latin",
+      "tones": false,
+      "state": "planned"
+    },
+    {
+      "code": "hin",
+      "name": "Hindi",
+      "tatoeba_en_pairs": 1000,
+      "script": "Devanagari",
+      "tones": false,
+      "state": "planned"
+    },
+    {
+      "code": "fra",
+      "name": "French",
+      "tatoeba_en_pairs": 1000,
+      "script": "Latin",
+      "tones": false,
+      "state": "planned"
+    },
+    {
+      "code": "ara",
+      "name": "Arabic",
+      "tatoeba_en_pairs": 1000,
+      "script": "Arabic",
+      "tones": false,
+      "state": "planned"
+    },
+    {
+      "code": "eng",
+      "name": "English",
+      "tatoeba_en_pairs": null,
+      "script": "Latin",
+      "tones": false,
+      "state": "shipped",
+      "role": "calibration"
+    },
+    {
+      "code": "swh",
+      "name": "Swahili",
+      "tatoeba_en_pairs": 1000,
+      "script": "Latin",
+      "tones": false,
+      "state": "shipped"
+    },
+    {
+      "code": "tam",
+      "name": "Tamil",
+      "tatoeba_en_pairs": 701,
+      "script": "Tamil",
+      "tones": false,
+      "state": "shipped"
+    },
+    {
+      "code": "por",
+      "name": "Portuguese",
+      "tatoeba_en_pairs": 1000,
+      "script": "Latin",
+      "tones": false,
+      "state": "planned"
+    },
+    {
+      "code": "nld",
+      "name": "Dutch",
+      "tatoeba_en_pairs": 1000,
+      "script": "Latin",
+      "tones": false,
+      "state": "planned"
+    },
+    {
+      "code": "ita",
+      "name": "Italian",
+      "tatoeba_en_pairs": 1000,
+      "script": "Latin",
+      "tones": false,
+      "state": "planned"
+    },
+    {
+      "code": "deu",
+      "name": "German",
+      "tatoeba_en_pairs": 1000,
+      "script": "Latin",
+      "tones": false,
+      "state": "planned"
+    },
+    {
+      "code": "srp",
+      "name": "Serbian",
+      "tatoeba_en_pairs": 1000,
+      "script": "Cyrillic",
+      "tones": false,
+      "state": "planned"
+    },
+    {
+      "code": "tur",
+      "name": "Turkish",
+      "tatoeba_en_pairs": 1000,
+      "script": "Latin",
+      "tones": false,
+      "state": "planned"
+    },
+    {
+      "code": "fas",
+      "name": "Dari",
+      "tatoeba_en_pairs": 1000,
+      "script": "Arabic",
+      "tones": false,
+      "state": "planned"
+    },
+    {
+      "code": "tha",
+      "name": "Thai",
+      "tatoeba_en_pairs": 1000,
+      "script": "Thai",
+      "tones": true,
+      "state": "shipped"
+    },
+    {
+      "code": "rus",
+      "name": "Russian",
+      "tatoeba_en_pairs": 1000,
+      "script": "Cyrillic",
+      "tones": false,
+      "state": "planned"
+    },
+    {
+      "code": "jpn",
+      "name": "Japanese",
+      "tatoeba_en_pairs": 1000,
+      "script": "Japanese",
+      "tones": false,
+      "state": "planned"
+    },
+    {
+      "code": "kor",
+      "name": "Korean",
+      "tatoeba_en_pairs": 1000,
+      "script": "Hangul",
+      "tones": false,
+      "state": "planned"
+    },
+    {
+      "code": "vie",
+      "name": "Vietnamese",
+      "tatoeba_en_pairs": 1000,
+      "script": "Latin",
+      "tones": true,
+      "state": "planned"
+    },
+    {
+      "code": "cmn",
+      "name": "Mandarin",
+      "tatoeba_en_pairs": 1000,
+      "script": "Han",
+      "tones": true,
+      "state": "planned"
+    }
+  ]
+}
