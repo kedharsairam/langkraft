@@ -1,6 +1,6 @@
 {
   "ind": {
-    "curated": 601,
+    "curated": 521,
     "attested": 712,
     "native_corroborations": 6,
     "corroborating_authors": 5,
@@ -76,7 +76,7 @@
     ]
   },
   "spa": {
-    "curated": 462,
+    "curated": 382,
     "attested": 896,
     "native_corroborations": 5,
     "corroborating_authors": 5,
@@ -141,7 +141,7 @@
     ]
   },
   "hin": {
-    "curated": 202,
+    "curated": 146,
     "attested": 273,
     "native_corroborations": 0,
     "corroborating_authors": 0,
@@ -150,7 +150,7 @@
     "pairs": []
   },
   "fra": {
-    "curated": 529,
+    "curated": 430,
     "attested": 915,
     "native_corroborations": 10,
     "corroborating_authors": 9,
@@ -270,7 +270,7 @@
     ]
   },
   "ara": {
-    "curated": 397,
+    "curated": 324,
     "attested": 574,
     "native_corroborations": 3,
     "corroborating_authors": 2,
@@ -302,7 +302,7 @@
       {
         "concept": "basics",
         "native": "لَوْ سَمَحْتَ",
-        "pronunciation": "getting attention",
+        "pronunciation": "law samaḥta",
         "english_curated": "Excuse me.",
         "english_attested": "Excuse me!",
         "attested_author": "bionicboy",
@@ -313,7 +313,7 @@
     ]
   },
   "swh": {
-    "curated": 420,
+    "curated": 346,
     "attested": 175,
     "native_corroborations": 4,
     "corroborating_authors": 4,
@@ -367,7 +367,7 @@
     ]
   },
   "tam": {
-    "curated": 336,
+    "curated": 265,
     "attested": 46,
     "native_corroborations": 3,
     "corroborating_authors": 3,
@@ -399,7 +399,7 @@
       {
         "concept": "basics",
         "native": "மன்னிக்கவும்",
-        "pronunciation": "getting attention",
+        "pronunciation": null,
         "english_curated": "Excuse me. (getting attention)",
         "english_attested": "I'm sorry.",
         "attested_author": "CK",
@@ -410,7 +410,7 @@
     ]
   },
   "por": {
-    "curated": 302,
+    "curated": 251,
     "attested": 832,
     "native_corroborations": 0,
     "corroborating_authors": 0,
@@ -419,7 +419,7 @@
     "pairs": []
   },
   "nld": {
-    "curated": 348,
+    "curated": 283,
     "attested": 825,
     "native_corroborations": 14,
     "corroborating_authors": 11,
@@ -583,7 +583,7 @@
     ]
   },
   "ita": {
-    "curated": 386,
+    "curated": 314,
     "attested": 942,
     "native_corroborations": 7,
     "corroborating_authors": 4,
@@ -670,7 +670,7 @@
     ]
   },
   "deu": {
-    "curated": 544,
+    "curated": 470,
     "attested": 952,
     "native_corroborations": 7,
     "corroborating_authors": 5,
@@ -757,7 +757,7 @@
     ]
   },
   "srp": {
-    "curated": 401,
+    "curated": 322,
     "attested": 530,
     "native_corroborations": 0,
     "corroborating_authors": 0,
@@ -766,7 +766,7 @@
     "pairs": []
   },
   "tur": {
-    "curated": 298,
+    "curated": 267,
     "attested": 1059,
     "native_corroborations": 9,
     "corroborating_authors": 7,
@@ -875,7 +875,7 @@
     ]
   },
   "fas": {
-    "curated": 55,
+    "curated": 54,
     "attested": 372,
     "native_corroborations": 0,
     "corroborating_authors": 0,
@@ -884,7 +884,7 @@
     "pairs": []
   },
   "tha": {
-    "curated": 420,
+    "curated": 345,
     "attested": 276,
     "native_corroborations": 7,
     "corroborating_authors": 6,
@@ -894,7 +894,7 @@
       {
         "concept": "courtesy",
         "native": "สวัสดี",
-        "pronunciation": "informal",
+        "pronunciation": "''sa-wat-dii''",
         "english_curated": "Hello.",
         "english_attested": "Hello.",
         "attested_author": "LanguageExpert",
@@ -971,7 +971,7 @@
     ]
   },
   "rus": {
-    "curated": 425,
+    "curated": 337,
     "attested": 1034,
     "native_corroborations": 4,
     "corroborating_authors": 3,
@@ -1025,7 +1025,7 @@
     ]
   },
   "jpn": {
-    "curated": 612,
+    "curated": 527,
     "attested": 993,
     "native_corroborations": 1,
     "corroborating_authors": 1,
@@ -1046,7 +1046,7 @@
     ]
   },
   "kor": {
-    "curated": 436,
+    "curated": 363,
     "attested": 432,
     "native_corroborations": 2,
     "corroborating_authors": 2,
@@ -1067,7 +1067,7 @@
       {
         "concept": "basics",
         "native": "안녕.",
-        "pronunciation": "informal",
+        "pronunciation": "''annyeong''",
         "english_curated": "Goodbye",
         "english_attested": "Goodbye!",
         "attested_author": "minshirui",
@@ -1078,7 +1078,7 @@
     ]
   },
   "vie": {
-    "curated": 320,
+    "curated": 250,
     "attested": 461,
     "native_corroborations": 4,
     "corroborating_authors": 4,
@@ -1088,7 +1088,7 @@
       {
         "concept": "basics",
         "native": "Ông tên là gì?",
-        "pronunciation": "formal, to a man (forties or older, depending on the sensitivity of the person you address)",
+        "pronunciation": null,
         "english_curated": "What is your name? (formal, to a man (forties or older, depending on the sensitivity of the person you address))",
         "english_attested": "What is your name?",
         "attested_author": "frpzzd",
@@ -1109,8 +1109,8 @@
       },
       {
         "concept": "directions",
-        "native": "đi thẳng (...)",
-        "pronunciation": "...",
+        "native": "đi thẳng",
+        "pronunciation": null,
         "english_curated": "straight ahead",
         "english_attested": "Go straight.",
         "attested_author": "CK",
@@ -1132,12 +1132,134 @@
     ]
   },
   "cmn": {
-    "curated": 386,
+    "curated": 333,
     "attested": 865,
-    "native_corroborations": 0,
-    "corroborating_authors": 0,
+    "native_corroborations": 11,
+    "corroborating_authors": 9,
     "gloss_only": 0,
-    "register_conflicts": 0,
-    "pairs": []
+    "register_conflicts": 1,
+    "pairs": [
+      {
+        "concept": "basics",
+        "native": "你好吗？",
+        "pronunciation": "Nǐ hǎo ma? (In Indonesia, it is often shortened as Nǐ hăo?)",
+        "english_curated": "How are you?",
+        "english_attested": "How are you?",
+        "attested_author": "CK",
+        "attested_id": 475781,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "你叫什么名字？",
+        "pronunciation": "Nǐ jiào shénme míngzì?",
+        "english_curated": "What is your name?",
+        "english_attested": "What is your name?",
+        "attested_author": "frpzzd",
+        "attested_id": 346883,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "我不会说汉语。",
+        "pronunciation": "Wǒ bú huì shuō hànyǔ",
+        "english_curated": "I can't speak Chinese.",
+        "english_attested": "I do not speak Chinese.",
+        "attested_author": "knk4597",
+        "attested_id": 3697861,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "你会说英语吗？",
+        "pronunciation": "ma?''",
+        "english_curated": "Do you speak English?",
+        "english_attested": "Do you speak English?",
+        "attested_author": "saeb",
+        "attested_id": 342074,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "晚上好。",
+        "pronunciation": "Wǎnshàng hǎo",
+        "english_curated": "Good evening.",
+        "english_attested": "Good evening.",
+        "attested_author": "Aurix",
+        "attested_id": 333158,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "厕所在哪里？",
+        "pronunciation": "Cèsuǒ zài nǎlǐ?",
+        "english_curated": "Where is the toilet?",
+        "english_attested": "Where is the toilet?",
+        "attested_author": "CK",
+        "attested_id": 493902,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "basics",
+        "native": "洗手间在哪里？",
+        "pronunciation": "Xǐshǒujiān zài nǎlǐ?",
+        "english_curated": "Where is the bathroom（polite)?",
+        "english_attested": "Where is the bathroom?",
+        "attested_author": "brauliobezerra",
+        "attested_id": 346667,
+        "tatoeba_author_share": null,
+        "register_conflict": true
+      },
+      {
+        "concept": "problem",
+        "native": "我生病了。",
+        "pronunciation": "le''",
+        "english_curated": "I'm sick.",
+        "english_attested": "I am ill.",
+        "attested_author": "sharris123",
+        "attested_id": 780291,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "problem",
+        "native": "我需要医生。",
+        "pronunciation": "wǒ xūyào yīshēng",
+        "english_curated": "I need a doctor.",
+        "english_attested": "I need a doctor.",
+        "attested_author": "CK",
+        "attested_id": 10699408,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "what_time",
+        "native": "现在几点？",
+        "pronunciation": "Xiànzài jǐ diǎn?",
+        "english_curated": "What time is it?",
+        "english_attested": "What time is it right now?",
+        "attested_author": "Hybrid",
+        "attested_id": 8293429,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      },
+      {
+        "concept": "directions",
+        "native": "左转",
+        "pronunciation": "zuǒ zhuǎn",
+        "english_curated": "Turn left.",
+        "english_attested": "Turn left!",
+        "attested_author": "faraway9911",
+        "attested_id": 2158931,
+        "tatoeba_author_share": null,
+        "register_conflict": false
+      }
+    ]
   }
 }

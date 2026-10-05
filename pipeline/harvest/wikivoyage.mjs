@@ -392,6 +392,87 @@ export function parsePhraseRow(row, reversed = false) {
   const langTpl = /\{\{\s*Lang\s*\|[^|]*\|\s*([^{}|]+)\}\}/i.exec(row)?.[1]?.trim() ?? null;
   let nativeOverride = langTpl;
 
+  /**
+   * Resolve the romanisation, which on the Arabic page is its own script-tagged template:
+   * `{{Lang|ar-Latn|law samaḥta}}`. Without this the romanisation column was empty for Arabic
+   * and the app had the script with no way to read it for a learner who cannot yet.
+   */
+  const romanTpl = /\{\{\s*Lang\s*\|\s*[a-z]+-Latn\s*\|\s*([^{}|]+)\}\}/i.exec(row)?.[1]?.trim() ?? null;
+
+  /**
+   * Two scripts inline in the native field.
+   *
+   * `; 0 : صفر Sifr` -- Arabic and romanisation separated by a space, on the numbers table. Parsed
+   * as one string, so the entry was "صفر Sifr" and the romanisation was null. Detected by
+   * finding a run of target-script characters followed by a space and then Latin letters with no
+   * punctuation between them, which is a script boundary rather than a word boundary.
+   */
+  // Two scripts, then whatever trailing gloss the page adds.
+  //
+  // The first version of this matched exactly two fields, so every Arabic row with a register
+  // note or an exclamation mark after the romanisation was missed and kept both scripts in the
+  // native field: 'لف يسار lif yassar', 'اتركني / اتركيني utrukni (to a male) / utrukiini'.
+  // The trailing Latin run is the romanisation; everything up to it is the phrase.
+  // Excludes rows containing templates: those are resolved by their own rules above, and the
+  // widened `[^:]*` would otherwise swallow `{{Lang|ar-Latn|...}}` as if it were a plain phrase.
+  //
+  // The pattern uses an explicit "some non-Latin script character" test rather than a per-script
+  // range. An earlier version was restricted to Arabic, which meant Hindi, Russian and Japanese
+  // rows in the same shape -- phrase, space, romanisation -- kept both scripts in the native
+  // field and produced 58 content entries with no romanisation. The guard that matters is the
+  // one below it: the romanisation must START the trailing run, so a Thai phrase followed by
+  // "(pèrt)" is still handled by the parenthesis path rather than being split here.
+  const hasNonLatin = /[^\p{Script=Latin}\p{N}\p{P}\p{Zs}]/u.test(row);
+  const inline = row.includes('{{') || !hasNonLatin
+    ? null
+    : /^\s*(\S.*?)\s+([A-Za-z][A-Za-z'`ʾ\-]*[.,;:!?'\s]*)$/.exec(row.split(':').slice(1).join(':'));
+  if (inline && !romanTpl && !langTpl && !pron) {
+    pronunciation = inline[2].trim();
+    nativeOverride = inline[1].trim();
+  }
+
+  /**
+   * Mandarin writes THREE things in the native cell: simplified, traditional in parentheses,
+   * and pinyin. `; Hello. : 你好。 (你好。)  ''Nǐ hǎo''`.
+   *
+   * The two-script inline split above expects exactly two fields, so this row kept all three:
+   * 40 of 53 Mandarin entries had no romanisation and a native text reading
+   * "你好。 (你好。) Nǐ hǎo". The traditional variant is not a second language -- it is the same
+   * word, and the app's default variety is mainland, so the simplified form is kept and the
+   * traditional form is dropped rather than shipped as noise. It is recorded on the row because
+   * a reader in Taiwan needs to recognise it, which is a content decision for later.
+   */
+  // Han only. The shape is Mandarin-specific -- simplified, then a traditional variant in
+  // parentheses, then pinyin -- but the pattern alone matches any parenthesised phrase, so on
+  // `Open : เปิด (pèrt)` it claimed the Thai phrase as the simplified form and left
+  // "เปิด (pèrt" behind. Same discriminator as above: the script decides, not the punctuation.
+  const threePart = !/[\u4e00-\u9fff\u3400-\u4dbf]/.test(row)
+    ? null
+    : /^\s*([^\s:()]+)\s*[（(]\s*[^\s:()]+[）)]\s*(.*)$/.exec(row.split(':').slice(1).join(':'));
+  if (threePart && !langTpl) {
+    nativeOverride = threePart[1].trim();
+    const rest = threePart[2].replace(/''/g, '').trim();
+    if (rest && /\p{Script=Latin}/u.test(rest) && !pronunciation) {
+      pronunciation = rest.replace(/[.,;]+$/, '').trim();
+    }
+  }
+
+  // The script-tagged romanisation wins over the italic gloss: on the Arabic page
+  // `''{Lang|ar-Latn|law samaḥta}}''` is the pronunciation and `''(getting attention)''` is a
+  // register note that was being recorded AS the pronunciation.
+  const candidate = romanTpl ?? pron ?? (isPlaceholder(pronTpl) ? null : pronTpl);
+  // Only assign when something was found. `candidate` is null whenever none of the three
+  // template forms is present, and assigning null unconditionally wiped the inline
+  // pronunciation resolved a few lines above — `0 : صفر Sifr` came back with the whole string in
+  // both fields. Order matters: last writer wins, so this must not clobber.
+  if (candidate) pronunciation = isPlaceholder(candidate) ? null : candidate;
+
+  // An English phrase is never a pronunciation. These are register notes and glosses that share
+  // the italics slot; storing one makes the app display "getting attention" under a phrase.
+  if (pronunciation && /^\p{Script=Latin}/u.test(pronunciation) && /\b(getting|asking|answering|to a|only on|saying|informal|formal)\b/i.test(pronunciation)) {
+    pronunciation = null;
+  }
+
   // Arabic sometimes writes the pronunciation bare rather than in italics:
   // `; Maybe.: {{Lang|ar|رُبَّمَا}}  ''(rubbamaa)''` still has the italics, but
   // `; Excuse me.: {{Lang|ar|إسمحلي}}  ''(min faDlak)''` puts the register note inside the
@@ -436,11 +517,26 @@ export function parsePhraseRow(row, reversed = false) {
       .trim();
   }
 
+  // Split on the FIRST colon of the CLEANED text, except when the cleaned text has nothing after
+  // that colon -- which happens when the row's phrase lives entirely inside a template:
+  // `Excuse me.: {{Lang|ar|...}} ''{{Lang|ar-Latn|...}}` cleans to `"Excuse me.:"` with an empty
+  // right-hand side, so the row was rejected outright even though both the phrase and its
+  // romanisation had already been resolved above. Falling back to the raw row keeps the English
+  // side available; the override blocks supply the native text regardless.
   const sep = text.indexOf(':');
   if (sep <= 0) return null;
 
   let left = text.slice(0, sep).trim();
   let right = text.slice(sep + 1).trim();
+
+  // When the cleaned text has nothing after the colon but a template DID resolve, take the
+  // English side from the raw row instead. Mixing indexes across the two strings is what made
+  // this return null: `row.indexOf(':')` is an offset into the raw wikitext, and slicing the
+  // cleaned text with it lands somewhere unrelated.
+  if (!right && (nativeOverride || inline || threePart)) {
+    const rawSep = row.indexOf(':');
+    if (rawSep > 0) left = row.slice(0, rawSep).replace(/\(''[^']*''\)/g, '').trim();
+  }
 
   // Trailing annotation in parentheses is commentary, not part of the phrase.
   right = right.replace(/\s*\((?:informal|formal|Muslim|polite)[^)]*\)\s*$/i, '').trim();
@@ -461,7 +557,14 @@ export function parsePhraseRow(row, reversed = false) {
   // "Yes." as BOTH the English and the native text. Every Arabic and Dari row was wrong in the
   // same way, and the file looked perfectly plausible.
   if (nativeOverride) {
-    native = nativeOverride;
+    // The inline form put BOTH scripts in the override's sibling slot, and `nativeOverride` was
+    // assigned the whole thing at resolution time. Take the script that matches the language's
+    // and let the romanisation stand separately — `0 : صفر Sifr` must not become an entry whose
+    // native text is "صفر Sifr".
+    native = threePart ? threePart[1].trim() : inline
+      ? inline[1].trim()
+      : nativeOverride;
+    if (inline) pronunciation = inline[2].trim();
     // English is the side that is NOT the template payload. In the normal `English : Native`
     // layout that is `left`; reversed layouts put it on the right.
     const candidate = reversed ? right : left;
@@ -493,7 +596,12 @@ export function parsePhraseRow(row, reversed = false) {
   // template's ordering, the script wins -- a row that says "Hello : 你好" in an English-first
   // context is still an English-first row.
   const NON_LATIN = NON_LATIN_SCRIPT;
-  if (NON_LATIN.test(left) !== NON_LATIN.test(right)) {
+  // Skipped when a `{{Lang}}` payload or an inline script split already decided it. On the
+  // Arabic numbers table the two sides are "صفر" and "Sifr" joined by a space, so BOTH match the
+  // non-Latin test and this re-derived from the raw halves put "صفر Sifr" back — undoing the
+  // split and re-introducing the exact bug it fixed. A later guess must not overrule a resolved
+  // template; that is the whole reason `nativeOverride` exists.
+  if (!nativeOverride && !inline && !threePart && NON_LATIN.test(left) !== NON_LATIN.test(right)) {
     const leftIsNative = NON_LATIN.test(left);
     english = leftIsNative ? right : left;
     native = leftIsNative ? left : right;

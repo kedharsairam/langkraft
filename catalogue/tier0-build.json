@@ -1,65 +1,202 @@
 {
   "ind": {
-    "skipped": "no spec"
+    "skipped_romanized_only": 0,
+    "curated": 521,
+    "attested": 712,
+    "corroborated": 3,
+    "written": 48,
+    "domains": 10,
+    "depth": 48,
+    "ratio": "37:11"
   },
   "spa": {
-    "skipped": "no spec"
+    "skipped_romanized_only": 0,
+    "curated": 382,
+    "attested": 896,
+    "corroborated": 4,
+    "written": 57,
+    "domains": 9,
+    "depth": 57,
+    "ratio": "46:11"
   },
   "hin": {
-    "skipped": "no spec"
+    "skipped_romanized_only": 19,
+    "curated": 146,
+    "attested": 273,
+    "corroborated": 0,
+    "written": 25,
+    "domains": 8,
+    "depth": 39,
+    "ratio": "24:1"
   },
   "fra": {
-    "skipped": "no spec"
+    "skipped_romanized_only": 0,
+    "curated": 430,
+    "attested": 915,
+    "corroborated": 3,
+    "written": 56,
+    "domains": 9,
+    "depth": 56,
+    "ratio": "46:10"
   },
   "ara": {
-    "skipped": "no spec"
+    "skipped_romanized_only": 30,
+    "curated": 324,
+    "attested": 574,
+    "corroborated": 3,
+    "written": 27,
+    "domains": 9,
+    "depth": 52,
+    "ratio": "13:14"
   },
   "swh": {
-    "kept": 50,
-    "generated": 30
+    "skipped_romanized_only": 0,
+    "curated": 346,
+    "attested": 175,
+    "corroborated": 3,
+    "written": 30,
+    "domains": 9,
+    "depth": 30,
+    "ratio": "20:10"
   },
   "tam": {
-    "kept": 38,
-    "generated": 12
+    "skipped_romanized_only": 45,
+    "curated": 265,
+    "attested": 46,
+    "corroborated": 2,
+    "written": 12,
+    "domains": 9,
+    "depth": 24,
+    "ratio": "5:7"
   },
   "por": {
-    "skipped": "no spec"
+    "skipped_romanized_only": 0,
+    "curated": 251,
+    "attested": 832,
+    "corroborated": 0,
+    "written": 52,
+    "domains": 9,
+    "depth": 56,
+    "ratio": "39:13"
   },
   "nld": {
-    "skipped": "no spec"
+    "skipped_romanized_only": 0,
+    "curated": 283,
+    "attested": 825,
+    "corroborated": 3,
+    "written": 57,
+    "domains": 9,
+    "depth": 57,
+    "ratio": "49:8"
   },
   "ita": {
-    "skipped": "no spec"
+    "skipped_romanized_only": 0,
+    "curated": 314,
+    "attested": 942,
+    "corroborated": 1,
+    "written": 57,
+    "domains": 9,
+    "depth": 57,
+    "ratio": "46:11"
   },
   "deu": {
-    "skipped": "no spec"
+    "skipped_romanized_only": 0,
+    "curated": 470,
+    "attested": 952,
+    "corroborated": 1,
+    "written": 60,
+    "domains": 10,
+    "depth": 60,
+    "ratio": "46:14"
   },
   "srp": {
-    "skipped": "no spec"
+    "skipped_romanized_only": 0,
+    "curated": 322,
+    "attested": 530,
+    "corroborated": 0,
+    "written": 50,
+    "domains": 10,
+    "depth": 50,
+    "ratio": "36:14"
   },
   "tur": {
-    "skipped": "no spec"
+    "skipped_romanized_only": 0,
+    "curated": 267,
+    "attested": 1059,
+    "corroborated": 4,
+    "written": 57,
+    "domains": 9,
+    "depth": 58,
+    "ratio": "48:9"
   },
   "fas": {
-    "skipped": "no spec"
+    "skipped_romanized_only": 6,
+    "curated": 54,
+    "attested": 372,
+    "corroborated": 0,
+    "written": 8,
+    "domains": 2,
+    "depth": 48,
+    "ratio": "0:8"
   },
   "tha": {
-    "kept": 77,
-    "generated": 37
+    "skipped_romanized_only": 0,
+    "curated": 345,
+    "attested": 276,
+    "corroborated": 6,
+    "written": 37,
+    "domains": 9,
+    "depth": 37,
+    "ratio": "27:10"
   },
   "rus": {
-    "skipped": "no spec"
+    "skipped_romanized_only": 0,
+    "curated": 337,
+    "attested": 1034,
+    "corroborated": 1,
+    "written": 57,
+    "domains": 9,
+    "depth": 58,
+    "ratio": "44:13"
   },
   "jpn": {
-    "skipped": "no spec"
+    "skipped_romanized_only": 0,
+    "curated": 527,
+    "attested": 993,
+    "corroborated": 1,
+    "written": 57,
+    "domains": 10,
+    "depth": 57,
+    "ratio": "49:8"
   },
   "kor": {
-    "skipped": "no spec"
+    "skipped_romanized_only": 0,
+    "curated": 363,
+    "attested": 432,
+    "corroborated": 0,
+    "written": 48,
+    "domains": 9,
+    "depth": 48,
+    "ratio": "38:10"
   },
   "vie": {
-    "skipped": "no spec"
+    "skipped_romanized_only": 0,
+    "curated": 250,
+    "attested": 461,
+    "corroborated": 2,
+    "written": 46,
+    "domains": 9,
+    "depth": 46,
+    "ratio": "34:12"
   },
   "cmn": {
-    "skipped": "no spec"
+    "skipped_romanized_only": 1,
+    "curated": 333,
+    "attested": 865,
+    "corroborated": 7,
+    "written": 53,
+    "domains": 9,
+    "depth": 53,
+    "ratio": "45:8"
   }
 }

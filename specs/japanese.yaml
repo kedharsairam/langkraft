@@ -1,0 +1,188 @@
+# Japanese — generated spec
+
+# GENERATED FILE. pipeline/spec/generate.mjs writes this.
+#
+# What is measured and what is not:
+#   Tier 0 size       MEASURED — derived from harvested yield in catalogue/tier0-depth.json
+#   FSI category      CITED    — State Department table, verified
+#   script, tones     CATALOGUE
+#   morphology, register, dialect  REASONING, recorded as verified: false
+#
+# The last row is the one to read first. Sixteen files that all look sourced and differ only in
+# unverified reasoning is how a project ends up asserting things it never checked.
+
+language:
+  code: jpn
+  name: Japanese
+  endonym: 日本語
+  romanization: hepburn
+  role: course
+  gloss_mode: required
+
+spec_version: 0.1.0
+status: draft
+
+variety:
+  default: ja-JP
+  romanization_scheme: hepburn
+  rationale:
+    value: >
+      Standard Japanese, Tokyo. Standard Japanese is what the sources use.
+    source: internal
+    verified: false
+    checked: 2026-10-05
+    note: >
+      A reasoning claim, not a cited one. The dialect is the one parameter with no safe default:
+      a phrasebook that names the wrong variety teaches the wrong words confidently, which is why
+      it is stated per language rather than defaulted.
+
+  variants:
+    - id: ja-JP
+      label: Standard Japanese, Tokyo
+      notes:
+        value: "The variety this phrasebook teaches. Chosen because the harvested sources are written this way."
+        source: internal
+        verified: false
+        checked: 2026-10-05
+
+structure:
+  morphology: isolating
+  script:
+    primary: Japanese
+    direction: ltr
+  tones: false
+
+register:
+  system: politeness_levels
+  notes: >
+    Politeness particles and honorifics carry meaning, and they differ by relationship and region. Recorded as a known gap where the choice cannot be resolved mechanically.
+
+coverage:
+  harvested_curated: 527
+  harvested_attested: 993
+  corroborated: 1
+  tier0_depth_derived: 57
+  note: >
+    Counts are measured from catalogue/, not asserted. `tier0_depth_derived` is the number the
+    pipeline computed from yield; if it disagrees with tiers[0].size below, the tiers block is
+    stale and should be regenerated.
+
+tiers:
+  - id: 0
+    name: Courtesy
+    intent: >
+      Not rude. Greet, thank, apologise, say you are learning the language, and recover from
+      not understanding.
+    size:
+      value: 60
+      source: internal
+      verified: false
+      checked: 2026-10-05
+      note: >
+        DERIVED FROM MEASURED YIELD, not chosen. 57 usable candidates across
+        1 corroborated phrases. The floor follows the evidence because a
+        constant size would be wrong in both directions — asking for more than exists, or writing
+        entries no source supports.
+    certainty: high
+
+  - id: 1
+    name: Transaction
+    intent: "Prices, food, tickets, directions, a room."
+    size:
+      value: 210
+      source: internal
+      verified: false
+      checked: 2026-10-05
+      note: "Untested extrapolation. Round multiple of Tier 0."
+    certainty: medium
+
+  - id: 2
+    name: Independence
+    intent: "Handle an unexpected problem unaided for a week."
+    size:
+      value: 600
+      source: internal
+      verified: false
+      checked: 2026-10-05
+      note: "Untested extrapolation."
+    certainty: medium
+
+  - id: 3
+    name: Conversation
+    intent: "Hold an ordinary conversation with a stranger."
+    size:
+      value: 1500
+      source: internal
+      verified: false
+      checked: 2026-10-05
+      note: "Untested extrapolation."
+    certainty: low
+
+cost:
+  fsi_category:
+    value: IV
+    source: "https://www.state.gov/foreign-language-training/"
+    verified: true
+    checked: 2026-10-05
+    
+  fsi_hours_to_ilr3:
+    value: 2200
+    source: "https://www.state.gov/foreign-language-training/"
+    verified: true
+    checked: 2026-10-05
+  hours_to_floor:
+    value: null
+    source: internal
+    verified: false
+    checked: 2026-10-05
+    note: >
+      Not estimated. An FSI figure is hours to ILR 3, which is a different thing from hours to
+      this tier's floor, and converting between them without a method would be inventing a number.
+
+resources:
+  - name: "Wikivoyage: Japanese phrasebook"
+    url: "https://en.wikivoyage.org/wiki/Japanese_phrasebook"
+    licence: "CC BY-SA 4.0"
+    class: curated
+    checked: 2026-10-05
+    covers:
+      value: >
+        Human-written, peer-reviewed traveller phrases, organised by scenario. The `curated`
+        evidence class, and the strongest available to a solo project.
+      source: "https://en.wikivoyage.org/wiki/Japanese_phrasebook"
+      verified: true
+      checked: 2026-10-05
+
+  - name: "Tatoeba jpn-en sentence pairs (CC BY 2.0 FR)"
+    url: "https://tatoeba.org/en/downloads"
+    licence: "CC BY 2.0 FR, some CC0"
+    class: corpus
+    checked: 2026-10-05
+    covers:
+      value: >
+        993 harvested candidates with per-sentence author
+        attribution. Used as a VERIFICATION corpus and to fill concepts the curated source lacks.
+        Note that one contributor supplies roughly a third of the pool in every language measured.
+      source: "https://en.wikipedia.org/wiki/Tatoeba"
+      verified: true
+      checked: 2026-10-05
+
+tier0_sources: curated
+
+review:
+  known_gaps:
+    - id: jpn-gap-001
+      claim: >
+        Japanese Tier 0 is built by selection from two harvested corpora, not by a native
+        speaker reviewing it. Semantic correctness, register and whether a local would actually
+        say a phrase are NOT verified, and no mechanical check can verify them.
+      consequence: >
+        Tier 0 ships with evidence recorded per entry so a flagged phrase can be traced back to
+        its source and its author.
+    - id: jpn-gap-002
+      claim: >
+        No machine-checkable orthography rule has been written for Japanese. Text correctness is therefore unchecked.
+      consequence: >
+        Romanisation is present so the app is usable without reading the target script, but it is unverified.
+
+  reviews: []

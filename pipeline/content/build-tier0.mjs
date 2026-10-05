@@ -360,12 +360,20 @@ export function buildLanguage(lang, spec, corroboration) {
   const DOMAIN_CAP = { 1: 8, 2: 6, 3: 6, 4: 7, 5: 6, 6: 7, 7: 6, 8: 6, 9: 4, 10: 5, 11: 3, 12: 4 };
 
   const byDomain = new Map();
+  // Global across domains, because one page puts the same phrase in two scenarios -- "excuse me"
+  // appears under courtesy AND under problems on several. Filling per-domain independently let
+  // the second copy through, and the linter caught seven duplicates as a result.
+  const claimed = new Set();
   for (const row of ordered) {
     const d = DOMAIN[row.concept];
     if (!d) continue;
+    const key = tidy(row.native);
+    if (!key || claimed.has(key)) continue;
     if (!byDomain.has(d)) byDomain.set(d, []);
     const bucket = byDomain.get(d);
-    if (bucket.length < (DOMAIN_CAP[d] ?? 6)) bucket.push(row);
+    if (bucket.length >= (DOMAIN_CAP[d] ?? 6)) continue;
+    claimed.add(key);
+    bucket.push(row);
   }
 
   const entries = [];

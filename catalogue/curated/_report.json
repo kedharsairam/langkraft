@@ -20,9 +20,9 @@
     "note": null
   },
   "ara": {
-    "rows": 327,
-    "concepts": 12,
-    "note": null
+    "rows": 324,
+    "kept": true,
+    "note": "page \"Arabic phrasebook\" throttled after retries"
   },
   "swh": {
     "rows": 346,
@@ -51,8 +51,8 @@
   },
   "deu": {
     "rows": 470,
-    "kept": true,
-    "note": "page \"German phrasebook\" throttled after retries"
+    "concepts": 13,
+    "note": null
   },
   "srp": {
     "rows": 322,
@@ -76,8 +76,8 @@
   },
   "rus": {
     "rows": 337,
-    "concepts": 12,
-    "note": null
+    "kept": true,
+    "note": "page \"Russian phrasebook\" throttled after retries"
   },
   "jpn": {
     "rows": 527,
@@ -95,7 +95,7 @@
     "note": null
   },
   "cmn": {
-    "rows": 336,
+    "rows": 333,
     "concepts": 12,
     "note": "unmapped sections: going_to_the_doctor, financial_forms, writing_dates, telephone_and_the_internet, getting_a_massage"
   }
