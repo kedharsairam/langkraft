@@ -11,7 +11,8 @@
     "Tatoeba English-pivot sentence-pair counts are recorded because they decide whether a",
     "language can be attested-sourced at all. `null` means NOT YET MEASURED -- which is a",
     "gap to close, not a zero.",
-    "MEASURED 2026-10-05: all 21 languages have an English-pivot bitext of 1000+ sentences or the API cap. 1000 means the API's ceiling, not the true count. Serbian (srp), Dari (fas), Persian (pes) and MSA Arabic (arb) were each confirmed at the cap, so no language in the catalogue is blocked on attestation."
+    "MEASURED 2026-10-05: all 21 languages have an English-pivot bitext of 1000+ sentences or the API cap. 1000 means the API's ceiling, not the true count. Serbian (srp), Dari (fas), Persian (pes) and MSA Arabic (arb) were each confirmed at the cap, so no language in the catalogue is blocked on attestation.",
+    "TATOEBA CODES ARE NOT ISO 639-3. `tatoeba_code` overrides the catalogue code when querying the source, and was added after a false measurement. Dari is `fas` here (correct ISO 639-3, and correct for the app's own identifiers) but `pes` at Tatoeba -- `fas` is not a language the site knows, and `?from=fas` or `?to=fas` returns English sentences with no Dari in them while still reporting count=1000. An earlier claim that Dari had 1000+ attested pairs was that false reading, not a real corpus."
   ],
   "calibration": "eng",
   "languages": [
@@ -131,10 +132,12 @@
     {
       "code": "fas",
       "name": "Dari",
-      "tatoeba_en_pairs": 1000,
+      "tatoeba_en_pairs": null,
       "script": "Arabic",
       "tones": false,
-      "state": "planned"
+      "state": "planned",
+      "tatoeba_code": "pes",
+      "tatoeba_en_pairs_note": "not measured under the correct code pes yet; the earlier 1000 was a false reading"
     },
     {
       "code": "tha",

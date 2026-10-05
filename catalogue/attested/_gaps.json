@@ -1,20 +1,356 @@
 {
   "ind": {
-    "total": 538,
+    "total": 712,
+    "gaps": [
+      "welcome",
+      "speak_lang",
+      "repeat",
+      "price",
+      "cheap",
+      "pay_cash",
+      "change",
+      "no_receipt",
+      "water",
+      "spicy",
+      "allergic",
+      "delicious",
+      "bill",
+      "toilet",
+      "bus",
+      "taxi",
+      "ticket",
+      "airport",
+      "left_right",
+      "straight",
+      "near_far",
+      "how_to_get",
+      "address",
+      "hotel",
+      "checkout",
+      "wifi",
+      "towel",
+      "hot_water",
+      "size",
+      "card_gift",
+      "police",
+      "doctor",
+      "sick",
+      "pharmacy",
+      "lost",
+      "stolen",
+      "emergency",
+      "opening_hours",
+      "yes",
+      "good_night"
+    ]
+  },
+  "spa": {
+    "total": 896,
+    "gaps": [
+      "pay_cash",
+      "no_receipt",
+      "wifi"
+    ]
+  },
+  "hin": {
+    "total": 273,
     "gaps": [
       "cheap",
       "pay_cash",
+      "change",
       "no_receipt",
+      "spicy",
+      "allergic",
+      "bill",
+      "bus",
+      "taxi",
+      "how_to_get",
       "address",
+      "checkout",
       "wifi",
-      "towel",
+      "hot_water",
       "size",
       "card_gift",
+      "doctor",
       "pharmacy",
       "stolen",
       "emergency",
       "opening_hours",
       "yes"
+    ]
+  },
+  "fra": {
+    "total": 915,
+    "gaps": [
+      "pay_cash",
+      "no_receipt",
+      "wifi",
+      "towel"
+    ]
+  },
+  "ara": {
+    "total": 574,
+    "gaps": [
+      "cheap",
+      "pay_cash",
+      "no_receipt",
+      "wifi",
+      "hot_water",
+      "size",
+      "card_gift",
+      "yes"
+    ]
+  },
+  "swh": {
+    "total": 175,
+    "gaps": [
+      "welcome",
+      "speak_lang",
+      "expensive",
+      "pay_cash",
+      "change",
+      "no_receipt",
+      "water",
+      "spicy",
+      "vegetarian",
+      "allergic",
+      "delicious",
+      "toilet",
+      "taxi",
+      "airport",
+      "near_far",
+      "how_to_get",
+      "address",
+      "hotel",
+      "checkout",
+      "wifi",
+      "towel",
+      "hot_water",
+      "size",
+      "card_gift",
+      "doctor",
+      "pharmacy",
+      "stolen",
+      "emergency",
+      "what_time",
+      "opening_hours",
+      "yes"
+    ]
+  },
+  "tam": {
+    "total": 46,
+    "gaps": [
+      "welcome",
+      "speak_lang",
+      "repeat",
+      "learn_lang",
+      "no_understand",
+      "expensive",
+      "cheap",
+      "pay_cash",
+      "card",
+      "change",
+      "no_receipt",
+      "order",
+      "water",
+      "spicy",
+      "vegetarian",
+      "allergic",
+      "delicious",
+      "bill",
+      "bus",
+      "train",
+      "taxi",
+      "ticket",
+      "airport",
+      "left_right",
+      "straight",
+      "near_far",
+      "where_is",
+      "how_to_get",
+      "address",
+      "hotel",
+      "checkout",
+      "wifi",
+      "towel",
+      "hot_water",
+      "shopping",
+      "card_gift",
+      "police",
+      "doctor",
+      "sick",
+      "pharmacy",
+      "lost",
+      "stolen",
+      "emergency",
+      "tomorrow",
+      "opening_hours",
+      "yes",
+      "no"
+    ]
+  },
+  "por": {
+    "total": 832,
+    "gaps": [
+      "pay_cash",
+      "no_receipt",
+      "wifi",
+      "card_gift"
+    ]
+  },
+  "nld": {
+    "total": 825,
+    "gaps": [
+      "pay_cash",
+      "no_receipt",
+      "card_gift"
+    ]
+  },
+  "ita": {
+    "total": 942,
+    "gaps": [
+      "no_receipt",
+      "towel",
+      "size"
+    ]
+  },
+  "deu": {
+    "total": 952,
+    "gaps": []
+  },
+  "srp": {
+    "total": 530,
+    "gaps": [
+      "cheap",
+      "pay_cash",
+      "no_receipt",
+      "spicy",
+      "wifi",
+      "towel",
+      "hot_water",
+      "size",
+      "pharmacy",
+      "emergency"
+    ]
+  },
+  "tur": {
+    "total": 1059,
+    "gaps": [
+      "pay_cash",
+      "wifi"
+    ]
+  },
+  "fas": {
+    "total": 372,
+    "gaps": [
+      "no_receipt",
+      "spicy",
+      "bill",
+      "taxi",
+      "address",
+      "wifi",
+      "towel",
+      "hot_water",
+      "size",
+      "card_gift",
+      "doctor",
+      "pharmacy",
+      "emergency"
+    ],
+    "source_code": "pes"
+  },
+  "tha": {
+    "total": 276,
+    "gaps": [
+      "welcome",
+      "cheap",
+      "pay_cash",
+      "no_receipt",
+      "water",
+      "spicy",
+      "allergic",
+      "delicious",
+      "taxi",
+      "ticket",
+      "straight",
+      "address",
+      "checkout",
+      "wifi",
+      "towel",
+      "hot_water",
+      "size",
+      "card_gift",
+      "doctor",
+      "pharmacy",
+      "stolen",
+      "emergency",
+      "opening_hours",
+      "yes"
+    ]
+  },
+  "rus": {
+    "total": 1034,
+    "gaps": [
+      "no_receipt",
+      "wifi"
+    ]
+  },
+  "jpn": {
+    "total": 993,
+    "gaps": [
+      "no_receipt",
+      "wifi",
+      "emergency"
+    ]
+  },
+  "kor": {
+    "total": 432,
+    "gaps": [
+      "pay_cash",
+      "no_receipt",
+      "taxi",
+      "address",
+      "wifi",
+      "towel",
+      "hot_water",
+      "size",
+      "card_gift",
+      "pharmacy",
+      "stolen",
+      "emergency",
+      "yes"
+    ]
+  },
+  "vie": {
+    "total": 461,
+    "gaps": [
+      "pay_cash",
+      "no_receipt",
+      "allergic",
+      "taxi",
+      "address",
+      "hotel",
+      "wifi",
+      "towel",
+      "hot_water",
+      "size",
+      "card_gift",
+      "doctor",
+      "pharmacy",
+      "stolen",
+      "emergency"
+    ]
+  },
+  "cmn": {
+    "total": 865,
+    "gaps": [
+      "pay_cash",
+      "no_receipt",
+      "wifi",
+      "hot_water",
+      "card_gift",
+      "pharmacy",
+      "emergency"
     ]
   }
 }

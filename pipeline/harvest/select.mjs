@@ -57,6 +57,25 @@ export const CONTRIBUTOR_CAP = 0.6;
 const IDEAL_MAX = 6;
 const LONG_MAX = 9;
 
+/** Languages written without spaces between words. */
+const UNSPACED = new Set(['jpn', 'cmn', 'kor']);
+
+/**
+ * A comparable "length" for ranking.
+ *
+ * For spaced scripts this is the word count. For Chinese, Japanese and Korean it cannot be:
+ * "こんにちは。小川と申します。" splits into two whitespace-separated runs, so a word-count
+ * band tuned on Latin would score a long Japanese sentence as terse. Character count is the
+ * usable proxy there, divided by a factor chosen so the two scales land in comparable ranges
+ * rather than at the mercy of a constant.
+ */
+export function wordCount(text, code) {
+  if (!UNSPACED.has(code)) return text.trim().split(/\s+/).length;
+  // Punctuation and whitespace do not count as content.
+  const chars = [...text].filter((c) => /\p{L}/u.test(c) || /\p{N}/u.test(c)).length;
+  return Math.round(chars / 3);
+}
+
 /** Phrases that make a sentence unusable however well it scores elsewhere. */
 const DISQUALIFY = [
   /\bthanks? (?:for|to) (?:my|our|your|the) (?:question|help|comment|post|translation|contribution)/i,
@@ -67,14 +86,72 @@ const DISQUALIFY = [
   /\b[A-Z]{3,}\b/,           // acronyms: names, brands, initialisms
   /\d{3,}/,                   // ids, years, phone numbers
 
-  // Nonsense from mixed-script machine translation. Not a typo being fixed here: these rows
-  // are exactly what a non-speaker running a translator produces, and shipping one would put
-  // a visibly broken string in front of a learner. Embedded CJK inside Latin words, or any
-  // script mixed into a word of another, is the reliable signal.
-  /[\u3040-\u30ff\u4e00-\u9fff\uac00-\ud7af]/,   // kana, han, hangul inside a Latin-script language
-  /\p{Script=Latin}[\p{Script=Han}\p{Script=Arabic}\p{Script=Cyrillic}\p{Script=Thai}\p{Script=Devanagari}]/u,
+  // Nonsense from mixed-script machine translation. These rows are exactly what a
+  // non-speaker running a translator produces, and shipping one puts a visibly broken string
+  // in front of a learner.
+  //
+  // CRITICAL: these guards apply only to languages whose own script is Latin. The first
+  // version of this rule rejected 100% of legitimate Japanese (980/993), Korean (425/432) and
+  // Mandarin (854/865) -- those languages ARE CJK, so "contains Han" says nothing about
+  // quality. It selected exactly zero candidates for three languages holding 993, 432 and
+  // 865 harvested rows, which reads as "no evidence exists" when the truth is "my filter is
+  // wrong". Script checking is per-language below; see scriptIsPlausible.
+  /\p{Script=Latin}[\p{Script=Han}\p{Script=Arabic}\p{Script=Cyrillic}\p{Script=Thai}\p{Script=Devanagari}\p{Script=Hangul}]/u,
   /\p{Script=Han}[\p{Script=Latin}\p{Script=Cyrillic}]/u,
 ];
+
+/**
+ * The expected dominant script per language.
+ *
+ * Anything unlisted is treated as Latin, which is the majority case and the conservative one:
+ * a language whose script is unknown to this table keeps the stricter guard rather than
+ * silently losing it.
+ */
+const EXPECTED_SCRIPT = {
+  jpn: 'Japanese',
+  kor: 'Hangul',
+  cmn: 'Han',
+  tha: 'Thai',
+  tam: 'Tamil',
+  ara: 'Arabic',
+  fas: 'Arabic',
+  rus: 'Cyrillic',
+  hin: 'Devanagari',
+};
+
+/**
+ * Whether a text's scripts belong to the language.
+ *
+ * A Latin word containing Han is machine-translation damage. The same characters in a Chinese
+ * sentence are simply Chinese, and a Japanese sentence mixes kana with kanji routinely. So the
+ * test is whether the language's OWN script appears at all -- not whether a particular script
+ * is absent.
+ */
+export function scriptIsPlausible(text, code) {
+  const expected = EXPECTED_SCRIPT[code] ?? 'Latin';
+  const chars = [...(text ?? '')];
+
+  // Kana satisfies both Japanese and Han, since Japanese writes kanji and kana together.
+  const hasKana = chars.some((c) => /\p{Script=Hiragana}|\p{Script=Katakana}/u.test(c));
+  if (expected === 'Japanese' && hasKana) return true;
+  if (expected === 'Han' && hasKana) return true;
+
+  const scripts = new Set();
+  for (const c of chars) {
+    // \p{Script=...} does not allow a capture group inside the property name, so each
+    // candidate script is tested individually.
+    for (const name of ['Latin', 'Han', 'Hiragana', 'Katakana', 'Hangul', 'Arabic',
+                        'Cyrillic', 'Thai', 'Devanagari', 'Tamil']) {
+      if (new RegExp(`\\p{Script=${name}}`, 'u').test(c)) { scripts.add(name); break; }
+    }
+  }
+  if (scripts.has(expected)) return true;
+
+  // Short Japanese content may be written entirely in kanji.
+  if (expected === 'Japanese' && scripts.has('Han')) return true;
+
+  return false;
+}
 
 /**
  * Scores one candidate. Returns null if it is disqualified.
@@ -88,9 +165,23 @@ export function scoreCandidate(row) {
   const english = (row.english ?? '').trim();
   if (!native || !english) return null;
 
+  // Per-language script check, on the NATIVE side only.
+  //
+  // The English side is Latin for every language in the catalogue, including Chinese, Japanese
+  // and Korean -- so checking it against the target language's script rejected every CJK pair
+  // in the pool. "Hello everybody!" is the correct English half of a Japanese sentence.
+  if (!scriptIsPlausible(native, row.code)) return null;
+  // A Chinese or Japanese sentence containing embedded Latin is a genuine signal (a brand
+  // name is fine; a whole Latin clause is not), so the English side is checked for its own
+  // sanity rather than for belonging to the language.
+  if (!scriptIsPlausible(english, 'eng')) return null;
+
   if (DISQUALIFY.some((re) => re.test(native) || re.test(english))) return null;
 
-  const words = native.trim().split(/\s+/).length;
+  // CJK languages do not delimit words with spaces, so a whitespace word count is meaningless:
+  // "こんにちは。小川と申します。" counts as TWO words, which reads as terse when it is not.
+  // Character count is the usable proxy, and it must not be compared against a Latin band.
+  const words = wordCount(native, row.code);
   if (words > LONG_MAX) return null;
 
   let score = 0;
@@ -120,7 +211,7 @@ export function scoreCandidate(row) {
 
   // Very short English paired with longer native text often signals a fragment or a gloss
   // rather than a sentence pair.
-  const enWords = english.split(/\s+/).length;
+  const enWords = english.trim().split(/\s+/).length;
   if (enWords <= 2 && words > 3) score -= 15;
 
   return { score, words, enWords };

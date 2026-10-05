@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { scoreCandidate, select, summarise, CONTRIBUTOR_CAP } from './select.mjs';
+import { scoreCandidate, select, summarise, scriptIsPlausible, wordCount, CONTRIBUTOR_CAP } from './select.mjs';
 
 const row = (native, english, author = 'someone', concept = 'price') => ({
   native,
@@ -139,6 +139,81 @@ test('concepts are selected independently', () => {
   const { selected } = select(rows, { perConcept: 6 });
   assert.ok(selected.some((s) => s.concept === 'thanks'),
     'one contributor dominating price must not starve the thanks concept');
+});
+
+// ---- script handling: the bug that zeroed out three languages --------------
+
+// The first version of the mixed-script guard disqualified any text containing CJK. That is
+// correct for a Latin-script language and catastrophically wrong for Japanese, Korean and
+// Mandarin, which ARE CJK. It rejected 980/993 Japanese, 425/432 Korean and 854/865 Mandarin
+// candidates, and the language with the largest pools in the catalogue appeared to have no
+// evidence at all. These tests exist so that cannot happen again silently.
+
+test('legitimate CJK survives scoring', () => {
+  const cases = [
+    { code: 'cmn', native: '你好，怎么样？', english: 'Hello, how are you?' },
+    { code: 'jpn', native: 'こんにちは。', english: 'Hello.' },
+    { code: 'jpn', native: 'やあ、みんな！', english: 'Hello everybody!' },
+    { code: 'kor', native: '안녕하세요.', english: 'Hello.' },
+    { code: 'tha', native: 'สวัสดีครับ', english: 'Hello.' },
+    { code: 'tam', native: 'வணக்கம்!', english: 'Hello.' },
+    { code: 'ara', native: 'مرحبا', english: 'Hello.' },
+    { code: 'rus', native: 'Привет', english: 'Hello.' },
+  ];
+  for (const c of cases) {
+    const r = row(c.native, c.english, 'a', 'greeting');
+    // row() does not set `code`, and scoreCandidate reads it. Without this the language is
+    // undefined, defaults to Latin, and the CJK text is rejected for being CJK -- which is the
+    // very bug these tests exist to catch. Worth being explicit about.
+    r.code = c.code;
+    assert.ok(scriptIsPlausible(c.native, c.code), `${c.code} native script must be plausible`);
+    assert.ok(scoreCandidate(r) !== null,
+      `${c.code} "${c.native}" was rejected as invalid script`);
+  }
+});
+
+test('the English half of a CJK pair is not judged against the target script', () => {
+  // "Hello everybody!" is Latin, and it is the CORRECT English half of a Japanese sentence.
+  // Checking it against 'jpn' rejects every CJK pair in the pool.
+  const c = row('やあ、みんな！', 'Hello everybody!', 'a', 'greeting');
+  c.code = 'jpn';
+  assert.ok(scriptIsPlausible('やあ、みんな！', 'jpn'));
+  assert.ok(!scriptIsPlausible('Hello everybody!', 'jpn'), 'Latin text is not Japanese');
+  assert.ok(scoreCandidate(c) !== null, 'but the pair must still pass');
+});
+
+test('Han inside a Latin-script language is still rejected', () => {
+  // The guard exists for this case, and must survive being corrected for CJK.
+  assert.equal(scoreCandidate(row('Saya akan,Ganti经验 Anda.', 'Hello there.', 'a', 'x')), null);
+});
+
+test('scriptIsPlausible accepts the language it is told about', () => {
+  assert.ok(scriptIsPlausible('你好', 'cmn'));
+  assert.ok(scriptIsPlausible('こんにちは', 'jpn'));
+  assert.ok(scriptIsPlausible('日本語の文', 'jpn'), 'kanji-only Japanese is still Japanese');
+  assert.ok(scriptIsPlausible('สวัสดี', 'tha'));
+  assert.ok(scriptIsPlausible('Привет', 'rus'));
+  assert.ok(!scriptIsPlausible('你好', 'ind'), 'Chinese is not Indonesian');
+});
+
+test('wordCount does not treat a CJK sentence as two words', () => {
+  // No spaces between words, so a whitespace count says a long Japanese sentence is terse.
+  // That is how a 20-character sentence passes as "short".
+  const jpn = wordCount('こんにちは。小川と申します。', 'jpn');
+  assert.ok(jpn > 2, `expected a multi-unit count for an unspaced script, got ${jpn}`);
+  // And the spaced languages are unaffected.
+  assert.equal(wordCount('Permisi, toiletnya di mana ya?', 'ind'), 5);
+});
+
+test('a real CJK pool is not empty after selection', () => {
+  // End-to-end guard on the failure mode itself: a big pool producing nothing means the
+  // filter is wrong, not that the evidence is absent.
+  const rows = Array.from({ length: 12 }, (_, i) => ({
+    ...row(`你好，请问多少钱？${i}`, 'Excuse me, how much is this?', 'a', 'price'),
+    code: 'cmn',
+  }));
+  const { selected } = select(rows, { perConcept: 6 });
+  assert.ok(selected.length > 0, 'a 12-row Mandarin pool must select something');
 });
 
 test('empty input selects nothing without throwing', () => {

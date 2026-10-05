@@ -55,10 +55,10 @@ function sleep(ms) {
  * answer meaning "this concept has no attestation in this language" -- callers record it as
  * a gap instead of inventing something.
  */
-async function queryConcept(lang, form) {
+async function queryConcept(lang, form, source = lang) {
   const url =
     `https://tatoeba.org/en/api_v0/search?query=${encodeURIComponent(form)}` +
-    `&to=${lang}&orphans=no&unapproved=no&sort=random`;
+    `&to=${source}&orphans=no&unapproved=no&sort=random`;
 
   let data;
   try {
@@ -74,9 +74,11 @@ async function queryConcept(lang, form) {
     if (en.lang !== 'eng') continue;
 
     // `translations` is [direct, indirect]; the target language may sit in either.
+    // Match on the SOURCE code, then report under OUR code. Getting this backwards is what
+    // made Dari look empty: the row carried lang 'pes' and the comparison asked for 'fas'.
     const target = (en.translations ?? [])
       .flat()
-      .find((t) => t.lang === lang);
+      .find((t) => t.lang === source);
     if (!target) continue;
 
     const nativeWords = target.text.trim().split(/\s+/).length;
@@ -88,6 +90,7 @@ async function queryConcept(lang, form) {
 
     rows.push({
       code: lang,
+      source_code: source,
       native: target.text,
       english: en.text,
       author: en.user?.username ?? null,
@@ -101,7 +104,7 @@ async function queryConcept(lang, form) {
   return { rows, error: null };
 }
 
-async function harvestLanguage(lang, concepts) {
+async function harvestLanguage(lang, concepts, source) {
   const path = join(OUT, `${lang}.jsonl`);
   const out = [];
   const seen = new Set();
@@ -126,7 +129,7 @@ async function harvestLanguage(lang, concepts) {
   for (const concept of concepts) {
     let found = 0;
     for (const form of concept.en_forms) {
-      const { rows, error } = await queryConcept(lang, form);
+      const { rows, error } = await queryConcept(lang, form, source);
       if (error) {
         console.error(`    ${lang}/${concept.id}: ${error}`);
         continue;
@@ -164,12 +167,21 @@ async function main() {
 
   for (const lang of targets) {
     if (only && !only.includes(lang.code)) continue;
+
+    // Query the SOURCE's code, not ours. They differ for Dari: the catalogue says `fas`
+    // (correct ISO 639-3, and what the app's own data uses) while Tatoeba calls it `pes`.
+    // Querying `fas` returns English sentences with no Dari in them at all, while still
+    // reporting count=1000 -- so the harvest produced an empty file and looked like a
+    // coverage problem rather than a wrong key.
+    const source = lang.tatoeba_code ?? lang.code;
+
     process.stdout.write(`  ${lang.code} (${lang.name})\n`);
-    const { total, gaps } = await harvestLanguage(lang.code, concepts);
-    report[lang.code] = { total, gaps };
+    const { total, gaps } = await harvestLanguage(lang.code, concepts, source);
+    report[lang.code] = { total, gaps, source_code: source };
     console.log(
       `  ${lang.code} ${lang.name}: ${total} attested candidates, ` +
-        `${gaps.length}/${concepts.length} concepts with no attestation`,
+        `${gaps.length}/${concepts.length} concepts with no attestation` +
+        (source === lang.code ? '' : ` (queried as ${source})`),
     );
   }
 

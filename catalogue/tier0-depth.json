@@ -16,6 +16,34 @@
       "reason": "340 selected candidates covering 63 of 63 concepts. Yield is not the constraint; the courtesy floor is."
     },
     {
+      "code": "tur",
+      "name": "Turkish",
+      "rows": 1059,
+      "contributors": 223,
+      "concepts_covered": 61,
+      "concepts_missing": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.502,
+      "selected": 340,
+      "depth": 58,
+      "verdict": "set",
+      "reason": "340 selected, 61 of 63 concepts covered, so coverage caps depth at 58."
+    },
+    {
+      "code": "rus",
+      "name": "Russian",
+      "rows": 1034,
+      "contributors": 232,
+      "concepts_covered": 61,
+      "concepts_missing": 2,
+      "dominant_author": "CK",
+      "dominant_share": 0.425,
+      "selected": 347,
+      "depth": 58,
+      "verdict": "set",
+      "reason": "347 selected, 61 of 63 concepts covered, so coverage caps depth at 58."
+    },
+    {
       "code": "spa",
       "name": "Spanish",
       "rows": 896,
@@ -58,6 +86,20 @@
       "reason": "325 selected, 60 of 63 concepts covered, so coverage caps depth at 57."
     },
     {
+      "code": "jpn",
+      "name": "Japanese",
+      "rows": 993,
+      "contributors": 221,
+      "concepts_covered": 60,
+      "concepts_missing": 3,
+      "dominant_author": "CK",
+      "dominant_share": 0.434,
+      "selected": 330,
+      "depth": 57,
+      "verdict": "set",
+      "reason": "330 selected, 60 of 63 concepts covered, so coverage caps depth at 57."
+    },
+    {
       "code": "fra",
       "name": "French",
       "rows": 915,
@@ -86,6 +128,20 @@
       "reason": "328 selected, 59 of 63 concepts covered, so coverage caps depth at 56."
     },
     {
+      "code": "cmn",
+      "name": "Mandarin",
+      "rows": 865,
+      "contributors": 242,
+      "concepts_covered": 56,
+      "concepts_missing": 7,
+      "dominant_author": "CK",
+      "dominant_share": 0.341,
+      "selected": 310,
+      "depth": 53,
+      "verdict": "set",
+      "reason": "310 selected, 56 of 63 concepts covered, so coverage caps depth at 53."
+    },
+    {
       "code": "ara",
       "name": "Arabic",
       "rows": 574,
@@ -98,6 +154,20 @@
       "depth": 52,
       "verdict": "set",
       "reason": "267 selected, 55 of 63 concepts covered, so coverage caps depth at 52."
+    },
+    {
+      "code": "srp",
+      "name": "Serbian",
+      "rows": 530,
+      "contributors": 147,
+      "concepts_covered": 53,
+      "concepts_missing": 10,
+      "dominant_author": "CK",
+      "dominant_share": 0.464,
+      "selected": 179,
+      "depth": 50,
+      "verdict": "set",
+      "reason": "179 selected, 53 of 63 concepts covered, so coverage caps depth at 50."
     },
     {
       "code": "ind",
@@ -114,6 +184,48 @@
       "reason": "252 selected, 50 of 63 concepts covered, so coverage caps depth at 48."
     },
     {
+      "code": "fas",
+      "name": "Dari",
+      "rows": 372,
+      "contributors": 116,
+      "concepts_covered": 50,
+      "concepts_missing": 13,
+      "dominant_author": "CK",
+      "dominant_share": 0.366,
+      "selected": 195,
+      "depth": 48,
+      "verdict": "set",
+      "reason": "195 selected, 50 of 63 concepts covered, so coverage caps depth at 48."
+    },
+    {
+      "code": "kor",
+      "name": "Korean",
+      "rows": 432,
+      "contributors": 125,
+      "concepts_covered": 50,
+      "concepts_missing": 13,
+      "dominant_author": "CK",
+      "dominant_share": 0.421,
+      "selected": 242,
+      "depth": 48,
+      "verdict": "set",
+      "reason": "242 selected, 50 of 63 concepts covered, so coverage caps depth at 48."
+    },
+    {
+      "code": "vie",
+      "name": "Vietnamese",
+      "rows": 461,
+      "contributors": 140,
+      "concepts_covered": 48,
+      "concepts_missing": 15,
+      "dominant_author": "CK",
+      "dominant_share": 0.423,
+      "selected": 216,
+      "depth": 46,
+      "verdict": "set",
+      "reason": "216 selected, 48 of 63 concepts covered, so coverage caps depth at 46."
+    },
+    {
       "code": "hin",
       "name": "Hindi",
       "rows": 273,
@@ -126,6 +238,20 @@
       "depth": 39,
       "verdict": "set",
       "reason": "167 selected, 41 of 63 concepts covered, so coverage caps depth at 39."
+    },
+    {
+      "code": "tha",
+      "name": "Thai",
+      "rows": 276,
+      "contributors": 82,
+      "concepts_covered": 39,
+      "concepts_missing": 24,
+      "dominant_author": "CK",
+      "dominant_share": 0.507,
+      "selected": 169,
+      "depth": 37,
+      "verdict": "set",
+      "reason": "169 selected, 39 of 63 concepts covered, so coverage caps depth at 37."
     },
     {
       "code": "swh",
@@ -154,30 +280,7 @@
       "depth": 24,
       "verdict": "set",
       "reason": "Coverage caps depth at 15, below the 24 minimum, so the minimum applies. 47 concepts have no attestation in this language."
-    },
-    {
-      "code": "srp",
-      "name": "Serbian",
-      "rows": 278,
-      "contributors": 100,
-      "concepts_covered": 24,
-      "concepts_missing": 39,
-      "dominant_author": "CK",
-      "dominant_share": 0.406,
-      "selected": 125,
-      "depth": 24,
-      "verdict": "set",
-      "reason": "Coverage caps depth at 23, below the 24 minimum, so the minimum applies. 39 concepts have no attestation in this language."
     }
   ],
-  "pending": [
-    "tur",
-    "fas",
-    "tha",
-    "rus",
-    "jpn",
-    "kor",
-    "vie",
-    "cmn"
-  ]
+  "pending": []
 }
