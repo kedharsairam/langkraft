@@ -418,6 +418,23 @@ const REGISTER_NOTE =
   /\s*[([]\s*(?:to a|to your|male|female|masculine|feminine|informal|formal|polite|rude|blunt|high|low|fast|slow|casual|intimate|respectful|honorific|humile|plural|singular|less formal|more formal|very|quite|instead|only)\b[^)\]]*[)\]]/gi;
 
 /**
+ * A `(''...'')` PLACEHOLDER is not a reading, and it is not part of the phrase either.
+ *
+ * `; tea (''drink'') : teh / tea (''...'')` — the editor wrote dots where a reading would go.
+ * Shipped literally, the phrase rendered as "teh / tea (...)" with three dots the traveller would
+ * never say. The phrase is kept and the reading is honestly absent.
+ *
+ * The pattern has no `''` in it because by the time the text reaches here it has been through
+ * `cleanWikitext`, which strips italics on the way to removing the markup. A pattern expecting
+ * `(''...'')` therefore never matches anything, and the placeholder shipped in every row.
+ *
+ * At module scope rather than inside `extractReading`, because the Latin-script path needs it and
+ * that path returns before the original declaration was reached — a `const` in the temporal dead
+ * zone, so reading a Latin-script row threw before it could return anything at all.
+ */
+const PLACEHOLDER = /\s*\(\s*(?:\.{2,}|…+)\s*\)\s*$/;
+
+/**
  * Extracts the phrase and its romanisation from one phrase row.
  *
  * Returns `{ englishSide, native, pronunciation }`; either of `native`/`pronunciation` may be
@@ -482,20 +499,44 @@ export function extractReading(
     .trim();
 
   /**
-   * A LATIN-SCRIPT language has no reading to extract, and looking for one manufactures one.
+   * A LATIN-SCRIPT language has no reading COLUMN to fill, and looking for one manufactures one.
    *
    * The diff against the old parser counted 105 "lost readings" in Portuguese, Indonesian,
-   * Swahili, German, French and Turkish. Every one was fabricated: for a Latin language the
-   * phrase is already Latin, so a trailing Latin run is just more phrase, and the old parser
-   * split "buka" into native `""` plus pronunciation `buka`, or filed an English gloss as a
-   * reading. Refusing outright is not a regression — it is the absence of one.
+   * Swahili, German, French and Turkish. Every one was fabricated: for a Latin language the phrase
+   * is already Latin, so a trailing Latin run is just more phrase, and the old parser split
+   * "buka" into native `""` plus pronunciation `buka`, or filed an English gloss as a reading.
+   * Refusing outright is not a regression — it is the absence of one.
+   *
+   * BUT THE READING STILL HAS TO BE CUT OUT OF THE PHRASE. These pages write it in italics beside
+   * the word exactly like the others — `; CLOSED : Cerrado (''sehr-RAH-doh'')`, `; PUSH :
+   * Empuje/Empujar (''ehm-POO-heh/ehm-poo-HAHR'')` — so refusing to look for it left the
+   * pronunciation welded to the phrase and the learner was shown a phonetic spelling of a word as
+   * though it were a second thing to say.
+   *
+   * ONLY AN ITALIC ONE. A bare parenthetical in these languages is a semantic gloss, not a
+   * pronunciation: `Saya kenyang (setelah makan banyak)` is the phrase "I am full" plus "after
+   * eating a lot", and cutting the bracket would delete the traveller's only clue about when the
+   * sentence applies. Italics are how every page on Wikivoyage marks a pronunciation, and reading
+   * that mark rather than guessing from the shape of the words is the same rule this file applies
+   * everywhere else.
    */
   if (latinScript) {
+    let cut = null;
+    for (const span of italicSpans(nativeSide)) {
+      if (looksLikeReading(span.text)) { cut = span.index; break; }
+    }
+    const body = cut !== null
+      ? nativeSide.slice(0, extendOverBrackets(nativeSide, cut))
+      : nativeSide;
     const native = trimBoundary(
-      cleanWikitext(nativeSide)
-        .replace(/\s*\(\s*(?:\.{2,}|…+)\s*\)\s*$/, '') // a `(''...'')` reading placeholder
-        .replace(/\s*\(\?\)\s*$/, '')
-        .replace(/\}\}\s*$/, ''),
+      firstVariant(
+        cleanWikitext(body)
+          .replace(REGISTER_NOTE, '')
+          .replace(/\s*\(\s*(?:\.{2,}|…+)\s*\)\s*$/, '')
+          .replace(/\s*\(\?\)\s*$/, '')
+          .replace(/\}\}\s*$/, '')
+          .replace(PLACEHOLDER, ''),
+      ),
     );
     return {
       englishSide: englishSide || null,
@@ -511,6 +552,18 @@ export function extractReading(
 
   let cutAt = null;
   let pronunciation = null;
+  /**
+   * Whether `cutAt` came from a DECLARED reading rather than an inferred one.
+   *
+   * The two need different treatment further down. A reading found by looking at the phrase's
+   * shape may turn out to sit in the MIDDLE of the phrase, and rule 5 splices it out. A reading the
+   * page declared with `{{Lang|ar-Latn|…}}` is already at a known offset, and splicing it moved the
+   * cut to the wrong place: `{{Lang|ar|سَلاَم}} ''({{Lang|ar-Latn|salām}})'', {{Lang|ar|مَرْحَبًا}} ''…''`
+   * became `سَلاَم , مَرْحَبًا ( marḥaban )` — the first phrase, then the second phrase, then the
+   * second phrase's own reading, with the first reading nowhere. It also put a Latin transliteration
+   * back inside an Arabic phrase, which the font coverage check caught as a missing glyph.
+   */
+  let cutFromStated = false;
 
   /**
    * Rule 0: a reading in square brackets on the ENGLISH side.
@@ -580,7 +633,7 @@ export function extractReading(
     // is not.
     if (pronunciation && source === 'lang-latn') {
       const at = nativeSide.indexOf(pronunciation);
-      if (at > 0) cutAt = at;
+      if (at > 0) { cutAt = at; cutFromStated = true; }
     }
   }
 
@@ -702,7 +755,7 @@ export function extractReading(
    *
    * A `→` still ends the phrase: everything from it on is a second form, not more of the same one.
    */
-  if (pronunciation && cutAt !== null) {
+  if (pronunciation && cutAt !== null && !cutFromStated) {
     const closing = nativeSide.indexOf("''", cutAt + 2);
     const after = closing > 0 ? nativeSide.slice(closing + 2) : '';
     if (closing > 0 && NON_LATIN_SCRIPT.test(cleanWikitext(after))) {
@@ -733,19 +786,6 @@ export function extractReading(
       };
     }
   }
-
-  /**
-   * A `(''...'')` PLACEHOLDER is not a reading, and it is not part of the phrase either.
-   *
-   * `; tea (''drink'') : teh / tea (''...'')` — the editor wrote dots where a reading would go.
-   * Shipped literally, the phrase rendered as "teh / tea (...)" with three dots the traveller
-   * would never say. The phrase is kept and the reading is honestly absent.
-   *
-   * The pattern has no `''` in it because by this point the text has been through
-   * `cleanWikitext`, which strips italics on the way to removing the markup. A pattern expecting
-   * `(''...'')` therefore never matches anything, and the placeholder shipped in every row.
-   */
-  const PLACEHOLDER = /\s*\(\s*(?:\.{2,}|…+)\s*\)\s*$/;
 
   let native = null;
   if (cutAt !== null && cutAt >= 0) {

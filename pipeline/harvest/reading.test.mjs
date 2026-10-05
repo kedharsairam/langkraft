@@ -172,6 +172,31 @@ const CASES = [
     { readingInTargetScript: true }, 'Chi hal dari?', 'چي حال داري؟'],
   ['fas target script is refused without the flag', "; Hello. : Salaam. (''.سلام'')",
     {}, 'Salaam. (.سلام)', null],
+
+  // ---- Latin-script languages: the pronunciation is CUT but never RECORDED ----
+  //
+  // These pages mark the pronunciation in italics exactly as the others do, so refusing to record
+  // a reading must not mean refusing to see one. Left in place, `Cerrado (sehr-RAH-doh)` shows the
+  // learner a phonetic spelling of the word as though it were a second thing to say.
+
+  ['latin cuts the italic pronunciation', "; CLOSED : Cerrado (''sehr-RAH-doh'')",
+    { latinScript: true }, 'Cerrado', null],
+  ['latin cuts one half of a slashed pair',
+    "; PUSH : Empuje/Empujar (''ehm-POO-heh/ehm-poo-HAHR'')", { latinScript: true }, 'Empuje/Empujar', null],
+  ['latin keeps a bare parenthetical gloss',
+    "; I'm full. : Saya kenyang (setelah makan banyak)", { latinScript: true },
+    'Saya kenyang (setelah makan banyak)', null],
+  ['latin with no parenthetical at all', '; Open : buka', { latinScript: true }, 'buka', null],
+
+  // Two phrases in one row, each with its own declared reading. Rule 5 splices a reading out of
+  // the middle of a phrase, which is right when the reading was INFERRED from the phrase's shape
+  // and wrong when the page DECLARED it with `{{Lang|ar-Latn}}` — the offset was already known.
+  // Splicing produced `سَلاَم , مَرْحَبًا ( marḥaban )`: both phrases and the second reading, with
+  // the first reading nowhere, and a Latin transliteration back inside an Arabic phrase, which the
+  // font coverage check caught as a missing glyph.
+  ['ara two phrases each with a declared reading',
+    "; Hello (informal): {{Lang|ar|سَلاَم}} ''({{Lang|ar-Latn|salām}})'', {{Lang|ar|مَرْحَبًا}} ''({{Lang|ar-Latn|marḥaban}})''",
+    {}, 'سَلاَم', 'salām'],
 ];
 
 for (const [label, row, options, wantNative, wantReading] of CASES) {

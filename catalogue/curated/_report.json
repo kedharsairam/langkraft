@@ -1,7 +1,102 @@
 {
-  "cmn": {
+  "ind": {
+    "rows": 521,
+    "concepts": 14,
+    "note": null
+  },
+  "spa": {
+    "rows": 396,
+    "concepts": 13,
+    "note": null
+  },
+  "hin": {
+    "rows": 149,
+    "concepts": 9,
+    "note": null
+  },
+  "fra": {
+    "rows": 439,
+    "concepts": 12,
+    "note": null
+  },
+  "ara": {
+    "rows": 325,
+    "concepts": 12,
+    "note": null
+  },
+  "swh": {
+    "rows": 323,
+    "concepts": 13,
+    "note": null
+  },
+  "tam": {
+    "rows": 240,
+    "concepts": 12,
+    "note": null
+  },
+  "por": {
+    "rows": 309,
+    "concepts": 12,
+    "note": null
+  },
+  "nld": {
+    "rows": 284,
+    "concepts": 12,
+    "note": null
+  },
+  "ita": {
+    "rows": 324,
+    "concepts": 12,
+    "note": null
+  },
+  "deu": {
+    "rows": 488,
+    "concepts": 13,
+    "note": null
+  },
+  "srp": {
+    "rows": 334,
+    "concepts": 16,
+    "note": null
+  },
+  "tur": {
+    "rows": 270,
+    "concepts": 12,
+    "note": null
+  },
+  "fas": {
+    "rows": 55,
+    "kept": true,
+    "note": "page \"Dari phrasebook\" throttled after retries"
+  },
+  "tha": {
+    "rows": 346,
+    "concepts": 14,
+    "note": null
+  },
+  "rus": {
     "rows": 337,
     "concepts": 12,
-    "note": "unmapped sections: going_to_the_doctor, financial_forms, writing_dates, telephone_and_the_internet, getting_a_massage"
+    "note": null
+  },
+  "jpn": {
+    "rows": 545,
+    "concepts": 16,
+    "note": null
+  },
+  "kor": {
+    "rows": 365,
+    "concepts": 12,
+    "note": null
+  },
+  "vie": {
+    "rows": 257,
+    "concepts": 12,
+    "note": null
+  },
+  "cmn": {
+    "rows": 404,
+    "concepts": 13,
+    "note": null
   }
 }

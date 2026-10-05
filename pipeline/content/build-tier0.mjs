@@ -64,6 +64,31 @@ const DOMAIN = {
 };
 
 /**
+ * Whether a romanisation is required for this language, from the spec's own script declaration.
+ *
+ * The content linter makes the same decision from the same field, and the two have to agree: the
+ * generator drops what the linter would reject so a build is never stopped by a row the generator
+ * chose. Two implementations that merely look alike will disagree somewhere, and the disagreement
+ * surfaces as a red build rather than as an explanation.
+ */
+function needsRomanisation(spec) {
+  return spec?.structure?.script?.primary !== 'Latin';
+}
+
+/**
+ * True when an English gloss is itself the phrase, so a romanisation would add nothing.
+ *
+ * A sign the traveller READS — OPEN, TOILET — is spelled out in the caption already. Mirrors
+ * `isReadableAsIs` in content/lint.mjs.
+ */
+function readableAsIs(english) {
+  const s = english.trim();
+  if (!s || s.length > 40) return false;
+  if (s.includes('?') || /\b(?:the|is|are|do|you|this|that|it|not)\b/i.test(s)) return false;
+  return /^[A-Z][A-Z\s/&.'-]*$/.test(s);
+}
+
+/**
  * Why this phrase is in the floor, and how it is used.
  *
  * Written as advice to a traveller, not as a description of the build. `why` renders verbatim
@@ -423,6 +448,7 @@ export function buildLanguage(lang, spec, corroboration) {
   // courtesy and problems. Shipping it twice teaches the reader one phrase has two meanings.
   const seenNative = new Set();
   let skippedRomanizedOnly = 0;
+  let skippedNoReading = 0;
   let n = 0;
   for (const [domain, rows] of [...byDomain.entries()].sort((a, b) => a[0] - b[0])) {
     for (const row of rows) {
@@ -437,6 +463,28 @@ export function buildLanguage(lang, spec, corroboration) {
       const rom = romanised(native, row.pronunciation, spec, row.romanized_only === true);
       // Skipped rather than filed under the wrong column. See romanised().
       if (rom.skip) { skippedRomanizedOnly += 1; continue; }
+
+      /**
+       * A phrase the reader cannot read and cannot sound out is not Tier 0 content.
+       *
+       * The generator used to emit it and let the content linter refuse the build. That works, but
+       * it means every build stops on content the generator itself chose, so one unusable Arabic
+       * row ("How are you?", no reading anywhere on the page) blocks all twenty languages — and
+       * the entry is not fixable by editing the file, because the next run regenerates it.
+       *
+       * Dropping it here puts the failure where it belongs. The gate MIRRORS the content linter's
+       * exactly, including its narrow exemption, because a second rule that merely resembles the
+       * first is a third thing: it would disagree with the linter on some row and the disagreement
+       * would be discovered as a red build rather than understood here.
+       */
+      if (needsRomanisation(spec) && !rom.romanized) {
+        const english = (row.english || '').trim();
+        if (!(sc.direction === 'understand' && readableAsIs(english))) {
+          skippedNoReading += 1;
+          continue;
+        }
+      }
+
       seenNative.add(native);
       entries.push({
         id: `${lang.code}-t0-${String(n).padStart(4, '0')}`,
@@ -477,6 +525,7 @@ export function buildLanguage(lang, spec, corroboration) {
     entries,
     stats: {
       skipped_romanized_only: skippedRomanizedOnly,
+      skipped_no_reading: skippedNoReading,
       dropped_counter_suffixes: droppedCounters,
       curated: curated.length,
       attested: attested.length,
@@ -538,13 +587,129 @@ function main() {
     }
 
     const path = join(CONTENT, `${lang.code}-tier0.jsonl`);
+
+    /**
+     * Existing content is a SEED, not a casualty. The harvest fills the gaps around it.
+     *
+     * This is the third attempt to regenerate this content and the first that survives contact
+     * with the numbers. `FORCE=1` replaces the file outright, and because the selection takes the
+     * first N rows per domain in page order, that whole selection changes whenever the harvested
+     * pool changes — which a parser fix guarantees. Spanish kept 0 of its 57 entries. French kept
+     * 4 of 56. Thai, which is the case this project has already been burned by twice, would have
+     * gone 77 to 37.
+     *
+     * None of that is wrongness in the harvest. It is a replacement where an addition was wanted.
+     * The entries already in the file were chosen deliberately and some were reviewed by hand;
+     * the honest operation on them is to keep them and take the rest of the tier from the harvest.
+     *
+     * So the shipped phrases come first, in the order they are already in, and the generator adds
+     * only phrases it has not already got — never removing, never reordering. Regeneration becomes
+     * monotonic: it can raise a language's depth, and it cannot lower it.
+     *
+     * `DIFF=1` reports what WOULD be added without writing, and `FORCE=1` still replaces outright
+     * for the rare case where a clean regeneration is genuinely wanted.
+     */
+    const existing = existsSync(path)
+      ? readFileSync(path, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l))
+      : null;
+    const existingPhrases = new Set((existing ?? []).map((e) => (e.text_native || '').trim()));
+    const additions = entries.filter((e) => !existingPhrases.has((e.text_native || '').trim()));
+
+    if (existing && process.env.DIFF === '1') {
+      const wouldAdd = additions.length;
+      console.log(
+        `  ${lang.code} ${lang.name.padEnd(12)} ${String(existing.length).padStart(3)} kept` +
+          `${wouldAdd ? `  +${wouldAdd} available from the harvest` : '  (harvest adds nothing new)'}` +
+          `${depth ? `   depth ${depth}` : ''}`,
+      );
+      for (const e of additions.slice(0, 5)) {
+        console.log(`      + ${JSON.stringify(e.text_native)}  (${JSON.stringify(e.text_english)})`);
+      }
+      if (wouldAdd > 5) console.log(`      ... and ${wouldAdd - 5} more`);
+      report[lang.code] = { diff: true, kept: existing.length, addable: wouldAdd, depth };
+      continue;
+    }
+
+    if (existing && process.env.FORCE !== '1') {
+      // Additive. Existing entries are written back untouched, byte for byte, and the harvest
+      // appends until the tier reaches its depth.
+      const room = depth ? Math.max(0, depth - existing.length) : additions.length;
+      const toAdd = additions.slice(0, room);
+
+      /**
+       * Appended entries are RENUMBERED to continue from the highest id already in the file, and
+       * they keep that file's OWN id shape.
+       *
+       * The generator numbers its output from 1 for every language, so appending its output to a
+       * file that already exists puts `por-t0-0001` into a file whose `por-t0-0001` is a different
+       * phrase — and the content linter caught exactly that, reporting five duplicate ids for
+       * Portuguese and four more across Hindi, Russian and Turkish.
+       *
+       * Ids are never reused, which is what makes them usable as a stable reference, so appended
+       * ones have to start where the file ends. Nothing else in a record refers to an id —
+       * verified by walking every string in every field of every record — so renumbering cannot
+       * dangle a reference.
+       *
+       * The shape is read from the file rather than assumed. Four content files were hand-authored
+       * before the `-t0-` marker existed and use `tha-0001`; writing `tha-t0-0058` into one of them
+       * would put two id schemes in a single file, and every consumer that parses the number back
+       * out would have to know which half of the file it was looking at.
+       */
+      // A plain number accumulator. The first version started from `{ n: 0 }` and returned
+      // `acc.n` or `Math.max(...)` — a number in one branch and an object read in the other — so
+      // the second iteration read `.n` off a number, got `undefined`, and every appended id came
+      // out as `ara-t0-0NaN`. Thirteen duplicate ids, which is what the linter reported.
+      let nextId = existing.reduce((max, e) => {
+        const m = /(\d+)$/.exec(e.id || '');
+        return m ? Math.max(max, Number(m[1])) : max;
+      }, 0);
+      const shape = existing.find((e) => (e.id || '').includes('-t0-')) ? '-t0-' : '-';
+      const renumbered = toAdd.map((e) => {
+        nextId += 1;
+        const prefix = e.id ? e.id.replace(/\d+$/, '') : `${lang.code}${shape}`;
+        return { ...e, id: `${prefix}${String(nextId).padStart(4, '0')}` };
+      });
+
+      const merged = [...existing, ...renumbered];
+      if (!renumbered.length) {
+        // TWO DIFFERENT REASONS, and the first version of this printed only the second.
+        //
+        // "the harvest has nothing this file does not already hold" was reported for Indonesian,
+        // Japanese, German and Mandarin — four languages the diff had just measured as having 15,
+        // 17, 12 and 12 phrases to offer. The harvest had plenty. The language was already AT its
+        // measured depth and the courtesy floor refuses to take more.
+        //
+        // That is the intended behaviour and an entirely different fact from having nothing to
+        // add, and reporting it as the latter sends whoever reads it looking for a harvesting bug
+        // that does not exist — or, worse, raising the depth to "fix" it.
+        const held = room === 0 && additions.length
+          ? ` at depth ${depth}; ${additions.length} held back by the courtesy floor`
+          : ' the harvest has nothing this file does not already hold';
+        console.log(`  ${lang.code} ${lang.name.padEnd(12)} keeping ${existing.length} entries —${held}`);
+        report[lang.code] = { kept: existing.length, added: 0, held_back: room === 0 ? additions.length : 0, depth };
+        continue;
+      }
+      writeFileSync(path, merged.map((e) => JSON.stringify(e)).join('\n') + '\n');
+      const say = merged.filter((e) => e.direction === 'say').length;
+      console.log(
+        `  ${lang.code} ${lang.name.padEnd(12)} ${existing.length} kept + ${renumbered.length} added ` +
+          `= ${merged.length} entries${depth ? ` (depth ${depth})` : ''}` +
+          `${room < additions.length ? `, ${additions.length - room} still available` : ''}`,
+      );
+      report[lang.code] = {
+        kept: existing.length, added: renumbered.length, total: merged.length, depth,
+        ratio: `${say}:${merged.length - say}`,
+      };
+      continue;
+    }
+
     // Never clobber an existing hand-authored file. Tier 0 for four languages is written by
     // hand and reviewed against a native speaker's judgement; a generated file must not
     // silently replace it, which is how real editorial work gets lost.
     if (existsSync(path) && process.env.FORCE !== '1') {
-      const existing = readFileSync(path, 'utf8').split('\n').filter(Boolean).length;
-      console.log(`  ${lang.code} ${lang.name.padEnd(12)} keeping existing ${existing} entries (use FORCE=1 to replace)`);
-      report[lang.code] = { kept: existing, generated: entries.length };
+      const count = existing.length;
+      console.log(`  ${lang.code} ${lang.name.padEnd(12)} keeping existing ${count} entries (use FORCE=1 to replace)`);
+      report[lang.code] = { kept: count, generated: entries.length };
       continue;
     }
 

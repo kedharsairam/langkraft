@@ -160,6 +160,27 @@ const SECTION_CONCEPTS = {
   forms_of_address: 'people',
   interrogatives: 'basics',
   writing: null,
+
+  // Found by `harvest/report-sections.mjs`, which audits every phrase-list heading on all twenty
+  // pages against this map and reports the ones that match nothing. Sixty-eight of the sixty-nine
+  // rows it found were Mandarin, and fifty of those were `going_to_the_doctor` — the largest single
+  // block of usable phrases on any page, discarded in full because one heading was absent here.
+  //
+  // The four Hindi headings below are CALENDAR TABLES rather than phrase lists and contribute no
+  // rows. They are mapped anyway, on the same principle as everything else in this file: a key
+  // that is absent is a key that drops rows the day somebody does add rows under it, and a key
+  // that maps to a concept it does not quite fit is a visible, correctable thing.
+  going_to_the_doctor: 'doctor',
+  getting_a_massage: 'doctor',
+  financial_forms: 'price',
+  writing_dates: 'time',
+  gregorian_calendar: 'time',
+  hindu_calendar: 'time',
+  writing_the_time_and_date: 'time',
+  date: 'time',
+  // No phone or internet concept exists, so this lands in `basics` rather than being invented.
+  telephone_and_the_internet: 'basics',
+  travel_vocabulary: 'basics',
   honorifics: 'register',
   respectful_form: 'register',
   humble_form: 'register',
@@ -877,20 +898,26 @@ async function harvest(code, lang) {
     // a romanisation, and recording it as `native` would leave the entry with no target-script
     // text and no separate romanization column -- which is exactly what the content linter
     // rejects. Flagged here so the caller can decide, rather than silently mislabelled.
-    const nativeIsLatin = /^\p{Script=Latin}[\p{Script=Latin}\p{M}\p{N}\s\p{P}]*$/u.test(parsed.native);
-
     /**
      * `romanized_only` means the row carries NO text in the target script — not that the phrase
      * happens to be in Latin.
      *
-     * Testing the phrase alone flagged 45 of the 55 Dari rows, including `Salaam.` with `سلام`
-     * beside it. Those rows are the opposite of romanisation-only: the Latin is the phrase a
+     * Tested against the phrase alone it flagged 45 of the 55 Dari rows, including `Salaam.` with
+     * `سلام` beside it. Those rows are the opposite of romanisation-only: the Latin is what a
      * speaker recognises and the Arabic script is the Dari they need, which is the whole row. The
-     * flag existed to catch rows that have ONLY a romanisation, so the reading has to be tested as
-     * well as the phrase — the column a language puts its target script in is a property of the
-     * page, not a fixed one.
+     * flag exists to catch rows that have ONLY a romanisation, so the reading has to be tested as
+     * well — which column a language puts its script in is a property of the page, not a constant.
+     *
+     * AND IT IS NOT MEANINGFUL AT ALL FOR A LATIN-SCRIPT LANGUAGE, where every row is Latin and
+     * the flag was true of everything. Indonesian had 515 harvested rows and 2 usable; Swahili had
+     * 347 and 14. Ten of the twenty languages were being starved of their own content by a flag
+     * that describes them perfectly. A measurement is only worth making where it can come out
+     * both ways.
      */
+    const latinLanguage = lang.script === 'Latin';
+    const nativeIsLatin = /^\p{Script=Latin}[\p{Script=Latin}\p{M}\p{N}\s\p{P}]*$/u.test(parsed.native);
     const anyTargetScript =
+      latinLanguage ||
       !nativeIsLatin ||
       (parsed.pronunciation != null &&
         /\p{L}/u.test(parsed.pronunciation) &&
