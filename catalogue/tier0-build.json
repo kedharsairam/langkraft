@@ -2,12 +2,14 @@
   "ind": {
     "kept": 48,
     "added": 0,
+    "evidence_refreshed": 7,
     "held_back": 15,
     "depth": 48
   },
   "spa": {
     "kept": 57,
     "added": 0,
+    "evidence_refreshed": 1,
     "held_back": 0,
     "depth": 57
   },
@@ -16,11 +18,13 @@
     "added": 5,
     "total": 30,
     "depth": 39,
+    "evidence_refreshed": 0,
     "ratio": "25:5"
   },
   "fra": {
     "kept": 56,
     "added": 0,
+    "evidence_refreshed": 7,
     "held_back": 21,
     "depth": 56
   },
@@ -29,17 +33,20 @@
     "added": 7,
     "total": 34,
     "depth": 52,
+    "evidence_refreshed": 0,
     "ratio": "25:9"
   },
   "swh": {
     "kept": 50,
     "added": 0,
+    "evidence_refreshed": 1,
     "held_back": 30,
     "depth": 30
   },
   "tam": {
     "kept": 38,
     "added": 0,
+    "evidence_refreshed": 3,
     "held_back": 8,
     "depth": 24
   },
@@ -48,29 +55,34 @@
     "added": 4,
     "total": 56,
     "depth": 56,
+    "evidence_refreshed": 1,
     "ratio": "36:20"
   },
   "nld": {
     "kept": 57,
     "added": 0,
+    "evidence_refreshed": 11,
     "held_back": 1,
     "depth": 57
   },
   "ita": {
     "kept": 57,
     "added": 0,
+    "evidence_refreshed": 6,
     "held_back": 6,
     "depth": 57
   },
   "deu": {
     "kept": 60,
     "added": 0,
+    "evidence_refreshed": 6,
     "held_back": 12,
     "depth": 60
   },
   "srp": {
     "kept": 50,
     "added": 0,
+    "evidence_refreshed": 0,
     "held_back": 3,
     "depth": 50
   },
@@ -79,17 +91,20 @@
     "added": 1,
     "total": 58,
     "depth": 58,
+    "evidence_refreshed": 5,
     "ratio": "51:7"
   },
   "fas": {
     "kept": 8,
     "added": 0,
+    "evidence_refreshed": 0,
     "held_back": 0,
     "depth": 48
   },
   "tha": {
     "kept": 77,
     "added": 0,
+    "evidence_refreshed": 6,
     "held_back": 30,
     "depth": 37
   },
@@ -98,29 +113,34 @@
     "added": 1,
     "total": 58,
     "depth": 58,
+    "evidence_refreshed": 3,
     "ratio": "42:16"
   },
   "jpn": {
     "kept": 57,
     "added": 0,
+    "evidence_refreshed": 0,
     "held_back": 17,
     "depth": 57
   },
   "kor": {
     "kept": 48,
     "added": 0,
+    "evidence_refreshed": 3,
     "held_back": 4,
     "depth": 48
   },
   "vie": {
     "kept": 46,
     "added": 0,
+    "evidence_refreshed": 1,
     "held_back": 2,
     "depth": 46
   },
   "cmn": {
     "kept": 53,
     "added": 0,
+    "evidence_refreshed": 4,
     "held_back": 12,
     "depth": 53
   }

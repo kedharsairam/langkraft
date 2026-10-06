@@ -256,6 +256,29 @@ function loadCorroboration() {
 }
 
 /**
+ * The key a phrase is compared by, for matching corroboration against a harvested row.
+ *
+ * `corroboration.json` stores the phrase exactly as the corroborating source wrote it — `Guten
+ * Tag.` — while `tidy()` has already stripped the sentence-ending full stop from the phrase that
+ * goes into the entry. Exact string equality therefore failed on 59 shipped phrases, every one of
+ * them German, and the evidence was silently dropped.
+ *
+ * This is not bookkeeping. Confidence is DERIVED from the corroborating-sentences field, so a
+ * phrase that loses its evidence is reported to the reader as less well attested than it is —
+ * 5.6% of the shipped tier 0, understated, with nothing in the output to say so.
+ *
+ * Normalising is only safe because it is lossy in the direction that cannot invent a match:
+ * whitespace collapses to one space and trailing sentence punctuation is removed, so
+ * `Guten Tag.` and `Guten Tag` agree while two genuinely different phrases still do not.
+ */
+function corroborationKey(phrase) {
+  return String(phrase ?? '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/[.。．!?！？,،、;；:：]+$/u, '');
+}
+
+/**
  * Picks a romanisation for an entry.
  *
  * The pronunciation column is preferred over the native script ONLY where the learner cannot
@@ -399,8 +422,8 @@ export function buildLanguage(lang, spec, corroboration) {
   // Curated leads, by scenario. Within a scenario, corroborated phrases come first: they are
   // the ones two independent sources agree on, which is the strongest evidence available here.
   const ordered = [...curated].sort((a, b) => {
-    const ca = corr.some((p) => p.native === a.native) ? 1 : 0;
-    const cb = corr.some((p) => p.native === b.native) ? 1 : 0;
+    const ca = corr.some((p) => corroborationKey(p.native) === corroborationKey(a.native)) ? 1 : 0;
+    const cb = corr.some((p) => corroborationKey(p.native) === corroborationKey(b.native)) ? 1 : 0;
     if (ca !== cb) return cb - ca;
     return 0;
   });
@@ -459,7 +482,7 @@ export function buildLanguage(lang, spec, corroboration) {
       const english = tidy(row.english);
       if (!native || !english) continue;
 
-      const match = corr.find((p) => p.native === native);
+      const match = corr.find((p) => corroborationKey(p.native) === corroborationKey(native));
       const rom = romanised(native, row.pronunciation, spec, row.romanized_only === true);
       // Skipped rather than filed under the wrong column. See romanised().
       if (rom.skip) { skippedRomanizedOnly += 1; continue; }
@@ -631,6 +654,40 @@ function main() {
     }
 
     if (existing && process.env.FORCE !== '1') {
+      /**
+       * Existing entries are kept, but their EVIDENCE is refreshed.
+       *
+       * Keeping the phrase and freezing everything attached to it turns out to be its own bug. The
+       * corroboration lookup used exact string equality, so German entries whose stored phrase read
+       * `Guten Tag.` against an entry reading `Guten Tag` lost their corroborating sentence and
+       * kept it lost — 59 phrases, 5.6% of the tier, reported to the reader as less well attested
+       * than they are. Confidence is derived from that field, so this was not bookkeeping.
+       *
+       * A fix to the lookup cannot reach them, because the merge that protects them is the same
+       * thing that preserves the wrong value. Preserving an entry's TEXT and refreshing its
+       * EVIDENCE are separate decisions, and only the first one was being made.
+       *
+       * So the phrase is preserved byte for byte and the evidence block is recomputed from
+       * `corroboration.json`, which is the authority on what corroborates what. Only the field this
+       * function derives is touched; nothing else about the entry moves.
+       */
+      const languagePairs = corroboration[lang.code]?.pairs ?? [];
+      const refreshed = existing.map((e) => {
+        const match = languagePairs.find(
+          (p) => corroborationKey(p.native) === corroborationKey(e.text_native),
+        );
+        const had = (e.source?.corroborating_sentences ?? []).length;
+        const now = match ? [match.attested_id] : [];
+        if (had === now.length && (had === 0 || e.source.corroborating_sentences[0] === now[0])) {
+          return e;
+        }
+        return {
+          ...e,
+          source: { ...(e.source ?? {}), corroborating_sentences: now },
+        };
+      });
+      const evidenceFixed = refreshed.filter((e, i) => e !== existing[i]).length;
+
       // Additive. Existing entries are written back untouched, byte for byte, and the harvest
       // appends until the tier reaches its depth.
       const room = depth ? Math.max(0, depth - existing.length) : additions.length;
@@ -670,7 +727,7 @@ function main() {
         return { ...e, id: `${prefix}${String(nextId).padStart(4, '0')}` };
       });
 
-      const merged = [...existing, ...renumbered];
+      const merged = [...refreshed, ...renumbered];
       if (!renumbered.length) {
         // TWO DIFFERENT REASONS, and the first version of this printed only the second.
         //
@@ -685,19 +742,31 @@ function main() {
         const held = room === 0 && additions.length
           ? ` at depth ${depth}; ${additions.length} held back by the courtesy floor`
           : ' the harvest has nothing this file does not already hold';
-        console.log(`  ${lang.code} ${lang.name.padEnd(12)} keeping ${existing.length} entries —${held}`);
-        report[lang.code] = { kept: existing.length, added: 0, held_back: room === 0 ? additions.length : 0, depth };
+        // Written even though nothing was ADDED. The first version returned without writing, so
+        // the evidence refresh was silently discarded for every language that added nothing —
+        // which is fifteen of twenty, and German among them, which is where the bug was largest.
+        // A refresh that only persists when something else changed is not a refresh.
+        if (evidenceFixed) {
+          writeFileSync(path, refreshed.map((e) => JSON.stringify(e)).join('\n') + '\n');
+        }
+        console.log(
+          `  ${lang.code} ${lang.name.padEnd(12)} keeping ${existing.length} entries —${held}` +
+            (evidenceFixed ? `, ${evidenceFixed} evidence refreshed` : ''),
+        );
+        report[lang.code] = { kept: existing.length, added: 0, evidence_refreshed: evidenceFixed, held_back: room === 0 ? additions.length : 0, depth };
         continue;
       }
       writeFileSync(path, merged.map((e) => JSON.stringify(e)).join('\n') + '\n');
       const say = merged.filter((e) => e.direction === 'say').length;
       console.log(
         `  ${lang.code} ${lang.name.padEnd(12)} ${existing.length} kept + ${renumbered.length} added ` +
-          `= ${merged.length} entries${depth ? ` (depth ${depth})` : ''}` +
+          `= ${merged.length} entries${evidenceFixed ? `, ${evidenceFixed} evidence refreshed` : ''}` +
+          `${depth ? ` (depth ${depth})` : ''}` +
           `${room < additions.length ? `, ${additions.length - room} still available` : ''}`,
       );
       report[lang.code] = {
         kept: existing.length, added: renumbered.length, total: merged.length, depth,
+        evidence_refreshed: evidenceFixed,
         ratio: `${say}:${merged.length - say}`,
       };
       continue;

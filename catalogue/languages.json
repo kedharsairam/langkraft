@@ -132,13 +132,14 @@
     {
       "code": "fas",
       "name": "Dari",
-      "tatoeba_en_pairs": null,
+      "tatoeba_en_pairs": 81,
       "script": "Arabic",
       "tones": false,
       "state": "planned",
       "tatoeba_code": "pes",
-      "tatoeba_en_pairs_note": "not measured under the correct code pes yet; the earlier 1000 was a false reading",
-      "phrasebook_reading_script": "own"
+      "tatoeba_en_pairs_note": "MEASURED 2026-10-06 under the code that actually filters. A FLOOR, not a total: 81 Persian pairs verified across 20 core concepts from the FIRST page of results only, and every count was verified by reading the Persian text back out of the response rather than trusting the API. The API's own total for those same 20 queries is 1165.",
+      "phrasebook_reading_script": "own",
+      "tatoeba_code_note": "Tatoeba HAS NO DARI. Verified, not assumed: `prs` (the Dari code) reports 721 results and returns zero Dari, substituting an unrelated scatter of languages — it does not filter, exactly as `fas` does not. `pes` is the only Persian-family code that filters, verified by every result it returns carrying lang_tag=pes and nothing else. `pes` is IRANIAN Persian. Dari is the Afghan variety of the same language: mutually intelligible, not identical. Filling the Dari tier from `pes` is therefore a product decision about labelling, not a harvesting fix, and is NOT done automatically."
     },
     {
       "code": "tha",

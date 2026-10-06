@@ -41,6 +41,16 @@ class ContentRepository(private val assets: AssetSource) {
 
         fun spec(code: String): LanguageSpec? = specs.firstOrNull { it.code == code }
 
+        /**
+         * One entry by id, or null.
+         *
+         * Null rather than throwing, because the caller here is the flags list and a flag can
+         * outlive the phrase it names — a spec revision can remove an entry between the reader
+         * marking it and opening the list. A lookup that threw there would take the screen down
+         * over a data condition the reader caused nothing about.
+         */
+        fun entry(id: String): Entry? = entries.firstOrNull { it.id == id }
+
         fun entriesFor(lang: String, tier: Int): List<Entry> =
             entries.filter { it.lang == lang && it.tier == tier }
 

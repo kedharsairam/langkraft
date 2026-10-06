@@ -32,6 +32,7 @@ import com.krafttools.langkraft.data.SearchIndex
 import com.krafttools.langkraft.ui.CorpusLoadFailed
 import com.krafttools.langkraft.ui.CreditsScreen
 import com.krafttools.langkraft.ui.FirstRunScreen
+import com.krafttools.langkraft.ui.FlagsScreen
 import com.krafttools.langkraft.ui.LangKraftTheme
 import com.krafttools.langkraft.ui.LanguageListScreen
 import com.krafttools.langkraft.ui.PathScreen
@@ -137,6 +138,7 @@ class MainActivity : ComponentActivity() {
 private object Routes {
     const val INTRO = "intro"
     const val CREDITS = "credits"
+    const val FLAGS = "flags"
     const val LANGUAGES = "languages"
     const val PATH = "path/{lang}"
     const val TIER = "tier/{lang}/{tier}"
@@ -184,13 +186,27 @@ private fun LangKraftNav(
             )
         }
 
+        composable(Routes.FLAGS) {
+            FlagsScreen(
+                corpus = corpus,
+                flags = state.flaggableLanguages(),
+                onBack = { nav.popBackStack() },
+                onExport = onExportFlags,
+            )
+        }
+
         composable(Routes.LANGUAGES) {
             LanguageListScreen(
                 corpus = corpus,
                 positions = state.progress.allPositions(),
                 onOpen = { lang -> nav.navigate(Routes.path(lang)) },
                 onCredits = { nav.navigate(Routes.CREDITS) },
-                onExportFlags = onExportFlags,
+                // Tapping Flags now OPENS THE LIST rather than jumping straight to a file.
+                // Export is an action on that screen, where the reader can see what they are
+                // about to send. Exporting straight from the toolbar meant the reader's only
+                // view of their own notes was a JSON document, which is the end of the pipeline
+                // and not a place to start.
+                onExportFlags = { nav.navigate(Routes.FLAGS) },
                 flagCount = state.flaggableLanguages().values.sumOf { it.size },
             )
         }

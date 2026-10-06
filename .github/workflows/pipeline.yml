@@ -1,0 +1,109 @@
+# Runs the whole pipeline on every push and pull request.
+#
+# WHY THIS FILE IS ITSELF A DELIVERABLE EVEN THOUGH NOTHING RUNS IT YET
+#
+# The repository has no remote. Until one exists this workflow is inert — which means it is also
+# UNVERIFIED, and an unverified CI file is a comforting fiction rather than a safety net. It is
+# committed anyway, because the alternative is that the first person to add a remote has to write
+# it from scratch under pressure, and because the steps below are the same commands that have been
+# run by hand hundreds of times, so the risk is in the plumbing rather than in the ideas.
+#
+# WHAT RUNS, AND WHY EACH STEP
+#
+# The pipeline is Node and TypeScript with no network access at build time — every byte it needs is
+# in the repository. That is deliberate (the app ships offline and so does its build), so this
+# workflow needs no credentials, no API keys and no harvest. It is not "CI that might fail because
+# Wikipedia was slow", which is the failure mode that teaches people to ignore a red build.
+#
+#   lint:spec      21 language specs, the contract the app renders from
+#   lint:content   every content record, including the evidence gate
+#   check:fonts    every character the shipped content uses is present in the bundled face
+#   emit           generate app/src/main/assets from specs and content
+#   test           284 unit tests over the parsers, the evidence model and the linters
+#   gradle         the app compiles and the font resources resolve
+#
+# `check:fonts` is in there because it is the check that found eight bundled fonts were GitHub 404
+# HTML pages saved with a `.ttf` extension, which had been committed and documented as working for
+# weeks. It is the cheapest possible detector for "a file exists and is not what it claims to be".
+#
+# ON A PULL REQUEST
+#
+# Failing is the point. Nothing here is advisory, and nothing retries: a flaky check is worse than
+# no check, because it trains the reader to press the button again.
+
+name: pipeline
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  pipeline:
+    name: specs, content, fonts, tests, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Font coverage is Python, and it must run in the same place it runs locally or it is a
+      # different check wearing the same name.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install pipeline dependencies
+        working-directory: pipeline
+        run: npm ci
+
+      - name: Lint the specs
+        working-directory: pipeline
+        run: npm run lint:spec
+
+      - name: Lint the content
+        working-directory: pipeline
+        run: npm run lint:content
+
+      - name: Check bundled font coverage
+        working-directory: pipeline
+        run: npm run check:fonts
+
+      - name: Emit the app assets
+        working-directory: pipeline
+        run: npm run emit
+
+      - name: Run the pipeline tests
+        working-directory: pipeline
+        run: npm test
+
+      - name: Verify the emit is reproducible
+        working-directory: pipeline
+        # `emit` writes into the repository. If a commit's assets disagree with its own specs and
+        # content, the APK and the source have drifted apart and the build is lying about what it
+        # contains. Regenerating and diffing catches that at commit time instead of at release.
+        run: |
+          if ! git diff --quiet -- app/src/main/assets; then
+            echo "::error::app/src/main/assets is out of date. Run 'cd pipeline && npm run emit' and commit the result."
+            git --no-pager diff --stat -- app/src/main/assets
+            exit 1
+          fi
+
+      - name: Build the app
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Assemble the debug APK
+        # The Gradle build runs `lintAssets`, which itself runs the spec and content linters and
+        # the font coverage check. So this step is not a third opinion — it is the same gate
+        # reached through the Android build, and it proves the wiring rather than the linters.
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: Upload the APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: app/build/outputs/apk/debug/*.apk
+          retention-days: 7

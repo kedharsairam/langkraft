@@ -652,18 +652,6 @@ fun TierScreen(
                         }
                     }
                 }
-                flagTarget?.let { target ->
-                    item {
-                        CountryPickerSheet(
-                            countries = countries,
-                            onPick = { country ->
-                                onFlag(target, country)
-                                flagTarget = null
-                            },
-                            onDismiss = { flagTarget = null },
-                        )
-                    }
-                }
                 if (entries.isEmpty() && exchanges.isEmpty()) {
                     item {
                         Text(
@@ -674,6 +662,29 @@ fun TierScreen(
                     }
                 }
             }
+        }
+
+        /**
+         * The country sheet is a SIBLING of the list, not an item in it.
+         *
+         * It was authored as `LazyColumn { item { CountryPickerSheet(...) } }`, which does not
+         * work: a modal bottom sheet composes in its own window over the content, and putting it
+         * inside a lazy list lays it out inline as an ordinary row. The visible effect was that
+         * "This failed me" set the flag target, nothing appeared, and the app's only permitted
+         * input could not be completed at all. Verified on the device — tapping the button changed
+         * nothing on screen.
+         *
+         * Hoisted here so it overlays the list, which is what a modal sheet is for.
+         */
+        flagTarget?.let { target ->
+            CountryPickerSheet(
+                countries = countries,
+                onPick = { country ->
+                    onFlag(target, country)
+                    flagTarget = null
+                },
+                onDismiss = { flagTarget = null },
+            )
         }
     }
 }

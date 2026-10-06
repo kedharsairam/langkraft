@@ -44,6 +44,9 @@ import com.krafttools.langkraft.data.Entry
 import com.krafttools.langkraft.data.LanguageSpec
 import com.krafttools.langkraft.data.SearchIndex
 import com.krafttools.langkraft.data.ToneSet
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.runtime.CompositionLocalProvider
 
 /**
  * Phase 1 surfaces: tones, the failure flag, search, and the bookmark.
@@ -222,6 +225,21 @@ fun CountryPickerSheet(
     onPick: (String?) -> Unit,
     onDismiss: () -> Unit,
 ) {
+    /**
+     * Forced to LTR, because this dialog is chrome and the app's chrome is English.
+     *
+     * It is shown from inside a tier screen, which sets its layout direction from the SPEC's
+     * language — correctly, for the phrase list. But the dialog's own words are English, and a
+     * trailing `?` inside an RTL paragraph is reordered to the FRONT by the bidi algorithm. On an
+     * Arabic or Dari screen the title rendered as "?Where did it fail", which reads as a typo in
+     * a language the reader cannot check.
+     *
+     * Found by looking at the screen on the device rather than by reading the code, which looks
+     * correct. The invariant is the same one the whole app holds — the direction belongs to the
+     * content being read, never to the interface around it — and the interface around it is
+     * always English.
+     */
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text("Where did it fail?") },
@@ -245,6 +263,7 @@ fun CountryPickerSheet(
         },
         confirmButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
     )
+    }
 }
 
 // ---------------------------------------------------------------------------
