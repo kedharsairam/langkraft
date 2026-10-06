@@ -46,9 +46,27 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      # kraft-foundation is public, so no credentials are needed. It is a sibling checkout
+      # because the app consumes it as a composite build
+      # (`includeBuild("../kraft-foundation")` in settings.gradle.kts).
+      - name: Checkout kraft-foundation (composite-build sibling)
+        uses: actions/checkout@v5
+        with:
+          repository: kedharsairam/kraft-foundation
+          path: kraft-foundation
+
       - uses: actions/setup-node@v5
         with:
           node-version: '22'
+
+      # The standard, enforced. `quality.ci-runs-the-gate` fails if this step is removed.
+      # Runs before the pipeline's own linters because it is the fastest failure: a dirty
+      # app should not spend minutes linting specs before being told its spacing is wrong.
+      #
+      # No working-directory: the app is checked out at the workspace root and the
+      # foundation beside it, so `.` is the app and the gate is at its sibling path.
+      - name: Quality gate
+        run: node kraft-foundation/tools/kraft-lint/kraft-lint.js . --format github
 
       # Font coverage is Python, and it must run in the same place it runs locally or it is a
       # different check wearing the same name.
@@ -100,6 +118,13 @@ jobs:
         # the font coverage check. So this step is not a third opinion — it is the same gate
         # reached through the Android build, and it proves the wiring rather than the linters.
         run: ./gradlew assembleDebug --stacktrace
+
+      - name: Run the Android unit tests
+        # `quality.ci-runs-tests` fails if this step is removed. Runs after the assemble so a
+        # red build fails fast on compilation before spending time on tests — and separately
+        # because three ContentRepositoryTest failures predate the foundation migration and
+        # are tracked, not hidden: a suite that was red before stays visibly red until fixed.
+        run: ./gradlew testDebugUnitTest --stacktrace
 
       - name: Upload the APK
         uses: actions/upload-artifact@v7

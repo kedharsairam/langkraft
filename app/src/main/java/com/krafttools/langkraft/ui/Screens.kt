@@ -52,6 +52,8 @@ import com.krafttools.langkraft.data.Entry
 import com.krafttools.langkraft.data.Exchange
 import com.krafttools.langkraft.data.LanguageSpec
 import com.krafttools.langkraft.data.ProgressStore
+import com.kraft.ui.tokens.KraftSpacing
+import com.krafttools.langkraft.ui.LangMetrics
 
 /**
  * The language list. The home screen, and the whole app at one language.
@@ -103,8 +105,8 @@ fun LanguageListScreen(
     ) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(KraftSpacing.Spacing16),
+            verticalArrangement = Arrangement.spacedBy(KraftSpacing.Spacing12),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             item {
@@ -115,7 +117,7 @@ fun LanguageListScreen(
                         "has never stood in the country gets fixed.",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(top = 8.dp, start = 4.dp, end = 4.dp),
+                    modifier = Modifier.padding(top = KraftSpacing.Spacing8, start = KraftSpacing.Spacing4, end = KraftSpacing.Spacing4),
                 )
             }
             items(corpus.specs, key = { it.code }) { spec ->
@@ -146,10 +148,10 @@ private fun LanguageCard(
     val tierZero = spec.tiers.firstOrNull { it.id == 0 }
     Card(
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth().widthIn(max = 640.dp),
+        modifier = Modifier.fillMaxWidth().widthIn(max = LangMetrics.CardMaxWidth),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
     ) {
-        Column(Modifier.padding(16.dp)) {
+        Column(Modifier.padding(KraftSpacing.Spacing16)) {
             Text(spec.name, style = MaterialTheme.typography.titleLarge)
             // The language's OWN name, in its own script. This was dead code: every spec
             // declares an endonym, the model parses it, and the tier screen's
@@ -173,7 +175,7 @@ private fun LanguageCard(
                 )
             }
             tierZero?.let {
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(KraftSpacing.Spacing8))
                 Text(
                     // What SHIPPED, not what the spec claims. The path screen already
                     // showed available-vs-declared; the home screen claimed the declared
@@ -189,7 +191,7 @@ private fun LanguageCard(
             // cannot know. What it DOES say is where, because a promise of "continue"
             // that does not continue is worse than no promise at all.
             bookmark?.takeIf { it > 0 }?.let { tier ->
-                Spacer(Modifier.height(4.dp))
+                Spacer(Modifier.height(KraftSpacing.Spacing4))
                 Text(
                     "Resume in ${spec.tiers.firstOrNull { it.id == tier }?.name ?: "tier $tier"}",
                     style = MaterialTheme.typography.bodySmall,
@@ -197,7 +199,7 @@ private fun LanguageCard(
                 )
             }
             if (spec.role == "calibration") {
-                Spacer(Modifier.height(4.dp))
+                Spacer(Modifier.height(KraftSpacing.Spacing4))
                 Text(
                     "English — what the other three are measured against.",
                     style = MaterialTheme.typography.bodySmall,
@@ -235,8 +237,8 @@ fun PathScreen(
         ) { padding ->
             LazyColumn(
                 modifier = Modifier.fillMaxSize().padding(padding),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(KraftSpacing.Spacing16),
+                verticalArrangement = Arrangement.spacedBy(KraftSpacing.Spacing12),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 item {
@@ -300,15 +302,15 @@ fun PathScreen(
                 // rather than implying a switch that is not there.
                 if (spec.variants.size > 1) {
                     item {
-                        Column(Modifier.padding(top = 12.dp)) {
+                        Column(Modifier.padding(top = KraftSpacing.Spacing12)) {
                             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                            Spacer(Modifier.height(12.dp))
+                            Spacer(Modifier.height(KraftSpacing.Spacing12))
                             Text(
                                 "Varieties",
                                 style = MaterialTheme.typography.labelLarge,
                                 color = MaterialTheme.colorScheme.onSurface,
                             )
-                            Spacer(Modifier.height(4.dp))
+                            Spacer(Modifier.height(KraftSpacing.Spacing4))
                             Text(
                                 "Every phrase here is standard central ${spec.name}. " +
                                     "These are the other varieties you may hear, and where " +
@@ -316,11 +318,11 @@ fun PathScreen(
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
-                            Spacer(Modifier.height(8.dp))
+                            Spacer(Modifier.height(KraftSpacing.Spacing8))
                             spec.variants.forEach { v ->
                                 val chosen = v.id == spec.defaultVariety
                                 Row(
-                                    Modifier.fillMaxWidth().padding(vertical = 5.dp),
+                                    Modifier.fillMaxWidth().padding(vertical = KraftSpacing.Spacing6),
                                     verticalAlignment = Alignment.Top,
                                 ) {
                                     Text(
@@ -357,21 +359,21 @@ fun PathScreen(
 
                 if (empty.isNotEmpty()) {
                     item {
-                        Column(Modifier.padding(top = 12.dp)) {
+                        Column(Modifier.padding(top = KraftSpacing.Spacing12)) {
                             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                            Spacer(Modifier.height(12.dp))
+                            Spacer(Modifier.height(KraftSpacing.Spacing12))
                             Text(
                                 "Not written yet",
                                 style = MaterialTheme.typography.labelLarge,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
-                            Spacer(Modifier.height(4.dp))
+                            Spacer(Modifier.height(KraftSpacing.Spacing4))
                             empty.forEach { tier ->
                                 Text(
                                     "${tier.name} — ${tier.intent.trim()}",
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier.padding(vertical = 3.dp),
+                                    modifier = Modifier.padding(vertical = KraftSpacing.Spacing4),
                                 )
                             }
                         }
@@ -391,9 +393,9 @@ fun PathScreen(
  */
 @Composable
 private fun DomainDivider(domain: Domain, count: Int) {
-    Column(Modifier.fillMaxWidth().padding(top = 12.dp, bottom = 4.dp)) {
+    Column(Modifier.fillMaxWidth().padding(top = KraftSpacing.Spacing12, bottom = KraftSpacing.Spacing4)) {
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(KraftSpacing.Spacing8))
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 domain.label,
@@ -441,10 +443,10 @@ private fun TierCard(
 ) {
     Card(
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth().widthIn(max = 640.dp),
+        modifier = Modifier.fillMaxWidth().widthIn(max = LangMetrics.CardMaxWidth),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
     ) {
-        Column(Modifier.padding(16.dp)) {
+        Column(Modifier.padding(KraftSpacing.Spacing16)) {
             // One Text, not two. Rendering the number and the name separately made a
             // screen reader announce "0" and "Courtesy" as unrelated items, and left the
             // number unassociated with the tier it labels.
@@ -454,9 +456,9 @@ private fun TierCard(
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface,
             )
-            Spacer(Modifier.height(6.dp))
+            Spacer(Modifier.height(KraftSpacing.Spacing6))
             Text(intent, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(KraftSpacing.Spacing8))
             // A plain count. It used to read "48 of 48 authored", where "authored" is
             // pipeline vocabulary and the ratio reads as a shortfall to a reader who has
             // never heard of a spec. Now that only populated tiers are pressable, the
@@ -467,7 +469,7 @@ private fun TierCard(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             bookmark?.let {
-                Spacer(Modifier.height(4.dp))
+                Spacer(Modifier.height(KraftSpacing.Spacing4))
                 Text(
                     "Pick up where you stopped",
                     style = MaterialTheme.typography.labelSmall,
@@ -590,8 +592,8 @@ fun TierScreen(
                 // animation is the difference between "where am I" and "oh, this is where I
                 // was". Nothing else in this app animates.
                 modifier = Modifier.fillMaxSize().padding(padding),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(KraftSpacing.Spacing16),
+                verticalArrangement = Arrangement.spacedBy(KraftSpacing.Spacing16),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 val toneSets = corpus.toneSetsFor(spec.code, tier)
@@ -756,22 +758,21 @@ fun EntryCard(
     onCopy: () -> Unit = {},
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth().widthIn(max = 640.dp),
+        modifier = Modifier.fillMaxWidth().widthIn(max = LangMetrics.CardMaxWidth),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
     ) {
-        Column(Modifier.padding(16.dp)) {
+        Column(Modifier.padding(KraftSpacing.Spacing16)) {
             Text(
                 entry.textNative,
                 // Non-Latin needs a font with the right conjuncts. A fallback font
                 // substitutes silently and produces a wrong glyph rather than a
                 // crash, so this is deliberately NOT the default font family.
                 fontFamily = scriptFontFamily(spec.scriptPrimary),
-                fontSize = if (entry.textRomanized != null) 20.sp else 26.sp,
-                lineHeight = if (entry.textRomanized != null) 30.sp else 34.sp,
+                style = if (entry.textRomanized != null) PhraseNativeCompact else PhraseNative,
             )
 
             entry.textRomanized?.let {
-                Spacer(Modifier.height(4.dp))
+                Spacer(Modifier.height(KraftSpacing.Spacing4))
                 Text(
                     it,
                     // Romanization is LATIN text -- RTGS, ISO, whatever the spec names -- so
@@ -779,15 +780,14 @@ fun EntryCard(
                     // bundled font, and giving romanization a serif made it look like a
                     // third language rather than a transcription of the second.
                     fontFamily = FontFamily.Default,
-                    fontSize = 24.sp,
-                    lineHeight = 30.sp,
+                    style = PhraseRomanized,
                     color = MaterialTheme.colorScheme.primary,
                 )
             }
 
             // One line of prominence for the romanisation only; the script is the check.
             if (entry.textRomanized != null) {
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(KraftSpacing.Spacing8))
             }
 
             if (!spec.glossIsNative) {
@@ -796,7 +796,7 @@ fun EntryCard(
                 }
             }
 
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(KraftSpacing.Spacing8))
             Text(
                 entry.why,
                 style = MaterialTheme.typography.bodySmall,
@@ -804,7 +804,7 @@ fun EntryCard(
             )
 
             entry.caution?.let {
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(KraftSpacing.Spacing8))
                 Surface(
                     color = MaterialTheme.colorScheme.tertiaryContainer,
                     modifier = Modifier.fillMaxWidth(),
@@ -813,25 +813,25 @@ fun EntryCard(
                         it,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onTertiaryContainer,
-                        modifier = Modifier.padding(8.dp),
+                        modifier = Modifier.padding(KraftSpacing.Spacing8),
                     )
                 }
             }
 
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(KraftSpacing.Spacing8))
             // FlowRow, not Row. Three tags at 2.0x font scale need ~430dp of a 328dp
             // card; a Row cannot wrap, so "failed you before" broke onto three lines
             // beside two single-line pills. That tag appears as soon as the learner taps
             // the flag once, so this was reachable in shipped content, not latent.
             FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
+                horizontalArrangement = Arrangement.spacedBy(KraftSpacing.Spacing8),
+                verticalArrangement = Arrangement.spacedBy(KraftSpacing.Spacing4),
             ) {
                 Tag(if (entry.direction.name == "SAY") "say" else "understand")
                 if (entry.register != "neutral") Tag(entry.register)
                 if (entry.failureFlags.isNotEmpty()) Tag("failed you before")
             }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(KraftSpacing.Spacing8)) {
                 FailureFlagButton(onClick = onFlag)
                 CopyButton(onClick = onCopy)
             }
@@ -846,13 +846,13 @@ private fun CopyButton(onClick: () -> Unit) {
         onClick = onClick,
         color = MaterialTheme.colorScheme.surfaceContainerHighest,
         shape = MaterialTheme.shapes.small,
-        modifier = Modifier.padding(top = 12.dp),
+        modifier = Modifier.padding(top = KraftSpacing.Spacing12),
     ) {
         Text(
             "Copy",
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+            modifier = Modifier.padding(horizontal = KraftSpacing.Spacing8, vertical = KraftSpacing.Spacing6),
         )
     }
 }
@@ -860,14 +860,14 @@ private fun CopyButton(onClick: () -> Unit) {
 @Composable
 private fun ExchangeCard(ex: Exchange, spec: LanguageSpec, onFlag: () -> Unit = {}) {
     Card(
-        modifier = Modifier.fillMaxWidth().widthIn(max = 640.dp),
+        modifier = Modifier.fillMaxWidth().widthIn(max = LangMetrics.CardMaxWidth),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
     ) {
-        Column(Modifier.padding(16.dp)) {
+        Column(Modifier.padding(KraftSpacing.Spacing16)) {
             Text(ex.scenario, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(KraftSpacing.Spacing12))
             ex.turns.forEach { turn ->
-                Row(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
+                Row(Modifier.fillMaxWidth().padding(vertical = KraftSpacing.Spacing6)) {
                     Text(
                         // Speaker, always. This used to render a bare middle dot for
                         // optional turns, discarding `speaker` entirely — so 21 shipped
@@ -878,7 +878,7 @@ private fun ExchangeCard(ex: Exchange, spec: LanguageSpec, onFlag: () -> Unit = 
                         style = MaterialTheme.typography.labelSmall,
                         color = if (turn.isYou) MaterialTheme.colorScheme.primary
                                 else MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(end = 12.dp),
+                        modifier = Modifier.padding(end = KraftSpacing.Spacing12),
                     )
                     Column(Modifier.weight(1f)) {
                         val tone =
@@ -887,11 +887,11 @@ private fun ExchangeCard(ex: Exchange, spec: LanguageSpec, onFlag: () -> Unit = 
                         Text(
                             turn.textNative,
                             fontFamily = scriptFontFamily(spec.scriptPrimary),
-                            fontSize = 20.sp,
+                            style = PhraseInline,
                             color = tone,
                         )
                         turn.textRomanized?.let {
-                            Text(it, fontFamily = FontFamily.Default, fontSize = 20.sp,
+                            Text(it, fontFamily = FontFamily.Default, style = PhraseInline,
                                 color = if (turn.optional) MaterialTheme.colorScheme.onSurfaceVariant
                                         else MaterialTheme.colorScheme.primary)
                         }
@@ -926,7 +926,7 @@ private fun Tag(text: String) {
             text,
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+            modifier = Modifier.padding(horizontal = KraftSpacing.Spacing6, vertical = KraftSpacing.Spacing2),
         )
     }
 }

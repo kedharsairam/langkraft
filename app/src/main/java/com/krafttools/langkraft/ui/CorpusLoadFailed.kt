@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kraft.ui.tokens.KraftSpacing
 
 /**
  * Shown instead of the app when its own bundled content cannot be parsed.
@@ -51,8 +52,8 @@ fun CorpusLoadFailed(cause: Throwable) {
                 // use of this screen, which is the argument for having written it legibly.
                 .statusBarsPadding()
                 .verticalScroll(rememberScrollState())
-                .padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+                .padding(KraftSpacing.Spacing24),
+            verticalArrangement = Arrangement.spacedBy(KraftSpacing.Spacing12),
         ) {
             Text(
                 "Bundled content is damaged",
@@ -82,7 +83,6 @@ fun CorpusLoadFailed(cause: Throwable) {
                 cause.toString(),
                 style = MaterialTheme.typography.bodySmall,
                 fontFamily = FontFamily.Monospace,
-                fontSize = 12.sp,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
