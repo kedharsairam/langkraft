@@ -44,15 +44,15 @@ jobs:
     name: specs, content, fonts, tests, build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '22'
 
       # Font coverage is Python, and it must run in the same place it runs locally or it is a
       # different check wearing the same name.
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
@@ -93,7 +93,7 @@ jobs:
           fi
 
       - name: Build the app
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v5
 
       - name: Assemble the debug APK
         # The Gradle build runs `lintAssets`, which itself runs the spec and content linters and
@@ -102,8 +102,13 @@ jobs:
         run: ./gradlew assembleDebug --stacktrace
 
       - name: Upload the APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: app-debug
           path: app/build/outputs/apk/debug/*.apk
           retention-days: 7
+
+# Pinned away from `ubuntu-latest`, which migrates to Ubuntu 26 on 2026-10-19. The runner image is
+# not part of what this workflow is testing, and a moving label means a build can go red for a
+# reason that has nothing to do with the repository. Change it deliberately, not on a schedule.
+  runs-on: ubuntu-24.04
