@@ -42,7 +42,7 @@ on:
 jobs:
   pipeline:
     name: specs, content, fonts, tests, build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
 
@@ -111,4 +111,3 @@ jobs:
 # Pinned away from `ubuntu-latest`, which migrates to Ubuntu 26 on 2026-10-19. The runner image is
 # not part of what this workflow is testing, and a moving label means a build can go red for a
 # reason that has nothing to do with the repository. Change it deliberately, not on a schedule.
-  runs-on: ubuntu-24.04
