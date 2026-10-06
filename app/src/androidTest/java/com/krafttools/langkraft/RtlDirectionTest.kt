@@ -30,7 +30,7 @@ import androidx.activity.ComponentActivity
 
 /**
  * RTL is a correctness requirement, not a feature, and it is invisible until a language
- * needs it. Arabic, Dari and Urdu are all on the list, and none of them has ever been
+ * needs it. Arabic is on the list, and it had never been
  * rendered: `grep` for LayoutDirection across the app source returned nothing at all.
  *
  * The corpus here is SYNTHETIC and never ships. It exists so the direction path can be

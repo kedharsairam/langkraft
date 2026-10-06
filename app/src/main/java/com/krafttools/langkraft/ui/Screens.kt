@@ -219,7 +219,7 @@ fun PathScreen(
     onOpenSearch: () -> Unit,
     onBack: () -> Unit,
 ) {
-    // Arabic, Dari and Urdu are RTL. Without this the whole screen inherits the device's
+    // Arabic is RTL. Without this the whole screen inherits the device's
     // LTR default and every card is mirrored wrongly. Driven by the SPEC, not the device:
     // an English-locale phone learning Arabic still needs an RTL screen.
     DirectionProvider(spec) {

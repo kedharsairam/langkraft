@@ -231,7 +231,7 @@ fun CountryPickerSheet(
      * It is shown from inside a tier screen, which sets its layout direction from the SPEC's
      * language — correctly, for the phrase list. But the dialog's own words are English, and a
      * trailing `?` inside an RTL paragraph is reordered to the FRONT by the bidi algorithm. On an
-     * Arabic or Dari screen the title rendered as "?Where did it fail", which reads as a typo in
+     * Arabic screen the title rendered as "?Where did it fail", which reads as a typo in
      * a language the reader cannot check.
      *
      * Found by looking at the screen on the device rather than by reading the code, which looks

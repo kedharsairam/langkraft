@@ -9,7 +9,7 @@ import com.krafttools.langkraft.data.LanguageSpec
 /**
  * Adopts the language's writing direction for everything inside.
  *
- * Arabic, Dari and Urdu are all on the list, and none of them had ever been rendered:
+ * Arabic is on the list, and it had never been rendered:
  * a grep for `LayoutDirection` across the app source returned nothing. Every screen
  * inherited the device's LTR default, which for an RTL language means the script sits
  * hard against the wrong edge, the `you` / `them` labels are on the wrong side of the

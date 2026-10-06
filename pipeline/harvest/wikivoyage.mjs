@@ -101,7 +101,6 @@ export const PAGE_TITLES_EXPORT = {
   deu: 'German phrasebook',
   srp: 'Serbian phrasebook',
   tur: 'Turkish phrasebook',
-  fas: 'Dari phrasebook',
   tha: 'Thai phrasebook',
   rus: 'Russian phrasebook',
   jpn: 'Japanese phrasebook',

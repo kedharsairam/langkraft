@@ -28,7 +28,7 @@ import androidx.compose.runtime.Composable
  *     wiring the handler.
  *
  * `automirrored` is deliberate: the arrow has to point the right way in the Arabic and
- * Dari screens that come later, and a hardcoded back arrow is wrong in every one of them.
+ * Arabic screens that come later, and a hardcoded back arrow is wrong in every one of them.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

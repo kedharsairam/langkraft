@@ -116,15 +116,6 @@
     "dominant_share": 0.502,
     "selected": 340
   },
-  "fas": {
-    "rows": 372,
-    "contributors": 116,
-    "concepts_covered": 50,
-    "concepts_missing": 13,
-    "dominant_author": "CK",
-    "dominant_share": 0.366,
-    "selected": 195
-  },
   "tha": {
     "rows": 276,
     "contributors": 82,

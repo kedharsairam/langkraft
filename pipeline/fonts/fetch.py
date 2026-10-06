@@ -77,7 +77,7 @@ FACES = {
 }
 
 SCRIPT_OF_CODE = {
-    "ara": "arabic", "fas": "arabic",
+    "ara": "arabic",
     "hin": "devanagari",
     "jpn": "japanese", "cmn": "han", "kor": "hangul",
     "rus": "cyrillic", "srp": "cyrillic",

@@ -240,25 +240,6 @@
       "wifi"
     ]
   },
-  "fas": {
-    "total": 372,
-    "gaps": [
-      "no_receipt",
-      "spicy",
-      "bill",
-      "taxi",
-      "address",
-      "wifi",
-      "towel",
-      "hot_water",
-      "size",
-      "card_gift",
-      "doctor",
-      "pharmacy",
-      "emergency"
-    ],
-    "source_code": "pes"
-  },
   "tha": {
     "total": 276,
     "gaps": [

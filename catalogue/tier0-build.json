@@ -2,80 +2,77 @@
   "ind": {
     "kept": 48,
     "added": 0,
-    "evidence_refreshed": 7,
+    "evidence_refreshed": 0,
     "held_back": 15,
     "depth": 48
   },
   "spa": {
     "kept": 57,
     "added": 0,
-    "evidence_refreshed": 1,
+    "evidence_refreshed": 0,
     "held_back": 0,
     "depth": 57
   },
   "hin": {
-    "kept": 25,
-    "added": 5,
-    "total": 30,
-    "depth": 39,
+    "kept": 30,
+    "added": 0,
     "evidence_refreshed": 0,
-    "ratio": "25:5"
+    "held_back": 0,
+    "depth": 39
   },
   "fra": {
     "kept": 56,
     "added": 0,
-    "evidence_refreshed": 7,
+    "evidence_refreshed": 0,
     "held_back": 21,
     "depth": 56
   },
   "ara": {
-    "kept": 27,
-    "added": 7,
-    "total": 34,
-    "depth": 52,
+    "kept": 34,
+    "added": 0,
     "evidence_refreshed": 0,
-    "ratio": "25:9"
+    "held_back": 0,
+    "depth": 52
   },
   "swh": {
     "kept": 50,
     "added": 0,
-    "evidence_refreshed": 1,
+    "evidence_refreshed": 0,
     "held_back": 30,
     "depth": 30
   },
   "tam": {
     "kept": 38,
     "added": 0,
-    "evidence_refreshed": 3,
+    "evidence_refreshed": 0,
     "held_back": 8,
     "depth": 24
   },
   "por": {
-    "kept": 52,
-    "added": 4,
-    "total": 56,
-    "depth": 56,
-    "evidence_refreshed": 1,
-    "ratio": "36:20"
+    "kept": 56,
+    "added": 0,
+    "evidence_refreshed": 0,
+    "held_back": 22,
+    "depth": 56
   },
   "nld": {
     "kept": 57,
     "added": 0,
-    "evidence_refreshed": 11,
+    "evidence_refreshed": 0,
     "held_back": 1,
     "depth": 57
   },
   "ita": {
     "kept": 57,
     "added": 0,
-    "evidence_refreshed": 6,
+    "evidence_refreshed": 0,
     "held_back": 6,
     "depth": 57
   },
   "deu": {
     "kept": 60,
     "added": 0,
-    "evidence_refreshed": 6,
+    "evidence_refreshed": 0,
     "held_back": 12,
     "depth": 60
   },
@@ -87,34 +84,25 @@
     "depth": 50
   },
   "tur": {
-    "kept": 57,
-    "added": 1,
-    "total": 58,
-    "depth": 58,
-    "evidence_refreshed": 5,
-    "ratio": "51:7"
-  },
-  "fas": {
-    "kept": 8,
+    "kept": 58,
     "added": 0,
     "evidence_refreshed": 0,
-    "held_back": 0,
-    "depth": 48
+    "held_back": 1,
+    "depth": 58
   },
   "tha": {
     "kept": 77,
     "added": 0,
-    "evidence_refreshed": 6,
+    "evidence_refreshed": 0,
     "held_back": 30,
     "depth": 37
   },
   "rus": {
-    "kept": 57,
-    "added": 1,
-    "total": 58,
-    "depth": 58,
-    "evidence_refreshed": 3,
-    "ratio": "42:16"
+    "kept": 58,
+    "added": 0,
+    "evidence_refreshed": 0,
+    "held_back": 1,
+    "depth": 58
   },
   "jpn": {
     "kept": 57,
@@ -126,21 +114,21 @@
   "kor": {
     "kept": 48,
     "added": 0,
-    "evidence_refreshed": 3,
+    "evidence_refreshed": 0,
     "held_back": 4,
     "depth": 48
   },
   "vie": {
     "kept": 46,
     "added": 0,
-    "evidence_refreshed": 1,
+    "evidence_refreshed": 0,
     "held_back": 2,
     "depth": 46
   },
   "cmn": {
     "kept": 53,
     "added": 0,
-    "evidence_refreshed": 4,
+    "evidence_refreshed": 0,
     "held_back": 12,
     "depth": 53
   }

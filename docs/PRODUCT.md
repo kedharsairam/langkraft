@@ -5,7 +5,7 @@ planned feature.
 
 ## The goal it serves
 
-Reach a deliberately-low, real-world-usable floor in a fixed portfolio of ~20 languages, so
+Reach a deliberately-low, real-world-usable floor in a fixed portfolio of ~19 languages, so
 that the maximum number of countries become places where a short, genuine interaction with
 an ordinary local is possible. Speaking and listening only — reading and writing are never
 the goal, and the interface language is always English.
@@ -86,7 +86,7 @@ mistake with more confidence. Accuracy comes from three gates:
 
 A read-only app is still hard at exactly one thing: drawing 20 writing systems correctly.
 Thai tone marks collide. Tamil, Telugu and Devanagari conjuncts need the right font and fail
-*silently* without one. Arabic and Dari are RTL and break naive layout assumptions. CJK
+*silently* without one. Arabic is RTL and break naive layout assumptions. CJK
 breaks differently again.
 
 Fonts are bundled, not inherited from the phone. PDF and HTML export are verified on the

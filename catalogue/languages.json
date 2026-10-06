@@ -130,18 +130,6 @@
       "state": "planned"
     },
     {
-      "code": "fas",
-      "name": "Dari",
-      "tatoeba_en_pairs": 81,
-      "script": "Arabic",
-      "tones": false,
-      "state": "planned",
-      "tatoeba_code": "pes",
-      "tatoeba_en_pairs_note": "MEASURED 2026-10-06 under the code that actually filters. A FLOOR, not a total: 81 Persian pairs verified across 20 core concepts from the FIRST page of results only, and every count was verified by reading the Persian text back out of the response rather than trusting the API. The API's own total for those same 20 queries is 1165.",
-      "phrasebook_reading_script": "own",
-      "tatoeba_code_note": "Tatoeba HAS NO DARI. Verified, not assumed: `prs` (the Dari code) reports 721 results and returns zero Dari, substituting an unrelated scatter of languages — it does not filter, exactly as `fas` does not. `pes` is the only Persian-family code that filters, verified by every result it returns carrying lang_tag=pes and nothing else. `pes` is IRANIAN Persian. Dari is the Afghan variety of the same language: mutually intelligible, not identical. Filling the Dari tier from `pes` is therefore a product decision about labelling, not a harvesting fix, and is NOT done automatically."
-    },
-    {
       "code": "tha",
       "name": "Thai",
       "tatoeba_en_pairs": 1000,
@@ -190,5 +178,6 @@
       "state": "planned"
     }
   ],
-  "note_phrasebook_reading_script": "Optional. 'own' means the phrasebook writes its reading in the language's own script rather than transliterated. Only Dari does: the page writes the phrase in Latin and the Dari in Arabic script inside the italics, so a parser requiring a Latin reading rejects every phrase on it. Measured on the harvested page: 54 rows, 0 with a reading, before this was recorded; the whole page was unusable. Left out of the code as a set of language codes precisely so that adding a language never means editing the parser."
+  "note_phrasebook_reading_script": "Optional. 'own' means the phrasebook writes its reading in the language's own script rather than transliterated. Only Dari does: the page writes the phrase in Latin and the Dari in Arabic script inside the italics, so a parser requiring a Latin reading rejects every phrase on it. Measured on the harvested page: 54 rows, 0 with a reading, before this was recorded; the whole page was unusable. Left out of the code as a set of language codes precisely so that adding a language never means editing the parser.",
+  "note_dari_removed": "Dari was removed on 2026-10-06. Tatoeba has no Dari: `prs` does not filter (reports 721 and returns an unrelated scatter of languages), `fas` does not filter either (reports 3465, delivers zero), and the only code that filters is `pes` — IRANIAN Persian, a different variety from the Afghan one. Shipping Persian material under a Dari label would be a quiet overstatement of the kind this project's evidence model exists to prevent, so the language was dropped rather than filled from a source that does not say what it is. Recorded here because the 81 verified Persian pairs remain available if a labelled Iranian-Persian entry is ever wanted as a separate language."
 }

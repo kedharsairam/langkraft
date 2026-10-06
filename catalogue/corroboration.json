@@ -941,15 +941,6 @@
       }
     ]
   },
-  "fas": {
-    "curated": 54,
-    "attested": 372,
-    "native_corroborations": 0,
-    "corroborating_authors": 0,
-    "gloss_only": 0,
-    "register_conflicts": 0,
-    "pairs": []
-  },
   "tha": {
     "curated": 304,
     "attested": 276,

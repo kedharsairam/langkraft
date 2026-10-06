@@ -184,20 +184,6 @@
       "reason": "252 selected, 50 of 63 concepts covered, so coverage caps depth at 48."
     },
     {
-      "code": "fas",
-      "name": "Dari",
-      "rows": 372,
-      "contributors": 116,
-      "concepts_covered": 50,
-      "concepts_missing": 13,
-      "dominant_author": "CK",
-      "dominant_share": 0.366,
-      "selected": 195,
-      "depth": 48,
-      "verdict": "set",
-      "reason": "195 selected, 50 of 63 concepts covered, so coverage caps depth at 48."
-    },
-    {
       "code": "kor",
       "name": "Korean",
       "rows": 432,
