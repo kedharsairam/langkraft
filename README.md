@@ -105,12 +105,13 @@ filed as pronunciations, and confidently wrong.
 
 ## Licence
 
-Source code and specs: **CC BY-SA 4.0**.
+**CC BY-SA 4.0** — see [`LICENSE`](LICENSE), which states the scope of each component:
 
-Content derived from [Wikivoyage](https://en.wikivoyage.org/) is **CC BY-SA 4.0**, credited in
-the app. Content from [Tatoeba](https://tatoeba.org/) is **CC BY 2.0 FR**, credited per entry.
-
-The eight bundled Noto families are under the **SIL Open Font License 1.1**. The licence text and
-every source URL ship in the APK, as OFL requires, and are readable on the Credits screen.
+| | |
+|---|---|
+| Source code, specs, original content | CC BY-SA 4.0 |
+| [Wikivoyage](https://en.wikivoyage.org/)-derived content | CC BY-SA 4.0, attributed in-app |
+| [Tatoeba](https://tatoeba.org/)-derived content | CC BY 2.0 FR, attributed per entry |
+| 8 bundled Noto families | SIL Open Font License 1.1 — text and every source URL ship in the APK |
 
 Android and Jetpack Compose are Apache 2.0.
