@@ -1,0 +1,584 @@
+{
+  "$comment": [
+    "THE SPINE. Every language fills the same slots, in the same order, with the same meaning.",
+    "",
+    "This file is what makes LangKraft one app rather than twenty phrasebooks. Before it existed,",
+    "each language was selected independently from its own Wikivoyage page in page order, so no",
+    "two languages shared a single Tier 0 phrase: 376 distinct English captions across 1,050",
+    "entries, and ZERO captions present in all twenty. A traveller who learned 'thank you' in",
+    "Japanese could not find 'thank you' in Thai, because nothing tied the two together.",
+    "",
+    "HOW A SLOT IS DEFINED",
+    "",
+    "  id         stable, never reused. Format: <group>.<meaning>.",
+    "  english    ONE fixed wording. This is what the app shows in EVERY language, so the tier is",
+    "             navigable by a reader who has read another language's copy of the same tier.",
+    "             It is not 'the English of this language's phrase' — it is the meaning, and every",
+    "             language supplies a phrase for it.",
+    "  concept    existing concept id, unchanged, so the evidence model and the domain caps keep",
+    "             working.",
+    "  domain     1-12, unchanged.",
+    "  direction  say = something you produce. understand = something you receive.",
+    "  match      the page captions that identify a harvested row as filling this slot. Matching",
+    "             is EXPLICIT and case/punctuation-insensitive — no fuzzy matching, no scoring. An",
+    "             assignment that cannot be read and checked is an assignment nobody can correct,",
+    "             and an unmatched slot is reported as a gap rather than filled by the nearest",
+    "             thing.",
+    "  why        why this slot is in the courtesy floor. Renders verbatim in the app.",
+    "",
+    "SLOTS ARE MEANINGS, NOT UTTERANCES",
+    "",
+    "The pre-spine English Tier 0 carried four separate 'sorry' phrases and two 'thank you'",
+    "phrases. Transliterating that into twenty languages would mean eighty slots to fill before",
+    "anyone could ask for the price of a bus ticket. Near-synonyms collapse here: one slot per",
+    "meaning, and the register is a property of the language's phrase, not of the slot.",
+    "",
+    "WHAT IS DELIBERATELY ABSENT",
+    "",
+    "No numbers, no prices, no directions. Those are Tier 1. A courtesy floor that already",
+    "contains them stops being a floor, and the per-language sizes already show the pressure —",
+    "Thai reached 77 entries and Hindi 2, from the same declared 50."
+  ],
+  "tier": 0,
+  "name": "Courtesy",
+  "intent": "Not rude. Greet, thank, apologise, say you are learning the language, and recover from not understanding.",
+  "slots": [
+    {
+      "id": "greeting.hello",
+      "english": "Hello.",
+      "concept": "greeting",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "hello",
+        "hi",
+        "hello there",
+        "hi there",
+        "hey"
+      ],
+      "why": "The default greeting anywhere. Works with every age and every status."
+    },
+    {
+      "id": "greeting.morning",
+      "english": "Good morning.",
+      "concept": "greeting",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "good morning",
+        "morning",
+        "good morning."
+      ],
+      "why": "Used until roughly midday. Getting the time of day wrong is noticed; not saying it is only noticed by someone expecting it."
+    },
+    {
+      "id": "greeting.afternoon",
+      "english": "Good afternoon.",
+      "concept": "greeting",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "good afternoon",
+        "afternoon",
+        "good afternoon.",
+        "afternoon / good evening"
+      ],
+      "why": "The middle of the day. In several languages this is the same word as the evening greeting, and using it late is not an error."
+    },
+    {
+      "id": "greeting.evening",
+      "english": "Good evening.",
+      "concept": "greeting",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "good evening",
+        "evening",
+        "good evening.",
+        "good evening / good night"
+      ],
+      "why": "From late afternoon. Often interchangeable with the afternoon greeting."
+    },
+    {
+      "id": "greeting.how-are-you",
+      "english": "How are you?",
+      "concept": "greeting",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "how are you?",
+        "how are you",
+        "how are you today?",
+        "how are you this morning?",
+        "how's it going",
+        "how have you been"
+      ],
+      "why": "The opening move in almost every conversation. In most of these languages it is a greeting rather than a question and does not expect a literal answer."
+    },
+    {
+      "id": "greeting.i-am-well",
+      "english": "I am well, thank you.",
+      "concept": "greeting",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "i'm well, thank you",
+        "i am well, thank you",
+        "i'm fine, thank you",
+        "i am fine thank you",
+        "fine, thank you",
+        "i'm good, thank you"
+      ],
+      "why": "The expected answer to the greeting above. Answering it wrong reads as evasive in cultures where it is a formula."
+    },
+    {
+      "id": "greeting.nice-to-meet-you",
+      "english": "Nice to meet you.",
+      "concept": "greeting",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "nice to meet you",
+        "nice to meet you.",
+        "pleased to meet you",
+        "good to meet you"
+      ],
+      "why": "Said on a first introduction. In several languages there is a separate phrase for meeting someone formally that a stranger will use instead."
+    },
+    {
+      "id": "greeting.my-name-is",
+      "english": "My name is",
+      "concept": "greeting",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "my name is",
+        "my name's",
+        "i'm called",
+        "my name is."
+      ],
+      "why": "Half of every introduction. Used immediately after the greeting, with no pause between."
+    },
+    {
+      "id": "greeting.what-is-your-name",
+      "english": "What is your name?",
+      "concept": "greeting",
+      "domain": 1,
+      "direction": "understand",
+      "match": [
+        "what's your name?",
+        "what is your name",
+        "what is your name?",
+        "may i ask your name",
+        "what's your name (lit. \"your name is...\")",
+        "what is your name called"
+      ],
+      "why": "You get asked this before you get to ask it. Recognising the question is the difference between answering and freezing."
+    },
+    {
+      "id": "greeting.where-from",
+      "english": "I am from",
+      "concept": "greeting",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "i'm from",
+        "i am from",
+        "where are you from?",
+        "i come from",
+        "where are you from",
+        "i'm from india"
+      ],
+      "why": "The question after your name, and the answer to it. Where you are from changes how you are treated, so it gets asked early."
+    },
+    {
+      "id": "greeting.learning",
+      "english": "I am learning your language.",
+      "concept": "greeting",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "i'm learning",
+        "i am learning",
+        "i'm learning your language",
+        "i am learning your language",
+        "i'm studying",
+        "i'm just learning",
+        "i speak a little",
+        "i don't speak much",
+        "i don't speak any",
+        "learner",
+        "i am a learner",
+        "this is my first time here"
+      ],
+      "why": "Sets the whole interaction. Said once, early, it buys patience you would otherwise have to spend on being incomprehensible — and it is the difference between being ignored and being helped.",
+      "caution": "In several of these languages there is a separate, more formal phrase for a learner talking to an elder or an official. The neutral one can read as flippancy in a formal setting."
+    },
+    {
+      "id": "courtesy.please",
+      "english": "Please.",
+      "concept": "courtesy",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "please",
+        "please.",
+        "if you please",
+        "could you please",
+        "excuse me, could you"
+      ],
+      "why": "Not a filler in English, and a grammatical particle in some of these languages — one word that changes a sentence from an order to a request."
+    },
+    {
+      "id": "courtesy.thank-you",
+      "english": "Thank you.",
+      "concept": "courtesy",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "thank you",
+        "thank you.",
+        "thanks",
+        "thanks a lot",
+        "thank you so much",
+        "thank you very much",
+        "thank you very much!",
+        "thank you very much.",
+        "thank you so much!"
+      ],
+      "why": "The single most useful word in any of these languages. Saying it costs nothing and changes how everything after it is received."
+    },
+    {
+      "id": "courtesy.youre-welcome",
+      "english": "You are welcome.",
+      "concept": "courtesy",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "you're welcome",
+        "you are welcome",
+        "no problem",
+        "that's all right",
+        "that's alright",
+        "of course",
+        "any time",
+        "not at all",
+        "you're welcome."
+      ],
+      "why": "You will be handed it constantly, and there is no way to avoid replying. In a few languages the reply is the same word as 'yes'."
+    },
+    {
+      "id": "courtesy.excuse-me",
+      "english": "Excuse me.",
+      "concept": "courtesy",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "excuse me",
+        "excuse me.",
+        "excuse me (begging pardon)",
+        "begging pardon",
+        "sorry to bother you",
+        "excuse me (getting attention)",
+        "excuse me (getting attention of server, speaker is male)",
+        "excuse me (getting attention of server, speaker is female)",
+        "pardon",
+        "pardon?"
+      ],
+      "why": "Two different things in one phrase: getting someone's attention, and getting past them. Guessing wrong is jarring — one version walks through a conversation."
+    },
+    {
+      "id": "courtesy.sorry",
+      "english": "I am sorry.",
+      "concept": "courtesy",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "sorry",
+        "i'm sorry",
+        "i am sorry",
+        "sorry.",
+        "i'm very sorry",
+        "excuse me, i'm sorry",
+        "sorry, my english isn't good",
+        "sorry, my english isn't good.",
+        "sorry, could you say that again?",
+        "sorry, i don't understand"
+      ],
+      "why": "Apologising for a small fault — bumping someone, being late, not understanding. The form you use signals how much of a fault you think it was."
+    },
+    {
+      "id": "courtesy.one-moment",
+      "english": "One moment, please.",
+      "concept": "courtesy",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "one moment, please",
+        "just a second",
+        "just a moment",
+        "wait a moment",
+        "one moment",
+        "hold on",
+        "please wait",
+        "just a second, please",
+        "a moment, please"
+      ],
+      "why": "Buys you time to think, find a word, or finish what you were doing — without the silence that reads as rude or as not understanding."
+    },
+    {
+      "id": "courtesy.after-you",
+      "english": "After you.",
+      "concept": "courtesy",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "after you",
+        "after you.",
+        "after you (to a woman)",
+        "you first",
+        "go ahead",
+        "ladies first",
+        "after you (to a man)",
+        "men first",
+        "after you (to an elder)"
+      ],
+      "why": "Held doors with it. Skipping it is marked in cultures where order and seniority are visible in everyday speech."
+    },
+    {
+      "id": "courtesy.goodbye",
+      "english": "Goodbye.",
+      "concept": "courtesy",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "goodbye",
+        "good bye",
+        "goodbye.",
+        "bye",
+        "see you",
+        "see you later",
+        "good night",
+        "farewell"
+      ],
+      "why": "How you leave. Leaving without one is noticeably rude in most of these languages."
+    },
+    {
+      "id": "courtesy.take-care",
+      "english": "Take care.",
+      "concept": "courtesy",
+      "domain": 1,
+      "direction": "say",
+      "match": [
+        "take care",
+        "take care.",
+        "have a good day",
+        "have a good one",
+        "good night to you",
+        "until next time"
+      ],
+      "why": "The longer goodbye, and the one that implies you may meet again. Usually follows the first goodbye rather than replacing it."
+    },
+    {
+      "id": "repair.dont-understand",
+      "english": "I do not understand.",
+      "concept": "repair",
+      "domain": 12,
+      "direction": "say",
+      "match": [
+        "i don't understand",
+        "i do not understand",
+        "i don't understand.",
+        "i'm sorry, i don't understand",
+        "i didn't understand",
+        "i don't know what you mean",
+        "i don't know what that means"
+      ],
+      "why": "The one phrase that keeps a conversation alive. Without it people stop trying, and with it they often rephrase in simpler words."
+    },
+    {
+      "id": "repair.speak-slower",
+      "english": "Please speak more slowly.",
+      "concept": "repair",
+      "domain": 12,
+      "direction": "say",
+      "match": [
+        "could you speak more slowly",
+        "please speak more slowly",
+        "speak more slowly",
+        "could you speak slower",
+        "please speak slowly",
+        "speak slowly",
+        "slower please",
+        "can you repeat that"
+      ],
+      "why": "Asks for the thing you actually need. Saying it is nearly always received well, even badly pronounced, and asking again is not."
+    },
+    {
+      "id": "repair.cannot-hear",
+      "english": "I cannot hear you.",
+      "concept": "repair",
+      "domain": 12,
+      "direction": "say",
+      "match": [
+        "i can't hear you",
+        "i cannot hear you",
+        "i can't hear you.",
+        "i can't hear you (or understand you)",
+        "could you repeat that please",
+        "please repeat that",
+        "could you say that again",
+        "say that again please",
+        "what did you say"
+      ],
+      "why": "Distinguishes not hearing from not understanding, because they have different fixes and conflating them produces the wrong one."
+    },
+    {
+      "id": "repair.how-do-you-say",
+      "english": "How do you say this?",
+      "concept": "repair",
+      "domain": 12,
+      "direction": "say",
+      "match": [
+        "how do you say*",
+        "how do you spell*",
+        "how do you write*"
+      ],
+      "why": "How you learn a word instead of nodding. Asking is how a phrasebook gets used instead of recited.",
+      "match_note": "WIDENED after measuring the corpus: the first list was exact captions and matched nothing. The meaning is identical across the pages that have it; only the language name or phrasing differs."
+    },
+    {
+      "id": "repair.what-does-it-mean",
+      "english": "What does this mean?",
+      "concept": "repair",
+      "domain": 12,
+      "direction": "say",
+      "match": [
+        "what does that mean?",
+        "what does this mean",
+        "what does that mean",
+        "what does it mean",
+        "what does this mean?",
+        "what does it mean?"
+      ],
+      "why": "For words you heard used rather than shown, which is most of them."
+    },
+    {
+      "id": "repair.help-me",
+      "english": "Can you help me, please?",
+      "concept": "repair",
+      "domain": 12,
+      "direction": "say",
+      "match": [
+        "can you help me, please?",
+        "can you help me",
+        "could you help me",
+        "could you help me please",
+        "can you help me with this",
+        "could you help me with this",
+        "help me",
+        "can you help"
+      ],
+      "why": "The opener for every request that follows. Standing in front of someone not being asked anything is how people get ignored."
+    },
+    {
+      "id": "repair.dont-know",
+      "english": "I do not know.",
+      "concept": "repair",
+      "domain": 12,
+      "direction": "say",
+      "match": [
+        "i don't know",
+        "i do not know",
+        "i don't know.",
+        "i have no idea",
+        "no idea",
+        "i'm not sure",
+        "i am not sure"
+      ],
+      "why": "The honest answer, and in some cultures the only acceptable one — guessing when you don't know reads as deceit rather than as effort."
+    },
+    {
+      "id": "repair.that-is-all",
+      "english": "Is that all?",
+      "concept": "repair",
+      "domain": 12,
+      "direction": "say",
+      "match": [
+        "is that all?",
+        "is that all",
+        "that's all?",
+        "anything else?",
+        "is that everything?",
+        "is that all then"
+      ],
+      "why": "Closes a transaction. Used to shops, to waiters, and to anyone who has finished and is waiting for you to leave."
+    },
+    {
+      "id": "bridge.understand",
+      "english": "Do you understand?",
+      "concept": "understand",
+      "domain": 12,
+      "direction": "understand",
+      "match": [
+        "do you understand?",
+        "do you understand",
+        "do you understand me?",
+        "you understand?",
+        "did you understand"
+      ],
+      "why": "You get asked it after anything you say, and the honest answer is the only useful one."
+    },
+    {
+      "id": "bridge.speak-english",
+      "english": "Do you speak English?",
+      "concept": "understand",
+      "domain": 12,
+      "direction": "understand",
+      "match": [
+        "do you speak english?",
+        "do you speak english",
+        "do you speak any english?",
+        "speaking english?",
+        "you speak english?",
+        "do you speak any english"
+      ],
+      "why": "Asked of you constantly, and the question that decides whether anything after it can happen. There is a polite version and a blunt version and the gap between them is wide."
+    },
+    {
+      "id": "bridge.little-english",
+      "english": "A little English.",
+      "concept": "understand",
+      "domain": 12,
+      "direction": "say",
+      "match": [
+        "a little english",
+        "a little english.",
+        "a little",
+        "yes, a little",
+        "yes a little",
+        "only a little",
+        "a little bit"
+      ],
+      "why": "The answer to the question above, and the thing that tells a speaker to switch to simpler words rather than to English.",
+      "match_note": "WIDENED after measuring the corpus: the first list was exact captions and matched nothing. The meaning is identical across the pages that have it; only the language name or phrasing differs."
+    },
+    {
+      "id": "bridge.i-understand",
+      "english": "I understand.",
+      "concept": "understand",
+      "domain": 12,
+      "direction": "say",
+      "match": [
+        "i understand",
+        "i understand.",
+        "i see",
+        "understood",
+        "i get it",
+        "yes, i understand"
+      ],
+      "why": "Saying it when you do not is worse than silence, because it removes the reason to simplify. Said when you do, it invites the harder version."
+    }
+  ],
+  "_match_patterns": "An entry ending in * is a PREFIX match. Needed because some captions embed the language's own name — 'How do you say this in Thai?' — so an exact-caption list can never match more than the one page that happens to phrase it that way. Nothing else is fuzzy: every pattern is still written out by hand and readable."
+}
