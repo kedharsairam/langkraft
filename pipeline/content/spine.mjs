@@ -355,9 +355,76 @@ export function loadRowsFor(code) {
  * Tier 0's pool by accident.
  */
 export function rowsForTier(tier, code) {
-  return tier === 0
+  // Reviewed rows FIRST and in their own pool, so a person supplying a phrase by hand always beats
+  // anything harvested — including a harvested row that matches better by caption. A reviewer who
+  // says "no, a local says THIS" must not be overruled by the machine, or the checklist is a way of
+  // making work and then discarding it.
+  // Exactly TWO pools, always. Callers destructure `[curated, attested]`, so returning a third
+  // element silently shifted everything one place along: Tier 0's curated rows arrived as the
+  // ATTESTED pool (lower precedence, after Tatoeba) and Tier 1's material arrived in the same slot.
+  // Tier 0's gap count moved 257 -> 313 on that alone. Reviewed rows are therefore PREPENDED to the
+  // curated pool rather than returned as a pool of their own, which is what "wins every match"
+  // actually requires and what keeps the arity stable.
+  const reviewed = loadReviewed(code, tier);
+  const [curated, attested] = tier === 0
     ? [loadCurated(code), loadAttested(code)]
     : [loadTier1Material(code), []];
+  return [reviewed.length ? [...reviewed, ...curated] : curated, attested];
+}
+
+/**
+ * Phrases a person supplied, from `catalogue/reviewed/<lang>.jsonl`.
+ *
+ * The output of the reviewer checklist in `catalogue/REVIEWER.md`. A reviewed row is `authored` by
+ * definition — one person chose it — and it wins every match, so the assigner's curated-first
+ * ordering never demotes it. An `uncertain` note is carried through to the entry rather than
+ * dropped: an entry a reviewer flagged as uncertain and marked as certain is the failure mode this
+ * whole project guards against, so the flag travels with the phrase.
+ *
+ * An unknown slot id is reported rather than ignored. A typo in a slot id would otherwise produce
+ * a row that is loaded, never matched, and silently discarded — the reviewer would believe their
+ * work shipped.
+ */
+export function loadReviewed(code, tier) {
+  const p = join(ROOT, 'catalogue', 'reviewed', `${code}.jsonl`);
+  if (!existsSync(p)) return [];
+  const spine = loadSpine(tier);
+  const slots = new Map((spine[0]?.slots ?? []).map((s) => [s.id, s]));
+  const rows = [];
+  for (const [i, line] of readFileSync(p, 'utf8').split('\n').filter(Boolean).entries()) {
+    let r;
+    try {
+      r = JSON.parse(line);
+    } catch (e) {
+      throw new Error(`catalogue/reviewed/${code}.jsonl line ${i + 1}: not valid JSON — ${e.message}`);
+    }
+    if (!r.text_native || !r.slot) {
+      throw new Error(`catalogue/reviewed/${code}.jsonl line ${i + 1}: needs both "slot" and "text_native"`);
+    }
+    if (slots.size && !slots.has(r.slot)) {
+      throw new Error(
+        `catalogue/reviewed/${code}.jsonl line ${i + 1}: slot "${r.slot}" is not in tier ${tier}'s spine. ` +
+        `A typo here loads a row that never matches and is silently discarded, so the reviewer would ` +
+        `believe their work shipped. Known slots: ${[...slots.keys()].slice(0, 6).join(', ')}...`,
+      );
+    }
+    // The caption is the SLOT's English, not a harvested page's. `assign` matches on caption and
+    // skips any row without one, so a reviewed row carrying only `text_native` was filtered out and
+    // the reviewer's sentence was discarded — the checklist would have appeared to work and shipped
+    // nothing. The meaning of a reviewed row IS its slot; the slot supplies the caption.
+    const slot = slots.get(r.slot);
+    rows.push({
+      native: r.text_native,
+      english: r.text_english ?? slot?.english ?? null,
+      slot_id: r.slot,
+      pronunciation: r.text_romanized ?? null,
+      note: r.note ?? null,
+      uncertain: r.uncertain === true,
+      _source: 'authored',
+      _reviewed: true,
+    });
+  }
+  return rows;
 }
 
 export function loadTier1Material(code) {
@@ -402,12 +469,22 @@ export function assign(spine, curated, attested = [], latinNative = false) {
   // Excluded here rather than in the generator so the measurement and the generation cannot
   // disagree about what is available.
   const NON_LATIN = latinNative => !latinNative;
+  // A phrase in a language that does not write in Latin letters, with no reading, cannot ship: it is
+  // unreadable to exactly the traveller this app is for. The rule belongs HERE, in the one place
+  // both the report and the builder go through, because it used to live in the builder alone — and
+  // so the Tier 0 report claimed Hindi had 12 fillable slots on the same run that shipped Hindi 0.
+  // A measurement that disagrees with the artefact it measures is worse than no measurement.
+  //
+  // The reading may sit either in `pronunciation` or, for a Latin-script language, nowhere at all —
+  // which is why this is `!latinNative &&` rather than a blanket requirement.
+  const needsReading = !latinNative;
   const usable = [
     ...curated
       .filter((r) => r.native && r.english)
+      .filter((r) => !(needsReading && !r.pronunciation))
       .filter((r) => !(r.romanized_only && NON_LATIN(r._latin)))
       .map((r) => ({ ...r, _source: r._source ?? 'curated' })),
-    ...attested.filter((r) => r.native && r.english),
+    ...attested.filter((r) => r.native && r.english).filter((r) => !(needsReading && !r.pronunciation)),
   ];
 
   const claimed = new Set();

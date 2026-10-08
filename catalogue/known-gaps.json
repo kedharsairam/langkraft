@@ -107,5 +107,21 @@
     "also": "cmn: 'Example - 好不好？ （好不好？）' — a page label, the phrase, then the same phrase again.",
     "why_no_linter_caught_it": "The string is valid text in a valid field. There is no rule that can distinguish a phrase from a phrase with an editorial note welded to it; only reading the output catches it.",
     "rule": "`NOTE:` to end of string is cut; a leading 'Example - ' is cut. Both explicit and end-anchored. A note never ends mid-sentence and 'Example -' is only ever a prefix, so neither rule can cut into real content."
+  },
+  "reviewer_checklist": {
+    "status": "LIVE — `catalogue/REVIEWER.md`, generated, with a working ingestion path",
+    "regenerate": "cd pipeline && node content/reviewer-checklist.mjs",
+    "size": "708 sentences across 87 slots, 20 languages. Tier 0: 292. Tier 1: 416.",
+    "why_not_634": [
+      "The checklist first reported 634. That number was optimistic: it counted matches the assigner returned, including attested Tatoeba rows with no romanisation that the builder then refused. The measurement and the artefact disagreed, which is the same failure as the report claiming Hindi had 12 fillable slots on the run that shipped Hindi 0.",
+      "The reading requirement now lives inside assign(), the one function both the report and the builder call, so a slot can only be counted as fillable if it will actually ship. The number went UP to 708 because it is now true."
+    ],
+    "the_useful_unit_is_not_a_sentence": [
+      "708 sentences is not a job description. The list is ranked by how many LANGUAGES each slot is missing from, and that makes the work countable in slots rather than lines:",
+      "  top  9 slots = 168 sentences   top 15 = 272   top 25 = 419   top 40 = 537",
+      "Nine slots closes a quarter of it. The top nine are the Tier 0 courtesy and repair slots that fill in one or two languages — the nine the search could not fill — plus the handful that Tatoeba happens to miss."
+    ],
+    "ingestion": "catalogue/reviewed/<lang>.jsonl, one object per line, {lang, slot, text_native, text_romanized, note, uncertain}. A reviewed row WINS every match, including over a harvested row whose caption fits better. An unknown slot id throws rather than loading a row that never matches, because a typo would otherwise look like it shipped.",
+    "verified_end_to_end": "One Hindi greeting row in the file moved Hindi Tier 0 from 0 to 1, shipped as `authored`, and disappeared when the row was removed. A deliberate typo (`greeting.helo`) was refused by name."
   }
 }
