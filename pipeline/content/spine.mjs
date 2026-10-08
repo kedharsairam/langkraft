@@ -183,6 +183,53 @@ export function loadRowsFor(code) {
   return [loadCurated(code), loadAttested(code)];
 }
 
+/**
+ * The Tier 1 pool: harvested rows the Tier 0 spine did not claim.
+ *
+ * Read from `catalogue/tier1-material/`, which the Tier 0 build writes, so Tier 1 draws from
+ * exactly the rows Tier 0 left over and cannot re-claim a phrase Tier 0 already ships — the same
+ * phrase in two tiers is a duplication the reader would see twice for no reason.
+ *
+ * `source_class`, `author` and `tatoeba_id` are carried through for the same reason the attested
+ * loader carries them: an entry with no resolvable provenance cannot be licence-checked, and the
+ * content linter refuses it. A surplus file that lost those fields would be Tier 1 material that
+ * cannot become Tier 1 entries.
+ */
+/**
+ * The rows a given tier is allowed to draw from.
+ *
+ * Tier 0 draws from the phrasebook and the attested corpus. Tier 1 draws from what Tier 0 left
+ * over, so a phrase cannot appear in both tiers — the reader would meet it twice, in two places,
+ * for no reason. Routing both through one function means a later tier cannot quietly start reading
+ * Tier 0's pool by accident.
+ */
+export function rowsForTier(tier, code) {
+  return tier === 0
+    ? [loadCurated(code), loadAttested(code)]
+    : [loadTier1Material(code), []];
+}
+
+export function loadTier1Material(code) {
+  const p = join(ROOT, 'catalogue', 'tier1-material', `${code}.jsonl`);
+  if (!existsSync(p)) return [];
+  return readFileSync(p, 'utf8')
+    .split('\n')
+    .filter(Boolean)
+    .map((l) => JSON.parse(l))
+    .filter((r) => r.native && r.english)
+    .map((r) => ({
+      native: r.native,
+      english: r.english,
+      pronunciation: r.pronunciation ?? null,
+      concept: r.concept ?? null,
+      romanized_only: r.romanized_only ?? false,
+      author: r.author ?? null,
+      tatoeba_id: r.tatoeba_id ?? null,
+      url: r.source_url ?? null,
+      _source: r.source_class ?? 'curated',
+    }));
+}
+
 export function assign(spine, curated, attested = [], latinNative = false) {
   // Rows that carry no text in the target script are still usable here — the spine assigns by
   // MEANING, and the romanisation is the phrase for these pages — but they are recorded so a
@@ -287,7 +334,8 @@ for (const { t, spine } of tiers) {
   const perSource = new Map();
 
   for (const code of langs) {
-    const res = assign(one, loadCurated(code), loadAttested(code), LATIN_LANGUAGES.has(code));
+    const [a, b] = rowsForTier(t, code);
+    const res = assign(one, a, b, LATIN_LANGUAGES.has(code));
     for (const id of res.filled.keys()) perSlot.set(id, perSlot.get(id) + 1);
     for (const row of res.filled.values()) {
       const k = row._slot_source ?? 'curated';
@@ -348,7 +396,8 @@ for (const { t, spine } of tiers) {
 
   if (showUnused) {
     const code = onlyLang || langs[0];
-    const res = assign(one, loadCurated(code), loadAttested(code), LATIN_LANGUAGES.has(code));
+    const [a, b] = rowsForTier(t, code);
+    const res = assign(one, a, b, LATIN_LANGUAGES.has(code));
     console.log(`\n  ${code}: ${res.unused.length} harvested rows no slot claims (of ${res.usableCount})`);
     for (const r of res.unused.slice(0, 25)) {
       console.log(`    ${JSON.stringify(r.english)}  →  ${JSON.stringify(r.native)}`);

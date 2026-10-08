@@ -197,8 +197,16 @@ for (const lang of catalogue.languages) {
         english: r.english,
         pronunciation: r.pronunciation ?? null,
         concept: r.concept ?? null,
+        romanized_only: r.romanized_only ?? false,
+        // The evidence class and the Tatoeba provenance travel with the row. The first version of
+        // this writer emitted only display fields, which made every surplus row look like a
+        // phrasebook line and dropped the author and id that CC BY attribution requires — so the
+        // Tier 1 material would have been unsourceable for exactly the rows that needed sourcing.
+        source_class: r._source ?? 'curated',
+        author: r.author ?? null,
+        tatoeba_id: r.tatoeba_id ?? null,
         source_page: r.source_page ?? 'Wikivoyage: phrasebook',
-        licence: 'CC BY-SA 4.0',
+        licence: r._source === 'attested' ? 'CC BY 2.0 FR, some CC0' : 'CC BY-SA 4.0',
         source_url: r.url ?? 'https://en.wikivoyage.org/',
       }, null, 0)).join('\n') + (surplus.length ? '\n' : ''),
     );

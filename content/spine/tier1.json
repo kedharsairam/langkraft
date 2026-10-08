@@ -1,0 +1,858 @@
+{
+  "_comment": [
+    "TIER 1 SPINE — Transaction. Drafted from the measured surplus, not from imagination.",
+    "",
+    "WHAT THE MEASUREMENT SAID, AND WHY IT CHANGES THE SHAPE FROM TIER 0",
+    "",
+    "18,760 harvested rows sit in catalogue/tier1-material/. Median phrase length is FOUR WORDS and",
+    "the 90th percentile is EIGHT; 26 rows exceed twelve words. A Tatoeba corpus was expected to",
+    "flood this tier with conversational paragraphs and it does not — these are phrases, and the",
+    "concern recorded before the build was wrong.",
+    "",
+    "The real constraint is agreement. Of 8,883 distinct captions in the surplus, 317 appear in ten",
+    "or more languages and only 66 in seventeen or more. Tier 0's slots were formulaic — hello,",
+    "thank you, sorry — so almost every language could fill almost every slot. Tier 1's are",
+    "situations, and a phrasebook covers \"asking for the bill\" more thoroughly than it covers",
+    "\"reporting a broken leg\".",
+    "",
+    "So Tier 1 is LONGER AND HOLEIER than Tier 0 at the same time. That is the honest shape and it",
+    "is not a defect to be smoothed over: a hole here says the sources do not have it, which is a",
+    "different and more useful thing than a hole nobody can locate.",
+    "",
+    "SLOTS ARE SITUATIONS, NOT DIFFICULTY",
+    "",
+    "Tier 0 is what keeps you from being rude. Tier 1 is what gets you through the counter: the",
+    "price, the ticket, the room, the food, the toilet you need in ninety seconds, the person to",
+    "call when it goes wrong. Ordered the way the situation happens, because that is the order a",
+    "traveller meets it in.",
+    "Slot ids are `<group>.<meaning>` with a dot. One was written `food-what-is-this` and is corrected here; a single id in the wrong shape is how a group quietly becomes a category of one."
+  ],
+  "tier": 1,
+  "name": "Transaction",
+  "intent": "Prices, food, tickets, directions, a room — and the toilet, which you will need first and suddenly.",
+  "slots": [
+    {
+      "id": "count.eight",
+      "english": "Eight.",
+      "concept": "numbers",
+      "domain": 2,
+      "direction": "say",
+      "match": [
+        "8",
+        "eight"
+      ],
+      "why": "Continuing the count."
+    },
+    {
+      "id": "count.five",
+      "english": "Five.",
+      "concept": "numbers",
+      "domain": 2,
+      "direction": "say",
+      "match": [
+        "5",
+        "five"
+      ],
+      "why": "Five is where most of these languages change to a different counting pattern, and knowing that in advance is the point of learning them in order."
+    },
+    {
+      "id": "count.four",
+      "english": "Four.",
+      "concept": "numbers",
+      "domain": 2,
+      "direction": "say",
+      "match": [
+        "4",
+        "four"
+      ],
+      "why": "Continuing the count."
+    },
+    {
+      "id": "count.nine",
+      "english": "Nine.",
+      "concept": "numbers",
+      "domain": 2,
+      "direction": "say",
+      "match": [
+        "9",
+        "nine"
+      ],
+      "why": "Continuing the count."
+    },
+    {
+      "id": "count.one",
+      "english": "One.",
+      "concept": "numbers",
+      "domain": 2,
+      "direction": "say",
+      "match": [
+        "1",
+        "one"
+      ],
+      "why": "Counting from one upward in order, because a traveller counts by reciting rather than by arithmetic."
+    },
+    {
+      "id": "count.seven",
+      "english": "Seven.",
+      "concept": "numbers",
+      "domain": 2,
+      "direction": "say",
+      "match": [
+        "7",
+        "seven"
+      ],
+      "why": "Continuing the count."
+    },
+    {
+      "id": "count.six",
+      "english": "Six.",
+      "concept": "numbers",
+      "domain": 2,
+      "direction": "say",
+      "match": [
+        "6",
+        "six"
+      ],
+      "why": "Continuing the count."
+    },
+    {
+      "id": "count.ten",
+      "english": "Ten.",
+      "concept": "numbers",
+      "domain": 2,
+      "direction": "say",
+      "match": [
+        "10",
+        "ten"
+      ],
+      "why": "The first number past the counting pattern in most of these languages."
+    },
+    {
+      "id": "count.three",
+      "english": "Three.",
+      "concept": "numbers",
+      "domain": 2,
+      "direction": "say",
+      "match": [
+        "3",
+        "three"
+      ],
+      "why": "Continuing the count."
+    },
+    {
+      "id": "count.two",
+      "english": "Two.",
+      "concept": "numbers",
+      "domain": 2,
+      "direction": "say",
+      "match": [
+        "2",
+        "two"
+      ],
+      "why": "Continuing the count."
+    },
+    {
+      "id": "count.zero",
+      "english": "None, zero.",
+      "concept": "numbers",
+      "domain": 2,
+      "direction": "say",
+      "match": [
+        "0",
+        "zero",
+        "none"
+      ],
+      "why": "Zero is the answer that gets misheard most often, because the word for nothing and the word for a small quantity are often unrelated."
+    },
+    {
+      "id": "price.bill",
+      "english": "The bill, please.",
+      "concept": "price",
+      "domain": 3,
+      "direction": "say",
+      "match": [
+        "the bill, please",
+        "the check, please",
+        "bill please",
+        "check please",
+        "can we have the bill",
+        "could we have the bill please",
+        "can i have the bill",
+        "could i have the bill",
+        "the bill"
+      ],
+      "why": "Where the word for bill and the word for receipt are the same word and neither is 'account'."
+    },
+    {
+      "id": "price.card-ok",
+      "english": "Is card payment accepted?",
+      "concept": "price",
+      "domain": 3,
+      "direction": "say",
+      "match": [
+        "do you accept credit cards",
+        "can i pay by card",
+        "do you take cards",
+        "credit card",
+        "card"
+      ],
+      "why": "The alternative to carrying cash, and the question that decides whether you are standing in a queue that moves."
+    },
+    {
+      "id": "price.cheaper",
+      "english": "Is there anything cheaper?",
+      "concept": "price",
+      "domain": 3,
+      "direction": "say",
+      "match": [
+        "anything cheaper",
+        "do you have something cheaper",
+        "cheaper",
+        "is there anything cheaper",
+        "too expensive - do you have something cheaper",
+        "do you have anything cheaper"
+      ],
+      "why": "The follow-up that gets a different price rather than just a refusal."
+    },
+    {
+      "id": "price.how-much",
+      "english": "How much is this?",
+      "concept": "price",
+      "domain": 3,
+      "direction": "say",
+      "match": [
+        "how much is this?",
+        "how much is this",
+        "how much?"
+      ],
+      "why": "The most useful question in the tier, and the one people are most afraid to ask. It is not rude anywhere."
+    },
+    {
+      "id": "price.pay-cash",
+      "english": "Cash, please.",
+      "concept": "price",
+      "domain": 3,
+      "direction": "say",
+      "match": [
+        "cash please",
+        "i'll pay cash",
+        "i want to pay cash",
+        "cash",
+        "do you take cash"
+      ],
+      "why": "Worth having even where cards are universal, because it changes what you are offered."
+    },
+    {
+      "id": "price.too-cheap",
+      "english": "It is cheaper in my country.",
+      "concept": "price",
+      "domain": 3,
+      "direction": "say",
+      "match": [
+        "too cheap",
+        "it's too cheap",
+        "that's too cheap",
+        "cheap",
+        "much cheaper in my country",
+        "cheaper in my country"
+      ],
+      "why": "Read as an accusation almost everywhere. Included because knowing that it is an accusation is worth more than being able to say it politely."
+    },
+    {
+      "id": "price.too-expensive",
+      "english": "That is too expensive.",
+      "concept": "price",
+      "domain": 3,
+      "direction": "say",
+      "match": [
+        "too expensive",
+        "it's too expensive",
+        "that is too expensive",
+        "that's too expensive",
+        "expensive"
+      ],
+      "why": "Used with the hand gesture that accompanies it. The gesture carries the meaning and the word confirms it."
+    },
+    {
+      "id": "money.atm",
+      "english": "Where is an ATM?",
+      "concept": "price",
+      "domain": 3,
+      "direction": "understand",
+      "match": [
+        "where is an automatic teller machine",
+        "where is an atm",
+        "atm",
+        "where can i change money",
+        "is there an atm",
+        "where is an automatic teller machine atm",
+        "where can i find a cash point / atm"
+      ],
+      "why": "Recognising rather than producing it: you will be shown the sign rather than expected to ask."
+    },
+    {
+      "id": "money.change",
+      "english": "Please change this into local money.",
+      "concept": "price",
+      "domain": 3,
+      "direction": "say",
+      "match": [
+        "can you change money for me",
+        "could you change money",
+        "please change this money",
+        "can you change this into",
+        "change money"
+      ],
+      "why": "The word 'change' means both coins and alteration in several of these languages, and the wrong one is confusing."
+    },
+    {
+      "id": "money.exchange-rate",
+      "english": "What is the exchange rate?",
+      "concept": "price",
+      "domain": 3,
+      "direction": "understand",
+      "match": [
+        "what is the exchange rate",
+        "exchange rate",
+        "what's the exchange rate",
+        "what is the exchange rate for"
+      ],
+      "why": "Often answered by pointing at a board rather than spoken."
+    },
+    {
+      "id": "money.keep-change",
+      "english": "Please keep the change.",
+      "concept": "price",
+      "domain": 3,
+      "direction": "say",
+      "match": [
+        "keep the change",
+        "keep the change please",
+        "please keep the change",
+        "you keep the change"
+      ],
+      "why": "Refusing loose coins is often faster and always understood."
+    },
+    {
+      "id": "toilet.where",
+      "english": "Where is the toilet?",
+      "concept": "survival",
+      "domain": 12,
+      "direction": "say",
+      "match": [
+        "where is the toilet",
+        "where's the toilet",
+        "where are the toilets",
+        "toilet",
+        "toilets",
+        "where is the bathroom",
+        "where is the toilet",
+        "is there a toilet"
+      ],
+      "why": "The most urgent question in this tier and the one every phrasebook leads with. In several languages the word is the only one a traveller needs for years."
+    },
+    {
+      "id": "food.bill-restaurant",
+      "english": "Can we have the bill here, please?",
+      "concept": "food",
+      "domain": 4,
+      "direction": "say",
+      "match": [
+        "can we have the bill",
+        "could we have the bill",
+        "bill please",
+        "the bill please",
+        "check please"
+      ],
+      "why": "Sometimes distinct from the shop bill in the same language, and using the wrong one reads as asking to pay before finishing."
+    },
+    {
+      "id": "food.delicious",
+      "english": "It is delicious.",
+      "concept": "food",
+      "domain": 4,
+      "direction": "say",
+      "match": [
+        "it's delicious",
+        "it is delicious",
+        "delicious",
+        "very delicious",
+        "this is delicious"
+      ],
+      "why": "The cheapest goodwill available, and in some of these languages the only correct way to receive a dish rather than simply eat it."
+    },
+    {
+      "id": "food.menu",
+      "english": "The menu, please.",
+      "concept": "food",
+      "domain": 4,
+      "direction": "say",
+      "match": [
+        "the menu please",
+        "can i see the menu",
+        "could i see the menu please",
+        "menu",
+        "can i look at the menu",
+        "may i see the menu",
+        "can i look at the menu please",
+        "can i have a look at the menu",
+        "may i see the menu"
+      ],
+      "why": "One question covers a whole meal. Most phrasebooks waste slots on individual dishes instead."
+    },
+    {
+      "id": "food.no-meat",
+      "english": "I do not eat meat.",
+      "concept": "food",
+      "domain": 4,
+      "direction": "say",
+      "match": [
+        "i don't eat meat",
+        "i do not eat meat",
+        "i'm vegetarian",
+        "i am vegetarian",
+        "vegetarian",
+        "i don't eat pork",
+        "i don't eat beef"
+      ],
+      "why": "Saying it once at the start of the trip saves a refusal at the table, where it is awkward for both sides."
+    },
+    {
+      "id": "food.water",
+      "english": "Water, please.",
+      "concept": "food",
+      "domain": 4,
+      "direction": "say",
+      "match": [
+        "water",
+        "water please",
+        "can i have some water",
+        "a glass of water",
+        "could i have some water please",
+        "still or sparkling water"
+      ],
+      "why": "Refusing the water in a restaurant is a small discourtesy in several of these countries. This is how to ask for some instead."
+    },
+    {
+      "id": "food.what-is-this",
+      "english": "What is this?",
+      "concept": "food",
+      "domain": 4,
+      "direction": "say",
+      "match": [
+        "what is this",
+        "what's this",
+        "what is that",
+        "what's that"
+      ],
+      "why": "For a dish whose name you cannot read and have to be told."
+    },
+    {
+      "id": "way.repeat",
+      "english": "Could you say that again?",
+      "concept": "directions",
+      "domain": 7,
+      "direction": "say",
+      "match": [
+        "could you say that again",
+        "please repeat that",
+        "say that again please",
+        "could you repeat that"
+      ],
+      "why": "Directions given once are frequently misunderstood, and everyone knows it. Asking is not a failure."
+    },
+    {
+      "id": "way.straight",
+      "english": "Go straight ahead.",
+      "concept": "directions",
+      "domain": 7,
+      "direction": "understand",
+      "match": [
+        "go straight",
+        "straight ahead",
+        "go straight ahead",
+        "straight on"
+      ],
+      "why": "Recognised rather than produced."
+    },
+    {
+      "id": "way.turn-left",
+      "english": "Turn left.",
+      "concept": "directions",
+      "domain": 7,
+      "direction": "understand",
+      "match": [
+        "turn left",
+        "go left",
+        "left"
+      ],
+      "why": "Recognised rather than produced: you are the one being given directions far more often than giving them."
+    },
+    {
+      "id": "way.turn-right",
+      "english": "Turn right.",
+      "concept": "directions",
+      "domain": 7,
+      "direction": "understand",
+      "match": [
+        "turn right",
+        "go right",
+        "right"
+      ],
+      "why": "Recognised rather than produced."
+    },
+    {
+      "id": "way.where-to",
+      "english": "How do I get to",
+      "concept": "directions",
+      "domain": 7,
+      "direction": "say",
+      "match": [
+        "how do i get to",
+        "how can i get to",
+        "where is",
+        "how do i find",
+        "which way is",
+        "excuse me how do i get to"
+      ],
+      "why": "Incomplete on its own — a name or a pointing gesture finishes it. That is how it is actually said."
+    },
+    {
+      "id": "stay.checkout",
+      "english": "I would like to check out, please.",
+      "concept": "hotel",
+      "domain": 5,
+      "direction": "say",
+      "match": [
+        "i want to check out",
+        "i'd like to check out",
+        "i would like to check out",
+        "check out please",
+        "i want to check out please"
+      ],
+      "why": "Said the morning before leaving, so the bill is not waiting at the desk while luggage is being gathered."
+    },
+    {
+      "id": "stay.room",
+      "english": "I have a room booked.",
+      "concept": "hotel",
+      "domain": 5,
+      "direction": "say",
+      "match": [
+        "i have a room booked",
+        "i have a reservation",
+        "i have a booking",
+        "i booked a room",
+        "i have a room"
+      ],
+      "why": "The opening line at a front desk, and the word that gets you past it is the name on the booking."
+    },
+    {
+      "id": "stay.wifi",
+      "english": "What is the Wi-Fi password?",
+      "concept": "hotel",
+      "domain": 5,
+      "direction": "say",
+      "match": [
+        "what is the wifi password",
+        "what's the wifi password",
+        "wifi password",
+        "what is the internet password"
+      ],
+      "why": "A practical English loanword appears in most of these languages, so it is often easier than the local words for it."
+    },
+    {
+      "id": "move.destination",
+      "english": "Please take me there.",
+      "concept": "transport",
+      "domain": 6,
+      "direction": "say",
+      "match": [
+        "take me there please",
+        "please take me there",
+        "take me there"
+      ],
+      "why": "Shown with a map or a written address while saying it. 'There' is the word the pages use; 'this address' is in none of them, and a slot phrased from imagination rather than from a caption is a slot that can never be filled."
+    },
+    {
+      "id": "move.taxi",
+      "english": "Please call me a taxi.",
+      "concept": "transport",
+      "domain": 6,
+      "direction": "say",
+      "match": [
+        "please call me a taxi",
+        "can you call me a taxi",
+        "i need a taxi",
+        "could you call a taxi"
+      ],
+      "why": "Hailed rather than called in most of these countries, but asking produces one more option."
+    },
+    {
+      "id": "move.ticket",
+      "english": "One ticket to",
+      "concept": "transport",
+      "domain": 6,
+      "direction": "say",
+      "match": [
+        "one ticket to",
+        "a ticket to",
+        "two tickets to",
+        "one ticket please",
+        "how much is a ticket to",
+        "i'd like one ticket please",
+        "one ticket costs"
+      ],
+      "why": "Ordering the number and the destination together, which is the whole transaction."
+    },
+    {
+      "id": "move.where-is-platform",
+      "english": "Which platform?",
+      "concept": "transport",
+      "domain": 6,
+      "direction": "understand",
+      "match": [
+        "which platform",
+        "what platform",
+        "which platform is it",
+        "what number platform",
+        "which platform is it on",
+        "which platform",
+        "what platform"
+      ],
+      "why": "Answered by a sign or a display more often than by a person."
+    },
+    {
+      "id": "shop.looking",
+      "english": "I am just looking, thank you.",
+      "concept": "shopping",
+      "domain": 8,
+      "direction": "say",
+      "match": [
+        "i'm just looking",
+        "i am just looking",
+        "just looking thank you",
+        "i'm only looking"
+      ],
+      "why": "Buys the freedom to look without being followed by someone for twenty minutes. Not needed everywhere, and very needed in a few places."
+    },
+    {
+      "id": "shop.size",
+      "english": "Do you have a smaller size?",
+      "concept": "shopping",
+      "domain": 8,
+      "direction": "say",
+      "match": [
+        "do you have a smaller size",
+        "do you have a bigger size",
+        "do you have a smaller one",
+        "do you have this in a smaller size"
+      ],
+      "why": "Clothing sizes are not comparable across countries, so asking beats estimating."
+    },
+    {
+      "id": "health.allergy",
+      "english": "I am allergic to",
+      "concept": "doctor",
+      "domain": 9,
+      "direction": "say",
+      "match": [
+        "i am allergic to",
+        "i'm allergic to",
+        "i have an allergy to",
+        "allergic to"
+      ],
+      "why": "Incomplete until the food or drug is named, which is why it sits beside the food slots."
+    },
+    {
+      "id": "health.doctor",
+      "english": "I need a doctor.",
+      "concept": "doctor",
+      "domain": 9,
+      "direction": "say",
+      "match": [
+        "i need a doctor",
+        "i need a doctor please",
+        "where is a doctor",
+        "please call a doctor",
+        "i need a doctor now"
+      ],
+      "why": "Short enough to say to anyone, which is the point — a phrase you cannot finish is a phrase that arrives too late."
+    },
+    {
+      "id": "health.hospital",
+      "english": "Where is the nearest hospital?",
+      "concept": "doctor",
+      "domain": 9,
+      "direction": "say",
+      "match": [
+        "where is the hospital",
+        "where is the closest hospital",
+        "is there a hospital nearby",
+        "where is the nearest hospital"
+      ],
+      "why": "Asked of a passer-by rather than declared to a driver. The pages carry the question and not the instruction to be driven, which is a different conversation with a different person."
+    },
+    {
+      "id": "health.hurt",
+      "english": "I have been injured.",
+      "concept": "doctor",
+      "domain": 9,
+      "direction": "say",
+      "match": [
+        "i've been injured",
+        "i have been injured",
+        "i am injured",
+        "i hurt myself",
+        "i've hurt myself"
+      ],
+      "why": "Declares the situation before being asked. Several of these languages change tense or register on the word for injury, and the flat version sounds like a complaint."
+    },
+    {
+      "id": "health.pharmacy",
+      "english": "Where is a pharmacy?",
+      "concept": "doctor",
+      "domain": 9,
+      "direction": "say",
+      "match": [
+        "where is a pharmacy",
+        "where is a chemist",
+        "is there a pharmacy",
+        "where can i buy medicine"
+      ],
+      "why": "The commonest medical need is a specific question answered by a specific place, and the word for it differs from the word for a doctor's surgery in most of these languages."
+    },
+    {
+      "id": "help.dont-touch",
+      "english": "Do not touch me.",
+      "concept": "emergency",
+      "domain": 10,
+      "direction": "say",
+      "match": [
+        "don't touch me",
+        "do not touch me",
+        "don't touch",
+        "don't"
+      ],
+      "why": "Out loud and to a person, not shouted generally. Several of these languages treat it as an accusation, so it is a sentence to use deliberately."
+    },
+    {
+      "id": "help.emergency",
+      "english": "It is an emergency.",
+      "concept": "emergency",
+      "domain": 10,
+      "direction": "say",
+      "match": [
+        "it's an emergency",
+        "it is an emergency",
+        "this is an emergency",
+        "emergency",
+        "this is an emergency"
+      ],
+      "why": "Changes how the next thirty seconds go. Two words, and in several of these languages it reaches a different set of responses than a request would."
+    },
+    {
+      "id": "help.leave-me-alone",
+      "english": "Please leave me alone.",
+      "concept": "survival",
+      "domain": 10,
+      "direction": "say",
+      "match": [
+        "leave me alone",
+        "please leave me alone",
+        "go away"
+      ],
+      "why": "Said firmly and quietly. Raising the volume is what turns it from a boundary into an incident in several of these cultures."
+    },
+    {
+      "id": "help.lost",
+      "english": "I am lost.",
+      "concept": "survival",
+      "domain": 10,
+      "direction": "say",
+      "match": [
+        "i'm lost",
+        "i am lost",
+        "i think i'm lost",
+        "we are lost",
+        "i've lost my way"
+      ],
+      "why": "Asking a passer-by for help is a separate skill from reading a sign, and it uses different vocabulary in every one of these languages."
+    },
+    {
+      "id": "help.phone",
+      "english": "Can I use your phone?",
+      "concept": "survival",
+      "domain": 10,
+      "direction": "say",
+      "match": [
+        "can i use your phone",
+        "could i use your phone",
+        "may i use your phone",
+        "can i use a phone"
+      ],
+      "why": "The most common thing a traveller needs that a phone provides, and asking a stranger for it is usually granted."
+    },
+    {
+      "id": "help.police",
+      "english": "Please call the police.",
+      "concept": "police",
+      "domain": 10,
+      "direction": "say",
+      "match": [
+        "please call the police",
+        "call the police",
+        "i'll call the police",
+        "i want to call the police"
+      ],
+      "why": "Usually needs a phone, and in most places a local number rather than an international one."
+    },
+    {
+      "id": "help.thief",
+      "english": "Stop, thief!",
+      "concept": "emergency",
+      "domain": 10,
+      "direction": "say",
+      "match": [
+        "stop thief",
+        "stop, thief",
+        "thief",
+        "somebody stole my"
+      ],
+      "why": "Loud, and aimed at a crowd rather than at one person. Included because the vocabulary exists and because it is the sentence that makes people nearby move."
+    }
+  ],
+  "_dropped": [
+    "THIRTEEN SLOTS REMOVED BEFORE SHIPPING — measurement, not taste.",
+    "",
+    "Each was written, measured at 0 of 20 languages, and then deleted. What the surplus actually",
+    "contains for each is recorded so the same slot is not re-proposed from memory later:",
+    "",
+    "  count.how-many        only 'how many pieces of LUGGAGE are you checking in' — one airport",
+    "  money.not-enough      only 'i don't have enough money to buy WHAT I WANT' — Tatoeba chatter",
+    "  toilet.nowhere        no caption of any kind; the phrase was manufactured, not found",
+    "  food.order            only 'i would like to EAT SOMETHING' — a different meaning",
+    "  food.vegetarian-eats  only \"i'm a vegetarian\", which is food.no-meat and already claimed",
+    "  way.write-it          nothing; nearest is about not writing PASSWORDS down",
+    "  stay.name-on-booking  nothing; word overlap proposes 'AM I UNDER ARREST'",
+    "  stay.key              only 'i have LOST my key' — the opposite meaning",
+    "  stay.extra-night      only 'one more PLEASE' and 'one more TOWEL'",
+    "  move.bus              only 'is there a bus that goes to THE MALL'",
+    "  shop.try-on           nothing; word overlap proposes the single word 'may'",
+    "  shop.much             nothing; only 'yesterday I ATE too much'",
+    "  health.pain           only 'if your TOOTH hurts you should see a dentist'",
+    "",
+    "Two of these are worth writing down twice. A keyword matcher proposed 'am I under arrest' for",
+    "\"The booking is under\" and 'okay I'll take it' for \"Please take me to this address\" — both",
+    "confident, both wrong, both native-speaker sentences. Every one of these thirteen was decided by",
+    "reading the caption, not by scoring it. A second matcher built on word overlap would have shipped",
+    "nine of them.",
+    "",
+    "Two slots were REWRITTEN rather than dropped, because a real caption exists for a nearby meaning",
+    "and the honest move is to describe what the sources actually have:",
+    "  move.destination  -> 'Please take me there.'            ('take me there please', 12/20)",
+    "  health.hospital   -> 'Where is the nearest hospital?'    ('where is the hospital', 11/20)",
+    "The original wordings — 'this address' — are in no phrasebook. Neither concept is wrong; the",
+    "address is shown, not said."
+  ]
+}
