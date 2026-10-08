@@ -100,10 +100,34 @@ export function loadSpine(tier) {
  * Loading English as if it had a curated file produced "0 of 32 slots filled" with no indication
  * that the file was absent rather than empty, which is a number that reads like a broken source.
  */
+let _scriptOf = null;
+function latinNativeFor(code) {
+  if (!_scriptOf) {
+    const cat = JSON.parse(readFileSync(join(ROOT, 'catalogue', 'languages.json'), 'utf8'));
+    // `script` is a plain string in the catalogue ("Latin", "Arabic", "Devanagari"), not an object
+    // with a `primary`. Reading `.script?.primary` yields undefined for EVERY language, so every
+    // language was treated as non-Latin: Latin rows had capitalised parentheticals lifted out as if
+    // they were romanisations, and the "nowhere to put a reading" guard never once fired. The
+    // failure was silent — it produced plausible output and a different set of entries — which is
+    // why the field's real shape is asserted rather than trusted.
+    for (const l of cat.languages) {
+      if (typeof l.script !== 'string') {
+        throw new Error(`catalogue/languages.json: ${l.code} script is not a string — got ${typeof l.script}`);
+      }
+    }
+    _scriptOf = new Map(cat.languages.map((l) => [l.code, l.script === 'Latin']));
+  }
+  return _scriptOf.get(code) === true;
+}
+
 export function loadCurated(code) {
   const p = join(CURATED, `${code}.jsonl`);
   if (existsSync(p)) {
-    return readFileSync(p, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l));
+    return readFileSync(p, 'utf8')
+      .split('\n')
+      .filter(Boolean)
+      .map((l) => JSON.parse(l))
+      .map((r) => normalizeParentheticals(r, latinNativeFor(code)));
   }
   // `catalogue/authored/`, NOT `content/`. The spine builder writes `content/<code>-tier0.jsonl`,
   // so reading English's source from there made the builder consume its own previous output:
@@ -172,6 +196,133 @@ export function loadAttested(code) {
       _source: 'attested',
     };
   });
+}
+
+/**
+ * Strips the four kinds of trailing parenthetical out of a harvested phrase, and only those.
+ *
+ * MEASURED 2026-10-08: 224 harvested rows end in a parenthetical. They are four different things
+ * and one rule cannot separate them, because two of the four are content:
+ *
+ *   ROMANISATION    "Dokter (DOCK-tuhr)"            belongs in the reading column
+ *   STAGE DIRECTION "Jambo (response: Sijambo)"     belongs nowhere; the page is talking to the reader
+ *   REAL VARIANT    "le week-end (France) / la fin de semaine (Canada)"   two correct answers
+ *   PARSE ARTIFACT  "WC, Toilette(n)"               a broken tag left in the text
+ *
+ * A single "strip trailing parentheses" rule deletes the Canadian speaker's phrase along with the
+ * corruption. So the four are classified separately, by explicit pattern, and the variant case is
+ * the default: anything not positively identified as one of the other three is KEPT. Over-stripping
+ * is the dangerous direction here, because a phrasebook's regional variants are the reason to keep a
+ * phrasebook rather than a translation app.
+ *
+ * A romanisation is only taken out of the text when there is somewhere for it to go — either the
+ * row already carries a reading, or the language has its own script and the linter requires one.
+ * A Latin-script row with no reading column would otherwise lose the pronunciation entirely, which
+ * is strictly worse than printing it inline.
+ *
+ * Applied at load rather than at harvest so a re-harvest cannot reintroduce the defect, and so
+ * Tier 0 and Tier 1 are normalised by the same code rather than by two copies of it.
+ */
+const ARTIFACT = /^[a-z0-9]{1,3}$/i;
+
+const STAGE_DIRECTION = new RegExp(
+  '^(' + [
+    'response', 'reply', 'answer', 'to (a|one|two|an) ', 'also', 'see ', 'for ', 'when ', 'if ',
+    'literally', 'formal', 'informal', 'polite', 'casual', 'rude', 'male', 'female', 'masculine',
+    'feminine', 'plural', 'singular', 'short(er)?', 'long(er)?', 'shorter version',
+    'longer version', 'less common', 'more common', 'colloquial', 'written', 'spoken', 'only ',
+    'not ', 'instead of', 'as in',
+  ].join('|') + ')',
+  'i',
+);
+
+// A parenthetical that could plausibly BE a pronunciation: no capitalised proper noun, no slash,
+// no leading capital. "France", "Canada", "masc." and "fem." all fail at least one test.
+const ROMANISATION_SHAPED = /^[a-zA-ZÀ-ɏ' .-]{3,40}$/;
+
+export function normalizeParentheticals(row, latinNative) {
+  const notes = [];
+  let native = String(row.native ?? '');
+  const hasReading = Boolean(row.pronunciation);
+
+  // PAGE FURNITURE, WHICH IS NOT INSIDE ANY PARENTHESES AND SO SURVIVED THE PARENTHETICAL PASS.
+  //
+  // Found by reading the app, not by counting it. German's first Tier 0 card shipped as
+  //   "Hallo. (HAL-loo) NOTE: In Northern Germany, locals greet each other with Hello."
+  // The NOTE is the Wikivoyage editor addressing the reader of the web page, concatenated into the
+  // phrase with no delimiter and no bracket. It is the most visible single defect found in this
+  // project, because it is the first card a German reader ever sees, and no linter can see it: the
+  // string is valid text in a valid field.
+  //
+  // Mandarin carries the same shape: "Example - 好不好？ （好不好？）" — a page label, then the
+  // phrase, then the same phrase again in brackets.
+  //
+  // Both patterns are explicit and end-anchored rather than heuristic. `NOTE:` runs to the end of
+  // the phrase because a note never ends mid-sentence; `Example - ` is only ever a prefix.
+  const furniture = native.match(/^(.*?)\s*(?:NOTE|Note|NOTE\*)\*?:\s*(.+)$/);
+  if (furniture && furniture[1].length > 1) {
+    native = furniture[1];
+    notes.push(`note ${JSON.stringify(furniture[2].slice(0, 40))}`);
+  }
+  const example = native.match(/^Example\s*[-–:]\s*(.+)$/);
+  if (example) {
+    native = example[1];
+    notes.push('example-label');
+  }
+
+  // Bounded: a malformed row must not spin here, and each pass consumes a parenthetical so the
+  // loop is finite by construction. Four is more than any measured row has.
+  for (let i = 0; i < 4; i += 1) {
+    const closed = native.match(/^(.*?)[\s]*\(([^()]*)\)\s*$/);
+    const open = closed ? null : native.match(/^(.*?)[\s]*\(([^()]*)$/);
+    const m = closed ?? open;
+    if (!m) break;
+    const head = m[1].trim();
+    const inner = m[2].trim();
+    // A parenthetical that IS the phrase is content, not an annotation.
+    if (!inner || !head) break;
+    // A head that ENDS in a separator is a variant list: "(masc.) / (fem.)" is the feminine form,
+    // and taking the last one off destroys it. Without this guard, "Estamos perdido. (masc.) /
+    // Estamos perdida. (fem.)" lost "(fem.)" on any row that happened to carry a reading already.
+    // ...and a head that ALREADY contains a slash-separated list means this parenthetical is the
+    // next item in that list, not an annotation on the whole. "Estamos perdido. (masc.) / Estamos
+    // perdida. (fem.)" is two forms of one phrase; the trailing "(fem.)" is the second form.
+    if (/[\s/,–—-]$/.test(head) || /\s\/\s/.test(head)) break;
+    // "(halo)" next to "halo" is the page repeating itself, not a pronunciation of something else.
+    if (inner.toLowerCase() === head.toLowerCase()) break;
+
+    if (ARTIFACT.test(inner)) {
+      native = head;
+      notes.push(`artifact ${JSON.stringify(inner)}`);
+    } else if (STAGE_DIRECTION.test(inner)) {
+      native = head;
+      notes.push(`stage ${JSON.stringify(inner)}`);
+    } else if (
+      ROMANISATION_SHAPED.test(inner) &&
+      !inner.includes('/') &&
+      // A leading capital disqualifies a reading in a Latin-script language, where "DOCK-tuhr"
+      // and "France" are indistinguishable by shape and the conservative answer is to keep both.
+      // It does NOT disqualify one in a language with its own script: there the linter REQUIRES a
+      // reading, so leaving a pronunciation inside the phrase produces an entry it will refuse, and
+      // moving it to the reading column is the only way the row ships at all.
+      (latinNative ? !/[A-Z]/.test(inner[0]) : true)
+    ) {
+      if (latinNative && !hasReading) {
+        // Nowhere to put it. Kept in the text, and reported, rather than dropped.
+        notes.push(`reading-kept ${JSON.stringify(inner)}`);
+        break;
+      }
+      if (!row.pronunciation) row.pronunciation = inner;
+      native = head;
+      notes.push(`reading ${JSON.stringify(inner)}`);
+    } else {
+      // Regional variant, gender pair, or something unrecognised. Content — stop.
+      break;
+    }
+  }
+
+  if (notes.length) return { ...row, native, _paren: notes };
+  return row;
 }
 
 /**

@@ -41,7 +41,8 @@
  * about 85 entries whose meaning is wrong and whose provenance looks native, which is the single
  * worst failure mode this project has.
  *
- *     node content/spine-build.mjs              # every language
+ *     node content/spine-build.mjs              # Tier 0, every language
+ *     node content/spine-build.mjs --tier 1     # Tier 1, from what Tier 0 left over
  *     node content/spine-build.mjs --lang jpn   # one
  *     node content/spine-build.mjs --dry        # report, write nothing
  */
@@ -49,10 +50,9 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { join } from 'node:path';
-import { assign, loadRowsFor, LATIN_LANGUAGES } from './spine.mjs';
+import { assign, rowsForTier, LATIN_LANGUAGES } from './spine.mjs';
 
 const ROOT = new URL('../..', import.meta.url).pathname;
-const SPINE = join(ROOT, 'content', 'spine', 'tier0.json');
 const OUT = join(ROOT, 'content');
 const MATERIAL = join(ROOT, 'catalogue', 'tier1-material');
 
@@ -61,6 +61,12 @@ const arg = (name, fallback = null) => {
   return i >= 0 ? process.argv[i + 1] : fallback;
 };
 const dry = process.argv.includes('--dry');
+// Both of these are declared down here with the other derived values, not at the top with the
+// paths. `TIER` is read by `SPINE` and by `arg`, and a top-level `const` reading a `const` that
+// has not been initialised yet is a temporal-dead-zone ReferenceError — which is what happened,
+// twice, before they were moved.
+const TIER = Number(arg('--tier', '0'));
+const SPINE = join(ROOT, 'content', 'spine', `tier${TIER}.json`);
 const require = createRequire(import.meta.url);
 const YAML = require('yaml');
 
@@ -119,7 +125,10 @@ for (const lang of catalogue.languages) {
     .find((p) => existsSync(p));
   const spec = specPath ? YAML.parse(readFileSync(specPath, 'utf8')) : null;
   const usedNative = new Set();
-  const [curated, attested] = loadRowsFor(lang.code);
+  // Tier N draws only from its own pool. Tier 1 reading Tier 0's pool would claim the same phrase
+  // twice and the reader would meet it in two places for no reason; routing both tiers through
+  // rowsForTier is what makes them disjoint by construction rather than by luck.
+  const [curated, attested] = rowsForTier(TIER, lang.code);
   const res = assign(spine, curated, attested, LATIN_LANGUAGES.has(lang.code));
 
   const entries = [];
@@ -159,9 +168,9 @@ for (const lang of catalogue.languages) {
     n += 1;
     const isAttested = row._slot_source === 'attested';
     entries.push({
-      id: `${lang.code}-t0-${String(n).padStart(4, '0')}`,
+      id: `${lang.code}-t${TIER}-${String(n).padStart(4, '0')}`,
       lang: lang.code,
-      tier: 0,
+      tier: TIER,
       slot: slot.id,
       domain: slot.domain,
       text_native: row.native,
@@ -188,7 +197,9 @@ for (const lang of catalogue.languages) {
 
   // The surplus is Tier 1 material, not waste.
   const surplus = res.unused.filter((r) => r && r.native && r.english);
-  if (!only) {
+  // Only Tier 0 writes the surplus. Tier 1's pool IS that file, so rewriting it from Tier 1 would
+  // overwrite its own input with its own leftovers — the same read-your-own-output bug as English's.
+  if (!only && TIER === 0) {
     writeFileSync(
       join(MATERIAL, `${lang.code}.jsonl`),
       surplus.map((r) => JSON.stringify({
@@ -222,7 +233,7 @@ for (const lang of catalogue.languages) {
 
   if (!dry) {
     writeFileSync(
-      join(OUT, `${lang.code}-tier0.jsonl`),
+      join(OUT, `${lang.code}-tier${TIER}.jsonl`),
       entries.map((e) => JSON.stringify(e)).join('\n') + '\n',
     );
   }
@@ -264,5 +275,5 @@ if (thin.size) {
   console.log(`  nothing but a reader who speaks the language can tell which is which.`);
 }
 
-console.log(`\n  -> content/<code>-tier0.jsonl${dry ? ' (dry run, nothing written)' : ''}`);
-console.log(`  -> catalogue/tier1-material/<code>.jsonl`);
+console.log(`\n  -> content/<code>-tier${TIER}.jsonl${dry ? ' (dry run, nothing written)' : ''}`);
+if (TIER === 0) console.log(`  -> catalogue/tier1-material/<code>.jsonl`);

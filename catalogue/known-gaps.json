@@ -83,5 +83,29 @@
       "2. Strip only the unambiguously-wrong ones (stage directions, romanisations in non-Latin scripts, parse artifacts) and leave regional variants. Roughly 110 rows fixed, 110 preserved.",
       "3. Leave all 224 and document them. Honest, ships a known defect."
     ]
+  },
+  "hindi_tier0_empty": {
+    "status": "OPEN — a language with no Tier 0, and it is one of the twenty",
+    "measured": "2026-10-08: hin 0/32 Tier 0 slots, 17/55 Tier 1 slots, 17 entries total — the smallest language in the app by a factor of three",
+    "cause": [
+      "The gate that refuses a non-Latin phrase with no reading is correct — a Devanagari line with no romanisation is unusable to the reader the app exists for. Hindi Tier 0 fills entirely from attested Tatoeba rows, and `loadAttested` sets pronunciation to null, so every candidate is held back and the tier is empty.",
+      "The Hindi Wikivoyage page has NO courtesy rows at all. Its twelve sections are Basics, Bus and Train, Directions, Taxi, Lodging, Money, Eating, Bars, Shopping, Driving, Problems, Authority.",
+      "So this is the nine-thin-slots problem at whole-tier scale: the captions do not exist in the sources, and Tatoeba cannot be searched for them safely."
+    ],
+    "why_not_worked_around": [
+      "Relaxing the reading gate would ship Hindi entries no one can read. Filling from Tatoeba search would ship Hindi entries that are real sentences and wrong meanings. Neither is a fix; both are the failure this project exists to avoid."
+    ],
+    "what_would_fix_it": [
+      "1. Nine Hindi courtesy phrases in front of a speaker of Hindi. Same cost as the nine Tier 0 thin slots — a person, not a machine.",
+      "2. A romanisation source for Tatoeba sentences. None is in reach offline.",
+      "3. Accept it and say so in the app. Honest, and it is one language of twenty."
+    ]
+  },
+  "page_furniture_in_phrase_text": {
+    "status": "FIXED 2026-10-08 — rule added, verified on device",
+    "found": "Reading the running app, not the data. German's FIRST Tier 0 card rendered as 'Hallo. (HAL-loo) NOTE: In Northern Germany, locals greet each other with Hello.' — the Wikivoyage editor's note to the reader of the web page, concatenated into the phrase with no delimiter and no bracket.",
+    "also": "cmn: 'Example - 好不好？ （好不好？）' — a page label, the phrase, then the same phrase again.",
+    "why_no_linter_caught_it": "The string is valid text in a valid field. There is no rule that can distinguish a phrase from a phrase with an editorial note welded to it; only reading the output catches it.",
+    "rule": "`NOTE:` to end of string is cut; a leading 'Example - ' is cut. Both explicit and end-anchored. A note never ends mid-sentence and 'Example -' is only ever a prefix, so neither rule can cut into real content."
   }
 }
