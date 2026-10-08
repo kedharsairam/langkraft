@@ -52,7 +52,7 @@ const CURATED = join(ROOT, 'catalogue', 'curated');
  * language that behaves differently the moment it is added — which is exactly the class of bug
  * that made ten Latin languages look starved of content in the first place.
  */
-const LATIN_LANGUAGES = new Set(
+export const LATIN_LANGUAGES = new Set(
   JSON.parse(readFileSync(join(ROOT, 'catalogue', 'languages.json'), 'utf8'))
     .languages.filter((l) => l.script === 'Latin').map((l) => l.code),
 );
@@ -79,7 +79,7 @@ function captionKey(s) {
     .trim();
 }
 
-function loadSpine(tier) {
+export function loadSpine(tier) {
   const files = existsSync(SPINE_DIR)
     ? readdirSync(SPINE_DIR).filter((f) => f === `tier${tier}.json`).sort()
     : [];
@@ -100,12 +100,16 @@ function loadSpine(tier) {
  * Loading English as if it had a curated file produced "0 of 32 slots filled" with no indication
  * that the file was absent rather than empty, which is a number that reads like a broken source.
  */
-function loadCurated(code) {
+export function loadCurated(code) {
   const p = join(CURATED, `${code}.jsonl`);
   if (existsSync(p)) {
     return readFileSync(p, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l));
   }
-  const authored = join(ROOT, 'content', `${code}-tier0.jsonl`);
+  // `catalogue/authored/`, NOT `content/`. The spine builder writes `content/<code>-tier0.jsonl`,
+  // so reading English's source from there made the builder consume its own previous output:
+  // English was filled from the file it had just written, and the two authored entries were gone
+  // by the second run. A generator that reads its own output is not a generator.
+  const authored = join(ROOT, 'catalogue', 'authored', `${code}-tier0.jsonl`);
   if (existsSync(authored)) {
     return readFileSync(authored, 'utf8')
       .split('\n')
@@ -118,6 +122,10 @@ function loadCurated(code) {
         native: r.text_native,
         english: r.text_english ?? r.text_native,
         pronunciation: r.text_romanized ?? null,
+        // An authored row is `authored`, not `curated`. Defaulting it to curated made English
+        // claim its own editorial work was a phrasebook, and then fail to find a curated resource
+        // to source it from — because it has none.
+        _slot_source: r.source?.class === 'attested' ? 'attested' : 'authored',
       }));
   }
   return [];
@@ -145,13 +153,34 @@ function loadCurated(code) {
  * register and context that a single sentence does not. `नमस्ते` is a greeting; it does not tell
  * you whether it is what you say to a shopkeeper or to an elder.
  */
-function loadAttested(code) {
+export function loadAttested(code) {
   const p = join(CURATED, '..', 'attested', `${code}.jsonl`);
   if (!existsSync(p)) return [];
   return readFileSync(p, 'utf8').split('\n').filter(Boolean).map((l) => {
     const r = JSON.parse(l);
-    return { native: r.native, english: r.english, pronunciation: null, _source: 'attested' };
+    // `tatoeba_id` and `author` are carried through, and dropping them is what the content linter
+    // exists to catch: an `attested` entry with neither a named author nor a resolvable id cannot
+    // be verified by whoever reviews it and cannot be properly attributed under CC BY, so the
+    // provenance has to survive being read by a parser. The first version of this mapping kept
+    // only the three display fields and every attested entry failed on that rule.
+    return {
+      native: r.native,
+      english: r.english,
+      pronunciation: null,
+      author: r.author ?? null,
+      tatoeba_id: r.tatoeba_id ?? null,
+      _source: 'attested',
+    };
   });
+}
+
+/**
+ * Both of a language's row sources, in the order they must be offered: phrasebook first, Tatoeba
+ * second. Exported as ONE call so no caller can pass them the other way round, which would silently
+ * fill every slot from Tatoeba while reporting it as curated.
+ */
+export function loadRowsFor(code) {
+  return [loadCurated(code), loadAttested(code)];
 }
 
 export function assign(spine, curated, attested = [], latinNative = false) {
@@ -229,6 +258,7 @@ export function assign(spine, curated, attested = [], latinNative = false) {
 // Report
 // ---------------------------------------------------------------------------
 
+function main() {
 const onlyTier = arg('--tier');
 const onlyLang = arg('--lang');
 const showUnused = process.argv.includes('--unused');
@@ -326,3 +356,9 @@ for (const { t, spine } of tiers) {
   }
   console.log('');
 }
+}
+
+// This file exports the row loaders and `assign`, and `spine-build.mjs` imports them. Running
+// the report on import would print a full coverage table as a side effect of being imported — the
+// same shape as the unguarded `main()` in the harvester that made every test fetch twenty pages.
+if (process.argv[1] && process.argv[1].endsWith('spine.mjs')) main();

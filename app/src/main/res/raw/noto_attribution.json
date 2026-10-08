@@ -26,18 +26,6 @@
       ]
     },
     {
-      "family": "Noto Sans Devanagari",
-      "script": "devanagari",
-      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosansdevanagari/NotoSansDevanagari[wdth,wght].ttf",
-      "licence": "SIL Open Font License 1.1",
-      "files": [
-        "notosansdevanagaribold.ttf",
-        "notosansdevanagarimedium.ttf",
-        "notosansdevanagariregular.ttf",
-        "notosansdevanagarisemibold.ttf"
-      ]
-    },
-    {
       "family": "Noto Sans SC",
       "script": "han",
       "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosanssc/NotoSansSC[wght].ttf",

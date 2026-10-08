@@ -1,45 +1,39 @@
 {
   "_comment": [
-    "SUPERSEDED 2026-10-06. There are no blocking content gaps.",
+    "THE NINE THIN SLOTS — the one thing a machine cannot close here.",
     "",
-    "This file used to claim '47 of 942 entries cannot ship' and that the cause was a SOURCE",
-    "limitation. Both claims were wrong. Thirteen of those entries DID carry a romanisation on",
-    "the page — the parser was welding the transliteration into the phrase field instead of",
-    "splitting the two — so they were a parser defect misdiagnosed as missing data, and the",
-    "count had drifted from reality for as long as it was hand-maintained.",
+    "Tier 0 is now the spine: 32 slots, one fixed English wording each, the same order in all twenty",
+    "languages. Every language fills what its sources can fill and reports the rest.",
     "",
-    "pipeline/content/record-gaps.py now derives this file from the content linter's own output",
-    "and refuses to write when the lint is green, because 'there are no gaps' and 'the recorder",
-    "is broken' look identical from the outside and must not be collapsed into one another.",
+    "These slots fill in only one or two languages, because no Wikivoyage phrasebook carries them.",
+    "They cannot be filled from Tatoeba either, and the reason is worth writing down precisely, since",
+    "it is the third time this shape of trap has appeared in this project:",
     "",
-    "Current state: content lint PASS on 1045 records. The historical entries below are kept",
-    "because the diagnosis was wrong in an instructive way, not because the gaps are open."
+    "  A keyword search matches WORD OVERLAP, not meaning. Searching Tatoeba for 'After you' returns",
+    "  Hindi 'After cutting the vegetables, put them there' and Japanese 'Then simmer 30 minutes and",
+    "  it's done' — both real sentences written by native speakers, both wrong for the slot. Searching",
+    "  'My name is' returns Russian 'My BROTHER'S name is Tom' and Korean 'My GERMAN FRIEND's name is",
+    "  Hans'. Roughly half the returned sentences do mean the slot, and nothing in the pipeline can",
+    "  tell which half without a reader who speaks the language.",
+    "",
+    "So these slots are LEFT EMPTY and reported by name on every build. Filling them by search would",
+    "ship about 85 entries whose meaning is wrong and whose provenance reads as native evidence — the",
+    "worst failure mode this project has, and one that would have to be deleted later.",
+    "",
+    "What would close them, in order of cost:",
+    "  1. A native speaker, or anyone who speaks the language, checking nine short phrases. This is",
+    "     the real fix and it is small: nine phrases, not nine hundred.",
+    "  2. Per-language authoring, labelled unverified. Better than nothing and better than a wrong",
+    "     search result, but it means me writing languages Kedhar cannot check.",
+    "  3. Leave them. The app shows the tier as it is, which is honest and costs a few slots."
   ],
-  "resolved_2026_10_06": {
-    "method": "pipeline/harvest/reading.mjs replaced six rounds of character-class patching with structural reading of the page, verified against all 9,117 phrase rows on the twenty phrasebooks by pipeline/harvest/diff-parsers.mjs",
-    "entries_unblocked": 13,
-    "languages": {
-      "ara": 3,
-      "hin": 1,
-      "jpn": 5,
-      "kor": 2,
-      "rus": 9
-    },
-    "patched_by": "pipeline/content/patch-blocked.py, which copies eleven readings verbatim from the harvest and re-parses every replacement before writing it",
-    "net_readings_gained_in_languages_that_have_a_reading_column": 185,
-    "per_language": {
-      "ara": 37,
-      "jpn": 83,
-      "kor": 18,
-      "hin": 16,
-      "rus": 10,
-      "srp": 19,
-      "tha": 2
-    },
-    "fabricated_readings_discarded": "2918 rows across Latin-script languages, where the old parser filed part of the phrase or an English gloss into the pronunciation column"
-  },
-  "previous_claims_wrong_because": [
-    "the thirteen were a parser defect, not missing data — the romanisation was on the page all along",
-    "the count was hand-maintained and had drifted; the linter is the only authority on it"
-  ]
+  "measurement": {
+    "spine": "content/spine/tier0.json",
+    "slots": 32,
+    "build": "cd pipeline && npm run spine",
+    "build_tier0": "cd pipeline && node content/spine-build.mjs",
+    "filled": "345 of 640 slots across 20 languages (English 32/32, Japanese 19/32, Hindi 12/32)",
+    "unfilled_somewhere": 295,
+    "surplus_held_for_tier_1": "18,760 rows in catalogue/tier1-material/"
+  }
 }

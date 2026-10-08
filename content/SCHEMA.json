@@ -13,7 +13,15 @@
         },
         "source": {
           "type": "string",
-          "description": "URL, or 'internal' for design reasoning. Must not be absent."
+          "description": "URL, or 'internal' for design reasoning. Must not be absent.",
+          "properties": {
+            "author": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
         },
         "verified": {
           "type": "boolean",
@@ -257,6 +265,20 @@
             ]
           },
           "description": "Written by the pipeline from the app's 'this failed me' flag. Never edited by hand."
+        },
+        "slot": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The spine slot this entry fills — <group>.<meaning>. The same id in every language."
+        },
+        "source_caption": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The source page's own English caption for this row, kept because it can differ from the spine's fixed wording and overwriting it would lose that."
         }
       },
       "required": [
