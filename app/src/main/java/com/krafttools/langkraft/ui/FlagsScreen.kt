@@ -29,6 +29,7 @@ import com.krafttools.langkraft.data.Entry
 import com.krafttools.langkraft.data.Exchange
 import com.krafttools.langkraft.data.FailureFlag
 import com.krafttools.langkraft.data.ToneSet
+import com.kraft.ui.tokens.KraftSpacing
 
 /**
  * The one input this app accepts, made visible.
@@ -99,18 +100,18 @@ fun FlagsScreen(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = KraftSpacing.Spacing16),
             verticalArrangement = Arrangement.spacedBy(0.dp),
         ) {
             item {
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(KraftSpacing.Spacing8))
                 Text(
                     "Phrases you marked as not working. These are notes, not a score — " +
                         "there is no total to beat and nothing is compared between languages.",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(KraftSpacing.Spacing16))
             }
 
             for (lang in languages) {
@@ -120,7 +121,7 @@ fun FlagsScreen(
                     Text(
                         languageName,
                         style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(top = 8.dp, bottom = 4.dp),
+                        modifier = Modifier.padding(top = KraftSpacing.Spacing8, bottom = KraftSpacing.Spacing4),
                     )
                     HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                 }
@@ -146,14 +147,14 @@ fun FlagsScreen(
             }
 
             item {
-                Spacer(Modifier.height(24.dp))
+                Spacer(Modifier.height(KraftSpacing.Spacing24))
                 Text(
                     "Export writes all of these to a file, with the phrase, the country and the " +
                         "date, so they can be sent on for the content to be revised.",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
-                Spacer(Modifier.height(32.dp))
+                Spacer(Modifier.height(KraftSpacing.Spacing32))
             }
         }
     }
@@ -194,7 +195,7 @@ private fun FlagRow(
     scriptPrimary: String,
     label: String? = null,
 ) {
-    Column(Modifier.padding(vertical = 12.dp)) {
+    Column(Modifier.padding(vertical = KraftSpacing.Spacing12)) {
         if (entry != null) {
             Text(
                 entry.textNative,
@@ -244,7 +245,7 @@ private fun FlagRow(
             )
         }
 
-        Spacer(Modifier.height(6.dp))
+        Spacer(Modifier.height(KraftSpacing.Spacing6))
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 // A date with no country is a real report — "wrong somewhere I was" — so the
@@ -278,14 +279,14 @@ private fun EmptyFlags(modifier: Modifier = Modifier) {
     Box(modifier, contentAlignment = Alignment.Center) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(horizontal = 32.dp),
+            modifier = Modifier.padding(horizontal = KraftSpacing.Spacing32),
         ) {
             Text(
                 "Nothing marked yet",
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
             )
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(KraftSpacing.Spacing8))
             Text(
                 "When a phrase does not work — the person did not understand you, or you were " +
                     "not understood — you can mark it from the phrase itself. Add the country " +

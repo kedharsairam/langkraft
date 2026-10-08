@@ -123,6 +123,10 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     debugImplementation("androidx.compose.ui:ui-tooling")
 
+    // Kraft Foundation — composite build, substituted in settings.gradle.kts.
+    implementation("com.kraft:kraft-ui")
+    implementation("com.kraft:kraft-core")
+
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
     testImplementation("org.json:json:20250107")

@@ -43,12 +43,38 @@ jobs:
   pipeline:
     name: specs, content, fonts, tests, build
     runs-on: ubuntu-24.04
+    defaults:
+      run:
+        # The app lives in a subdirectory so it sits beside the foundation checkout, which is
+        # what `includeBuild("../kraft-foundation")` requires. Steps that need the workspace
+        # root (the pipeline's own steps) set their own `working-directory` and are unaffected.
+        working-directory: langkraft
     steps:
       - uses: actions/checkout@v5
+        with:
+          path: langkraft
+
+      # kraft-foundation is public, so no credentials are needed. It is a sibling checkout
+      # because the app consumes it as a composite build
+      # (`includeBuild("../kraft-foundation")` in settings.gradle.kts).
+      - name: Checkout kraft-foundation (composite-build sibling)
+        uses: actions/checkout@v5
+        with:
+          repository: kedharsairam/kraft-foundation
+          path: kraft-foundation
 
       - uses: actions/setup-node@v5
         with:
           node-version: '22'
+
+      # The standard, enforced. `quality.ci-runs-the-gate` fails if this step is removed.
+      # Runs before the pipeline's own linters because it is the fastest failure: a dirty
+      # app should not spend minutes linting specs before being told its spacing is wrong.
+      #
+      # `../` because the job default above puts us in langkraft/, and the foundation is a
+      # sibling of that directory. Same layout as every other app's workflow.
+      - name: Quality gate
+        run: node ../kraft-foundation/tools/kraft-lint/kraft-lint.js . --format github
 
       # Font coverage is Python, and it must run in the same place it runs locally or it is a
       # different check wearing the same name.
@@ -57,38 +83,44 @@ jobs:
           python-version: '3.12'
 
       - name: Install pipeline dependencies
-        working-directory: pipeline
+        working-directory: langkraft/pipeline
         run: npm ci
 
       - name: Lint the specs
-        working-directory: pipeline
+        working-directory: langkraft/pipeline
         run: npm run lint:spec
 
       - name: Lint the content
-        working-directory: pipeline
+        working-directory: langkraft/pipeline
         run: npm run lint:content
 
       - name: Check bundled font coverage
-        working-directory: pipeline
+        working-directory: langkraft/pipeline
         run: npm run check:fonts
 
       - name: Emit the app assets
-        working-directory: pipeline
+        working-directory: langkraft/pipeline
         run: npm run emit
 
       - name: Run the pipeline tests
-        working-directory: pipeline
+        working-directory: langkraft/pipeline
         run: npm test
 
       - name: Verify the emit is reproducible
-        working-directory: pipeline
+        working-directory: langkraft/pipeline
         # `emit` writes into the repository. If a commit's assets disagree with its own specs and
         # content, the APK and the source have drifted apart and the build is lying about what it
         # contains. Regenerating and diffing catches that at commit time instead of at release.
+          #
+          # The pathspec is relative to THIS step's working directory, not the repo root — git
+          # resolves the repository upward but matches paths against the cwd. `app/...` from
+          # pipeline/ matches nothing, so this check passed vacuously on every run before the
+          # prefix existed. A reproducibility check that cannot see the files is worse than
+          # none, because it reports agreement it never tested.
         run: |
-          if ! git diff --quiet -- app/src/main/assets; then
+          if ! git diff --quiet -- ../app/src/main/assets; then
             echo "::error::app/src/main/assets is out of date. Run 'cd pipeline && npm run emit' and commit the result."
-            git --no-pager diff --stat -- app/src/main/assets
+            git --no-pager diff --stat -- ../app/src/main/assets
             exit 1
           fi
 
@@ -100,6 +132,13 @@ jobs:
         # the font coverage check. So this step is not a third opinion — it is the same gate
         # reached through the Android build, and it proves the wiring rather than the linters.
         run: ./gradlew assembleDebug --stacktrace
+
+      - name: Run the Android unit tests
+        # `quality.ci-runs-tests` fails if this step is removed. Runs after the assemble so a
+        # red build fails fast on compilation before spending time on tests — and separately
+        # because three ContentRepositoryTest failures predate the foundation migration and
+        # are tracked, not hidden: a suite that was red before stays visibly red until fixed.
+        run: ./gradlew testDebugUnitTest --stacktrace
 
       - name: Upload the APK
         uses: actions/upload-artifact@v7

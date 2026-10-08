@@ -47,6 +47,8 @@ import com.krafttools.langkraft.data.ToneSet
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.runtime.CompositionLocalProvider
+import com.kraft.ui.tokens.KraftSpacing
+import com.krafttools.langkraft.ui.LangMetrics
 
 /**
  * Phase 1 surfaces: tones, the failure flag, search, and the bookmark.
@@ -79,7 +81,7 @@ fun ToneSection(sets: List<ToneSet>, spec: LanguageSpec, onFlag: (ToneSet) -> Un
     DirectionProvider(spec) {
         Column(Modifier.fillMaxWidth()) {
             SectionLabel("Tones", "These marks change what every other word means.")
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(KraftSpacing.Spacing8))
             sets.forEach { set -> ToneSetCard(set, spec, onFlag) }
         }
     }
@@ -91,19 +93,19 @@ private fun ToneSetCard(set: ToneSet, spec: LanguageSpec, onFlag: (ToneSet) -> U
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
     ) {
-        Column(Modifier.padding(16.dp)) {
+        Column(Modifier.padding(KraftSpacing.Spacing16)) {
             set.syllable?.let {
                 Text(
                     it,
                     fontFamily = scriptFontFamily(spec.scriptPrimary),
-                    fontSize = 15.sp,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(KraftSpacing.Spacing8))
             set.variants.forEach { v ->
                 Row(
-                    Modifier.fillMaxWidth().padding(vertical = 6.dp),
+                    Modifier.fillMaxWidth().padding(vertical = KraftSpacing.Spacing6),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     // The tone number sits with the syllable, inside the weighted group.
@@ -117,15 +119,14 @@ private fun ToneSetCard(set: ToneSet, spec: LanguageSpec, onFlag: (ToneSet) -> U
                             Text(
                                 v.textNative,
                                 fontFamily = scriptFontFamily(spec.scriptPrimary),
-                                fontSize = 30.sp,
-                                lineHeight = 38.sp,
+                                style = MaterialTheme.typography.headlineMedium,
                                 modifier = Modifier.weight(1f, fill = false),
                             )
                             // Number AND name. `toneName` was parsed and populated for
                             // every Thai variant and then never rendered, so the app
                             // asserted that tones matter while showing the reader a
                             // numeral. The name is what someone can actually hold on to.
-                            Column(Modifier.padding(start = 12.dp)) {
+                            Column(Modifier.padding(start = KraftSpacing.Spacing12)) {
                                 Text(
                                     "${v.tone}",
                                     style = MaterialTheme.typography.titleMedium,
@@ -164,7 +165,7 @@ private fun ToneSetCard(set: ToneSet, spec: LanguageSpec, onFlag: (ToneSet) -> U
                         it,
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(bottom = 4.dp),
+                        modifier = Modifier.padding(bottom = KraftSpacing.Spacing4),
                     )
                 }
             }
@@ -203,13 +204,13 @@ fun FailureFlagButton(onClick: () -> Unit, enabled: Boolean = true) {
         // 4dp radius inside a 12dp one. It read as a rendering gap rather than a control.
         color = MaterialTheme.colorScheme.surfaceContainerHighest,
         shape = MaterialTheme.shapes.small,
-        modifier = Modifier.padding(top = 12.dp),
+        modifier = Modifier.padding(top = KraftSpacing.Spacing12),
     ) {
         Text(
             "This failed me",
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+            modifier = Modifier.padding(horizontal = KraftSpacing.Spacing8, vertical = KraftSpacing.Spacing6),
         )
     }
 }
@@ -245,9 +246,9 @@ fun CountryPickerSheet(
         title = { Text("Where did it fail?") },
         text = {
             LazyColumn(
-                Modifier.heightIn(max = 320.dp),
-                contentPadding = PaddingValues(vertical = 4.dp),
-                verticalArrangement = Arrangement.spacedBy(2.dp),
+                Modifier.heightIn(max = LangMetrics.FailureSheetMaxHeight),
+                contentPadding = PaddingValues(vertical = KraftSpacing.Spacing4),
+                verticalArrangement = Arrangement.spacedBy(KraftSpacing.Spacing2),
             ) {
                 item {
                     TextButton(onClick = { onPick(null) }, modifier = Modifier.fillMaxWidth()) {
@@ -311,29 +312,29 @@ fun SearchScreen(
                     "Search by what you hear, what it looks like, or what it means.",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(20.dp),
+                    modifier = Modifier.padding(KraftSpacing.Spacing20),
                 )
             } else if (results.isEmpty()) {
                 Text(
                     "Nothing matches “$query”.",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(20.dp),
+                    modifier = Modifier.padding(KraftSpacing.Spacing20),
                 )
             } else {
                 LazyColumn(
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    contentPadding = PaddingValues(KraftSpacing.Spacing16),
+                    verticalArrangement = Arrangement.spacedBy(KraftSpacing.Spacing12),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     items(results, key = { it.entry.id }) { hit ->
                         Card(
-                            modifier = Modifier.fillMaxWidth().widthIn(max = 640.dp),
+                            modifier = Modifier.fillMaxWidth().widthIn(max = LangMetrics.CardMaxWidth),
                             colors = CardDefaults.cardColors(
                                 containerColor = MaterialTheme.colorScheme.surfaceVariant
                             ),
                         ) {
-                            Column(Modifier.padding(16.dp)) {
+                            Column(Modifier.padding(KraftSpacing.Spacing16)) {
                                 // Same hierarchy as EntryCard: romanization is what the
                                 // reader says aloud and carries the accent; the script is
                                 // the check. This screen had it the other way round, so the
@@ -399,7 +400,7 @@ private fun SearchBar(value: String, onValueChange: (String) -> Unit, onBack: ()
             // consumes the status-bar inset itself, which is why KraftTopBar never needed
             // this; a hand-rolled bar does, and without it the field sits under the clock.
             .statusBarsPadding()
-            .padding(horizontal = 8.dp, vertical = 8.dp),
+            .padding(horizontal = KraftSpacing.Spacing8, vertical = KraftSpacing.Spacing8),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(onClick = onBack) {

@@ -8,6 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.kraft.ui.tokens.KraftTypeScale
 
 /**
  * Dark only, deliberately.
@@ -96,28 +97,44 @@ private val KraftDark = darkColorScheme(
  *
  * Sizes are in `sp` so they scale with the system font setting, and every line height is
  * proportional to its own size rather than copied from the default.
+ *
+ * Where a size matches the shared scale it is taken from `KraftTypeScale`, so a change
+ * there reaches this app. Three sizes do not match and are stated literally, each for a
+ * reason rather than by accident:
+ *
+ *  - `displaySmall` is 32sp against the shared 34. The native phrase is set in bundled
+ *    script fonts at this size; 34 crowds the tone marks in Thai at this weight.
+ *  - `headlineSmall` is 24sp. It renders endonyms — a language's own name for itself —
+ *    and 22 renders Devanagari and Thai conjuncts small enough to misread at a glance.
+ *  - `bodySmall` is 14sp. It is the most-used slot in the app (the rationale line on
+ *    every card), and 13 crowds stacked marks while 15 pushes the card past one screen
+ *    on small phones.
+ *
+ * Weights stay Medium throughout for the same reason: many of these scripts render
+ * poorly in Bold at these sizes, and the app bundles its fonts precisely so the type
+ * does not change under the user.
  */
 private val KraftType = Typography(
     displaySmall = TextStyle(
         fontSize = 32.sp, lineHeight = 44.sp, fontWeight = FontWeight.Medium,
     ),
     headlineMedium = TextStyle(
-        fontSize = 28.sp, lineHeight = 38.sp, fontWeight = FontWeight.Medium,
+        fontSize = KraftTypeScale.Title1, lineHeight = 38.sp, fontWeight = FontWeight.Medium,
     ),
     headlineSmall = TextStyle(
         fontSize = 24.sp, lineHeight = 34.sp, fontWeight = FontWeight.Medium,
     ),
     titleLarge = TextStyle(
-        fontSize = 22.sp, lineHeight = 28.sp, fontWeight = FontWeight.SemiBold,
+        fontSize = KraftTypeScale.Title2, lineHeight = 28.sp, fontWeight = FontWeight.SemiBold,
     ),
     titleMedium = TextStyle(
-        fontSize = 17.sp, lineHeight = 24.sp, fontWeight = FontWeight.Medium,
+        fontSize = KraftTypeScale.Headline, lineHeight = 24.sp, fontWeight = FontWeight.Medium,
     ),
     bodyLarge = TextStyle(
-        fontSize = 17.sp, lineHeight = 26.sp,
+        fontSize = KraftTypeScale.Body, lineHeight = 26.sp,
     ),
     bodyMedium = TextStyle(
-        fontSize = 15.sp, lineHeight = 23.sp,
+        fontSize = KraftTypeScale.Subheadline, lineHeight = 23.sp,
     ),
     // The rationale text. It used to be `bodySmall`, making the LONGEST text on a card
     // the SMALLEST, which is exactly backwards for a phrasebook whose value is the prose.
@@ -125,15 +142,45 @@ private val KraftType = Typography(
         fontSize = 14.sp, lineHeight = 21.sp,
     ),
     labelLarge = TextStyle(
-        fontSize = 15.sp, lineHeight = 20.sp, fontWeight = FontWeight.Medium,
+        fontSize = KraftTypeScale.Subheadline, lineHeight = 20.sp, fontWeight = FontWeight.Medium,
     ),
     labelMedium = TextStyle(
-        fontSize = 13.sp, lineHeight = 18.sp, fontWeight = FontWeight.Medium,
+        fontSize = KraftTypeScale.Footnote, lineHeight = 18.sp, fontWeight = FontWeight.Medium,
     ),
     labelSmall = TextStyle(
-        fontSize = 12.sp, lineHeight = 17.sp,
+        fontSize = KraftTypeScale.Caption1, lineHeight = 17.sp,
     ),
-)
+  )
+
+  /**
+   * The phrase content styles — the app's equivalent of a verse face.
+   *
+   * These are not slots in `KraftType` because no slot matches them, and they should not be
+   * bent to fit: the native phrase at 26sp is the largest text in the app, the compact 20sp
+   * is what it becomes when a romanization shares the card, and the romanization at 24sp is
+   * Latin text wearing the app's Latin face. Each is sized for script legibility — the same
+   * reason the scale's own weights stay Medium — and each carries the line height its size
+   * needs for stacked marks rather than the ratio a slot would give it.
+   *
+   * The call sites apply `fontFamily` themselves, because the family depends on the content
+   * (the entry's script) rather than the style. A style that named a family would be wrong
+   * for every script but one.
+   */
+
+  /** The native phrase, set large — the single most prominent text in the app. */
+  val PhraseNative = TextStyle(fontSize = 26.sp, lineHeight = 34.sp)
+
+  /** The native phrase when a romanization shares the card. Smaller, because two large
+   * texts on one card compete rather than reinforce. */
+  val PhraseNativeCompact = TextStyle(fontSize = 20.sp, lineHeight = 30.sp)
+
+  /** The romanization: Latin text, so it wears the default face, at a size that reads as a
+   * transcription of the phrase above it rather than a second phrase. */
+  val PhraseRomanized = TextStyle(fontSize = 24.sp, lineHeight = 30.sp)
+
+  /** A native phrase inside running content — drill turns, variant rows — where the card
+   * styles would overwhelm. Same family rule as above: the call site supplies the script. */
+  val PhraseInline = TextStyle(fontSize = 20.sp, lineHeight = 30.sp)
 
 @Composable
 fun LangKraftTheme(content: @Composable () -> Unit) {

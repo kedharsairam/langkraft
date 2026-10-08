@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kraft.ui.tokens.KraftSpacing
 
 /**
  * First run. Shown once.
@@ -40,14 +41,14 @@ import androidx.compose.ui.unit.sp
 fun FirstRunScreen(onContinue: () -> Unit) {
     Surface(color = MaterialTheme.colorScheme.background) {
         Column(
-            Modifier.fillMaxSize().padding(28.dp),
+            Modifier.fillMaxSize().padding(KraftSpacing.Spacing32),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Surface(
                 shape = CircleShape,
                 color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                modifier = Modifier.size(56.dp),
+                modifier = Modifier.size(KraftSpacing.Spacing56),
             ) {
                 Column(
                     Modifier.fillMaxSize(),
@@ -57,20 +58,20 @@ fun FirstRunScreen(onContinue: () -> Unit) {
                     Text(
                         "ไทย",
                         fontFamily = NotoSansThai,
-                        fontSize = 22.sp,
+                        style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.primary,
                     )
                 }
             }
 
-            Spacer(Modifier.height(28.dp))
+            Spacer(Modifier.height(KraftSpacing.Spacing32))
 
             Text(
                 "LangKraft",
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.onBackground,
             )
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(KraftSpacing.Spacing16))
 
             Text(
                 "Everything is inside the app. No signal is needed, and none is used.",
@@ -79,7 +80,7 @@ fun FirstRunScreen(onContinue: () -> Unit) {
                 textAlign = TextAlign.Center,
             )
 
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(KraftSpacing.Spacing12))
 
             Text(
                 // Said plainly, because a silent phrasebook reads as a broken one.
@@ -90,7 +91,7 @@ fun FirstRunScreen(onContinue: () -> Unit) {
                 textAlign = TextAlign.Center,
             )
 
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(KraftSpacing.Spacing12))
 
             Text(
                 "To hear a language, listen to one. Films and people are better at it " +
@@ -100,7 +101,7 @@ fun FirstRunScreen(onContinue: () -> Unit) {
                 textAlign = TextAlign.Center,
             )
 
-            Spacer(Modifier.height(32.dp))
+            Spacer(Modifier.height(KraftSpacing.Spacing32))
 
             TextButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) {
                 Text("Choose a language", style = MaterialTheme.typography.titleMedium)

@@ -133,3 +133,20 @@ like "to sleep" filed as pronunciations — and gained 185 real ones.
 
 AttributionShareAlike is common to all three, which is why one repository licence covers them.
 Android and Jetpack Compose are Apache 2.0.
+
+## Design
+
+Spacing, type, radius, motion and touch targets come from
+[kraft-foundation](https://github.com/kedharsairam/kraft-foundation), which is also where the
+standard this app is built to is written down. It targets **standard 1.0.0**, and
+`kraft-lint` in that repository is what checks it.
+
+The accent and the app's own dimensions stay local. The theme in `ui/` holds the palette —
+the same 21 colours its sibling englishkraft shares, plus the surfaces a phrasebook needs —
+and a type scale that takes its sizes from `KraftTypeScale` where they match. Where they do
+not, the file says why: headlines stay larger and weights stay Medium because the text is
+set in bundled script fonts, and many scripts render poorly in Bold at these sizes. The
+phrase content styles (`PhraseNative`, `PhraseRomanized`) live there for the same reason —
+no shared slot matches a 26sp native phrase.
+
+LangKraft is the third of nine apps to move, migrated with englishkraft.

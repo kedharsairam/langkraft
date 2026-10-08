@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.krafttools.langkraft.data.Credit
 import com.krafttools.langkraft.data.LanguageSpec
+import com.kraft.ui.tokens.KraftSpacing
 
 /**
  * Credits and licences.
@@ -63,8 +64,8 @@ fun CreditsScreen(
     ) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding),
-            contentPadding = PaddingValues(20.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(KraftSpacing.Spacing20),
+            verticalArrangement = Arrangement.spacedBy(KraftSpacing.Spacing12),
         ) {
             item {
                 Text(
@@ -80,9 +81,9 @@ fun CreditsScreen(
 
             if (languageCredits.isNotEmpty()) {
                 item {
-                    Spacer(Modifier.height(8.dp))
+                    Spacer(Modifier.height(KraftSpacing.Spacing8))
                     HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                    Spacer(Modifier.height(8.dp))
+                    Spacer(Modifier.height(KraftSpacing.Spacing8))
                     SectionHeading("Content")
                 }
                 items(languageCredits) { (spec, credits) ->
@@ -102,17 +103,17 @@ fun CreditsScreen(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
-                        Spacer(Modifier.height(8.dp))
+                        Spacer(Modifier.height(KraftSpacing.Spacing8))
                         credits.forEach { CreditBlock(it) }
-                        Spacer(Modifier.height(8.dp))
+                        Spacer(Modifier.height(KraftSpacing.Spacing8))
                     }
                 }
             }
 
             item {
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(KraftSpacing.Spacing8))
                 HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                Spacer(Modifier.height(12.dp))
+                Spacer(Modifier.height(KraftSpacing.Spacing12))
                 Text(
                     "Font licences require the full licence text to travel with the font. " +
                         "It is bundled in the APK at res/raw/noto_licence.txt, and every " +
@@ -121,7 +122,7 @@ fun CreditsScreen(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.fillMaxWidth(),
                 )
-                Spacer(Modifier.height(12.dp))
+                Spacer(Modifier.height(KraftSpacing.Spacing12))
                 Text(
                     "LangKraft has no network permission. Nothing it displays was fetched, " +
                         "and nothing you do in it leaves the device.",
@@ -139,13 +140,13 @@ private fun SectionHeading(text: String) {
         text,
         style = MaterialTheme.typography.labelLarge,
         color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier.padding(top = 8.dp),
+        modifier = Modifier.padding(top = KraftSpacing.Spacing8),
     )
 }
 
 @Composable
 private fun CreditBlock(credit: Credit) {
-    Column(Modifier.padding(vertical = 4.dp)) {
+    Column(Modifier.padding(vertical = KraftSpacing.Spacing4)) {
         Text(
             credit.source,
             style = MaterialTheme.typography.bodyLarge,
