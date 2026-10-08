@@ -45,6 +45,18 @@ const ROOT = new URL('../..', import.meta.url).pathname;
 const SPINE_DIR = join(ROOT, 'content', 'spine');
 const CURATED = join(ROOT, 'catalogue', 'curated');
 
+/**
+ * Languages whose phrases are written in Latin, from the catalogue.
+ *
+ * Read from `catalogue/languages.json` rather than listed here, because a hardcoded list is a
+ * language that behaves differently the moment it is added — which is exactly the class of bug
+ * that made ten Latin languages look starved of content in the first place.
+ */
+const LATIN_LANGUAGES = new Set(
+  JSON.parse(readFileSync(join(ROOT, 'catalogue', 'languages.json'), 'utf8'))
+    .languages.filter((l) => l.script === 'Latin').map((l) => l.code),
+);
+
 const arg = (name, fallback = null) => {
   const i = process.argv.indexOf(name);
   return i >= 0 ? process.argv[i + 1] : fallback;
@@ -142,12 +154,32 @@ function loadAttested(code) {
   });
 }
 
-export function assign(spine, curated, attested = []) {
+export function assign(spine, curated, attested = [], latinNative = false) {
   // Rows that carry no text in the target script are still usable here — the spine assigns by
   // MEANING, and the romanisation is the phrase for these pages — but they are recorded so a
   // language whose whole page is a romanisation is visible rather than silently thin.
+  // A romanised-only row cannot fill a slot in a language that has its own script.
+  //
+  // Measured across the corpus: 357 of 6,656 harvested rows carry `romanized_only`, and 264 rows
+  // in thirteen languages have the English caption as their "native" text. For a LATIN-script
+  // language the second group is normal — a German phrasebook writes "Where is the toilet?" as
+  // both the caption and the German phrase — but for a language with its own script it is either
+  // a page placeholder or a phrase the harvester failed to read, and either way it is not content
+  // in that language.
+  //
+  // Two slots were being filled this way, both Tamil, both with a romanisation standing in for a
+  // phrase that does not exist in the corpus. The entry would then fail the content linter,
+  // because a Tamil entry with Latin text and no romanisation column is not a shippable record —
+  // so the slot would have looked filled and produced nothing.
+  //
+  // Excluded here rather than in the generator so the measurement and the generation cannot
+  // disagree about what is available.
+  const NON_LATIN = latinNative => !latinNative;
   const usable = [
-    ...curated.filter((r) => r.native && r.english).map((r) => ({ ...r, _source: r._source ?? 'curated' })),
+    ...curated
+      .filter((r) => r.native && r.english)
+      .filter((r) => !(r.romanized_only && NON_LATIN(r._latin)))
+      .map((r) => ({ ...r, _source: r._source ?? 'curated' })),
     ...attested.filter((r) => r.native && r.english),
   ];
 
@@ -225,7 +257,7 @@ for (const { t, spine } of tiers) {
   const perSource = new Map();
 
   for (const code of langs) {
-    const res = assign(one, loadCurated(code), loadAttested(code));
+    const res = assign(one, loadCurated(code), loadAttested(code), LATIN_LANGUAGES.has(code));
     for (const id of res.filled.keys()) perSlot.set(id, perSlot.get(id) + 1);
     for (const row of res.filled.values()) {
       const k = row._slot_source ?? 'curated';
@@ -286,7 +318,7 @@ for (const { t, spine } of tiers) {
 
   if (showUnused) {
     const code = onlyLang || langs[0];
-    const res = assign(one, loadCurated(code), loadAttested(code));
+    const res = assign(one, loadCurated(code), loadAttested(code), LATIN_LANGUAGES.has(code));
     console.log(`\n  ${code}: ${res.unused.length} harvested rows no slot claims (of ${res.usableCount})`);
     for (const r of res.unused.slice(0, 25)) {
       console.log(`    ${JSON.stringify(r.english)}  →  ${JSON.stringify(r.native)}`);

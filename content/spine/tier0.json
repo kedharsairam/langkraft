@@ -122,14 +122,19 @@
       "domain": 1,
       "direction": "say",
       "match": [
+        "i'm well, thank you. and you?",
+        "i am well, thank you. and you?",
         "i'm well, thank you",
         "i am well, thank you",
         "i'm fine, thank you",
         "i am fine thank you",
         "fine, thank you",
-        "i'm good, thank you"
+        "i'm good, thank you",
+        "i'm well thank you and you",
+        "very well, thank you"
       ],
-      "why": "The expected answer to the greeting above. Answering it wrong reads as evasive in cultures where it is a formula."
+      "why": "The expected answer to the greeting above. Answering it wrong reads as evasive in cultures where it is a formula.",
+      "match_note": "WIDENED after measuring the English floor against the slot rather than from memory. The English floor's answer is the full sentence 'I'm well, thank you. And you?' rather than the fragment 'I'm well, thank you', so the exact fragment never matched. Both are listed because the phrasebooks write both forms."
     },
     {
       "id": "greeting.nice-to-meet-you",
@@ -403,16 +408,19 @@
       "domain": 12,
       "direction": "say",
       "match": [
-        "could you speak more slowly",
+        "could you speak more slowly, please?",
         "please speak more slowly",
+        "could you speak more slowly",
         "speak more slowly",
         "could you speak slower",
         "please speak slowly",
         "speak slowly",
         "slower please",
-        "can you repeat that"
+        "could you repeat that",
+        "could you say that again, please?"
       ],
-      "why": "Asks for the thing you actually need. Saying it is nearly always received well, even badly pronounced, and asking again is not."
+      "why": "Asks for the thing you actually need. Saying it is nearly always received well, even badly pronounced, and asking again is not.",
+      "match_note": "WIDENED after measuring the English floor against the slot rather than from memory. Same shape: the English floor writes 'Could you speak more slowly, please?' and the list held only the shorter form. Both are listed."
     },
     {
       "id": "repair.cannot-hear",
