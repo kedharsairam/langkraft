@@ -150,3 +150,11 @@ phrase content styles (`PhraseNative`, `PhraseRomanized`) live there for the sam
 no shared slot matches a 26sp native phrase.
 
 LangKraft is the third of nine apps to move, migrated with englishkraft.
+
+## Support
+
+If you enjoy LangKraft, buy me a coffee:
+
+<p align="center">
+  <a href="https://buymeacoffee.com/kedhartech"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="182"></a>
+</p>
