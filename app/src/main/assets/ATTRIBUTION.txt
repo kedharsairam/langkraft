@@ -1,0 +1,12 @@
+LangKraft attribution
+---------------------
+Spanish phrases sourced from Wikivoyage: Spanish phrasebook.
+License: CC BY-SA 4.0
+https://en.wikivoyage.org/wiki/Spanish_phrasebook
+Checked: 2026-11-06
+
+Romanizations and "You say" strings are project-authored
+to the pinned style guide (CAPS stress, Telugu/English tips).
+They are not a substitute for native audio.
+
+Other languages will list their sources here before release.
