@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -40,6 +41,57 @@ fun LanguageScreen(
 ) {
     val state by vm.state.collectAsState()
     LaunchedEffect(code) { vm.load(code) }
+    when (val s = state) {
+        LanguageUiState.Loading -> Column(Modifier.padding(horizontal = Spacing.Screen)) {
+            Spacer(Modifier.height(Spacing.M))
+            CircularProgressIndicator()
+        }
+        is LanguageUiState.Empty -> Column(Modifier.padding(horizontal = Spacing.Screen)) {
+            Spacer(Modifier.height(Spacing.M))
+            Text("STATUS: ZERO_ENTRIES_FOUND. No phrases yet for this language.", fontFamily = FontFamily.Monospace)
+            TextButton(onClick = onBack) { Text("[ BACK TO QUEUE ]") }
+        }
+        is LanguageUiState.Failed -> Column(Modifier.padding(horizontal = Spacing.Screen)) {
+            Spacer(Modifier.height(Spacing.M))
+            Text("ERROR: ${s.reason::class.simpleName}", fontFamily = FontFamily.Monospace, color = MaterialTheme.colorScheme.error)
+            TextButton(onClick = { vm.load(code) }) { Text("[ RELOAD LOCAL DATA ]") }
+        }
+        is LanguageUiState.Ready -> {
+            // Pre-flight gate: sound check first time
+            if (s.sound != null && !s.soundAcked) {
+                Column(modifier = Modifier.padding(horizontal = Spacing.Screen)) {
+                    Spacer(Modifier.height(Spacing.M))
+                    Text("PRE-FLIGHT BRIEFING", fontFamily = FontFamily.Monospace, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                    Text("[${code.uppercase()}] — ONE SCREEN. NO AUDIO.", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Spacer(Modifier.height(Spacing.L))
+                    Text("NEW SOUNDS:", fontFamily = FontFamily.Monospace, fontSize = 13.sp)
+                    Text(s.sound.newSounds, style = MaterialTheme.typography.bodyMedium)
+                    Spacer(Modifier.height(Spacing.M))
+                    Text("RHYTHM & POLITENESS:", fontFamily = FontFamily.Monospace, fontSize = 13.sp)
+                    Text("${s.sound.rhythm} — ${s.sound.registerFirst}", style = MaterialTheme.typography.bodyMedium)
+                    Spacer(Modifier.height(Spacing.M))
+                    Text("TRAP:", fontFamily = FontFamily.Monospace, fontSize = 13.sp)
+                    Text(s.sound.trap, style = MaterialTheme.typography.bodyMedium)
+                    Spacer(Modifier.height(Spacing.L))
+                    Button(onClick = { vm.acknowledgeSound() }, modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = Spacing.MinTarget)) {
+                        Text("[ ACKNOWLEDGE & ENTER QUEUE ]")
+                    }
+                }
+            } else {
+                PhraseFlow(code = code, s = s, onBack = onBack, onNumbers = onNumbers, vm = vm)
+            }
+        }
+    }
+}
+
+@Composable
+fun PhraseFlow(
+    code: String,
+    s: LanguageUiState.Ready,
+    onBack: () -> Unit,
+    onNumbers: (String) -> Unit,
+    vm: LanguageViewModel
+) {
     Column(modifier = Modifier.padding(horizontal = Spacing.Screen)) {
         Spacer(Modifier.height(Spacing.S))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -50,50 +102,31 @@ fun LanguageScreen(
             }
             TextButton(onClick = { onNumbers(code) }, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) { Text("NUMBERS") }
         }
-        Text("[${code.uppercase()}]", fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
-        when (val s = state) {
-            LanguageUiState.Loading -> CircularProgressIndicator(Modifier.padding(top = Spacing.M))
-            is LanguageUiState.Empty -> Text("STATUS: ZERO_ENTRIES_FOUND. No phrases yet for this language.", fontFamily = FontFamily.Monospace, modifier = Modifier.padding(top = Spacing.M))
-            is LanguageUiState.Failed -> Column {
-                Text("ERROR: ${s.reason::class.simpleName}", fontFamily = FontFamily.Monospace, color = MaterialTheme.colorScheme.error, modifier = Modifier.padding(top = Spacing.M))
-                TextButton(onClick = { vm.load(code) }) { Text("[ RELOAD LOCAL DATA ]") }
+        Text("[${code.uppercase()}]", fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+        GlueStrip(phrases = s.phrases.filter { it.id.startsWith("spa-glue") || it.id == "spa-029" })
+        Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
+            (1..8).forEach { t ->
+                SegmentButton(label = (ThemeNames[t] ?: t.toString()).uppercase(), selected = s.theme == t, onClick = { vm.setTheme(t) })
             }
-            is LanguageUiState.Ready -> {
-                s.sound?.let { sc ->
-                    Column(modifier = Modifier.padding(vertical = Spacing.S)) {
-                        Text("PRE-FLIGHT BRIEFING", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        Text("NEW SOUNDS: ${sc.newSounds}", style = MaterialTheme.typography.bodySmall)
-                        Text("RHYTHM: ${sc.rhythm}", style = MaterialTheme.typography.bodySmall)
-                        Text("POLITENESS FIRST: ${sc.registerFirst}", style = MaterialTheme.typography.bodySmall)
-                        Text("TRAP: ${sc.trap}", style = MaterialTheme.typography.bodySmall)
-                        HorizontalDivider(thickness = Spacing.Hairline, modifier = Modifier.padding(vertical = Spacing.S))
-                    }
-                }
-                GlueStrip(phrases = s.phrases.filter { it.id.startsWith("spa-glue") || it.id == "spa-029" })
-                Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
-                    (1..8).forEach { t ->
-                        SegmentButton(label = (ThemeNames[t] ?: t.toString()).uppercase(), selected = s.theme == t, onClick = { vm.setTheme(t) })
-                    }
-                }
-                OutlinedTextField(
-                    value = s.query, onValueChange = { vm.setQuery(it) },
-                    label = { Text("SEARCH") }, singleLine = true,
-                    modifier = Modifier.fillMaxWidth().padding(vertical = Spacing.S)
-                )
-                val visible = vm.visible(s)
-                if (visible.isEmpty()) {
-                    Text("STATUS: ZERO_MATCHES_FOUND.", fontFamily = FontFamily.Monospace, modifier = Modifier.padding(top = Spacing.M))
-                } else {
-                    val idx = s.index.coerceIn(0, visible.lastIndex)
-                    val phrase = visible[idx]
-                    PhraseStage(phrase = phrase, lang = code, isStarred = phrase.id in s.starred, onToggleStar = { vm.toggleStar(phrase.id) })
-                    Row(modifier = Modifier.fillMaxWidth().padding(top = Spacing.M)) {
-                        TextButton(onClick = { vm.prev() }, modifier = Modifier.weight(1f).defaultMinSize(minHeight = Spacing.MinTarget)) { Text("← PREV") }
-                        TextButton(onClick = { vm.next() }, modifier = Modifier.weight(1f).defaultMinSize(minHeight = Spacing.MinTarget)) { Text("NEXT →") }
-                    }
-                    Text("${idx + 1}/${visible.size}", fontFamily = FontFamily.Monospace, modifier = Modifier.padding(top = Spacing.S))
-                }
+        }
+        OutlinedTextField(
+            value = s.query, onValueChange = { vm.setQuery(it) },
+            label = { Text("SEARCH") }, singleLine = true,
+            modifier = Modifier.fillMaxWidth().padding(vertical = Spacing.S)
+        )
+        val visible = vm.visible(s)
+        if (visible.isEmpty()) {
+            Text("STATUS: ZERO_MATCHES_FOUND.", fontFamily = FontFamily.Monospace, modifier = Modifier.padding(top = Spacing.M))
+        } else {
+            val idx = s.index.coerceIn(0, visible.lastIndex)
+            val phrase = visible[idx]
+            PhraseStage(phrase = phrase, lang = code, isStarred = phrase.id in s.starred, onToggleStar = { vm.toggleStar(phrase.id) })
+            // Full-width tactical Prev/Next
+            Row(modifier = Modifier.fillMaxWidth().padding(top = Spacing.M)) {
+                TextButton(onClick = { vm.prev() }, modifier = Modifier.weight(1f).defaultMinSize(minHeight = Spacing.MinTarget)) { Text("← PREV") }
+                TextButton(onClick = { vm.next() }, modifier = Modifier.weight(1f).defaultMinSize(minHeight = Spacing.MinTarget)) { Text("NEXT →") }
             }
+            Text("${idx + 1}/${visible.size}", fontFamily = FontFamily.Monospace, modifier = Modifier.padding(top = Spacing.S))
         }
     }
 }
@@ -130,30 +163,31 @@ fun PhraseStage(phrase: Phrase, lang: String, isStarred: Boolean, onToggleStar: 
     val scope = rememberCoroutineScope()
     LaunchedEffect(phrase.id) { repo.note(lang, phrase.id).collect { noteText = it } }
 
-    // Tactical stage — matte surface, no chrome
+    // Matte lower-half card — Operator Deck
     Surface(color = MaterialTheme.colorScheme.surfaceVariant) {
         Column(modifier = Modifier.fillMaxWidth().padding(Spacing.M)) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(phrase.english, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                // English prompt top third, muted
+                Text(phrase.english, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
                 IconButton(onClick = onToggleStar, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) {
                     Icon(
                         if (isStarred) Icons.Filled.Star else Icons.Filled.StarBorder,
-                        contentDescription = if (isStarred) "Star phrase as hard" else "Star phrase as hard",
+                        contentDescription = "Star phrase as hard",
                         tint = if (isStarred) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
             Spacer(Modifier.height(Spacing.M))
+            // Center utterance
             Column(
                 modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 140.dp)
                     .clickable { hidden = !hidden }.padding(vertical = Spacing.S)
             ) {
-                // English is prompt; YouSay is the utterance. Both shown for tactical clarity,
-                // but YouSay is hidden by default for retrieval.
+                // English prompt detail hidden? No — utterance hidden for retrieval.
+                // Show utterance when not hidden, placeholder when hidden.
                 if (!hidden) {
                     Text("YOU SAY", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Text(phrase.youSay, fontFamily = FontFamily.Monospace, fontSize = 28.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
-                    // left-accent tip/note blocks
+                    Text(phrase.youSay, fontFamily = FontFamily.Monospace, fontSize = 28.sp, fontWeight = FontWeight.Bold)
                     Row(modifier = Modifier.padding(top = Spacing.S)) {
                         Box(modifier = Modifier.width(2.dp).height(36.dp).background(MaterialTheme.colorScheme.primary))
                         Spacer(Modifier.width(Spacing.S))

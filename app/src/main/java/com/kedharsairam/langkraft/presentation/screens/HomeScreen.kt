@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kedharsairam.langkraft.presentation.theme.Spacing
@@ -47,7 +48,7 @@ fun HomeScreen(
                     }
                 }
                 item {
-                    Text("QUEUE", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text("QUEUE — COMMITTED", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Spacer(Modifier.height(Spacing.S))
                 }
                 val committed = s.languages.filter { it.status == "committed" }
@@ -66,7 +67,7 @@ fun HomeScreen(
                 item {
                     Spacer(Modifier.height(Spacing.L))
                     TextButton(onClick = { benchExpanded = !benchExpanded }, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) {
-                        Text(if (benchExpanded) "- BENCHED (7)" else "+ 7 BENCHED LANGUAGES")
+                        Text(if (benchExpanded) "- BENCHED" else "+ 7 BENCHED LANGUAGES (TAP TO EXPAND)")
                     }
                     if (benchExpanded) {
                         val bench = s.languages.filter { it.status != "committed" }

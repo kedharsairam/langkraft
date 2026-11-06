@@ -25,7 +25,8 @@ sealed interface LanguageUiState {
         val index: Int = 0,
         val query: String = "",
         val starred: Set<String> = emptySet(),
-        val sound: SoundCheck? = null
+        val sound: SoundCheck? = null,
+        val soundAcked: Boolean = false
     ) : LanguageUiState
     data class Empty(val reason: ErrorReason) : LanguageUiState
     data class Failed(val reason: ErrorReason) : LanguageUiState
@@ -55,9 +56,10 @@ class LanguageViewModel(app: Application) : AndroidViewModel(app) {
             val sound = (store.loadSoundCheck(code) as? DomainResult.Success)?.data
             val savedThemePos = repo.position(code, 1).first()
             val savedStar = repo.starred(code).first()
+            val acked = repo.soundAcked(code).first()
             _state.value = LanguageUiState.Ready(
                 phrases = phrases, theme = 1, index = savedThemePos.coerceIn(0, phrases.size - 1),
-                starred = savedStar, sound = sound
+                starred = savedStar, sound = sound, soundAcked = acked
             )
         }
     }
@@ -106,4 +108,12 @@ class LanguageViewModel(app: Application) : AndroidViewModel(app) {
 
     fun visible(s: LanguageUiState.Ready): List<Phrase> =
         s.phrases.filter { it.theme == s.theme && (s.query.isBlank() || it.english.contains(s.query, true) || it.romanization.contains(s.query, true) || it.youSay.contains(s.query, true)) }
+
+    fun acknowledgeSound() {
+        val s = _state.value as? LanguageUiState.Ready ?: return
+        viewModelScope.launch {
+            repo.setSoundAcked(lang)
+            _state.value = s.copy(soundAcked = true)
+        }
+    }
 }

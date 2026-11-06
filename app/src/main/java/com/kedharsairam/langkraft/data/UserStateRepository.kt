@@ -45,6 +45,13 @@ class UserStateRepository(private val context: Context) {
         context.userDataStore.edit { it[Key.note(lang, phraseId)] = text }
     }
 
+    fun soundAcked(lang: String): Flow<Boolean> =
+        context.userDataStore.data.map { it[Key.soundAck(lang)] == "1" }
+
+    suspend fun setSoundAcked(lang: String) {
+        context.userDataStore.edit { it[Key.soundAck(lang)] = "1" }
+    }
+
     fun starredMap(codes: List<String>): Flow<Map<String, Set<String>>> =
         context.userDataStore.data.map { prefs ->
             codes.associateWith { prefs[Key.star(it)] ?: emptySet() }
@@ -56,4 +63,5 @@ private object Key {
     fun star(lang: String) = stringSetPreferencesKey("star_$lang")
     fun note(lang: String, phraseId: String) = stringPreferencesKey("note_${lang}_$phraseId")
     val lastLang = stringPreferencesKey("last_lang")
+    fun soundAck(lang: String) = stringPreferencesKey("ack_$lang")
 }
