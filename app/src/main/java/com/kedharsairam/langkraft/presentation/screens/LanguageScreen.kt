@@ -1,31 +1,23 @@
 package com.kedharsairam.langkraft.presentation.screens
 
-import androidx.compose.foundation.background
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.kedharsairam.langkraft.data.UserStateRepository
 import com.kedharsairam.langkraft.domain.Phrase
 import com.kedharsairam.langkraft.presentation.theme.Spacing
 import com.kedharsairam.langkraft.presentation.viewmodels.LanguageUiState
 import com.kedharsairam.langkraft.presentation.viewmodels.LanguageViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 val ThemeNames = mapOf(
     1 to "Greetings", 2 to "Politeness", 3 to "Numbers", 4 to "Food",
@@ -48,16 +40,15 @@ fun LanguageScreen(
         }
         is LanguageUiState.Empty -> Column(Modifier.padding(horizontal = Spacing.Screen)) {
             Spacer(Modifier.height(Spacing.M))
-            Text("STATUS: ZERO_ENTRIES_FOUND. No phrases yet for this language.", fontFamily = FontFamily.Monospace)
-            TextButton(onClick = onBack) { Text("[ BACK TO QUEUE ]") }
+            Text("No phrases yet for this language.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+            TextButton(onClick = onBack) { Text("Back to queue") }
         }
         is LanguageUiState.Failed -> Column(Modifier.padding(horizontal = Spacing.Screen)) {
             Spacer(Modifier.height(Spacing.M))
-            Text("ERROR: ${s.reason::class.simpleName}", fontFamily = FontFamily.Monospace, color = MaterialTheme.colorScheme.error)
-            TextButton(onClick = { vm.load(code) }) { Text("[ RELOAD LOCAL DATA ]") }
+            Text("Could not load phrases.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+            TextButton(onClick = { vm.load(code) }) { Text("Retry") }
         }
         is LanguageUiState.Ready -> {
-            // Pre-flight gate: sound check first time
             if (s.sound != null && !s.soundAcked) {
                 Column(modifier = Modifier.padding(horizontal = Spacing.Screen)) {
                     Spacer(Modifier.height(Spacing.M))
@@ -73,72 +64,56 @@ fun LanguageScreen(
                     Text("TRAP:", fontFamily = FontFamily.Monospace, fontSize = 13.sp)
                     Text(s.sound.trap, style = MaterialTheme.typography.bodyMedium)
                     Spacer(Modifier.height(Spacing.L))
-                    Button(onClick = { vm.acknowledgeSound() }, modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = Spacing.MinTarget)) {
-                        Text("[ ACKNOWLEDGE & ENTER QUEUE ]")
-                    }
+                    Button(onClick = { vm.acknowledgeSound() }, modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = Spacing.MinTarget)) { Text("[ ACKNOWLEDGE & ENTER QUEUE ]") }
                 }
             } else {
-                PhraseFlow(code = code, s = s, onBack = onBack, onNumbers = onNumbers, vm = vm)
+                // Q8: vertical 1-8 left rail. Q9: Numbers inside language. Q13: footnote tip/note. Q14: mark hard text button. Q15: no note, Q16: no source in UI.
+                Row(modifier = Modifier.padding(horizontal = Spacing.Screen)) {
+                    // Left rail
+                    Column(modifier = Modifier.width(56.dp)) {
+                        Spacer(Modifier.height(Spacing.S))
+                        (1..8).forEach { t ->
+                            val selected = s.theme == t
+                            TextButton(
+                                onClick = { vm.setTheme(t) },
+                                modifier = Modifier.defaultMinSize(minWidth = 56.dp, minHeight = Spacing.MinTarget),
+                                shape = if (selected) MaterialTheme.shapes.medium else MaterialTheme.shapes.extraSmall,
+                                colors = ButtonDefaults.textButtonColors(
+                                    containerColor = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+                                    contentColor = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+                                )
+                            ) { Text(t.toString(), fontFamily = FontFamily.Monospace) }
+                        }
+                        Spacer(Modifier.height(Spacing.M))
+                        TextButton(onClick = onBack, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) {
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        }
+                    }
+                    Column(modifier = Modifier.weight(1f).padding(start = Spacing.M)) {
+                        Spacer(Modifier.height(Spacing.S))
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text("[${code.uppercase()}]", fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                            TextButton(onClick = { onNumbers(code) }) { Text("NUMBERS") }
+                        }
+                        Text(ThemeNames[s.theme] ?: "", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        GlueStrip(phrases = s.phrases.filter { it.id.startsWith("spa-glue") || it.id == "spa-029" })
+                        OutlinedTextField(value = s.query, onValueChange = { vm.setQuery(it) }, label = { Text("SEARCH") }, singleLine = true, modifier = Modifier.fillMaxWidth().padding(vertical = Spacing.S))
+                        val visible = vm.visible(s)
+                        if (visible.isEmpty()) {
+                            Text("No phrases match.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        } else {
+                            val idx = s.index.coerceIn(0, visible.lastIndex)
+                            PhraseStage(phrase = visible[idx], isStarred = visible[idx].id in s.starred, onToggleStar = { vm.toggleStar(visible[idx].id) })
+                            Row(modifier = Modifier.fillMaxWidth().padding(top = Spacing.M)) {
+                                TextButton(onClick = { vm.prev() }, modifier = Modifier.weight(1f).defaultMinSize(minHeight = Spacing.MinTarget)) { Text("← PREV") }
+                                TextButton(onClick = { vm.next() }, modifier = Modifier.weight(1f).defaultMinSize(minHeight = Spacing.MinTarget)) { Text("NEXT →") }
+                            }
+                            Text("${idx + 1}/${visible.size}", fontFamily = FontFamily.Monospace, modifier = Modifier.padding(top = Spacing.S))
+                        }
+                    }
+                }
             }
         }
-    }
-}
-
-@Composable
-fun PhraseFlow(
-    code: String,
-    s: LanguageUiState.Ready,
-    onBack: () -> Unit,
-    onNumbers: (String) -> Unit,
-    vm: LanguageViewModel
-) {
-    Column(modifier = Modifier.padding(horizontal = Spacing.Screen)) {
-        Spacer(Modifier.height(Spacing.S))
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            TextButton(onClick = onBack, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back to queue")
-                Spacer(Modifier.width(Spacing.S))
-                Text("QUEUE")
-            }
-            TextButton(onClick = { onNumbers(code) }, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) { Text("NUMBERS") }
-        }
-        Text("[${code.uppercase()}]", fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-        GlueStrip(phrases = s.phrases.filter { it.id.startsWith("spa-glue") || it.id == "spa-029" })
-        Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
-            (1..8).forEach { t ->
-                SegmentButton(label = (ThemeNames[t] ?: t.toString()).uppercase(), selected = s.theme == t, onClick = { vm.setTheme(t) })
-            }
-        }
-        OutlinedTextField(
-            value = s.query, onValueChange = { vm.setQuery(it) },
-            label = { Text("SEARCH") }, singleLine = true,
-            modifier = Modifier.fillMaxWidth().padding(vertical = Spacing.S)
-        )
-        val visible = vm.visible(s)
-        if (visible.isEmpty()) {
-            Text("STATUS: ZERO_MATCHES_FOUND.", fontFamily = FontFamily.Monospace, modifier = Modifier.padding(top = Spacing.M))
-        } else {
-            val idx = s.index.coerceIn(0, visible.lastIndex)
-            val phrase = visible[idx]
-            PhraseStage(phrase = phrase, lang = code, isStarred = phrase.id in s.starred, onToggleStar = { vm.toggleStar(phrase.id) })
-            // Full-width tactical Prev/Next
-            Row(modifier = Modifier.fillMaxWidth().padding(top = Spacing.M)) {
-                TextButton(onClick = { vm.prev() }, modifier = Modifier.weight(1f).defaultMinSize(minHeight = Spacing.MinTarget)) { Text("← PREV") }
-                TextButton(onClick = { vm.next() }, modifier = Modifier.weight(1f).defaultMinSize(minHeight = Spacing.MinTarget)) { Text("NEXT →") }
-            }
-            Text("${idx + 1}/${visible.size}", fontFamily = FontFamily.Monospace, modifier = Modifier.padding(top = Spacing.S))
-        }
-    }
-}
-
-@Composable
-fun SegmentButton(label: String, selected: Boolean, onClick: () -> Unit) {
-    Column(modifier = Modifier.padding(end = Spacing.M)) {
-        TextButton(onClick = onClick, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) {
-            Text(label, fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface)
-        }
-        if (selected) Box(modifier = Modifier.fillMaxWidth().height(2.dp).background(MaterialTheme.colorScheme.primary))
-        else Box(modifier = Modifier.fillMaxWidth().height(2.dp).background(MaterialTheme.colorScheme.outline))
     }
 }
 
@@ -147,74 +122,40 @@ fun GlueStrip(phrases: List<Phrase>) {
     if (phrases.isEmpty()) return
     Column(modifier = Modifier.padding(vertical = Spacing.S)) {
         Text("GLUE — REPAIR PHRASES", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        phrases.forEach { p -> Text("${p.english} — ${p.youSay}", fontFamily = FontFamily.Monospace, fontSize = 13.sp) }
+        phrases.forEach { p -> Text("${p.english} — ${p.youSay}", fontFamily = FontFamily.Monospace, fontSize = 12.sp, maxLines = 2) }
         HorizontalDivider(thickness = Spacing.Hairline, modifier = Modifier.padding(vertical = Spacing.S))
     }
 }
 
 @Composable
-fun PhraseStage(phrase: Phrase, lang: String, isStarred: Boolean, onToggleStar: () -> Unit) {
-    val ctx = LocalContext.current
-    val repo = remember { UserStateRepository(ctx) }
+fun PhraseStage(phrase: Phrase, isStarred: Boolean, onToggleStar: () -> Unit) {
     var hidden by remember(phrase.id) { mutableStateOf(false) }
-    var noteExpanded by remember(phrase.id) { mutableStateOf(false) }
-    var noteText by remember(phrase.id) { mutableStateOf("") }
-    var saveJob by remember { mutableStateOf<Job?>(null) }
-    val scope = rememberCoroutineScope()
-    LaunchedEffect(phrase.id) { repo.note(lang, phrase.id).collect { noteText = it } }
-
-    // Matte lower-half card — Operator Deck
     Surface(color = MaterialTheme.colorScheme.surfaceVariant) {
         Column(modifier = Modifier.fillMaxWidth().padding(Spacing.M)) {
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                // English prompt top third, muted
-                Text(phrase.english, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
-                IconButton(onClick = onToggleStar, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) {
-                    Icon(
-                        if (isStarred) Icons.Filled.Star else Icons.Filled.StarBorder,
-                        contentDescription = "Star phrase as hard",
-                        tint = if (isStarred) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-            Spacer(Modifier.height(Spacing.M))
-            // Center utterance
-            Column(
-                modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 140.dp)
-                    .clickable { hidden = !hidden }.padding(vertical = Spacing.S)
-            ) {
-                // English prompt detail hidden? No — utterance hidden for retrieval.
-                // Show utterance when not hidden, placeholder when hidden.
-                if (!hidden) {
-                    Text("YOU SAY", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Text(phrase.youSay, fontFamily = FontFamily.Monospace, fontSize = 28.sp, fontWeight = FontWeight.Bold)
-                    Row(modifier = Modifier.padding(top = Spacing.S)) {
-                        Box(modifier = Modifier.width(2.dp).height(36.dp).background(MaterialTheme.colorScheme.primary))
-                        Spacer(Modifier.width(Spacing.S))
-                        Column {
-                            Text(phrase.soundTip, style = MaterialTheme.typography.bodySmall)
-                            Text(phrase.note, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        }
+            // Q10: English small above
+            Text(phrase.english, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Spacer(Modifier.height(Spacing.S))
+            // Q12: both tap + button + 150ms fade
+            Crossfade(targetState = hidden, animationSpec = tween(150), label = "hide") { isHidden ->
+                Column(modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 140.dp).clickable { hidden = !hidden }.padding(vertical = Spacing.S)) {
+                    if (!isHidden) {
+                        Text("YOU SAY", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(phrase.youSay, fontFamily = FontFamily.Monospace, fontSize = 28.sp, fontWeight = FontWeight.Bold)
+                    } else {
+                        Text("[ TAP TO REVEAL — or tap REVEAL ]", fontFamily = FontFamily.Monospace, fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
-                } else {
-                    Text("[ TAP TO REVEAL UTTERANCE ]", fontFamily = FontFamily.Monospace, fontSize = 16.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
-            HorizontalDivider(thickness = Spacing.Hairline)
-            TextButton(onClick = { noteExpanded = !noteExpanded }) { Text(if (noteExpanded) "HIDE NOTE" else "PRIVATE NOTE") }
-            if (noteExpanded) {
-                OutlinedTextField(
-                    value = noteText,
-                    onValueChange = { changed ->
-                        noteText = changed
-                        saveJob?.cancel()
-                        saveJob = scope.launch { delay(500); repo.saveNote(lang, phrase.id, changed) }
-                    },
-                    label = { Text("PRIVATE NOTE") },
-                    modifier = Modifier.fillMaxWidth()
-                )
+            // Q13: footnote small, not left bar
+            Text(phrase.soundTip, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(phrase.note, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Spacer(Modifier.height(Spacing.S))
+            Row(horizontalArrangement = Arrangement.spacedBy(Spacing.S)) {
+                Button(onClick = { hidden = !hidden }, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) { Text(if (hidden) "REVEAL" else "HIDE") }
+                // Q14: mark hard as text button
+                OutlinedButton(onClick = onToggleStar, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) { Text(if (isStarred) "Hard ★" else "Mark hard") }
             }
-            Text("SOURCE: ${phrase.source} • CHECKED ${phrase.checked}", fontFamily = FontFamily.Monospace, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            // Q15 no note, Q16 no source — removed from UI.
         }
     }
 }
