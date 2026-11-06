@@ -43,4 +43,13 @@ class PhraseStore(private val context: Context) {
     } catch (e: Exception) {
         DomainResult.Error(ErrorReason.MalformedJson(e.message ?: "soundcheck"))
     }
+
+    fun loadNumbers(lang: String): DomainResult<List<com.kedharsairam.langkraft.domain.NumberEntry>> = try {
+        val text = context.assets.open("langkraft/numbers-$lang.json").bufferedReader().use { it.readText() }
+        DomainResult.Success(json.decodeFromString<List<com.kedharsairam.langkraft.domain.NumberEntry>>(text))
+    } catch (e: FileNotFoundException) {
+        DomainResult.Error(ErrorReason.MissingAsset)
+    } catch (e: Exception) {
+        DomainResult.Error(ErrorReason.MalformedJson(e.message ?: "numbers"))
+    }
 }

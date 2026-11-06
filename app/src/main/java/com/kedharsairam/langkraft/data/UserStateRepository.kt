@@ -16,6 +16,18 @@ class UserStateRepository(private val context: Context) {
         context.userDataStore.edit { it[Key.pos(lang, theme)] = index.toString() }
     }
 
+    fun positionsFor(lang: String): Flow<Map<Int, Int>> =
+        context.userDataStore.data.map { prefs ->
+            (1..8).mapNotNull { t -> prefs[Key.pos(lang, t)]?.toIntOrNull()?.let { t to it } }.toMap()
+        }
+
+    fun lastLang(): Flow<String?> =
+        context.userDataStore.data.map { it[Key.lastLang] }
+
+    suspend fun saveLastLang(lang: String) {
+        context.userDataStore.edit { it[Key.lastLang] = lang }
+    }
+
     fun starred(lang: String): Flow<Set<String>> =
         context.userDataStore.data.map { it[Key.star(lang)] ?: emptySet() }
 
@@ -32,10 +44,16 @@ class UserStateRepository(private val context: Context) {
     suspend fun saveNote(lang: String, phraseId: String, text: String) {
         context.userDataStore.edit { it[Key.note(lang, phraseId)] = text }
     }
+
+    fun starredMap(codes: List<String>): Flow<Map<String, Set<String>>> =
+        context.userDataStore.data.map { prefs ->
+            codes.associateWith { prefs[Key.star(it)] ?: emptySet() }
+        }
 }
 
 private object Key {
     fun pos(lang: String, theme: Int) = stringPreferencesKey("pos_${lang}_t$theme")
     fun star(lang: String) = stringSetPreferencesKey("star_$lang")
     fun note(lang: String, phraseId: String) = stringPreferencesKey("note_${lang}_$phraseId")
+    val lastLang = stringPreferencesKey("last_lang")
 }

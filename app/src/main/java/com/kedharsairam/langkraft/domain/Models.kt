@@ -33,6 +33,16 @@ data class SoundCheck(
     val trap: String
 )
 
+@Serializable
+data class NumberEntry(
+    val value: String,
+    val word: String,
+    val youSay: String,
+    val note: String = "",
+    val source: String = "curated",
+    val checked: String = "2026-11-06"
+)
+
 // Pure domain helpers — no Android imports, fully unit-testable.
 fun nextIndex(current: Int, total: Int): Int = if (total <= 0) 0 else (current + 1) % total
 fun prevIndex(current: Int, total: Int): Int = if (total <= 0) 0 else (current - 1 + total) % total

@@ -11,8 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.kedharsairam.langkraft.presentation.screens.HardScreen
 import com.kedharsairam.langkraft.presentation.screens.HomeScreen
 import com.kedharsairam.langkraft.presentation.screens.LanguageScreen
+import com.kedharsairam.langkraft.presentation.screens.NumbersScreen
+import com.kedharsairam.langkraft.presentation.screens.SearchScreen
 import com.kedharsairam.langkraft.presentation.theme.LangKraftTheme
 
 class MainActivity : ComponentActivity() {
@@ -33,10 +36,26 @@ class MainActivity : ComponentActivity() {
 fun LangKraftNav() {
     val nav = rememberNavController()
     NavHost(navController = nav, startDestination = "home") {
-        composable("home") { HomeScreen(onLang = { code -> nav.navigate("lang/$code") }) }
+        composable("home") {
+            HomeScreen(
+                onLang = { code -> nav.navigate("lang/$code") },
+                onSearch = { nav.navigate("search") },
+                onHard = { nav.navigate("hard") }
+            )
+        }
+        composable("search") { SearchScreen(onOpenLang = { code -> nav.navigate("lang/$code") }) }
+        composable("hard") { HardScreen(onBack = { nav.popBackStack() }) }
         composable("lang/{code}") { entry ->
             val code = entry.arguments?.getString("code") ?: "spa"
-            LanguageScreen(code = code, onBack = { nav.popBackStack() })
+            LanguageScreen(
+                code = code,
+                onBack = { nav.popBackStack() },
+                onNumbers = { c -> nav.navigate("numbers/$c") }
+            )
+        }
+        composable("numbers/{code}") { entry ->
+            val code = entry.arguments?.getString("code") ?: "spa"
+            NumbersScreen(code = code, onBack = { nav.popBackStack() })
         }
     }
 }

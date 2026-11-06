@@ -42,6 +42,7 @@ class LanguageViewModel(app: Application) : AndroidViewModel(app) {
         lang = code
         viewModelScope.launch {
             _state.value = LanguageUiState.Loading
+            repo.saveLastLang(code)
             val phrases = when (val r = store.loadPhrases(code)) {
                 is DomainResult.Success -> r.data
                 is DomainResult.Error -> {
