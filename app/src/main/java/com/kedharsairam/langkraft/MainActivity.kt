@@ -5,12 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.GridOn
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -19,7 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -46,32 +42,36 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-private data class Tab(val route: String, val label: String, val icon: @Composable () -> Unit)
-
 @Composable
 fun LangKraftNav() {
     val nav = rememberNavController()
     val tabs = listOf(
-        Tab("home", "Languages", { Icon(Icons.Filled.Home, contentDescription = null) }),
-        Tab("search", "Search", { Icon(Icons.Filled.Search, contentDescription = null) }),
-        Tab("numbers", "Numbers", { Icon(Icons.Filled.GridOn, contentDescription = null) }),
-        Tab("hard", "Hard", { Icon(Icons.Filled.Star, contentDescription = null) })
+        "home" to "QUEUE",
+        "search" to "SEARCH",
+        "numbers" to "NUMBERS",
+        "hard" to "HARD"
     )
     val backStack by nav.currentBackStackEntryAsState()
     val current = backStack?.destination
     Scaffold(
         bottomBar = {
-            // Hide bottom bar when drilled into a language detail or numbers detail for focus.
             val inDetail = current?.hierarchy?.any { it.route?.startsWith("lang/") == true || it.route?.startsWith("numbers/") == true } == true
             if (!inDetail) {
                 NavigationBar {
-                    tabs.forEach { tab ->
-                        val selected = current?.hierarchy?.any { it.route == tab.route } == true
+                    tabs.forEach { (route, label) ->
+                        val selected = current?.hierarchy?.any { it.route == route } == true
                         NavigationBarItem(
                             selected = selected,
-                            onClick = { nav.navigate(tab.route) { popUpTo("home") { inclusive = false }; launchSingleTop = true } },
-                            icon = tab.icon,
-                            label = { Text(tab.label) }
+                            onClick = { nav.navigate(route) { popUpTo("home") { inclusive = false }; launchSingleTop = true } },
+                            icon = { },
+                            label = {
+                                Text(
+                                    label,
+                                    fontFamily = FontFamily.Monospace,
+                                    fontSize = 13.sp,
+                                    fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
+                                )
+                            }
                         )
                     }
                 }
@@ -91,11 +91,7 @@ fun LangKraftNav() {
             composable("numbers") { NumbersScreen(code = "spa", onBack = { nav.navigate("home") { popUpTo("home") } }) }
             composable("lang/{code}") { entry ->
                 val code = entry.arguments?.getString("code") ?: "spa"
-                LanguageScreen(
-                    code = code,
-                    onBack = { nav.popBackStack() },
-                    onNumbers = { c -> nav.navigate("numbers/$c") }
-                )
+                LanguageScreen(code = code, onBack = { nav.popBackStack() }, onNumbers = { c -> nav.navigate("numbers/$c") })
             }
             composable("numbers/{code}") { entry ->
                 val code = entry.arguments?.getString("code") ?: "spa"

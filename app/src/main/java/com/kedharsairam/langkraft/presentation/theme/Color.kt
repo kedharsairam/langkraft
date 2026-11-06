@@ -2,15 +2,23 @@ package com.kedharsairam.langkraft.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Dark tool — dark only. No light theme. True black + graphite.
+// Operator Deck — OLED true black, tactical, zero chrome.
 object LangColors {
-    val Accent = Color(0xFFFFFFFF)
-    val AccentDark = Color(0xFFFFFFFF)
     val Background = Color(0xFF000000)
-    val SecondaryBackground = Color(0xFF121212)
-    val Label = Color(0xFFFFFFFF)
-    val SecondaryLabel = Color(0xFF98989F)
+    val Surface = Color(0xFF0A0A0A)
+    val Border = Color(0xFF222222)
+    val PrimaryText = Color(0xFFEDEDED)
+    val SecondaryText = Color(0xFF888888)
+    val AccentGold = Color(0xFFE5C07B)
+    val NoticeAmber = Color(0xFFD19A66)
+
+    // Compat aliases for existing screens
+    val Accent = AccentGold
+    val AccentDark = AccentGold
+    val SecondaryBackground = Surface
+    val Label = PrimaryText
+    val SecondaryLabel = SecondaryText
     val TertiaryLabel = Color(0xFF636366)
-    val Separator = Color(0xFF262626)
+    val Separator = Border
     val Fill = Color(0xFF1C1C1E)
 }
