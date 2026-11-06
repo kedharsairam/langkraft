@@ -51,15 +51,11 @@ fun LangKraftNav() {
     )
     val backStack by nav.currentBackStackEntryAsState()
     val currentRoute = backStack?.destination?.route
-    // Operator Deck: static bottom text dock — always visible, no icons.
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize().statusBarsPadding()) {
+        // Operator Deck: static bottom text dock — always visible, no icons.
         NavHost(navController = nav, startDestination = "home", modifier = Modifier.weight(1f)) {
             composable("home") {
-                HomeScreen(
-                    onLang = { code -> nav.navigate("lang/$code") },
-                    onSearch = { nav.navigate("search") },
-                    onHard = { nav.navigate("hard") }
-                )
+                HomeScreen(onLang = { code -> nav.navigate("lang/$code") }, onSearch = { nav.navigate("search") }, onHard = { nav.navigate("hard") })
             }
             composable("search") { SearchScreen(onOpenLang = { code -> nav.navigate("lang/$code") }) }
             composable("hard") { HardScreen(onBack = { nav.navigate("home") { popUpTo("home") } }) }
@@ -73,19 +69,14 @@ fun LangKraftNav() {
                 NumbersScreen(code = code, onBack = { nav.popBackStack() })
             }
         }
-        Row(modifier = Modifier.fillMaxWidth().height(56.dp)) {
+        Row(modifier = Modifier.fillMaxWidth().height(56.dp).navigationBarsPadding()) {
             tabs.forEach { (route, label) ->
                 val selected = currentRoute?.startsWith(route) == true || (route == "home" && currentRoute?.startsWith("lang/") == true)
                 TextButton(
                     onClick = { nav.navigate(route) { popUpTo("home") { inclusive = false }; launchSingleTop = true } },
                     modifier = Modifier.weight(1f).defaultMinSize(minHeight = 56.dp)
                 ) {
-                    Text(
-                        label,
-                        fontFamily = FontFamily.Monospace,
-                        fontSize = 13.sp,
-                        fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
-                    )
+                    Text(label, fontFamily = FontFamily.Monospace, fontSize = 13.sp, fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal)
                 }
             }
         }
