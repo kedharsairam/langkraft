@@ -43,7 +43,6 @@ class LanguageViewModel(app: Application) : AndroidViewModel(app) {
         lang = code
         viewModelScope.launch {
             _state.value = LanguageUiState.Loading
-            repo.saveLastLang(code)
             val phrases = when (val r = store.loadPhrases(code)) {
                 is DomainResult.Success -> r.data
                 is DomainResult.Error -> {
@@ -54,6 +53,7 @@ class LanguageViewModel(app: Application) : AndroidViewModel(app) {
                 }
             }
             val sound = (store.loadSoundCheck(code) as? DomainResult.Success)?.data
+            repo.saveLastLang(code)
             val savedThemePos = repo.position(code, 1).first()
             val savedStar = repo.starred(code).first()
             val acked = repo.soundAcked(code).first()
