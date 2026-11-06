@@ -8,25 +8,26 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun LangKraftTheme(content: @Composable () -> Unit) {
-    val colors = if (isSystemInDarkTheme()) {
+    val dark = isSystemInDarkTheme()
+    val colors = if (dark) {
         darkColorScheme(
-            primary = LangColors.DarkPrimary,
-            onPrimary = LangColors.DarkOnPrimary,
-            surface = LangColors.DarkSurface,
-            onSurface = LangColors.DarkOnSurface,
-            surfaceVariant = LangColors.DarkSurfaceVariant,
-            onSurfaceVariant = LangColors.DarkOnSurfaceVariant,
-            outline = LangColors.DarkOutline
+            primary = LangColors.AccentDark,
+            onPrimary = LangColors.DarkBackground,
+            surface = LangColors.DarkBackground,
+            onSurface = LangColors.DarkLabel,
+            surfaceVariant = LangColors.DarkSecondaryBackground,
+            onSurfaceVariant = LangColors.DarkSecondaryLabel,
+            outline = LangColors.DarkSeparator
         )
     } else {
         lightColorScheme(
-            primary = LangColors.LightPrimary,
-            onPrimary = LangColors.LightOnPrimary,
-            surface = LangColors.LightSurface,
-            onSurface = LangColors.LightOnSurface,
-            surfaceVariant = LangColors.LightSurfaceVariant,
-            onSurfaceVariant = LangColors.LightOnSurfaceVariant,
-            outline = LangColors.LightOutline
+            primary = LangColors.Accent,
+            onPrimary = LangColors.LightBackground,
+            surface = LangColors.LightBackground,
+            onSurface = LangColors.LightLabel,
+            surfaceVariant = LangColors.LightSecondaryBackground,
+            onSurfaceVariant = LangColors.LightSecondaryLabel,
+            outline = LangColors.LightSeparator
         )
     }
     MaterialTheme(colorScheme = colors, typography = LangTypography, content = content)

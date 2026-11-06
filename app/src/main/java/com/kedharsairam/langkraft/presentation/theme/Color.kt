@@ -2,23 +2,26 @@ package com.kedharsairam.langkraft.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Kraft tokens — minimal, factual, no hype. Light + dark follow system.
+// Apple-minimal tokens. No elevation, hairlines only.
 object LangColors {
-    // Light
-    val LightPrimary = Color(0xFF0B5394)
-    val LightOnPrimary = Color(0xFFFFFFFF)
-    val LightSurface = Color(0xFFFFFFFF)
-    val LightOnSurface = Color(0xFF1A1C1E)
-    val LightSurfaceVariant = Color(0xFFF0F4F8)
-    val LightOnSurfaceVariant = Color(0xFF44474F)
-    val LightOutline = Color(0xFF74777F)
+    val Accent = Color(0xFF007AFF)
+    val AccentDark = Color(0xFF0A84FF)
 
-    // Dark — default, graphite not pure black for eye comfort
-    val DarkPrimary = Color(0xFF7FB4EC)
-    val DarkOnPrimary = Color(0xFF0B2F52)
-    val DarkSurface = Color(0xFF121315)
-    val DarkOnSurface = Color(0xFFE3E5E8)
-    val DarkSurfaceVariant = Color(0xFF1E2023)
-    val DarkOnSurfaceVariant = Color(0xFFC3C6CC)
-    val DarkOutline = Color(0xFF8D9098)
+    // Light
+    val LightBackground = Color(0xFFFFFFFF)
+    val LightSecondaryBackground = Color(0xFFF2F2F7)
+    val LightLabel = Color(0xFF000000)
+    val LightSecondaryLabel = Color(0xFF3C3C43)
+    val LightTertiaryLabel = Color(0xFF8E8E93)
+    val LightSeparator = Color(0xFFC6C6C8)
+    val LightFill = Color(0xFFE5E5EA)
+
+    // Dark
+    val DarkBackground = Color(0xFF000000)
+    val DarkSecondaryBackground = Color(0xFF1C1C1E)
+    val DarkLabel = Color(0xFFFFFFFF)
+    val DarkSecondaryLabel = Color(0xFF98989F)
+    val DarkTertiaryLabel = Color(0xFF636366)
+    val DarkSeparator = Color(0xFF38383A)
+    val DarkFill = Color(0xFF2C2C2E)
 }
