@@ -123,20 +123,23 @@ fun LanguageScreen(
                         }
 
                     } else {
-                        Text(ThemeNames[s.theme] ?: "", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("LESSON %02d — ${ThemeNames[s.theme] ?: ""}".format(s.theme), fontFamily = FontFamily.Monospace, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                        Text("[${vm.visible(s).size} PHRASES]", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         GlueStrip(phrases = s.phrases.filter { it.id.startsWith("spa-glue") || it.id == "spa-029" })
                         OutlinedTextField(value = s.query, onValueChange = { vm.setQuery(it) }, label = { Text("SEARCH") }, singleLine = true, modifier = Modifier.fillMaxWidth().padding(vertical = Spacing.S))
                         val visible = vm.visible(s)
                         if (visible.isEmpty()) {
                             Text("No phrases match.", color = MaterialTheme.colorScheme.onSurfaceVariant)
                         } else {
-                            val idx = s.index.coerceIn(0, visible.lastIndex)
-                            PhraseStage(phrase = visible[idx], isStarred = visible[idx].id in s.starred, onToggleStar = { vm.toggleStar(visible[idx].id) })
-                            Row(modifier = Modifier.fillMaxWidth().padding(top = Spacing.M)) {
-                                TextButton(onClick = { vm.prev() }, modifier = Modifier.weight(1f).defaultMinSize(minHeight = Spacing.MinTarget)) { Text("← PREV") }
-                                TextButton(onClick = { vm.next() }, modifier = Modifier.weight(1f).defaultMinSize(minHeight = Spacing.MinTarget)) { Text("NEXT →") }
+                            Column(
+                                modifier = Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()),
+                                verticalArrangement = Arrangement.spacedBy(Spacing.S)
+                            ) {
+                                visible.forEach { p ->
+                                    PhraseRow(phrase = p, isStarred = p.id in s.starred, onToggleStar = { vm.toggleStar(p.id) })
+                                }
+                                Spacer(Modifier.height(Spacing.S))
                             }
-                            Text("${idx + 1}/${visible.size}", fontFamily = FontFamily.Monospace, modifier = Modifier.padding(top = Spacing.S))
                         }
                     }
                 }
@@ -152,6 +155,31 @@ fun GlueStrip(phrases: List<Phrase>) {
         Text("GLUE — REPAIR PHRASES", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
         phrases.forEach { p -> Text("${p.english} — ${p.youSay}", fontFamily = FontFamily.Monospace, fontSize = 12.sp, maxLines = 2) }
         HorizontalDivider(thickness = Spacing.Hairline, modifier = Modifier.padding(vertical = Spacing.S))
+    }
+}
+
+@Composable
+fun PhraseRow(phrase: Phrase, isStarred: Boolean, onToggleStar: () -> Unit) {
+    var hidden by remember(phrase.id) { mutableStateOf(false) }
+    Surface(color = MaterialTheme.colorScheme.surfaceVariant, shape = MaterialTheme.shapes.medium, modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.fillMaxWidth().padding(Spacing.S)) {
+            Text(phrase.english, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Crossfade(targetState = hidden, animationSpec = tween(150), label = "hide") { isHidden ->
+                Column(modifier = Modifier.fillMaxWidth().clickable { hidden = !hidden }.padding(vertical = Spacing.Xs)) {
+                    if (!isHidden) {
+                        Text(phrase.youSay, fontFamily = FontFamily.Monospace, fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                    } else {
+                        Text("[ TAP TO REVEAL — or tap REVEAL ]", fontFamily = FontFamily.Monospace, fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
+            }
+            if (phrase.soundTip.isNotBlank()) Text(phrase.soundTip, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            if (phrase.note.isNotBlank()) Text(phrase.note, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Row(horizontalArrangement = Arrangement.spacedBy(Spacing.S)) {
+                Button(onClick = { hidden = !hidden }, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) { Text(if (hidden) "REVEAL" else "HIDE") }
+                OutlinedButton(onClick = onToggleStar, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) { Text(if (isStarred) "Hard ★" else "Mark hard") }
+            }
+        }
     }
 }
 
