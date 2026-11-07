@@ -46,7 +46,7 @@ fun HomeScreen(
             }
         }
         when (val s = state) {
-            HomeUiState.Loading -> CircularProgressIndicator(Modifier.padding(top = Spacing.M))
+            HomeUiState.Loading -> Box(modifier = Modifier.weight(1f).fillMaxWidth(), contentAlignment = androidx.compose.ui.Alignment.Center) { CircularProgressIndicator() }
             is HomeUiState.Failed -> Column {
                 Text("Could not load languages.", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 TextButton(onClick = { vm.load() }) { Text("Retry") }

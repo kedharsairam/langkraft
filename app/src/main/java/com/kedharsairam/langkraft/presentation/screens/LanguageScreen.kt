@@ -38,10 +38,7 @@ fun LanguageScreen(
     val state by vm.state.collectAsState()
     LaunchedEffect(code) { vm.load(code) }
     when (val s = state) {
-        LanguageUiState.Loading -> Column(Modifier.padding(horizontal = Spacing.Screen)) {
-            Spacer(Modifier.height(Spacing.M))
-            CircularProgressIndicator()
-        }
+        LanguageUiState.Loading -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = androidx.compose.ui.Alignment.Center) { CircularProgressIndicator() }
         is LanguageUiState.Empty -> Column(Modifier.padding(horizontal = Spacing.Screen)) {
             Spacer(Modifier.height(Spacing.M))
             Text("No phrases yet for this language.", color = MaterialTheme.colorScheme.onSurfaceVariant)
