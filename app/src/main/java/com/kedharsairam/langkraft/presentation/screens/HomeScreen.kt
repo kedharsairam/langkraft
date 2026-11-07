@@ -52,8 +52,13 @@ fun HomeScreen(
                 TextButton(onClick = { vm.load() }) { Text("Retry") }
             }
             is HomeUiState.Ready -> {
-                Spacer(Modifier.height(Spacing.S))
-                LazyVerticalGrid(columns = GridCells.Fixed(2), horizontalArrangement = Arrangement.spacedBy(Spacing.S), verticalArrangement = Arrangement.spacedBy(Spacing.S), modifier = Modifier.weight(1f)) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    horizontalArrangement = Arrangement.spacedBy(Spacing.S),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.S),
+                    contentPadding = PaddingValues(top = Spacing.S, bottom = Spacing.Screen),
+                    modifier = Modifier.weight(1f)
+                ) {
                     val committed = s.languages.filter { it.status == "committed" }.sortedBy { it.name }
                     val bench = s.languages.filter { it.status != "committed" }.sortedBy { it.name }
                     items(committed) { info -> LangTile(info.code, info.name, s.progress[info.code], onLang) }
