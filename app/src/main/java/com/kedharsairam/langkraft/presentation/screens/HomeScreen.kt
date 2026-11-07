@@ -39,13 +39,6 @@ fun HomeScreen(
                 TextButton(onClick = { vm.load() }) { Text("Retry") }
             }
             is HomeUiState.Ready -> {
-                // Compact Continue line — not a hero block (fixes emptiness: was duplicating Spanish tile)
-                s.continue_?.let { (code, name) ->
-                    Text(name, style = MaterialTheme.typography.headlineMedium, modifier = Modifier.clickable(role = Role.Button) { onLang(code) })
-                    Text("CONTINUE — TAP TO RESUME", fontFamily = FontFamily.Monospace, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Spacer(Modifier.height(Spacing.S))
-                }
-                Text("QUEUE — COMMITTED", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Spacer(Modifier.height(Spacing.S))
                 LazyVerticalGrid(columns = GridCells.Fixed(2), horizontalArrangement = Arrangement.spacedBy(Spacing.S), verticalArrangement = Arrangement.spacedBy(Spacing.S), modifier = Modifier.weight(1f)) {
                     val committed = s.languages.filter { it.status == "committed" }
