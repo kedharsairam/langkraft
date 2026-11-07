@@ -28,7 +28,6 @@ fun NumbersScreen(code: String, onBack: () -> Unit, vm: NumbersViewModel = viewM
         Spacer(Modifier.height(Spacing.S))
         TextButton(onClick = onBack, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) { Text("← ${code.uppercase()}") }
         Text("Numbers", style = MaterialTheme.typography.titleLarge)
-        Text("Tap to hide. Say it aloud.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Spacer(Modifier.height(Spacing.M))
         when (val s = state) {
             NumbersUiState.Loading -> Text("Loading…")
@@ -42,14 +41,10 @@ fun NumbersScreen(code: String, onBack: () -> Unit, vm: NumbersViewModel = viewM
                     contentPadding = PaddingValues(bottom = 16.dp)
                 ) {
                     items(s.entries.take(21)) { entry ->
-                        var hidden by remember(entry.value) { mutableStateOf(false) }
-                        Column(
-                            modifier = Modifier.defaultMinSize(minHeight = 56.dp)
-                                .clickable { hidden = !hidden }.padding(vertical = Spacing.S)
-                        ) {
+                        Column(modifier = Modifier.defaultMinSize(minHeight = 56.dp).padding(vertical = Spacing.S)) {
                             Text(entry.value, fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            Text(if (hidden) "• • •" else entry.youSay, fontFamily = FontFamily.Monospace, fontSize = 15.sp, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                            if (!hidden) Text(entry.note, style = MaterialTheme.typography.labelMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                            Text(entry.youSay, fontFamily = FontFamily.Monospace, fontSize = 15.sp, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                            Text(entry.note, style = MaterialTheme.typography.labelMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
                         }
                     }
                     item(span = { GridItemSpan(2) }) {
@@ -59,10 +54,9 @@ fun NumbersScreen(code: String, onBack: () -> Unit, vm: NumbersViewModel = viewM
                         }
                     }
                     items(s.entries.drop(21).filter { it.value in setOf("100", "1000") }) { entry ->
-                        var hidden by remember(entry.value) { mutableStateOf(false) }
-                        Column(modifier = Modifier.defaultMinSize(minHeight = 56.dp).clickable { hidden = !hidden }.padding(vertical = Spacing.S)) {
+                        Column(modifier = Modifier.defaultMinSize(minHeight = 56.dp).padding(vertical = Spacing.S)) {
                             Text(entry.value, fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            Text(if (hidden) "• • •" else entry.youSay, fontFamily = FontFamily.Monospace, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                            Text(entry.youSay, fontFamily = FontFamily.Monospace, fontSize = 18.sp, fontWeight = FontWeight.Bold)
                         }
                     }
                 }

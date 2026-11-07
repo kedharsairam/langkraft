@@ -32,15 +32,12 @@ fun HardScreen(onBack: () -> Unit, vm: HardViewModel = viewModel()) {
                 if (s.phrases.isEmpty()) Text("STATUS: ZERO_ENTRIES_FOUND. Tap the star on any phrase to add it here.", fontFamily = FontFamily.Monospace)
                 else LazyColumn {
                     items(s.phrases) { phrase ->
-                        var hidden by remember(phrase.id) { mutableStateOf(false) }
-                        Column(
-                            modifier = Modifier.fillMaxWidth().clickable { hidden = !hidden }.padding(vertical = Spacing.S)
-                        ) {
+                        Column(modifier = Modifier.fillMaxWidth().padding(vertical = Spacing.S)) {
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                 Text(phrase.english, style = MaterialTheme.typography.bodyMedium)
                                 Icon(Icons.Filled.Star, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                             }
-                            Text(if (hidden) "[ TAP TO REVEAL ]" else phrase.youSay, fontFamily = FontFamily.Monospace, fontSize = 18.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+                            Text(phrase.youSay, fontFamily = FontFamily.Monospace, fontSize = 18.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
                             Text("${phrase.lang.uppercase()} · ${phrase.id}", fontFamily = FontFamily.Monospace, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                         HorizontalDivider(thickness = Spacing.Hairline)

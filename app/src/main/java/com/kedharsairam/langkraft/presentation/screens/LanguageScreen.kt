@@ -1,8 +1,6 @@
 package com.kedharsairam.langkraft.presentation.screens
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.Crossfade
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -166,58 +164,16 @@ fun GlueStrip(phrases: List<Phrase>) {
 
 @Composable
 fun PhraseRow(num: Int, phrase: Phrase, isStarred: Boolean, onToggleStar: () -> Unit) {
-    var hidden by remember(phrase.id) { mutableStateOf(false) }
     Surface(color = MaterialTheme.colorScheme.surfaceVariant, shape = MaterialTheme.shapes.medium, modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.fillMaxWidth().padding(Spacing.S)) {
             Text("%d. %s".format(num, phrase.english), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Crossfade(targetState = hidden, animationSpec = tween(150), label = "hide") { isHidden ->
-                Column(modifier = Modifier.fillMaxWidth().clickable { hidden = !hidden }.padding(vertical = Spacing.Xs)) {
-                    if (!isHidden) {
-                        Text(phrase.youSay, fontFamily = FontFamily.Monospace, fontSize = 22.sp, fontWeight = FontWeight.Bold)
-                    } else {
-                        Text("[ TAP TO REVEAL — or tap REVEAL ]", fontFamily = FontFamily.Monospace, fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    }
-                }
-            }
+            Text(phrase.youSay, fontFamily = FontFamily.Monospace, fontSize = 22.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(vertical = Spacing.Xs))
             if (phrase.soundTip.isNotBlank()) Text(phrase.soundTip, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             if (phrase.note.isNotBlank()) Text(phrase.note, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Row(horizontalArrangement = Arrangement.spacedBy(Spacing.S)) {
-                Button(onClick = { hidden = !hidden }, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) { Text(if (hidden) "REVEAL" else "HIDE") }
                 OutlinedButton(onClick = onToggleStar, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) { Text(if (isStarred) "Hard ★" else "Mark hard") }
             }
         }
     }
 }
 
-@Composable
-fun PhraseStage(phrase: Phrase, isStarred: Boolean, onToggleStar: () -> Unit) {
-    var hidden by remember(phrase.id) { mutableStateOf(false) }
-    Surface(color = MaterialTheme.colorScheme.surfaceVariant) {
-        Column(modifier = Modifier.fillMaxWidth().padding(Spacing.M)) {
-            // Q10: English small above
-            Text(phrase.english, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Spacer(Modifier.height(Spacing.S))
-            // Q12: both tap + button + 150ms fade
-            Crossfade(targetState = hidden, animationSpec = tween(150), label = "hide") { isHidden ->
-                Column(modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 140.dp).clickable { hidden = !hidden }.padding(vertical = Spacing.S)) {
-                    if (!isHidden) {
-                        Text("YOU SAY", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        Text(phrase.youSay, fontFamily = FontFamily.Monospace, fontSize = 28.sp, fontWeight = FontWeight.Bold)
-                    } else {
-                        Text("[ TAP TO REVEAL — or tap REVEAL ]", fontFamily = FontFamily.Monospace, fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    }
-                }
-            }
-            // Q13: footnote small, not left bar
-            Text(phrase.soundTip, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text(phrase.note, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Spacer(Modifier.height(Spacing.S))
-            Row(horizontalArrangement = Arrangement.spacedBy(Spacing.S)) {
-                Button(onClick = { hidden = !hidden }, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) { Text(if (hidden) "REVEAL" else "HIDE") }
-                // Q14: mark hard as text button
-                OutlinedButton(onClick = onToggleStar, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) { Text(if (isStarred) "Hard ★" else "Mark hard") }
-            }
-            // Q15 no note, Q16 no source — removed from UI.
-        }
-    }
-}
