@@ -78,7 +78,12 @@ fun LanguageScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
                     ) {
-                        Text(code.uppercase(), fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                        Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                            IconButton(onClick = onBack, modifier = Modifier.size(48.dp)) {
+                                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                            }
+                            Text(s.name.ifBlank { code.uppercase() }, fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                        }
                         Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
                             IconButton(onClick = onSearch, modifier = Modifier.size(48.dp)) {
                                 Icon(Icons.Default.Search, contentDescription = "Search")
@@ -116,7 +121,7 @@ fun LanguageScreen(
                                 }
                             }
                         }
-                        TextButton(onClick = onBack, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) { Text("← BACK") }
+
                     } else {
                         TextButton(onClick = { lessonsOpen = true }) { Text("← LESSONS") }
                         Text(ThemeNames[s.theme] ?: "", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)

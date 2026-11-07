@@ -21,6 +21,7 @@ sealed interface LanguageUiState {
     data object Loading : LanguageUiState
     data class Ready(
         val phrases: List<Phrase>,
+        val name: String = "",
         val theme: Int = 1,
         val index: Int = 0,
         val query: String = "",
@@ -53,12 +54,13 @@ class LanguageViewModel(app: Application) : AndroidViewModel(app) {
                 }
             }
             val sound = (store.loadSoundCheck(code) as? DomainResult.Success)?.data
+            val name = (store.loadCatalog() as? DomainResult.Success)?.data?.firstOrNull { it.code == code }?.name ?: code.uppercase()
             repo.saveLastLang(code)
             val savedThemePos = repo.position(code, 1).first()
             val savedStar = repo.starred(code).first()
             val acked = repo.soundAcked(code).first()
             _state.value = LanguageUiState.Ready(
-                phrases = phrases, theme = 1, index = savedThemePos.coerceIn(0, phrases.size - 1),
+                phrases = phrases, name = name, theme = 1, index = savedThemePos.coerceIn(0, phrases.size - 1),
                 starred = savedStar, sound = sound, soundAcked = acked
             )
         }
