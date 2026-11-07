@@ -95,9 +95,13 @@ fun LanguageScreen(
                     }
                     Column(modifier = Modifier.weight(1f).padding(start = Spacing.M)) {
                         Spacer(Modifier.height(Spacing.S))
-                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                            Text("[${code.uppercase()}]", fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth().height(56.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                        ) {
+                            Text(code.uppercase(), fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                            Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
                                 TextButton(onClick = { onNumbers(code) }, modifier = Modifier.defaultMinSize(minHeight = 48.dp)) { Text("NUMBERS") }
                                 IconButton(onClick = onSearch, modifier = Modifier.size(48.dp)) {
                                     Icon(Icons.Default.Search, contentDescription = "Search")

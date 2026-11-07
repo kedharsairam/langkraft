@@ -30,12 +30,12 @@ fun HomeScreen(
 ) {
     val state by vm.state.collectAsState()
     Column(modifier = Modifier.padding(horizontal = Spacing.Screen)) {
-        Spacer(Modifier.height(Spacing.S))
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Column {
-                Text("LANGKRAFT", fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                Text("Open where you left it.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
+        Row(
+            modifier = Modifier.fillMaxWidth().height(56.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+        ) {
+            Text("LANGKRAFT", fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = FontWeight.Bold)
             Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                 IconButton(onClick = onSearch, modifier = Modifier.size(48.dp)) {
                     Icon(Icons.Default.Search, contentDescription = "Search")
@@ -45,7 +45,6 @@ fun HomeScreen(
                 }
             }
         }
-        Spacer(Modifier.height(Spacing.S))
         when (val s = state) {
             HomeUiState.Loading -> CircularProgressIndicator(Modifier.padding(top = Spacing.M))
             is HomeUiState.Failed -> Column {
@@ -76,9 +75,8 @@ fun HomeScreen(
 private fun LangTile(code: String, name: String, progress: Pair<Int, Int>?, onLang: (String) -> Unit) {
     val (viewed, total) = progress ?: (0 to 40)
     val frac = if (total > 0) viewed.toFloat() / total else 0f
-    Surface(color = MaterialTheme.colorScheme.surfaceVariant, shape = MaterialTheme.shapes.medium) {
-        Column(modifier = Modifier.clickable(role = Role.Button) { onLang(code) }.padding(Spacing.S).defaultMinSize(minHeight = 72.dp)) {
-            Text("[${code.uppercase()}]", fontFamily = FontFamily.Monospace, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    Surface(color = MaterialTheme.colorScheme.surfaceVariant, shape = MaterialTheme.shapes.medium, modifier = Modifier.fillMaxWidth().wrapContentHeight()) {
+        Column(modifier = Modifier.clickable(role = Role.Button) { onLang(code) }.padding(Spacing.S)) {
             Text(name, style = MaterialTheme.typography.titleMedium, maxLines = 1)
             Text("[$viewed/$total]", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(Modifier.height(Spacing.Xs))
