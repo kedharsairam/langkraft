@@ -18,8 +18,6 @@ import com.kedharsairam.langkraft.presentation.theme.Spacing
 import com.kedharsairam.langkraft.presentation.viewmodels.HomeUiState
 import com.kedharsairam.langkraft.presentation.viewmodels.HomeViewModel
 
-// Your pick Q1: two-row tiles. Q2: LingoHut flag-grid feel — simple lesson tiles, click-to-go.
-// No continuous list. 2 columns.
 @Composable
 fun HomeScreen(
     onLang: (String) -> Unit,
@@ -30,33 +28,39 @@ fun HomeScreen(
     val state by vm.state.collectAsState()
     var benchExpanded by remember { mutableStateOf(false) }
     Column(modifier = Modifier.padding(horizontal = Spacing.Screen)) {
-        Spacer(Modifier.height(Spacing.M))
+        Spacer(Modifier.height(Spacing.S))
         Text("LANGKRAFT", fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = FontWeight.Bold)
         Text("Open where you left it.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        Spacer(Modifier.height(Spacing.M))
+        Spacer(Modifier.height(Spacing.S))
         when (val s = state) {
-            HomeUiState.Loading -> CircularProgressIndicator()
+            HomeUiState.Loading -> CircularProgressIndicator(Modifier.padding(top = Spacing.M))
             is HomeUiState.Failed -> Column {
                 Text("Could not load languages.", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 TextButton(onClick = { vm.load() }) { Text("Retry") }
             }
             is HomeUiState.Ready -> {
+                // Compact Continue line — not a hero block (fixes emptiness: was duplicating Spanish tile)
                 s.continue_?.let { (code, name) ->
-                    Text("CONTINUE", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Text(name, style = MaterialTheme.typography.headlineMedium, modifier = Modifier.clickable(role = Role.Button) { onLang(code) })
-                    Spacer(Modifier.height(Spacing.M))
+                    Text("CONTINUE — TAP TO RESUME", fontFamily = FontFamily.Monospace, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Spacer(Modifier.height(Spacing.S))
                 }
                 Text("QUEUE — COMMITTED", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Spacer(Modifier.height(Spacing.S))
-                LazyVerticalGrid(columns = GridCells.Fixed(2), horizontalArrangement = Arrangement.spacedBy(Spacing.S), verticalArrangement = Arrangement.spacedBy(Spacing.S)) {
+                LazyVerticalGrid(columns = GridCells.Fixed(2), horizontalArrangement = Arrangement.spacedBy(Spacing.S), verticalArrangement = Arrangement.spacedBy(Spacing.S), modifier = Modifier.weight(1f)) {
                     val committed = s.languages.filter { it.status == "committed" }
                     items(committed) { info ->
                         val (viewed, total) = s.progress[info.code] ?: (0 to 40)
+                        val frac = if (total > 0) viewed.toFloat() / total else 0f
                         Surface(color = MaterialTheme.colorScheme.surfaceVariant, shape = MaterialTheme.shapes.medium) {
-                            Column(modifier = Modifier.clickable(role = Role.Button) { onLang(info.code) }.padding(Spacing.M).defaultMinSize(minHeight = 96.dp)) {
-                                Text("[${info.code.uppercase()}]", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                                Text(info.name, style = MaterialTheme.typography.headlineMedium, maxLines = 1)
-                                Text("[$viewed/$total]", fontFamily = FontFamily.Monospace, fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Column(modifier = Modifier.clickable(role = Role.Button) { onLang(info.code) }.padding(Spacing.S).defaultMinSize(minHeight = 72.dp)) {
+                                Text("[${info.code.uppercase()}]", fontFamily = FontFamily.Monospace, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                Text(info.name, style = MaterialTheme.typography.titleMedium, maxLines = 1)
+                                Text("[$viewed/$total]", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                Spacer(Modifier.height(Spacing.Xs))
+                                LinearProgressIndicator(progress = { frac }, modifier = Modifier.fillMaxWidth().height(4.dp), color = MaterialTheme.colorScheme.primary, trackColor = MaterialTheme.colorScheme.surface)
+                                if (viewed == 0) Text("START", fontFamily = FontFamily.Monospace, fontSize = 11.sp, color = MaterialTheme.colorScheme.primary)
+                                else Text("${((frac * 100).toInt())}%", fontFamily = FontFamily.Monospace, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             }
                         }
                     }
