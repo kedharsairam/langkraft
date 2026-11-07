@@ -125,11 +125,14 @@ fun LanguageScreen(
                         }
 
                     } else {
-                        Text(
-                            "%02d %s · [%d PHRASES]".format(s.theme, ThemeNames[s.theme] ?: "", vm.visible(s).size),
-                            fontFamily = FontFamily.Monospace, fontSize = 13.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(vertical = Spacing.S)
-                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(vertical = Spacing.S),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                        ) {
+                            Text("%02d %s".format(s.theme, ThemeNames[s.theme] ?: ""), fontFamily = FontFamily.Monospace, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                            Text("[%d PHRASES]".format(vm.visible(s).size), fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
                         val visible = vm.visible(s)
                         if (visible.isEmpty()) {
                             Text("No phrases match.", color = MaterialTheme.colorScheme.onSurfaceVariant)
