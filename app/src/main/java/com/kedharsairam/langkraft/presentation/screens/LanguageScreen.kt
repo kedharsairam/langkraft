@@ -125,8 +125,6 @@ fun LanguageScreen(
                     } else {
                         Text("LESSON %02d — ${ThemeNames[s.theme] ?: ""}".format(s.theme), fontFamily = FontFamily.Monospace, fontSize = 13.sp, fontWeight = FontWeight.Bold)
                         Text("[${vm.visible(s).size} PHRASES]", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        GlueStrip(phrases = s.phrases.filter { it.id.startsWith("spa-glue") || it.id == "spa-029" })
-                        OutlinedTextField(value = s.query, onValueChange = { vm.setQuery(it) }, label = { Text("SEARCH") }, singleLine = true, modifier = Modifier.fillMaxWidth().padding(vertical = Spacing.S))
                         val visible = vm.visible(s)
                         if (visible.isEmpty()) {
                             Text("No phrases match.", color = MaterialTheme.colorScheme.onSurfaceVariant)
