@@ -141,8 +141,8 @@ fun LanguageScreen(
                                 modifier = Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()),
                                 verticalArrangement = Arrangement.spacedBy(Spacing.S)
                             ) {
-                                visible.forEach { p ->
-                                    PhraseRow(phrase = p, isStarred = p.id in s.starred, onToggleStar = { vm.toggleStar(p.id) })
+                                visible.forEachIndexed { i, p ->
+                                    PhraseRow(num = i + 1, phrase = p, isStarred = p.id in s.starred, onToggleStar = { vm.toggleStar(p.id) })
                                 }
                                 Spacer(Modifier.height(Spacing.S))
                             }
@@ -165,11 +165,11 @@ fun GlueStrip(phrases: List<Phrase>) {
 }
 
 @Composable
-fun PhraseRow(phrase: Phrase, isStarred: Boolean, onToggleStar: () -> Unit) {
+fun PhraseRow(num: Int, phrase: Phrase, isStarred: Boolean, onToggleStar: () -> Unit) {
     var hidden by remember(phrase.id) { mutableStateOf(false) }
     Surface(color = MaterialTheme.colorScheme.surfaceVariant, shape = MaterialTheme.shapes.medium, modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.fillMaxWidth().padding(Spacing.S)) {
-            Text(phrase.english, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text("%d. %s".format(num, phrase.english), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Crossfade(targetState = hidden, animationSpec = tween(150), label = "hide") { isHidden ->
                 Column(modifier = Modifier.fillMaxWidth().clickable { hidden = !hidden }.padding(vertical = Spacing.Xs)) {
                     if (!isHidden) {
