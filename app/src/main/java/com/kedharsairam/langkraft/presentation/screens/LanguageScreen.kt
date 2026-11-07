@@ -4,6 +4,8 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
@@ -89,24 +91,29 @@ fun LanguageScreen(
                     if (lessonsOpen) {
                         Text("LESSONS", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         Spacer(Modifier.height(Spacing.S))
-                        Column(modifier = Modifier.weight(1f)) {
+                        Column(modifier = Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(Spacing.S)) {
                             (1..8).forEach { t ->
                                 val count = s.phrases.count { it.theme == t }
-                                Row(
-                                    modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 56.dp).clickable {
+                                Surface(
+                                    color = MaterialTheme.colorScheme.surfaceVariant,
+                                    shape = MaterialTheme.shapes.medium,
+                                    modifier = Modifier.fillMaxWidth().wrapContentHeight().clickable {
                                         if (t == 3) onNumbers(code) else { vm.setTheme(t); lessonsOpen = false }
-                                    }.padding(vertical = Spacing.S),
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
-                                ) {
-                                    Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
-                                        Text("%02d".format(t), fontFamily = FontFamily.Monospace, fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                                        Spacer(Modifier.width(Spacing.S))
-                                        Text(ThemeNames[t] ?: "", style = MaterialTheme.typography.titleMedium)
                                     }
-                                    Text(if (t == 3) "OPEN" else "[$count PHRASES]", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                ) {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth().padding(Spacing.M),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                                    ) {
+                                        Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                                            Text("%02d".format(t), fontFamily = FontFamily.Monospace, fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                            Spacer(Modifier.width(Spacing.S))
+                                            Text(ThemeNames[t] ?: "", style = MaterialTheme.typography.titleLarge)
+                                        }
+                                        Text(if (t == 3) "OPEN" else "[$count PHRASES]", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                    }
                                 }
-                                HorizontalDivider(thickness = Spacing.Hairline, modifier = Modifier.fillMaxWidth())
                             }
                         }
                         TextButton(onClick = onBack, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) { Text("← BACK") }
