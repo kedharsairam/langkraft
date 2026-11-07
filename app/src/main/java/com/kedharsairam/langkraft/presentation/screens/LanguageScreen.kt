@@ -1,5 +1,6 @@
 package com.kedharsairam.langkraft.presentation.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
@@ -71,6 +72,7 @@ fun LanguageScreen(
                 }
             } else {
                 var lessonsOpen by remember(code) { mutableStateOf(true) }
+                BackHandler { if (lessonsOpen) onBack() else lessonsOpen = true }
                 // Lessons list first (LingoHut-style index). Phrase stage only after a lesson is tapped.
                 Column(modifier = Modifier.padding(horizontal = Spacing.Screen)) {
                     Row(
@@ -123,8 +125,11 @@ fun LanguageScreen(
                         }
 
                     } else {
-                        Text("LESSON %02d — ${ThemeNames[s.theme] ?: ""}".format(s.theme), fontFamily = FontFamily.Monospace, fontSize = 13.sp, fontWeight = FontWeight.Bold)
-                        Text("[${vm.visible(s).size} PHRASES]", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(
+                            "%02d %s · [%d PHRASES]".format(s.theme, ThemeNames[s.theme] ?: "", vm.visible(s).size),
+                            fontFamily = FontFamily.Monospace, fontSize = 13.sp, fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(vertical = Spacing.S)
+                        )
                         val visible = vm.visible(s)
                         if (visible.isEmpty()) {
                             Text("No phrases match.", color = MaterialTheme.colorScheme.onSurfaceVariant)
