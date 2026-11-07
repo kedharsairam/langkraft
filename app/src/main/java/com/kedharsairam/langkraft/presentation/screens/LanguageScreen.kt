@@ -68,46 +68,50 @@ fun LanguageScreen(
                     Button(onClick = { vm.acknowledgeSound() }, modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = Spacing.MinTarget)) { Text("[ ACKNOWLEDGE & ENTER QUEUE ]") }
                 }
             } else {
-                // Q8: vertical 1-8 left rail. Q9: Numbers inside language. Q13: footnote tip/note. Q14: mark hard text button. Q15: no note, Q16: no source in UI.
-                Row(modifier = Modifier.padding(horizontal = Spacing.Screen)) {
-                    // Left rail
-                    Column(modifier = Modifier.width(56.dp)) {
-                        Spacer(Modifier.height(Spacing.S))
-                        (1..8).forEach { t ->
-                            val selected = s.theme == t
-                            TextButton(
-                                onClick = { vm.setTheme(t) },
-                                modifier = Modifier.defaultMinSize(minWidth = 56.dp, minHeight = Spacing.MinTarget),
-                                shape = if (selected) MaterialTheme.shapes.medium else MaterialTheme.shapes.extraSmall,
-                                colors = ButtonDefaults.textButtonColors(
-                                    containerColor = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
-                                    contentColor = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
-                                )
-                            ) { Text(t.toString(), fontFamily = FontFamily.Monospace) }
-                        }
-                        Spacer(Modifier.height(Spacing.M))
-                        TextButton(onClick = onBack, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
-                        }
-                    }
-                    Column(modifier = Modifier.weight(1f).padding(start = Spacing.M)) {
-                        Spacer(Modifier.height(Spacing.S))
-                        Row(
-                            modifier = Modifier.fillMaxWidth().height(56.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
-                        ) {
-                            Text(code.uppercase(), fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                            Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
-                                TextButton(onClick = { onNumbers(code) }, modifier = Modifier.defaultMinSize(minHeight = 48.dp)) { Text("NUMBERS") }
-                                IconButton(onClick = onSearch, modifier = Modifier.size(48.dp)) {
-                                    Icon(Icons.Default.Search, contentDescription = "Search")
-                                }
-                                IconButton(onClick = onHard, modifier = Modifier.size(48.dp)) {
-                                    Icon(Icons.Default.Star, contentDescription = "Hard")
-                                }
+                var lessonsOpen by remember(code) { mutableStateOf(true) }
+                // Lessons list first (LingoHut-style index). Phrase stage only after a lesson is tapped.
+                Column(modifier = Modifier.padding(horizontal = Spacing.Screen)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth().height(56.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                    ) {
+                        Text(code.uppercase(), fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                        Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                            IconButton(onClick = onSearch, modifier = Modifier.size(48.dp)) {
+                                Icon(Icons.Default.Search, contentDescription = "Search")
+                            }
+                            IconButton(onClick = onHard, modifier = Modifier.size(48.dp)) {
+                                Icon(Icons.Default.Star, contentDescription = "Hard")
                             }
                         }
+                    }
+                    if (lessonsOpen) {
+                        Text("LESSONS", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Spacer(Modifier.height(Spacing.S))
+                        Column(modifier = Modifier.weight(1f)) {
+                            (1..8).forEach { t ->
+                                val count = s.phrases.count { it.theme == t }
+                                Row(
+                                    modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 56.dp).clickable {
+                                        if (t == 3) onNumbers(code) else { vm.setTheme(t); lessonsOpen = false }
+                                    }.padding(vertical = Spacing.S),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                                ) {
+                                    Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                                        Text("%02d".format(t), fontFamily = FontFamily.Monospace, fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                        Spacer(Modifier.width(Spacing.S))
+                                        Text(ThemeNames[t] ?: "", style = MaterialTheme.typography.titleMedium)
+                                    }
+                                    Text(if (t == 3) "OPEN" else "[$count PHRASES]", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                }
+                                HorizontalDivider(thickness = Spacing.Hairline, modifier = Modifier.fillMaxWidth())
+                            }
+                        }
+                        TextButton(onClick = onBack, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) { Text("← BACK") }
+                    } else {
+                        TextButton(onClick = { lessonsOpen = true }) { Text("← LESSONS") }
                         Text(ThemeNames[s.theme] ?: "", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         GlueStrip(phrases = s.phrases.filter { it.id.startsWith("spa-glue") || it.id == "spa-029" })
                         OutlinedTextField(value = s.query, onValueChange = { vm.setQuery(it) }, label = { Text("SEARCH") }, singleLine = true, modifier = Modifier.fillMaxWidth().padding(vertical = Spacing.S))
