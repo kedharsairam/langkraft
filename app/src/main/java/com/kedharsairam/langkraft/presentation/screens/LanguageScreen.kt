@@ -79,7 +79,7 @@ fun LanguageScreen(
                         verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
                     ) {
                         Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
-                            IconButton(onClick = onBack, modifier = Modifier.size(48.dp)) {
+                            IconButton(onClick = { if (lessonsOpen) onBack() else lessonsOpen = true }, modifier = Modifier.size(48.dp)) {
                                 Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                             }
                             Text(s.name.ifBlank { code.uppercase() }, fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = FontWeight.Bold)
@@ -123,7 +123,6 @@ fun LanguageScreen(
                         }
 
                     } else {
-                        TextButton(onClick = { lessonsOpen = true }) { Text("← LESSONS") }
                         Text(ThemeNames[s.theme] ?: "", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         GlueStrip(phrases = s.phrases.filter { it.id.startsWith("spa-glue") || it.id == "spa-029" })
                         OutlinedTextField(value = s.query, onValueChange = { vm.setQuery(it) }, label = { Text("SEARCH") }, singleLine = true, modifier = Modifier.fillMaxWidth().padding(vertical = Spacing.S))
