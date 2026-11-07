@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -29,8 +32,20 @@ fun HomeScreen(
     var benchExpanded by remember { mutableStateOf(false) }
     Column(modifier = Modifier.padding(horizontal = Spacing.Screen)) {
         Spacer(Modifier.height(Spacing.S))
-        Text("LANGKRAFT", fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-        Text("Open where you left it.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Column {
+                Text("LANGKRAFT", fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Text("Open where you left it.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                IconButton(onClick = onSearch, modifier = Modifier.size(48.dp)) {
+                    Icon(Icons.Default.Search, contentDescription = "Search")
+                }
+                IconButton(onClick = onHard, modifier = Modifier.size(48.dp)) {
+                    Icon(Icons.Default.Star, contentDescription = "Hard")
+                }
+            }
+        }
         Spacer(Modifier.height(Spacing.S))
         when (val s = state) {
             HomeUiState.Loading -> CircularProgressIndicator(Modifier.padding(top = Spacing.M))

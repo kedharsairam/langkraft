@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -29,6 +31,8 @@ fun LanguageScreen(
     code: String,
     onBack: () -> Unit,
     onNumbers: (String) -> Unit,
+    onSearch: () -> Unit = {},
+    onHard: () -> Unit = {},
     vm: LanguageViewModel = viewModel()
 ) {
     val state by vm.state.collectAsState()
@@ -93,7 +97,15 @@ fun LanguageScreen(
                         Spacer(Modifier.height(Spacing.S))
                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                             Text("[${code.uppercase()}]", fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                            TextButton(onClick = { onNumbers(code) }) { Text("NUMBERS") }
+                            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                                TextButton(onClick = { onNumbers(code) }, modifier = Modifier.defaultMinSize(minHeight = 48.dp)) { Text("NUMBERS") }
+                                IconButton(onClick = onSearch, modifier = Modifier.size(48.dp)) {
+                                    Icon(Icons.Default.Search, contentDescription = "Search")
+                                }
+                                IconButton(onClick = onHard, modifier = Modifier.size(48.dp)) {
+                                    Icon(Icons.Default.Star, contentDescription = "Hard")
+                                }
+                            }
                         }
                         Text(ThemeNames[s.theme] ?: "", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         GlueStrip(phrases = s.phrases.filter { it.id.startsWith("spa-glue") || it.id == "spa-029" })
