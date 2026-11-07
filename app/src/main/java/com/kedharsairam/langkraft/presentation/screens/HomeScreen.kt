@@ -54,8 +54,8 @@ fun HomeScreen(
             is HomeUiState.Ready -> {
                 Spacer(Modifier.height(Spacing.S))
                 LazyVerticalGrid(columns = GridCells.Fixed(2), horizontalArrangement = Arrangement.spacedBy(Spacing.S), verticalArrangement = Arrangement.spacedBy(Spacing.S), modifier = Modifier.weight(1f)) {
-                    val committed = s.languages.filter { it.status == "committed" }
-                    val bench = s.languages.filter { it.status != "committed" }
+                    val committed = s.languages.filter { it.status == "committed" }.sortedBy { it.name }
+                    val bench = s.languages.filter { it.status != "committed" }.sortedBy { it.name }
                     items(committed) { info -> LangTile(info.code, info.name, s.progress[info.code], onLang) }
                     item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }) {
                         Column(modifier = Modifier.fillMaxWidth().padding(vertical = Spacing.S)) {
