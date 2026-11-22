@@ -13,7 +13,8 @@ data class Phrase(
     val soundTip: String,
     val note: String,
     val source: String = "curated",
-    val checked: String = "2026-11-06"
+    val checked: String = "2026-11-06",
+    val anchor: String = ""
 )
 
 @Serializable

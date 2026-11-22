@@ -1,0 +1,7 @@
+{
+  "lang": "tha",
+  "newSounds": "Five tones (mid, low, falling, high, rising) and three consonant classes (high, mid, low) that decide the tone together with the mark. Aspirated kh/ph/th are not English k/p/t; final k/t/p are unreleased. Long vs short vowels (aa/ii/uu vs a/i/u) distinguish words; ng can begin a word and r is trilled.",
+  "rhythm": "Syllable-timed, each syllable a separate even beat — close to Telugu, so the rhythm is familiar. CAPS marks the beat the voice lands on, not a lexical stress; Thai pitch is tone, and the five tones must be learned by ear externally (romanization cannot show them).",
+  "registerFirst": "Polite first: end sentences with khrap if you are male, kha if you are female — the choice depends only on the speaker. phom (male) / chan (female) for I; khun is the safe respectful you/title; phii/nong for elders/younger.",
+  "trap": "The tone changes the word, and you cannot read it off the mark alone — the consonant class changes how the same mark sounds, so learn pitch by ear. Questions stay flat, no English rising intonation. Final stops are cut off, and ph/th/kh are aspirated, not f/t/k."
+}

@@ -1,0 +1,354 @@
+[
+  {
+    "value": "0",
+    "word": "suun",
+    "youSay": "SUUN",
+    "note": "Also ; before a counter suun may sound like suat. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1",
+    "word": "nueng",
+    "youSay": "NUENG",
+    "note": "On its own nueng; the counting form in compounds is et. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "2",
+    "word": "song",
+    "youSay": "SONG",
+    "note": "Mid tone on a low-class consonant. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "3",
+    "word": "saam",
+    "youSay": "SAAM",
+    "note": "Long aa; mid tone. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "4",
+    "word": "sii",
+    "youSay": "SII",
+    "note": "High tone; long ii. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "5",
+    "word": "haa",
+    "youSay": "HAA",
+    "note": "Rising tone. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "6",
+    "word": "hok",
+    "youSay": "HOK",
+    "note": "High tone; short clipped vowel. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "7",
+    "word": "jet",
+    "youSay": "JET",
+    "note": "High tone; short e. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "8",
+    "word": "paet",
+    "youSay": "PAET",
+    "note": "Falling tone; long ae. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "9",
+    "word": "kao",
+    "youSay": "KAO",
+    "note": "Rising tone. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "10",
+    "word": "sip",
+    "youSay": "SIP",
+    "note": "Low tone; base for the teens. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "11",
+    "word": "sip-et",
+    "youSay": "sip-ET",
+    "note": "et is the counting form of nueng after sip. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "12",
+    "word": "sip-song",
+    "youSay": "sip-SONG",
+    "note": "Low tone on song. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "13",
+    "word": "sip-saam",
+    "youSay": "sip-SAAM",
+    "note": "Long aa. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "14",
+    "word": "sip-sii",
+    "youSay": "sip-SII",
+    "note": "High tone. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "15",
+    "word": "sip-haa",
+    "youSay": "sip-HAA",
+    "note": "Rising tone. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "16",
+    "word": "sip-hok",
+    "youSay": "sip-HOK",
+    "note": "High tone. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "17",
+    "word": "sip-jet",
+    "youSay": "sip-JET",
+    "note": "High tone. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "18",
+    "word": "sip-paet",
+    "youSay": "sip-PAET",
+    "note": "Falling tone. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "19",
+    "word": "sip-kao",
+    "youSay": "sip-KAO",
+    "note": "Rising tone. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "20",
+    "word": "yii-sip",
+    "youSay": "yii-SIP",
+    "note": "Casual speech often shortens yii-sip to yip. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "21",
+    "word": "yii-sip-et",
+    "youSay": "yii-sip-ET",
+    "note": "Counting form et after the tens. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "22",
+    "word": "yii-sip-song",
+    "youSay": "yii-sip-SONG",
+    "note": "Mid tone on song. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "23",
+    "word": "yii-sip-saam",
+    "youSay": "yii-sip-SAAM",
+    "note": "Long aa. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "24",
+    "word": "yii-sip-sii",
+    "youSay": "yii-sip-SII",
+    "note": "High tone. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "25",
+    "word": "yii-sip-haa",
+    "youSay": "yii-sip-HAA",
+    "note": "Rising tone. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "26",
+    "word": "yii-sip-hok",
+    "youSay": "yii-sip-HOK",
+    "note": "High tone. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "27",
+    "word": "yii-sip-jet",
+    "youSay": "yii-sip-JET",
+    "note": "High tone. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "28",
+    "word": "yii-sip-paet",
+    "youSay": "yii-sip-PAET",
+    "note": "Falling tone. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "29",
+    "word": "yii-sip-kao",
+    "youSay": "yii-sip-KAO",
+    "note": "Rising tone. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "30",
+    "word": "saam-sip",
+    "youSay": "saam-SIP",
+    "note": "Tens are digit + sip. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "40",
+    "word": "sii-sip",
+    "youSay": "sii-SIP",
+    "note": "High tone on sii. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "50",
+    "word": "haa-sip",
+    "youSay": "haa-SIP",
+    "note": "Rising tone on haa. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "60",
+    "word": "hok-sip",
+    "youSay": "hok-SIP",
+    "note": "High tone on hok. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "70",
+    "word": "jet-sip",
+    "youSay": "jet-SIP",
+    "note": "High tone on jet. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "80",
+    "word": "paet-sip",
+    "youSay": "paet-SIP",
+    "note": "Falling tone on paet. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "90",
+    "word": "kao-sip",
+    "youSay": "kao-SIP",
+    "note": "Rising tone on kao. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "100",
+    "word": "nueng-roi",
+    "youSay": "nueng-ROI",
+    "note": "roi follows the multiplier: song roi = 200. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "200",
+    "word": "song-roi",
+    "youSay": "song-ROI",
+    "note": "Long o in song. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "300",
+    "word": "saam-roi",
+    "youSay": "saam-ROI",
+    "note": "Long aa. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1000",
+    "word": "nueng-phan",
+    "youSay": "nueng-PHAN",
+    "note": "phan = thousand; ph is aspirated. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "10000",
+    "word": "nueng-muen",
+    "youSay": "nueng-MUEN",
+    "note": "muen = ten thousand. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "100000",
+    "word": "nueng-saen",
+    "youSay": "nueng-SAEN",
+    "note": "saen = hundred thousand. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1000000",
+    "word": "nueng-laan",
+    "youSay": "nueng-LAAN",
+    "note": "laan = million. Five tones; pitch learned by ear.",
+    "source": "Wikivoyage: Thai phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  }
+]

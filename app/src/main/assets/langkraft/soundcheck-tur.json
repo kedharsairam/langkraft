@@ -1,0 +1,7 @@
+{
+  "lang": "tur",
+  "newSounds": "Turkish spelling is phonetic: each letter is one sound. ı (dotless i) is a short 'uh' (schwa, like the i in pencil) and is a different letter from i = 'ee'; ö is 'eh' with rounded lips; ü is 'ee' with rounded lips; c = j as in jump, ç = ch, ş = sh, and ğ is silent and just lengthens the vowel before it. r is lightly rolled, like Telugu ర.",
+  "rhythm": "Syllable-timed and very regular: one vowel = one syllable, every vowel pronounced fully, no reduced vowels — close to Telugu rhythm, so it feels natural. Stress usually falls on the last syllable (common exceptions: iki, yirmi, iyi).",
+  "registerFirst": "Start with the siz (polite 'you') forms — verb endings in -ın/-in/-un/-ün or -ınız/-iniz/-unuz/-ünüz, and musunuz? for questions. sen forms (-sın, musun) are for family, friends and children. Merhaba and İyi günler work with anyone.",
+  "trap": "Two traps. (1) Vowel harmony: suffix vowels change to match the last vowel — -lar/-ler, -da/-de, -dır/-dir (Türkiye'de but Almanya'da). (2) Never mix i and ı: they are separate letters with separate sounds, and the dot matters (i vs ı, İ vs I)."
+}

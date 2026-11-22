@@ -18,7 +18,7 @@ class UserStateRepository(private val context: Context) {
 
     fun positionsFor(lang: String): Flow<Map<Int, Int>> =
         context.userDataStore.data.map { prefs ->
-            (1..8).mapNotNull { t -> prefs[Key.pos(lang, t)]?.toIntOrNull()?.let { t to it } }.toMap()
+            (1..35).mapNotNull { t -> prefs[Key.pos(lang, t)]?.toIntOrNull()?.let { t to it } }.toMap()
         }
 
     fun lastLang(): Flow<String?> =

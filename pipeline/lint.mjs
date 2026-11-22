@@ -1,8 +1,9 @@
 // Simple, dependency-free lint for JSONL content. Run: node pipeline/lint.mjs
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const assetsDir = new URL("../app/src/main/assets/langkraft/", import.meta.url).pathname.replace(/^\/+/, "");
+const assetsDir = fileURLToPath(new URL("../app/src/main/assets/langkraft/", import.meta.url));
 const files = existsSync(assetsDir) ? readdirSync(assetsDir).filter((f) => f.endsWith(".jsonl")) : [];
 if (files.length === 0) { console.error("No JSONL found in", assetsDir); process.exit(1); }
 

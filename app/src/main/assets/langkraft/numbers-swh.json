@@ -1,0 +1,314 @@
+[
+  {
+    "value": "0",
+    "word": "sifuri",
+    "youSay": "see-FOO-ree",
+    "note": "Zero; also 'sifuri' is the standard word.",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1",
+    "word": "moja",
+    "youSay": "MOH-jah",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "2",
+    "word": "mbili",
+    "youSay": "MBEE-lee",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "3",
+    "word": "tatu",
+    "youSay": "TAH-too",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "4",
+    "word": "nne",
+    "youSay": "n-NEH",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "5",
+    "word": "tano",
+    "youSay": "TAH-noh",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "6",
+    "word": "sita",
+    "youSay": "SEE-tah",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "7",
+    "word": "saba",
+    "youSay": "SAH-bah",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "8",
+    "word": "nane",
+    "youSay": "NAH-neh",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "9",
+    "word": "tisa",
+    "youSay": "TEE-sah",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "10",
+    "word": "kumi",
+    "youSay": "KOO-mee",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "11",
+    "word": "kumi na moja",
+    "youSay": "KOO-mee-nah-MOH-jah",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "12",
+    "word": "kumi na mbili",
+    "youSay": "KOO-mee-nah-MBEE-lee",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "13",
+    "word": "kumi na tatu",
+    "youSay": "KOO-mee-nah-TAH-too",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "14",
+    "word": "kumi na nne",
+    "youSay": "KOO-mee-nah-n-NEH",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "15",
+    "word": "kumi na tano",
+    "youSay": "KOO-mee-nah-TAH-noh",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "16",
+    "word": "kumi na sita",
+    "youSay": "KOO-mee-nah-SEE-tah",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "17",
+    "word": "kumi na saba",
+    "youSay": "KOO-mee-nah-SAH-bah",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "18",
+    "word": "kumi na nane",
+    "youSay": "KOO-mee-nah-NAH-neh",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "19",
+    "word": "kumi na tisa",
+    "youSay": "KOO-mee-nah-TEE-sah",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "20",
+    "word": "ishirini",
+    "youSay": "ee-shee-REE-nee",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "21",
+    "word": "ishirini na moja",
+    "youSay": "ee-shee-REE-nee-nah-MOH-jah",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "22",
+    "word": "ishirini na mbili",
+    "youSay": "ee-shee-REE-nee-nah-MBEE-lee",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "23",
+    "word": "ishirini na tatu",
+    "youSay": "ee-shee-REE-nee-nah-TAH-too",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "24",
+    "word": "ishirini na nne",
+    "youSay": "ee-shee-REE-nee-nah-n-NEH",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "25",
+    "word": "ishirini na tano",
+    "youSay": "ee-shee-REE-nee-nah-TAH-noh",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "26",
+    "word": "ishirini na sita",
+    "youSay": "ee-shee-REE-nee-nah-SEE-tah",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "27",
+    "word": "ishirini na saba",
+    "youSay": "ee-shee-REE-nee-nah-SAH-bah",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "28",
+    "word": "ishirini na nane",
+    "youSay": "ee-shee-REE-nee-nah-NAH-neh",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "29",
+    "word": "ishirini na tisa",
+    "youSay": "ee-shee-REE-nee-nah-TEE-sah",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "30",
+    "word": "thelathini",
+    "youSay": "theh-lah-THEE-nee",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "40",
+    "word": "arobaini",
+    "youSay": "ah-roh-bah-EE-nee",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "50",
+    "word": "hamsini",
+    "youSay": "hahm-SEE-nee",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "60",
+    "word": "sitini",
+    "youSay": "see-TEE-nee",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "70",
+    "word": "sabini",
+    "youSay": "sah-BEE-nee",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "80",
+    "word": "themanini",
+    "youSay": "theh-mah-NEE-nee",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "90",
+    "word": "tisini",
+    "youSay": "tee-SEE-nee",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "100",
+    "word": "mia moja",
+    "youSay": "MEE-ah-MOH-jah",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1000",
+    "word": "elfu moja",
+    "youSay": "EHL-foo-MOH-jah",
+    "note": "",
+    "source": "Wikivoyage: Swahili phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  }
+]

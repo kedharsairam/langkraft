@@ -1,0 +1,314 @@
+[
+  {
+    "value": "0",
+    "word": "sıfır",
+    "youSay": "suh-FUHR",
+    "note": "",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1",
+    "word": "bir",
+    "youSay": "BEER",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "2",
+    "word": "iki",
+    "youSay": "EE-kee",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "3",
+    "word": "üç",
+    "youSay": "ÜCH",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "4",
+    "word": "dört",
+    "youSay": "DÖRT",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "5",
+    "word": "beş",
+    "youSay": "BEHSH",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "6",
+    "word": "altı",
+    "youSay": "ahl-TUH",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "7",
+    "word": "yedi",
+    "youSay": "yeh-DEE",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "8",
+    "word": "sekiz",
+    "youSay": "seh-KEEZ",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "9",
+    "word": "dokuz",
+    "youSay": "doh-KOOZ",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "10",
+    "word": "on",
+    "youSay": "OHN",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "11",
+    "word": "on bir",
+    "youSay": "OHN-BEER",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "12",
+    "word": "on iki",
+    "youSay": "OHN-EE-kee",
+    "note": "",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "13",
+    "word": "on üç",
+    "youSay": "OHN-ÜCH",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "14",
+    "word": "on dört",
+    "youSay": "OHN-DÖRT",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "15",
+    "word": "on beş",
+    "youSay": "OHN-BEHSH",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "16",
+    "word": "on altı",
+    "youSay": "OHN-ahl-TUH",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "17",
+    "word": "on yedi",
+    "youSay": "OHN-yeh-DEE",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "18",
+    "word": "on sekiz",
+    "youSay": "OHN-seh-KEEZ",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "19",
+    "word": "on dokuz",
+    "youSay": "OHN-doh-KOOZ",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "20",
+    "word": "yirmi",
+    "youSay": "YEER-mee",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "21",
+    "word": "yirmi bir",
+    "youSay": "YEER-mee-BEER",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "22",
+    "word": "yirmi iki",
+    "youSay": "YEER-mee-EE-kee",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "23",
+    "word": "yirmi üç",
+    "youSay": "YEER-mee-ÜCH",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "24",
+    "word": "yirmi dört",
+    "youSay": "YEER-mee-DÖRT",
+    "note": "",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "25",
+    "word": "yirmi beş",
+    "youSay": "YEER-mee-BEHSH",
+    "note": "",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "26",
+    "word": "yirmi altı",
+    "youSay": "YEER-mee-ahl-TUH",
+    "note": "",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "27",
+    "word": "yirmi yedi",
+    "youSay": "YEER-mee-yeh-DEE",
+    "note": "",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "28",
+    "word": "yirmi sekiz",
+    "youSay": "YEER-mee-seh-KEEZ",
+    "note": "",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "29",
+    "word": "yirmi dokuz",
+    "youSay": "YEER-mee-doh-KOOZ",
+    "note": "",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "30",
+    "word": "otuz",
+    "youSay": "OH-tooz",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "40",
+    "word": "kırk",
+    "youSay": "KUHRK",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "50",
+    "word": "elli",
+    "youSay": "EHL-lee",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "60",
+    "word": "altmış",
+    "youSay": "ahl-TMUHSH",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "70",
+    "word": "yetmiş",
+    "youSay": "yeht-MEESH",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "80",
+    "word": "seksen",
+    "youSay": "sehk-SEHN",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "90",
+    "word": "doksan",
+    "youSay": "dohk-SAHN",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "100",
+    "word": "yüz",
+    "youSay": "YÜZ",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1000",
+    "word": "bin",
+    "youSay": "BEEN",
+    "note": "",
+    "source": "Wikivoyage: Turkish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  }
+]

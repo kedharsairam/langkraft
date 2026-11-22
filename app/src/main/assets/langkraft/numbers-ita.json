@@ -1,0 +1,314 @@
+[
+  {
+    "value": "0",
+    "word": "zero",
+    "youSay": "DZEH-roh",
+    "note": "Zero; the initial z is voiced, like dz.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1",
+    "word": "uno",
+    "youSay": "OO-noh",
+    "note": "Uno before a masculine noun; una before feminine.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "2",
+    "word": "due",
+    "youSay": "DOO-eh",
+    "note": "Two syllables.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "3",
+    "word": "tre",
+    "youSay": "treh",
+    "note": "One syllable.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "4",
+    "word": "quattro",
+    "youSay": "KWAH-troh",
+    "note": "Double t is held longer.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "5",
+    "word": "cinque",
+    "youSay": "CHEEN-kweh",
+    "note": "qu = kw; keep it one syllable.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "6",
+    "word": "sei",
+    "youSay": "SEH-ee",
+    "note": "Two vowels, two quick beats.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "7",
+    "word": "sette",
+    "youSay": "SEHT-teh",
+    "note": "Double t is held longer.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "8",
+    "word": "otto",
+    "youSay": "OHT-toh",
+    "note": "Double t is held longer.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "9",
+    "word": "nove",
+    "youSay": "NOH-veh",
+    "note": "Stress NO.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "10",
+    "word": "dieci",
+    "youSay": "DYEH-chee",
+    "note": "Stress DYE.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "11",
+    "word": "undici",
+    "youSay": "OON-dee-chee",
+    "note": "Stress OON.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "12",
+    "word": "dodici",
+    "youSay": "DOH-dee-chee",
+    "note": "Stress DOH.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "13",
+    "word": "tredici",
+    "youSay": "TREH-dee-chee",
+    "note": "Stress TREH.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "14",
+    "word": "quattordici",
+    "youSay": "kwahr-TOHR-dee-chee",
+    "note": "Stress TOHR.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "15",
+    "word": "quindici",
+    "youSay": "KWEEN-dee-chee",
+    "note": "Stress KWEEN.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "16",
+    "word": "sedici",
+    "youSay": "SEH-dee-chee",
+    "note": "Stress SEH.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "17",
+    "word": "diciassette",
+    "youSay": "dee-chahs-SEHT-teh",
+    "note": "Stress SET.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "18",
+    "word": "diciotto",
+    "youSay": "dee-CHOH-toh",
+    "note": "Stress CHOH.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "19",
+    "word": "diciannove",
+    "youSay": "dee-chah-NOH-veh",
+    "note": "Stress NO.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "20",
+    "word": "venti",
+    "youSay": "VEHN-tee",
+    "note": "Stress VEHN.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "21",
+    "word": "ventuno",
+    "youSay": "vehn-TOO-noh",
+    "note": "One word: venti + uno.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "22",
+    "word": "ventidue",
+    "youSay": "vehn-tee-DOO-eh",
+    "note": "One word.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "23",
+    "word": "ventitré",
+    "youSay": "vehn-tee-TREH",
+    "note": "Written accent on the last syllable.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "24",
+    "word": "ventiquattro",
+    "youSay": "vehn-tee-KWAH-troh",
+    "note": "One word.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "25",
+    "word": "venticinque",
+    "youSay": "vehn-tee-CHEEN-kweh",
+    "note": "One word.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "26",
+    "word": "ventisei",
+    "youSay": "vehn-tee-SEH-ee",
+    "note": "One word.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "27",
+    "word": "ventisette",
+    "youSay": "vehn-tee-SEHT-teh",
+    "note": "One word.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "28",
+    "word": "ventotto",
+    "youSay": "veh-TOH-toh",
+    "note": "One word: venti + otto, the i drops.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "29",
+    "word": "ventinove",
+    "youSay": "vehn-tee-NOH-veh",
+    "note": "One word.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "30",
+    "word": "trenta",
+    "youSay": "TREHN-tah",
+    "note": "Base for 31-39.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "40",
+    "word": "quaranta",
+    "youSay": "kwah-RAHN-tah",
+    "note": "Stress RAHN.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "50",
+    "word": "cinquanta",
+    "youSay": "cheen-KWAHN-tah",
+    "note": "Stress KWAHN.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "60",
+    "word": "sessanta",
+    "youSay": "sehs-SAHN-tah",
+    "note": "Double s is held longer.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "70",
+    "word": "settanta",
+    "youSay": "seht-TAHN-tah",
+    "note": "Double t is held longer.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "80",
+    "word": "ottanta",
+    "youSay": "oht-TAHN-tah",
+    "note": "Double t is held longer.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "90",
+    "word": "novanta",
+    "youSay": "noh-VAHN-tah",
+    "note": "Stress VAHN.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "100",
+    "word": "cento",
+    "youSay": "CHEHN-toh",
+    "note": "c before e is ch.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1000",
+    "word": "mille",
+    "youSay": "MEEL-leh",
+    "note": "Double l is held longer.",
+    "source": "Wikivoyage: Italian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  }
+]

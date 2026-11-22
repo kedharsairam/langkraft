@@ -1,0 +1,338 @@
+[
+  {
+    "value": "0",
+    "word": "líng",
+    "youSay": "LING",
+    "note": "Zero.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1",
+    "word": "yī",
+    "youSay": "YI",
+    "note": "yāo is used for phone and ID numbers.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "2",
+    "word": "èr",
+    "youSay": "ER",
+    "note": "liǎng is used before a measure word.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "3",
+    "word": "sān",
+    "youSay": "SAN",
+    "note": "Number 3. Tones: 1.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "4",
+    "word": "sì",
+    "youSay": "SI",
+    "note": "Number 4. Tones: 4.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "5",
+    "word": "wǔ",
+    "youSay": "WU",
+    "note": "Number 5. Tones: 3.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "6",
+    "word": "liù",
+    "youSay": "LIU",
+    "note": "Number 6. Tones: 4.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "7",
+    "word": "qī",
+    "youSay": "QI",
+    "note": "Number 7. Tones: 1.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "8",
+    "word": "bā",
+    "youSay": "BA",
+    "note": "Number 8. Tones: 1.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "9",
+    "word": "jiǔ",
+    "youSay": "JIU",
+    "note": "Number 9. Tones: 3.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "10",
+    "word": "shí",
+    "youSay": "SHI",
+    "note": "Number 10. Tones: 2.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "11",
+    "word": "shí yī",
+    "youSay": "SHI-yi",
+    "note": "ten plus one.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "12",
+    "word": "shí èr",
+    "youSay": "SHI-er",
+    "note": "Number 12. Tones: 2-4.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "13",
+    "word": "shí sān",
+    "youSay": "SHI-san",
+    "note": "Number 13. Tones: 2-1.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "14",
+    "word": "shí sì",
+    "youSay": "SHI-si",
+    "note": "Number 14. Tones: 2-4.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "15",
+    "word": "shí wǔ",
+    "youSay": "SHI-wu",
+    "note": "Number 15. Tones: 2-3.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "16",
+    "word": "shí liù",
+    "youSay": "SHI-liu",
+    "note": "Number 16. Tones: 2-4.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "17",
+    "word": "shí qī",
+    "youSay": "SHI-qi",
+    "note": "Number 17. Tones: 2-1.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "18",
+    "word": "shí bā",
+    "youSay": "SHI-ba",
+    "note": "Number 18. Tones: 2-1.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "19",
+    "word": "shí jiǔ",
+    "youSay": "SHI-jiu",
+    "note": "Number 19. Tones: 2-3.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "20",
+    "word": "èr shí",
+    "youSay": "ER-shi",
+    "note": "two plus ten.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "21",
+    "word": "èr shí yī",
+    "youSay": "ER-shi-yi",
+    "note": "Number 21. Tones: 4-2-1.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "22",
+    "word": "èr shí èr",
+    "youSay": "ER-shi-er",
+    "note": "Number 22. Tones: 4-2-4.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "23",
+    "word": "èr shí sān",
+    "youSay": "ER-shi-san",
+    "note": "Number 23. Tones: 4-2-1.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "24",
+    "word": "èr shí sì",
+    "youSay": "ER-shi-si",
+    "note": "Number 24. Tones: 4-2-4.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "25",
+    "word": "èr shí wǔ",
+    "youSay": "ER-shi-wu",
+    "note": "Number 25. Tones: 4-2-3.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "26",
+    "word": "èr shí liù",
+    "youSay": "ER-shi-liu",
+    "note": "Number 26. Tones: 4-2-4.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "27",
+    "word": "èr shí qī",
+    "youSay": "ER-shi-qi",
+    "note": "Number 27. Tones: 4-2-1.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "28",
+    "word": "èr shí bā",
+    "youSay": "ER-shi-ba",
+    "note": "Number 28. Tones: 4-2-1.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "29",
+    "word": "èr shí jiǔ",
+    "youSay": "ER-shi-jiu",
+    "note": "Number 29. Tones: 4-2-3.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "30",
+    "word": "sān shí",
+    "youSay": "SAN-shi",
+    "note": "Number 30. Tones: 1-2.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "40",
+    "word": "sì shí",
+    "youSay": "SI-shi",
+    "note": "Number 40. Tones: 4-2.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "50",
+    "word": "wǔ shí",
+    "youSay": "WU-shi",
+    "note": "Number 50. Tones: 3-2.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "60",
+    "word": "liù shí",
+    "youSay": "LIU-shi",
+    "note": "Number 60. Tones: 4-2.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "70",
+    "word": "qī shí",
+    "youSay": "QI-shi",
+    "note": "Number 70. Tones: 1-2.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "80",
+    "word": "bā shí",
+    "youSay": "BA-shi",
+    "note": "Number 80. Tones: 1-2.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "90",
+    "word": "jiǔ shí",
+    "youSay": "JIU-shi",
+    "note": "Number 90. Tones: 3-2.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "100",
+    "word": "yī bǎi",
+    "youSay": "YI-bai",
+    "note": "Number 100. Tones: 1-3.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "200",
+    "word": "èr bǎi",
+    "youSay": "ER-bai",
+    "note": "liǎng bǎi is the colloquial form.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "500",
+    "word": "wǔ bǎi",
+    "youSay": "WU-bai",
+    "note": "Number 500. Tones: 3-3.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1000",
+    "word": "yī qiān",
+    "youSay": "YI-qian",
+    "note": "Number 1000. Tones: 1-1.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "10000",
+    "word": "yī wàn",
+    "youSay": "YI-wan",
+    "note": "Numbers group by ten-thousand, not thousand.",
+    "source": "Wikivoyage: Chinese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  }
+]

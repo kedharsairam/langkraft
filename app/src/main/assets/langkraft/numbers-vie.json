@@ -1,0 +1,314 @@
+[
+  {
+    "value": "0",
+    "word": "không",
+    "youSay": "KOHNG",
+    "note": "Also lingo: không = no/not.",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1",
+    "word": "một",
+    "youSay": "MOHT",
+    "note": "Before a counter, một may sound like 'moke'.",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "2",
+    "word": "hai",
+    "youSay": "HIGH",
+    "note": "Mid level (ngang) tone.",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "3",
+    "word": "ba",
+    "youSay": "BAH",
+    "note": "Mid level (ngang) tone.",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "4",
+    "word": "bốn",
+    "youSay": "BOHN",
+    "note": "Tone sắc (high rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "5",
+    "word": "năm",
+    "youSay": "NAHM",
+    "note": "năm also means year.",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "6",
+    "word": "sáu",
+    "youSay": "SAO",
+    "note": "Tone sắc (high rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "7",
+    "word": "bảy",
+    "youSay": "BAI",
+    "note": "Tone hỏi (falling-rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "8",
+    "word": "tám",
+    "youSay": "TAHM",
+    "note": "Tone sắc (high rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "9",
+    "word": "chín",
+    "youSay": "CHEEN",
+    "note": "Tone sắc (high rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "10",
+    "word": "mười",
+    "youSay": "MOOEE",
+    "note": "mười is the base for the teens.",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "11",
+    "word": "mười một",
+    "youSay": "mooee-MOHT",
+    "note": "Tone nặng (low glottal).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "12",
+    "word": "mười hai",
+    "youSay": "mooee-HIGH",
+    "note": "Tone huyền (low falling).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "13",
+    "word": "mười ba",
+    "youSay": "mooee-BAH",
+    "note": "Tone huyền (low falling).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "14",
+    "word": "mười bốn",
+    "youSay": "mooee-BOHN",
+    "note": "Tone sắc (high rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "15",
+    "word": "mười lăm",
+    "youSay": "mooee-LAM",
+    "note": "North says mười lăm, not mười năm.",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "16",
+    "word": "mười sáu",
+    "youSay": "mooee-SAO",
+    "note": "Tone sắc (high rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "17",
+    "word": "mười bảy",
+    "youSay": "mooee-BAI",
+    "note": "Tone hỏi (falling-rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "18",
+    "word": "mười tám",
+    "youSay": "mooee-TAHM",
+    "note": "Tone sắc (high rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "19",
+    "word": "mười chín",
+    "youSay": "mooee-CHEEN",
+    "note": "Tone sắc (high rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "20",
+    "word": "hai mươi",
+    "youSay": "high-MOOEE",
+    "note": "mươi changes to mốt in 21.",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "21",
+    "word": "hai mươi mốt",
+    "youSay": "high-mooee-MOHT",
+    "note": "mốt is the counting form of một after mươi.",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "22",
+    "word": "hai mươi hai",
+    "youSay": "high-mooee-HIGH",
+    "note": "Mid level (ngang) tone.",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "23",
+    "word": "hai mươi ba",
+    "youSay": "high-mooee-BAH",
+    "note": "Mid level (ngang) tone.",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "24",
+    "word": "hai mươi tư",
+    "youSay": "high-mooee-TUH",
+    "note": "tư is the counting form of bốn after mươi.",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "25",
+    "word": "hai mươi lăm",
+    "youSay": "high-mooee-LAM",
+    "note": "lăm is the counting form of năm after mươi.",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "26",
+    "word": "hai mươi sáu",
+    "youSay": "high-mooee-SAO",
+    "note": "Tone sắc (high rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "27",
+    "word": "hai mươi bảy",
+    "youSay": "high-mooee-BAI",
+    "note": "Tone hỏi (falling-rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "28",
+    "word": "hai mươi tám",
+    "youSay": "high-mooee-TAHM",
+    "note": "Tone sắc (high rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "29",
+    "word": "hai mươi chín",
+    "youSay": "high-mooee-CHEEN",
+    "note": "Tone sắc (high rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "30",
+    "word": "ba mươi",
+    "youSay": "bah-MOOEE",
+    "note": "Mid level (ngang) tone.",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "40",
+    "word": "bốn mươi",
+    "youSay": "bohn-MOOEE",
+    "note": "Tone sắc (high rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "50",
+    "word": "năm mươi",
+    "youSay": "nahm-MOOEE",
+    "note": "Mid level (ngang) tone.",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "60",
+    "word": "sáu mươi",
+    "youSay": "sao-MOOEE",
+    "note": "Tone sắc (high rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "70",
+    "word": "bảy mươi",
+    "youSay": "bai-MOOEE",
+    "note": "Tone hỏi (falling-rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "80",
+    "word": "tám mươi",
+    "youSay": "tahm-MOOEE",
+    "note": "Tone sắc (high rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "90",
+    "word": "chín mươi",
+    "youSay": "cheen-MOOEE",
+    "note": "Tone sắc (high rising).",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "100",
+    "word": "một trăm",
+    "youSay": "moht-CHAM",
+    "note": "trăm follows the multiplier: hai trăm = 200.",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1000",
+    "word": "một nghìn",
+    "youSay": "moht-NGEEN",
+    "note": "North: nghìn; South: ngàn. Both are understood.",
+    "source": "Wikivoyage: Vietnamese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  }
+]

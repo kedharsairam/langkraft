@@ -1,0 +1,7 @@
+{
+  "lang": "vie",
+  "newSounds": "Six tones: ngang (mid), huyền (low falling), hỏi (falling-rising), ngã (broken), nặng (short glottal), sắc (high rising). New vowels ơ/ư (rounded, no Telugu equivalent), plus đ, nh (ny), ng, kh (Scottish loch), ph (f)",
+  "rhythm": "Syllable-timed: every syllable is a separate, even beat, much like Telugu. Keep syllables clipped and distinct; CAPS marks the phrase-final beat where the voice lands",
+  "registerFirst": "Polite first: tôi for I with strangers, dạ (South) / vâng (North) for yes, and address people by title and age — ông, bà, bác, cô, chú, anh, chị — with dạ/thưa to elders; you = bạn only among equals",
+  "trap": "The tone changes the word: ma (ngang) = ghost, má (sắc) = mother, mả (hỏi) = tomb, mạ (nặng) = rice seedling. North r/d/z = z and v = v; South r/d = y/j and v = y. Final p/t/k are unreleased"
+}

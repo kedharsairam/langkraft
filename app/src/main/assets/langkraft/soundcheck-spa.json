@@ -1,1 +1,7 @@
-{"lang":"spa","newSounds":"j = throaty H, ñ = ny, rr = Telugu ర trill","rhythm":"syllable-timed (easy for you)","registerFirst":"usted (polite form first)","trap":"b = v (no /v/), h silent (Hola = OH-lah)"}
+{
+  "lang": "spa",
+  "newSounds": "j = throaty H (like Telugu హ but from the throat), ñ = ny in canyon, rr = Telugu ర trill",
+  "rhythm": "syllable-timed — close to Telugu, so the rhythm is easy for you",
+  "registerFirst": "usted — the polite form. Locals will invite you to drop it; that is a compliment",
+  "trap": "b and v sound the same; h is always silent (Hola = OH-lah); z and c before e/i are s in Latin America but th in Spain"
+}

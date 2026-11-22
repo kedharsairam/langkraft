@@ -1,0 +1,314 @@
+[
+  {
+    "value": "0",
+    "word": "suzham",
+    "youSay": "SUH-zhahm",
+    "note": "Zero. Also hear the English loan zero.",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1",
+    "word": "ondru",
+    "youSay": "ON-dhruh",
+    "note": "Retroflex dh; short a is a schwa.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "2",
+    "word": "irendu",
+    "youSay": "ih-REN-duh",
+    "note": "Stress the middle syllable.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "3",
+    "word": "moondru",
+    "youSay": "MOON-dhruh",
+    "note": "Long oo, then retroflex dhr.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "4",
+    "word": "naangu",
+    "youSay": "NAA-nguh",
+    "note": "Long aa; ng as in sing.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "5",
+    "word": "ainthu",
+    "youSay": "AIN-thuh",
+    "note": "ai like the y in type; dental th.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "6",
+    "word": "aaru",
+    "youSay": "AA-ruh",
+    "note": "Long aa; trilled r.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "7",
+    "word": "ezhu",
+    "youSay": "EH-zhuh",
+    "note": "zh is the single Tamil letter .",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "8",
+    "word": "ettu",
+    "youSay": "ET-tuh",
+    "note": "Double t; short e.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "9",
+    "word": "onbathu",
+    "youSay": "on-BAH-thuh",
+    "note": "Stress BAH; dental th.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "10",
+    "word": "pathu",
+    "youSay": "PAH-thuh",
+    "note": "Dental th, tongue on the teeth.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "11",
+    "word": "pathinondru",
+    "youSay": "PUH-thih-nohnd-ruh",
+    "note": "pathu + ondru.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "12",
+    "word": "pannirendu",
+    "youSay": "PUHN-nih-rehn-duh",
+    "note": "Irregular for twelve.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "13",
+    "word": "pathimoondru",
+    "youSay": "PUH-thih-moond-ruh",
+    "note": "pathu + moondru.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "14",
+    "word": "pathinaangu",
+    "youSay": "PUH-thih-nah-ng-guh",
+    "note": "pathu + naangu.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "15",
+    "word": "pathinainthu",
+    "youSay": "PUH-thih-neyen-thuh",
+    "note": "pathu + ainthu.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "16",
+    "word": "pathinaaru",
+    "youSay": "PUH-thih-nah-ruh",
+    "note": "pathu + aaru.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "17",
+    "word": "pathinezhu",
+    "youSay": "PUH-thih-neh-zhuh",
+    "note": "pathu + ezhu.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "18",
+    "word": "pathinettu",
+    "youSay": "PUH-thih-neht-tuh",
+    "note": "pathu + ettu.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "19",
+    "word": "patthonbathu",
+    "youSay": "PUHT-thohn-buh-thuh",
+    "note": "patth- + onbathu.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "20",
+    "word": "irupathu",
+    "youSay": "IH-ruh-puh-thuh",
+    "note": "iru + pathu (base for the twenties).",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "21",
+    "word": "irupathu ondru",
+    "youSay": "IH-ruh-puh-thuh-ON-dhruh",
+    "note": "irupathu + ondru.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "22",
+    "word": "irupathu irendu",
+    "youSay": "IH-ruh-puh-thuh-ih-REN-duh",
+    "note": "irupathu + irendu.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "23",
+    "word": "irupathu moondru",
+    "youSay": "IH-ruh-puh-thuh-MOON-dhruh",
+    "note": "irupathu + moondru.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "24",
+    "word": "irupathu naangu",
+    "youSay": "IH-ruh-puh-thuh-NAA-nguh",
+    "note": "irupathu + naangu.",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "25",
+    "word": "irupathu ainthu",
+    "youSay": "IH-ruh-puh-thuh-AIN-thuh",
+    "note": "irupathu + ainthu.",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "26",
+    "word": "irupathu aaru",
+    "youSay": "IH-ruh-puh-thuh-AA-ruh",
+    "note": "irupathu + aaru.",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "27",
+    "word": "irupathu ezhu",
+    "youSay": "IH-ruh-puh-thuh-EH-zhuh",
+    "note": "irupathu + ezhu.",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "28",
+    "word": "irupathu ettu",
+    "youSay": "IH-ruh-puh-thuh-ET-tuh",
+    "note": "irupathu + ettu.",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "29",
+    "word": "irupathu onbathu",
+    "youSay": "IH-ruh-puh-thuh-on-BAH-thuh",
+    "note": "irupathu + onbathu.",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "30",
+    "word": "muppathu",
+    "youSay": "mup-PAH-thuh",
+    "note": "mu + pathu.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "40",
+    "word": "naarpadhu",
+    "youSay": "NAHR-puh-dhuh",
+    "note": "naal + pathu, with retroflex dh.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "50",
+    "word": "aimbadhu",
+    "youSay": "EYEM-buh-dhuh",
+    "note": "ai + pathu, with retroflex dh.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "60",
+    "word": "arupadhu",
+    "youSay": "UH-ruh-puh-dhuh",
+    "note": "aaru + pathu.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "70",
+    "word": "ezhupadhu",
+    "youSay": "EH-zhuh-puh-dhuh",
+    "note": "ezhu + pathu.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "80",
+    "word": "enpadhu",
+    "youSay": "EHN-puh-dhuh",
+    "note": "en + pathu.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "90",
+    "word": "thonnooru",
+    "youSay": "THOHN-noo-ruh",
+    "note": "Ninety; related to nooru (100).",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "100",
+    "word": "nooru",
+    "youSay": "NOO-ruh",
+    "note": "One hundred; long oo.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1000",
+    "word": "aayiram",
+    "youSay": "AA-yih-rahm",
+    "note": "One thousand; long aa, trilled r.",
+    "source": "Wikivoyage: Tamil phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  }
+]

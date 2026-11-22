@@ -1,0 +1,7 @@
+{
+  "lang": "srp",
+  "newSounds": "Serbian uses two alphabets for the same sounds: Cyrillic and Latin. This app shows only Latin. č and ć are ch (as in chair/church); š is sh; ž is zh (the s in pleasure); đ is dy (the d in endure); dž is dge in edge; lj is lli in million; nj is ny in canyon; c is always ts, never k; j is y as in yes. r is trilled, like Telugu ర.",
+  "rhythm": "Serbian has pitch accent: four tones that are not written down, so listen for the music of a word. Stress is usually on the first syllable and never on the last; loanwords may stress a middle syllable. Telugu is syllable-timed with an even beat; in Serbian the stressed syllable is longer and louder, so do not give every syllable equal weight.",
+  "registerFirst": "Use the polite Vi form first: zovete (not zoveš), ste (not si), govorite (not govori), imate (not imaš). ti is for family, friends and children; wait to be invited to switch. Verbs and pronouns change with the form: vi/vas/vam vs ti/tebe/ti.",
+  "trap": "Do not read Latin letters with English values: c = ts, j = y, r is trilled, and h is weak. Also, do not stress the final syllable. Boli me glava is BOH-lee meh GLAH-vah, not boh-lee meh glah-VAH. hvala is HVAH-lah, not FVAH-lah."
+}

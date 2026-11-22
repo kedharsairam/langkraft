@@ -1,1 +1,314 @@
-[{"value":"0","word":"cero","youSay":"SEH-roh","note":"Zero.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"1","word":"uno","youSay":"OO-noh","note":"One.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"2","word":"dos","youSay":"DOS","note":"Two.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"3","word":"tres","youSay":"TRES","note":"Three.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"4","word":"cuatro","youSay":"KWAH-troh","note":"Four.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"5","word":"cinco","youSay":"SEEN-koh","note":"Five.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"6","word":"seis","youSay":"SEYS","note":"Six.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"7","word":"siete","youSay":"SEH-teh","note":"Seven.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"8","word":"ocho","youSay":"OH-choh","note":"Eight.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"9","word":"nueve","youSay":"NWEH-veh","note":"Nine.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"10","word":"diez","youSay":"DYEHS","note":"Ten.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"11","word":"once","youSay":"OHN-seh","note":"Eleven.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"12","word":"doce","youSay":"DOH-seh","note":"Twelve.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"13","word":"trece","youSay":"TREH-seh","note":"Thirteen.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"14","word":"catorce","youSay":"kah-TOR-seh","note":"Fourteen.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"15","word":"quince","youSay":"KEEN-seh","note":"Fifteen.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"16","word":"dieciseis","youSay":"dyeh-see-SEYS","note":"Sixteen.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"17","word":"diecisiete","youSay":"dyeh-see-SYEH-teh","note":"Seventeen.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"18","word":"dieciocho","youSay":"dyeh-see-OH-choh","note":"Eighteen.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"19","word":"diecinueve","youSay":"dyeh-see-NWEH-veh","note":"Nineteen.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"20","word":"veinte","youSay":"VEEN-teh","note":"Twenty.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"30","word":"treinta","youSay":"TREHN-tah","note":"Pattern: treinta + y + 1-9.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"40","word":"cuarenta","youSay":"kwah-REN-tah","note":"Forty.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"50","word":"cincuenta","youSay":"seen-KWEN-tah","note":"Fifty.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"60","word":"sesenta","youSay":"seh-SEN-tah","note":"Sixty.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"70","word":"setenta","youSay":"seh-TEN-tah","note":"Seventy.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"80","word":"ochenta","youSay":"oh-CHEN-tah","note":"Eighty.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"90","word":"noventa","youSay":"noh-VEN-tah","note":"Ninety.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"100","word":"cien","youSay":"SYEN","note":"Hundred.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"},{"value":"1000","word":"mil","youSay":"MEEL","note":"Thousand.","source":"Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)","checked":"2026-11-06"}]
+[
+  {
+    "value": "0",
+    "word": "cero",
+    "youSay": "SEH-roh",
+    "note": "Zero.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1",
+    "word": "uno",
+    "youSay": "OO-noh",
+    "note": "Una before a feminine noun.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "2",
+    "word": "dos",
+    "youSay": "dohs",
+    "note": "d like dog.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "3",
+    "word": "tres",
+    "youSay": "trehs",
+    "note": "One syllable.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "4",
+    "word": "cuatro",
+    "youSay": "KWAH-troh",
+    "note": "cue like kwa.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "5",
+    "word": "cinco",
+    "youSay": "SEEN-koh",
+    "note": "c before i is s.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "6",
+    "word": "seis",
+    "youSay": "SEH-ees",
+    "note": "Two syllables.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "7",
+    "word": "siete",
+    "youSay": "see-EH-teh",
+    "note": "Stress EH.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "8",
+    "word": "ocho",
+    "youSay": "OH-choh",
+    "note": "ch like touch.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "9",
+    "word": "nueve",
+    "youSay": "noo-EH-beh",
+    "note": "Stress EH.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "10",
+    "word": "diez",
+    "youSay": "dee-EHS",
+    "note": "z is s in Latin America.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "11",
+    "word": "once",
+    "youSay": "OHN-seh",
+    "note": "Stress OHN.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "12",
+    "word": "doce",
+    "youSay": "DOH-seh",
+    "note": "Stress DOH.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "13",
+    "word": "trece",
+    "youSay": "TREH-seh",
+    "note": "c before e is s.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "14",
+    "word": "catorce",
+    "youSay": "kah-TOHR-seh",
+    "note": "Stress TOHR.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "15",
+    "word": "quince",
+    "youSay": "KEEN-seh",
+    "note": "qu is k.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "16",
+    "word": "dieciséis",
+    "youSay": "dee-EH-see-SEH-ees",
+    "note": "Accent on the last seis.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "17",
+    "word": "diecisiete",
+    "youSay": "dee-EH-see-see-EH-teh",
+    "note": "Builds on siete.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "18",
+    "word": "dieciocho",
+    "youSay": "dee-EH-see-OH-choh",
+    "note": "Builds on ocho.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "19",
+    "word": "diecinueve",
+    "youSay": "dee-EH-see-NOO-EH-beh",
+    "note": "Builds on nueve.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "20",
+    "word": "veinte",
+    "youSay": "VAIN-teh",
+    "note": "ei like ay in pay.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "21",
+    "word": "veintiuno",
+    "youSay": "VAIN-tee-OO-noh",
+    "note": "One word; veinti- + uno.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "22",
+    "word": "veintidós",
+    "youSay": "VAIN-tee-DOHS",
+    "note": "Accent on the last part.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "23",
+    "word": "veintitrés",
+    "youSay": "VAIN-tee-TREHS",
+    "note": "One word.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "24",
+    "word": "veinticuatro",
+    "youSay": "VAIN-tee-KWAH-troh",
+    "note": "One word.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "25",
+    "word": "veinticinco",
+    "youSay": "VAIN-tee-SEEN-koh",
+    "note": "One word.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "26",
+    "word": "veintiséis",
+    "youSay": "VAIN-tee-SEH-ees",
+    "note": "One word.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "27",
+    "word": "veintisiete",
+    "youSay": "VAIN-tee-see-EH-teh",
+    "note": "One word.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "28",
+    "word": "veintiocho",
+    "youSay": "VAIN-tee-OH-choh",
+    "note": "One word.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "29",
+    "word": "veintinueve",
+    "youSay": "VAIN-tee-NOO-EH-beh",
+    "note": "One word.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "30",
+    "word": "treinta",
+    "youSay": "TRAIN-tah",
+    "note": "Base for 31-39.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "40",
+    "word": "cuarenta",
+    "youSay": "kwah-REHN-tah",
+    "note": "Stress REHN.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "50",
+    "word": "cincuenta",
+    "youSay": "seen-KWEHN-tah",
+    "note": "Stress KWEHN.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "60",
+    "word": "sesenta",
+    "youSay": "seh-SEHN-tah",
+    "note": "Stress SEHN.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "70",
+    "word": "setenta",
+    "youSay": "seh-TEHN-tah",
+    "note": "Stress TEHN.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "80",
+    "word": "ochenta",
+    "youSay": "oh-CHEHN-tah",
+    "note": "Stress CHEHN.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "90",
+    "word": "noventa",
+    "youSay": "noh-BEHN-tah",
+    "note": "Stress BEHN.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "100",
+    "word": "cien",
+    "youSay": "see-EHN",
+    "note": "Ciento before another number.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1000",
+    "word": "mil",
+    "youSay": "MEEL",
+    "note": "No plural after a number.",
+    "source": "Wikivoyage: Spanish phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  }
+]

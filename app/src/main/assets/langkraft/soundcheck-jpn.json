@@ -1,0 +1,7 @@
+{
+  "lang": "jpn",
+  "newSounds": "Five pure vowels like Telugu, but length changes the word: a/ā, i/ī, u/ū, e/ē, o/ō — the macron is held about twice as long (ō in kyū, jū, kōhī). Small tsu doubles the next consonant and adds a silent beat (yukkuri, matte, happyaku). r is a soft flap close to Telugu ర, never the English r; fu is between f and h with nearly closed lips. Digraphs: shi = shee, chi = chee, tsu = tsoo.",
+  "rhythm": "Mora-timed: every kana is one even beat, close to Telugu syllable rhythm. A long vowel or a small tsu still occupies its own single beat. CAPS marks the pitch-accent nucleus where known (first mora otherwise); Japanese pitch is far flatter than English stress, so keep the whole phrase level and let the beat do the work.",
+  "registerFirst": "Polite desu/masu first: desu, masu, -masen, -mashita, kudasai and itadakemasu are the safe register with strangers, elders and staff. watashi for I; avoid anata where a name plus -san works. Plain forms (da, -ta, imperatives such as tasukete!) appear only as noted, mainly in emergencies.",
+  "trap": "Do not read macrons as English long vowels with a glide, and do not skip the small-tsu pause: shōjo and shojo, or kōki and koki, are different words. The final u of desu/masu is nearly silent (des, mas). Japanese has pitch accent, not stress: a wrong pitch rarely breaks understanding but a wrong vowel length or a dropped small tsu often does. This app teaches the beats in writing; listening practice must come from a native speaker or audio course."
+}

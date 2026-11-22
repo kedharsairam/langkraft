@@ -1,0 +1,314 @@
+[
+  {
+    "value": "0",
+    "word": "sefr",
+    "youSay": "SEFR",
+    "note": "Zero.",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1",
+    "word": "yek",
+    "youSay": "YEK",
+    "note": "Also awwel = first.",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "2",
+    "word": "do",
+    "youSay": "DO",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "3",
+    "word": "se",
+    "youSay": "SE",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "4",
+    "word": "chahâr",
+    "youSay": "cha-HAAR",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "5",
+    "word": "panj",
+    "youSay": "PANJ",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "6",
+    "word": "šeš",
+    "youSay": "SHESH",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "7",
+    "word": "haft",
+    "youSay": "HAFT",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "8",
+    "word": "hašt",
+    "youSay": "HASHT",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "9",
+    "word": "noh",
+    "youSay": "NOH",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "10",
+    "word": "dah",
+    "youSay": "DAH",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "11",
+    "word": "yâzdah",
+    "youSay": "yaaz-DAH",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "12",
+    "word": "davâzdah",
+    "youSay": "da-vaaz-DAH",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "13",
+    "word": "sizdah",
+    "youSay": "seez-DAH",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "14",
+    "word": "chahârdah",
+    "youSay": "cha-haar-DAH",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "15",
+    "word": "pânzdah",
+    "youSay": "paan-ZDAH",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "16",
+    "word": "šânzdah",
+    "youSay": "shaan-ZDAH",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "17",
+    "word": "hefdah",
+    "youSay": "hef-DAH",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "18",
+    "word": "hejdah",
+    "youSay": "hej-DAH",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "19",
+    "word": "nuzdah",
+    "youSay": "nooz-DAH",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "20",
+    "word": "bist",
+    "youSay": "BEEST",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "21",
+    "word": "bist-o yek",
+    "youSay": "BEES-to-YEK",
+    "note": "Literally twenty and one.",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "22",
+    "word": "bist-o do",
+    "youSay": "BEES-to-DO",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "23",
+    "word": "bist-o se",
+    "youSay": "BEES-to-SE",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "24",
+    "word": "bist-o chahâr",
+    "youSay": "BEES-to-cha-HAAR",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "25",
+    "word": "bist-o panj",
+    "youSay": "BEES-to-PANJ",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "26",
+    "word": "bist-o šeš",
+    "youSay": "BEES-to-SHESH",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "27",
+    "word": "bist-o haft",
+    "youSay": "BEES-to-HAFT",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "28",
+    "word": "bist-o hašt",
+    "youSay": "BEES-to-HASHT",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "29",
+    "word": "bist-o noh",
+    "youSay": "BEES-to-NOH",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "30",
+    "word": "si",
+    "youSay": "SEE",
+    "note": "Base for 31-39.",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "40",
+    "word": "chehel",
+    "youSay": "che-HEL",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "50",
+    "word": "panjâh",
+    "youSay": "pan-JAAH",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "60",
+    "word": "šast",
+    "youSay": "SHAST",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "70",
+    "word": "haftâd",
+    "youSay": "haf-TAAD",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "80",
+    "word": "haštâd",
+    "youSay": "hash-TAAD",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "90",
+    "word": "navad",
+    "youSay": "na-VAD",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "100",
+    "word": "sad",
+    "youSay": "SAD",
+    "note": "",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1000",
+    "word": "hezâr",
+    "youSay": "he-ZAAR",
+    "note": "Also do hezâr = two thousand.",
+    "source": "Wikivoyage: Persian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  }
+]

@@ -1,0 +1,314 @@
+[
+  {
+    "value": "0",
+    "word": "zéro",
+    "youSay": "zay-ROH",
+    "note": "Zero.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1",
+    "word": "un",
+    "youSay": "AN",
+    "note": "Une before a feminine noun.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "2",
+    "word": "deux",
+    "youSay": "DUH",
+    "note": "The x is silent.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "3",
+    "word": "trois",
+    "youSay": "TRWAH",
+    "note": "One syllable.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "4",
+    "word": "quatre",
+    "youSay": "KATR",
+    "note": "Final e is silent.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "5",
+    "word": "cinq",
+    "youSay": "SANK",
+    "note": "The q is pronounced.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "6",
+    "word": "six",
+    "youSay": "SEES",
+    "note": "The x is silent.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "7",
+    "word": "sept",
+    "youSay": "SEHT",
+    "note": "The p and t are silent.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "8",
+    "word": "huit",
+    "youSay": "WEET",
+    "note": "One syllable: weet.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "9",
+    "word": "neuf",
+    "youSay": "NUHF",
+    "note": "The f is pronounced.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "10",
+    "word": "dix",
+    "youSay": "DEES",
+    "note": "The x is silent alone; pronounced in dix-huit.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "11",
+    "word": "onze",
+    "youSay": "OHNZ",
+    "note": "Nasal on.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "12",
+    "word": "douze",
+    "youSay": "DOOZ",
+    "note": "One syllable.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "13",
+    "word": "treize",
+    "youSay": "TREHZ",
+    "note": "One syllable.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "14",
+    "word": "quatorze",
+    "youSay": "kah-TORZ",
+    "note": "Stress the -torze.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "15",
+    "word": "quinze",
+    "youSay": "KANZ",
+    "note": "Nasal in.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "16",
+    "word": "seize",
+    "youSay": "SEHZ",
+    "note": "One syllable.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "17",
+    "word": "dix-sept",
+    "youSay": "DEE-SEHT",
+    "note": "Liaison: dee-SET.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "18",
+    "word": "dix-huit",
+    "youSay": "DEE-ZWEET",
+    "note": "Liaison: dee-ZWEET.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "19",
+    "word": "dix-neuf",
+    "youSay": "DEEZ-NUF",
+    "note": "Liaison: deez-NUF.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "20",
+    "word": "vingt",
+    "youSay": "VAN",
+    "note": "The g and t are silent alone.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "21",
+    "word": "vingt et un",
+    "youSay": "VAN-tay-AN",
+    "note": "Liaison: vihn-tay-uhn.",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "22",
+    "word": "vingt-deux",
+    "youSay": "VAN-DUH",
+    "note": "The t stays silent before deux.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "23",
+    "word": "vingt-trois",
+    "youSay": "VAN-TRWAH",
+    "note": "The t stays silent.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "24",
+    "word": "vingt-quatre",
+    "youSay": "VAN-KATR",
+    "note": "One t links the parts.",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "25",
+    "word": "vingt-cinq",
+    "youSay": "VAN-SANK",
+    "note": "The q is pronounced.",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "26",
+    "word": "vingt-six",
+    "youSay": "VAN-SEES",
+    "note": "The x is silent.",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "27",
+    "word": "vingt-sept",
+    "youSay": "VAN-SEHT",
+    "note": "Final t is silent.",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "28",
+    "word": "vingt-huit",
+    "youSay": "VAN-WEET",
+    "note": "h is silent: vihn-weet.",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "29",
+    "word": "vingt-neuf",
+    "youSay": "VAN-NUHF",
+    "note": "The f is pronounced.",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "30",
+    "word": "trente",
+    "youSay": "TRAHT",
+    "note": "Nasal an; final e silent.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "40",
+    "word": "quarante",
+    "youSay": "kah-RAHNT",
+    "note": "Stress the -rante.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "50",
+    "word": "cinquante",
+    "youSay": "sank-AHNT",
+    "note": "Stress the -quante.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "60",
+    "word": "soixante",
+    "youSay": "swah-SAHT",
+    "note": "One syllable: swah-SAHNT.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "70",
+    "word": "soixante-dix",
+    "youSay": "swah-SAHT-DEES",
+    "note": "Belgium/Switzerland: septante.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "80",
+    "word": "quatre-vingts",
+    "youSay": "KATR-VAN",
+    "note": "Belgium/Switzerland: huitante, octante.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "90",
+    "word": "quatre-vingt-dix",
+    "youSay": "KATR-VAN-DEES",
+    "note": "Belgium/Switzerland: nonante.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "100",
+    "word": "cent",
+    "youSay": "SAHN",
+    "note": "Cent takes an s before a plural noun.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1000",
+    "word": "mille",
+    "youSay": "MEEL",
+    "note": "No plural after mille.",
+    "source": "Wikivoyage: French phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  }
+]

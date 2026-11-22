@@ -1,0 +1,314 @@
+[
+  {
+    "value": "0",
+    "word": "null",
+    "youSay": "nool",
+    "note": "Zero.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1",
+    "word": "eins",
+    "youSay": "ighnss",
+    "note": "Feminine/neuter form eine is also heard.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "2",
+    "word": "zwei",
+    "youSay": "tsvigh",
+    "note": "zwo is used to avoid confusion with drei.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "3",
+    "word": "drei",
+    "youSay": "drigh",
+    "note": "Sounds a little like English \"dry\".",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "4",
+    "word": "vier",
+    "youSay": "fear",
+    "note": "Like English \"fear\".",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "5",
+    "word": "fünf",
+    "youSay": "fuunf",
+    "note": "ü is a French u sound.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "6",
+    "word": "sechs",
+    "youSay": "zekhs",
+    "note": "chs = khs; vowel is short.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "7",
+    "word": "sieben",
+    "youSay": "ZEE-ben",
+    "note": "Stress ZEE.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "8",
+    "word": "acht",
+    "youSay": "ahkht",
+    "note": "ch is throaty, like Scottish \"loch\".",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "9",
+    "word": "neun",
+    "youSay": "noyn",
+    "note": "eu = oy in \"boy\".",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "10",
+    "word": "zehn",
+    "youSay": "tsayn",
+    "note": "z = ts.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "11",
+    "word": "elf",
+    "youSay": "elf",
+    "note": "One syllable.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "12",
+    "word": "zwölf",
+    "youSay": "tsvoolf",
+    "note": "ö is a rounded e.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "13",
+    "word": "dreizehn",
+    "youSay": "DRIGH-tsayn",
+    "note": "drei + zehn.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "14",
+    "word": "vierzehn",
+    "youSay": "FEER-tsayn",
+    "note": "vier + zehn.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "15",
+    "word": "fünfzehn",
+    "youSay": "FUUNF-tsayn",
+    "note": "fünf + zehn.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "16",
+    "word": "sechzehn",
+    "youSay": "ZEKH-tsayn",
+    "note": "sechs drops the s before zehn.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "17",
+    "word": "siebzehn",
+    "youSay": "ZEEP-tsayn",
+    "note": "sieben drops the e before zehn.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "18",
+    "word": "achtzehn",
+    "youSay": "AHKH-tsayn",
+    "note": "acht + zehn.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "19",
+    "word": "neunzehn",
+    "youSay": "NOYN-tsayn",
+    "note": "neun + zehn.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "20",
+    "word": "zwanzig",
+    "youSay": "TSVAHN-tsig",
+    "note": "Base for the tens.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "21",
+    "word": "einundzwanzig",
+    "youSay": "IGHN-oont-tsvahn-tsig",
+    "note": "Literally one-and-twenty.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "22",
+    "word": "zweiundzwanzig",
+    "youSay": "TSVIGH-oont-tsvahn-tsig",
+    "note": "Numbers above twenty are said backwards.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "23",
+    "word": "dreiundzwanzig",
+    "youSay": "DRIGH-oont-tsvahn-tsig",
+    "note": "One word.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "24",
+    "word": "vierundzwanzig",
+    "youSay": "FEER-oont-tsvahn-tsig",
+    "note": "One word.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "25",
+    "word": "fünfundzwanzig",
+    "youSay": "FUUNF-oont-tsvahn-tsig",
+    "note": "One word.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "26",
+    "word": "sechsundzwanzig",
+    "youSay": "ZEKH-oont-tsvahn-tsig",
+    "note": "One word.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "27",
+    "word": "siebenundzwanzig",
+    "youSay": "ZEE-ben-oont-tsvahn-tsig",
+    "note": "One word.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "28",
+    "word": "achtundzwanzig",
+    "youSay": "AHKH-oont-tsvahn-tsig",
+    "note": "One word.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "29",
+    "word": "neunundzwanzig",
+    "youSay": "NOYN-oont-tsvahn-tsig",
+    "note": "One word.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "30",
+    "word": "dreißig",
+    "youSay": "DRIGH-sig",
+    "note": "ß = s; vowel stays long.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "40",
+    "word": "vierzig",
+    "youSay": "FEER-tsig",
+    "note": "Base for 41-49.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "50",
+    "word": "fünfzig",
+    "youSay": "FUUNF-tsig",
+    "note": "Base for 51-59.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "60",
+    "word": "sechzig",
+    "youSay": "ZEKH-tsig",
+    "note": "Base for 61-69.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "70",
+    "word": "siebzig",
+    "youSay": "ZEEP-tsig",
+    "note": "Base for 71-79.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "80",
+    "word": "achtzig",
+    "youSay": "AHKH-tsig",
+    "note": "Base for 81-89.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "90",
+    "word": "neunzig",
+    "youSay": "NOYN-tsig",
+    "note": "Base for 91-99.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "100",
+    "word": "hundert",
+    "youSay": "HOON-dert",
+    "note": "einhundert is also used.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1000",
+    "word": "tausend",
+    "youSay": "TOW-zent",
+    "note": "eintausend is also used.",
+    "source": "Wikivoyage: German phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  }
+]

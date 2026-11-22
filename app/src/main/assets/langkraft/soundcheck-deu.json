@@ -1,0 +1,7 @@
+{
+  "lang": "deu",
+  "newSounds": "German has sounds Telugu lacks: ch after a/o/u is a throaty scrape like Scottish 'loch' (Buch, machen), while the soft ch after i/e is a breathy h (ich, nicht); ü is a French u - round the lips and say ee - and ö is a rounded e like 'sir'; w is always v (Wasser = VAH-ser), v is f (von = fon) and z is ts (zehn = tsayn); ß and ss both sound like s, but ss keeps the preceding vowel short.",
+  "rhythm": "German is stress-timed, not syllable-timed like Telugu: the stressed syllable is longer and the vowels in weak syllables reduce to a schwa (the e in 'bitte' and 'gehen'). Keep weak syllables short and light instead of giving every syllable equal weight.",
+  "registerFirst": "Start with Sie and verbs ending in -en, with Ihr/Ihnen for 'your/you'. It is the safe default with strangers, officials and elders. du is for family, friends and children; wait for a German to offer it ('Wir können uns duzen') before switching.",
+  "trap": "The classic trap is w and v: w sounds like v (wir = veer, Wasser = VAH-ser) and v sounds like f (viel = feel), the reverse of English. Mixing them up is the first thing a listener notices."
+}

@@ -22,10 +22,13 @@ import com.kedharsairam.langkraft.presentation.theme.Spacing
 import com.kedharsairam.langkraft.presentation.viewmodels.LanguageUiState
 import com.kedharsairam.langkraft.presentation.viewmodels.LanguageViewModel
 
-val ThemeNames = mapOf(
-    1 to "Greetings", 2 to "Politeness", 3 to "Numbers", 4 to "Food",
-    5 to "Directions", 6 to "Shopping", 7 to "Emergency", 8 to "Connection"
-)
+// Lesson titles come from the content's anchor field, not a hardcoded theme map.
+// Adding a language or a lesson is a data change only.
+private fun lessonTitle(phrases: List<Phrase>, theme: Int): String =
+    phrases.firstOrNull { it.theme == theme }?.anchor
+        ?.substringAfter(": ")
+        ?.takeIf { it.isNotBlank() }
+        ?: "Lesson $theme"
 
 @Composable
 fun LanguageScreen(
@@ -97,13 +100,13 @@ fun LanguageScreen(
                         Text("LESSONS", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         Spacer(Modifier.height(Spacing.S))
                         Column(modifier = Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(Spacing.S)) {
-                            (1..8).forEach { t ->
+                            s.phrases.map { it.theme }.distinct().sorted().forEach { t ->
                                 val count = s.phrases.count { it.theme == t }
                                 Surface(
                                     color = MaterialTheme.colorScheme.surfaceVariant,
                                     shape = MaterialTheme.shapes.medium,
                                     modifier = Modifier.fillMaxWidth().wrapContentHeight().clickable {
-                                        if (t == 3) onNumbers(code) else { vm.setTheme(t); lessonsOpen = false }
+                                        vm.setTheme(t); lessonsOpen = false
                                     }
                                 ) {
                                     Row(
@@ -114,9 +117,9 @@ fun LanguageScreen(
                                         Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
                                             Text("%02d".format(t), fontFamily = FontFamily.Monospace, fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                             Spacer(Modifier.width(Spacing.S))
-                                            Text(ThemeNames[t] ?: "", style = MaterialTheme.typography.titleLarge)
+                                            Text(lessonTitle(s.phrases, t), style = MaterialTheme.typography.titleLarge)
                                         }
-                                        Text(if (t == 3) "OPEN" else "[$count PHRASES]", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                        Text("[$count]", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, softWrap = false)
                                     }
                                 }
                             }
@@ -128,8 +131,8 @@ fun LanguageScreen(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
                         ) {
-                            Text("%02d %s".format(s.theme, ThemeNames[s.theme] ?: ""), fontFamily = FontFamily.Monospace, fontSize = 13.sp, fontWeight = FontWeight.Bold)
-                            Text("[%d PHRASES]".format(vm.visible(s).size), fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text("%02d %s".format(s.theme, lessonTitle(s.phrases, s.theme)), fontFamily = FontFamily.Monospace, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                            Text("[%d]".format(vm.visible(s).size), fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, softWrap = false)
                         }
                         val visible = vm.visible(s)
                         if (visible.isEmpty()) {

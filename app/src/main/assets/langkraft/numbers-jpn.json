@@ -1,0 +1,394 @@
+[
+  {
+    "value": "0",
+    "word": "zero",
+    "youSay": "ZE-ro",
+    "note": "Zero.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1",
+    "word": "ichi",
+    "youSay": "I-chi",
+    "note": "One.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "2",
+    "word": "ni",
+    "youSay": "NI",
+    "note": "Two.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "3",
+    "word": "san",
+    "youSay": "SAN",
+    "note": "Three.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "4",
+    "word": "yon",
+    "youSay": "YON",
+    "note": "Also shi when counting; yon avoids the 'death' reading.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "5",
+    "word": "go",
+    "youSay": "GO",
+    "note": "Five.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "6",
+    "word": "roku",
+    "youSay": "RO-ku",
+    "note": "Six.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "7",
+    "word": "nana",
+    "youSay": "NA-na",
+    "note": "Also shichi when counting.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "8",
+    "word": "hachi",
+    "youSay": "HA-chi",
+    "note": "Eight.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "9",
+    "word": "kyū",
+    "youSay": "KYŪ",
+    "note": "Long vowel: one held beat.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "10",
+    "word": "jū",
+    "youSay": "JŪ",
+    "note": "Long vowel: one held beat.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "11",
+    "word": "jūichi",
+    "youSay": "JŪ-i-chi",
+    "note": "ten plus one.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "12",
+    "word": "jūni",
+    "youSay": "JŪ-ni",
+    "note": "ten plus two.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "13",
+    "word": "jūsan",
+    "youSay": "JŪ-san",
+    "note": "ten plus three.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "14",
+    "word": "jūyon",
+    "youSay": "JŪ-yon",
+    "note": "ten plus four.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "15",
+    "word": "jūgo",
+    "youSay": "JŪ-go",
+    "note": "ten plus five.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "16",
+    "word": "jūroku",
+    "youSay": "JŪ-ro-ku",
+    "note": "ten plus six.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "17",
+    "word": "jūnana",
+    "youSay": "JŪ-na-na",
+    "note": "ten plus seven.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "18",
+    "word": "jūhachi",
+    "youSay": "JŪ-ha-chi",
+    "note": "ten plus eight.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "19",
+    "word": "jūkyū",
+    "youSay": "JŪ-kyū",
+    "note": "ten plus nine.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "20",
+    "word": "nijū",
+    "youSay": "ni-JŪ",
+    "note": "two plus ten.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "21",
+    "word": "nijūichi",
+    "youSay": "ni-JŪ-i-chi",
+    "note": "twenty plus one.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "22",
+    "word": "nijūni",
+    "youSay": "ni-JŪ-ni",
+    "note": "twenty plus two.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "23",
+    "word": "nijūsan",
+    "youSay": "ni-JŪ-san",
+    "note": "twenty plus three.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "24",
+    "word": "nijūyon",
+    "youSay": "ni-JŪ-yon",
+    "note": "twenty plus four.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "25",
+    "word": "nijūgo",
+    "youSay": "ni-JŪ-go",
+    "note": "twenty plus five.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "26",
+    "word": "nijūroku",
+    "youSay": "ni-JŪ-ro-ku",
+    "note": "twenty plus six.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "27",
+    "word": "nijūnana",
+    "youSay": "ni-JŪ-na-na",
+    "note": "twenty plus seven.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "28",
+    "word": "nijūhachi",
+    "youSay": "ni-JŪ-ha-chi",
+    "note": "twenty plus eight.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "29",
+    "word": "nijūkyū",
+    "youSay": "ni-JŪ-kyū",
+    "note": "twenty plus nine.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "30",
+    "word": "sanjū",
+    "youSay": "san-JŪ",
+    "note": "three plus ten.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "40",
+    "word": "yonjū",
+    "youSay": "yon-JŪ",
+    "note": "Also shijū.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "50",
+    "word": "gojū",
+    "youSay": "go-JŪ",
+    "note": "five plus ten.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "60",
+    "word": "rokujū",
+    "youSay": "ro-ku-JŪ",
+    "note": "six plus ten.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "70",
+    "word": "nanajū",
+    "youSay": "na-na-JŪ",
+    "note": "seven plus ten.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "80",
+    "word": "hachijū",
+    "youSay": "ha-chi-JŪ",
+    "note": "eight plus ten.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "90",
+    "word": "kyūjū",
+    "youSay": "KYŪ-jū",
+    "note": "nine plus ten.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "100",
+    "word": "hyaku",
+    "youSay": "HYA-ku",
+    "note": "One hundred.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "200",
+    "word": "nihyaku",
+    "youSay": "ni-HYA-ku",
+    "note": "Two hundred.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "300",
+    "word": "sanbyaku",
+    "youSay": "san-BYA-ku",
+    "note": "Three hundred; san + hyaku -> byaku.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "400",
+    "word": "yonhyaku",
+    "youSay": "yon-HYA-ku",
+    "note": "Four hundred.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "500",
+    "word": "gohyaku",
+    "youSay": "go-HYA-ku",
+    "note": "Five hundred.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "600",
+    "word": "roppyaku",
+    "youSay": "rop-PYA-ku",
+    "note": "Six hundred; roku + hyaku -> roppyaku (small tsu).",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "700",
+    "word": "nanahyaku",
+    "youSay": "na-na-HYA-ku",
+    "note": "Seven hundred.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "800",
+    "word": "happyaku",
+    "youSay": "hap-PYA-ku",
+    "note": "Eight hundred; hachi + hyaku -> happyaku (small tsu).",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "900",
+    "word": "kyūhyaku",
+    "youSay": "KYŪ-hya-ku",
+    "note": "Nine hundred.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "1000",
+    "word": "sen",
+    "youSay": "SEN",
+    "note": "One thousand.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "2000",
+    "word": "nisen",
+    "youSay": "ni-SEN",
+    "note": "Two thousand.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "10000",
+    "word": "ichiman",
+    "youSay": "i-chi-MAN",
+    "note": "Ten thousand; Japanese groups numbers by ten-thousands.",
+    "source": "Wikivoyage: Japanese phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  }
+]
