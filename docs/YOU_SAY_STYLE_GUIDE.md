@@ -1,39 +1,48 @@
-# "You say:" Style Guide — LOCKED 2026-11-06
+# "You say:" style guide — LOCKED 2026-11-22
 
-Every phrase in every language follows this. No exceptions.
+## What the fields mean
 
-## Card layout (one phrase per screen, large text)
+| Field | Purpose |
+|---|---|
+| `english` | The English prompt, what the traveller wants to say. |
+| `romanization` | The target phrase, Latin script only. Correct spelling with accents/diacritics where the language uses them. |
+| `youSay` | The spoken guide: CAPS on the stressed beat, hyphens between syllables/morae. Latin letters only. |
+| `soundTip` | One short line: closest English or Telugu sound, or the trap to watch. |
+| `note` | One short factual line: polite form, region, when to use. |
+| `source` / `checked` | Provenance and the date it was verified. Never blank. |
+| `anchor` | The LingoHut lesson this meaning came from. Reference only — its text is never copied. |
+
+## Rules
+
+1. **CAPS = stress or the beat the voice lands on.** `OH-lah`, `BWEH-nos DEE-ahs`.
+   For tone languages CAPS is only a beat, not a tone — the tones are described in `soundTip`
+   and `note`, never in `youSay`.
+2. **Hyphens split syllables** (`DEH-DOHN-deh-EHS-oos-TEHD`) or morae for Japanese
+   (`ko-n-BA-n-wa`). Keep them consistent within a language.
+3. **Lowercase = unstressed.** Do not capitalise whole words. Unstressed clitics in Russian,
+   for example, stay lowercase.
+4. **No native script in any visible field.** The validator rejects it. Telugu is allowed only
+   as a sound reference in `soundTip`/`note`.
+5. **One sound tip, one line.** Good: "H is silent.", "v sounds like b.", "ll = y in year."
+   Bad: vague advice like "soft pronunciation".
+6. **Polite form first.** usted, vous, Sie, aap, вы, ninga, nín, shomā — the informal form is
+   mentioned in the note but never the default.
+7. **Plain copy.** Words: note, caution, where this fails. No "danger", alarms, emojis or praise.
+8. **Full lesson contents.** Do not shorten a lesson to a sample. Every meaning LingoHut covers
+   in the selected 35 lessons is present.
+
+## Numbers grid
+
+0–29, tens, 100, 1000. Same stress and no-script rules. Source and checked date required.
+The grid and the lesson rows must agree on the pronunciation of the same number.
+
+## Validation
+
+```bash
+node pipeline/lint.mjs
+python3 pipeline/validate_content.py <code>
 ```
-[English prompt — 24sp]
-You say: [ROMANIZATION — 32sp, CAPS stress, dots for syllables]
-[tip — 14sp, closest English or Telugu sound]
-[one-line note — 14sp, only when it matters: polite level, right-hand rule, tone warning]
-[Source • Checked date — 12sp, on note toggle]
-Tap to hide romanization (self-test). Tap again to reveal.
-Star toggles "hard / use often" → builds personal deck.
-```
 
-## "You say:" rules
-1. **CAPS = stress.** The loud syllable is ALL CAPS. Example: `OH-lah`, `BWEH-nos DEE-ahs`.
-2. **Dots = syllables.** `BWEH-nos DEE-ahs`, `lah KWEN-tah por fah-VOR`.
-3. **Lowercase = unstressed.** Do not capitalise the whole word.
-4. **Romanization field = readable form** (Hola, Buenos dias). **YouSay = speak form** (OH-lah, BWEH-nos...). Both stored. YouSay is what the learner reads aloud.
-5. **Sound tip = one line.** Closest English sound or Telugu sound. Good: "H is silent.", "VOR uses B sound. No /v/.", "BAH-nyoh = ny like canyon." Bad: "bah-RAH = soft B" (vague).
-6. **Tone languages:** append tone number at end of syllable: `ma1`, `ma2`. Never fake it with CAPS alone. Sound-check page must say "tonal — find real audio outside".
-7. **Polite form first.** tú/usted, tu/vous, etc. — default is polite. Note says so.
-8. **No scripts.** Romanization only. Native script never shown.
-9. **No hype.** Words: note, caution, where this fails. No: danger, alarm, !!!, emojis, childish praise.
-
-## Numbers module
-- Grid 0-20, then 21-99 pattern, 100, 1000.
-- Tap-to-hide grid. Same youSay rules.
-- Money phrases: how much, expensive, cheap, discount, card OK.
-
-## Dialogues
-- 4 per language: market, hotel, taxi, asking for help. 2 turns each.
-- Tagged as exchange, not single phrase. Shows other person's line as UNDERSTAND (context), your line as SAY.
-
-## Personalization (Kedhar profile)
-- Self-learner, wants control. No tour, no daily prompt, no algorithm next. Starts where you left off.
-- Curve: Spanish syllable-timed = easy. Thai/Mandarin/Vietnamese tonal = honest warning.
-- Telugu anchor: "like Telugu అ ఎ ఇ ఒ ఉ — vowels never slide", "rr = Telugu ర".
+The gate checks all 35 lessons, ~450–470 rows, Latin-only visible fields, CAPS stress, source,
+checked, anchor, and that numbers/sound-check files contain no target-language script.
+A language cannot ship until it passes.
