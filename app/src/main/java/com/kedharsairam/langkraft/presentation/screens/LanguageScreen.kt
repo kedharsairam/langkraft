@@ -91,7 +91,7 @@ fun LanguageScreen(
                         SECTIONS.forEach { (name, ids) ->
                             val lessons = themes.filter { it in ids }
                             if (lessons.isNotEmpty()) {
-                                item { Spacer(Modifier.height(Spacing.S)); KSection(name) }
+                                item { Spacer(Modifier.height(Spacing.S)); SignalSection(name, lessons.size) }
                                 items(lessons, key = { "l-$it" }) { t ->
                                     val serial = themes.indexOf(t) + 1
                                     LedgerRow("%02d".format(serial), title(s.phrases, t), "[${s.phrases.count { it.theme == t }}]",
@@ -112,39 +112,23 @@ fun LanguageScreen(
                         }
                         val visible = s.phrases.filter { it.theme == openLesson && (!filterHard || it.id in s.starred) }
                         if (visible.isEmpty()) item { Text("No phrases here.", color = LangColors.Muted) }
-                        else items(visible, key = { it.id }) { p -> PhraseRow(p, p.id in s.starred) { vm.toggleStar(p.id) } }
+                        else items(visible, key = { it.id }) { p ->
+                            SignalRow(
+                                index = visible.indexOf(p) + 1,
+                                english = p.english,
+                                romanization = p.romanization,
+                                youSay = p.youSay,
+                                tip = p.soundTip,
+                                note = if (p.note.isNotBlank() && !p.note.equals(p.anchor?.substringAfter(": "), true)) p.note else "",
+                                meta = "${displaySource(p.source)} · ${p.checked}",
+                                starred = p.id in s.starred
+                            ) { vm.toggleStar(p.id) }
+                        }
                     }
                 }
             }
         }
     }
-}
-
-@Composable
-private fun PhraseRow(p: Phrase, starred: Boolean, onStar: () -> Unit) {
-    Column(Modifier.fillMaxWidth().padding(vertical = Spacing.S)) {
-        Text(p.english, style = LangTypography.bodyMedium, color = LangColors.Muted)
-        Spacer(Modifier.height(Spacing.Xs))
-        Text(p.romanization, style = RomanizationStyle, color = LangColors.Ink)
-        Spacer(Modifier.height(Spacing.Xs))
-        Text(p.youSay.replace("-", "-\u200B"), style = YouSayStyle, color = LangColors.Accent)
-        if (p.soundTip.isNotBlank()) {
-            Spacer(Modifier.height(Spacing.Xs))
-            Text(p.soundTip, style = LangTypography.bodySmall, color = LangColors.Muted)
-        }
-        if (p.note.isNotBlank() && !p.note.equals(p.anchor?.substringAfter(": "), true)) {
-            Spacer(Modifier.height(Spacing.Xs))
-            Text(p.note, style = LangTypography.bodySmall, color = LangColors.Muted)
-        }
-        Spacer(Modifier.height(Spacing.Xs))
-        Box(Modifier.size(Spacing.MinTarget).kraftClick(onStar), Alignment.Center) {
-            Icon(TablerIcons.Star, if (starred) "Remove from hard" else "Mark as hard",
-                Modifier.size(24.dp), if (starred) LangColors.StateHard else LangColors.Muted)
-        }
-        Spacer(Modifier.height(Spacing.Xs))
-        KLabel("${com.kedharsairam.langkraft.presentation.components.displaySource(p.source)} · ${p.checked}")
-    }
-    RowDivider()
 }
 
 @Composable
@@ -165,7 +149,7 @@ private fun SoundCheckView(name: String, sound: SoundCheck, onBack: () -> Unit, 
 
 @Composable
 private fun Block(label: String, body: String) {
-    Column(Modifier.fillMaxWidth().kraftPanel().padding(Spacing.M)) {
+    Column(Modifier.fillMaxWidth().kraftPanel().dotGrid().padding(Spacing.M)) {
         KLabel(label); Spacer(Modifier.height(Spacing.S))
         Text(body, style = LangTypography.bodyMedium, color = LangColors.Ink)
     }

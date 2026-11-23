@@ -28,8 +28,8 @@ object KraftFonts {
 
 // Type scale — see type_icons.md for 1.0x and 2.0x computed sizes.
 val LangTypography = Typography(
-    displayLarge = TextStyle(fontFamily = spaceGrotesk, fontSize = 34.sp, lineHeight = 40.sp, fontWeight = FontWeight.SemiBold),
-    titleLarge = TextStyle(fontFamily = spaceGrotesk, fontSize = 28.sp, lineHeight = 34.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.2).sp),
+    displayLarge = TextStyle(fontFamily = spaceGrotesk, fontSize = 40.sp, lineHeight = 46.sp, fontWeight = FontWeight.Bold),
+    titleLarge = TextStyle(fontFamily = spaceGrotesk, fontSize = 26.sp, lineHeight = 32.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.2).sp),
     titleMedium = TextStyle(fontFamily = spaceGrotesk, fontSize = 20.sp, lineHeight = 26.sp, fontWeight = FontWeight.SemiBold),
     headlineMedium = TextStyle(fontFamily = spaceGrotesk, fontSize = 17.sp, lineHeight = 22.sp, fontWeight = FontWeight.Medium),
     bodyLarge = TextStyle(fontFamily = inter, fontSize = 17.sp, lineHeight = 24.sp),
@@ -44,9 +44,9 @@ val YouSayStyle = TextStyle(
     fontFamily = sourceCodePro, fontSize = 22.sp, lineHeight = 30.sp, fontWeight = FontWeight.SemiBold
 )
 
-/** The target-language spelling — mono, readable. */
+/** The target-language spelling — the hero of a signal card. */
 val RomanizationStyle = TextStyle(
-    fontFamily = sourceCodePro, fontSize = 18.sp, lineHeight = 26.sp, fontWeight = FontWeight.Normal
+    fontFamily = sourceCodePro, fontSize = 30.sp, lineHeight = 38.sp, fontWeight = FontWeight.Bold
 )
 
 val MonoNumeric = TextStyle(

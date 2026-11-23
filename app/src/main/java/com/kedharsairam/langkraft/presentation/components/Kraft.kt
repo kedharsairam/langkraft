@@ -24,6 +24,8 @@ import androidx.compose.ui.unit.sp
 import com.kedharsairam.langkraft.presentation.theme.*
 import compose.icons.TablerIcons
 import compose.icons.tablericons.ArrowLeft
+import compose.icons.tablericons.Star
+import androidx.compose.material3.Text
 
 /** Flat press feedback. No ripple, no elevation. */
 @Composable
@@ -128,6 +130,97 @@ fun KTopBar(
     }
 }
 
+
+// ---------- v3 visual: signal cards, texture, editorial section heads ----------
+
+/** Subtle dot-grid drawn behind a panel — no image, no gradient, no blur. */
+@Composable
+fun Modifier.dotGrid(): Modifier = this.drawBehind {
+    val step = 16.dp.toPx()
+    var x = step / 2
+    while (x < size.width) {
+        var y = step / 2
+        while (y < size.height) {
+            drawCircle(LangColors.Ink.copy(alpha = 0.06f), radius = 1.dp.toPx(), center = Offset(x, y))
+            y += step
+        }
+        x += step
+    }
+}
+
+/** Editorial section head: gold caps label, count, and a 2dp gold rule. */
+@Composable
+fun SignalSection(title: String, count: Int? = null) {
+    Box(Modifier.fillMaxWidth().height(Spacing.Border).background(LangColors.Accent))
+    Spacer(Modifier.height(Spacing.S))
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(title.uppercase(), style = MonoLabelStyle.copy(color = LangColors.Accent, fontSize = 13.sp),
+            modifier = Modifier.weight(1f), maxLines = 1)
+        if (count != null) KLabel("$count", color = LangColors.Accent)
+    }
+    Spacer(Modifier.height(Spacing.Xs))
+}
+
+/** The hero phrase row: gold rail, index square, dense type layers, compact star. */
+@Composable
+fun SignalRow(
+    index: Int,
+    english: String,
+    romanization: String,
+    youSay: String,
+    tip: String,
+    note: String,
+    meta: String,
+    starred: Boolean,
+    onStar: () -> Unit
+) {
+    Row(Modifier.fillMaxWidth()) {
+        // 3dp gold rail — the card's spine.
+        Box(Modifier.width(3.dp).fillMaxHeight().background(LangColors.Accent))
+        Spacer(Modifier.width(Spacing.S))
+        Column(Modifier.weight(1f).padding(vertical = Spacing.S)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(28.dp).background(LangColors.Accent), Alignment.Center) {
+                    Text("%02d".format(index), style = MonoNumeric.copy(fontSize = 12.sp), color = LangColors.Ground)
+                }
+                Spacer(Modifier.width(Spacing.S))
+                Text(english, style = LangTypography.bodyMedium, color = LangColors.Muted, modifier = Modifier.weight(1f), maxLines = 1)
+                Box(Modifier.size(48.dp).kraftClick(onStar), Alignment.Center) {
+                    androidx.compose.material3.Icon(
+                        TablerIcons.Star, contentDescription = if (starred) "Remove from hard" else "Mark as hard",
+                        Modifier.size(22.dp), if (starred) LangColors.StateHard else LangColors.Muted)
+                }
+            }
+            Spacer(Modifier.height(Spacing.Xs))
+            Text(romanization, style = RomanizationStyle, color = LangColors.Ink)
+            Text(youSay.replace("-", "-\u200B"), style = YouSayStyle, color = LangColors.Accent)
+            if (tip.isNotBlank()) Spacer(Modifier.height(Spacing.Xs))
+            if (tip.isNotBlank()) Text(tip, style = LangTypography.bodySmall, color = LangColors.Muted)
+            if (note.isNotBlank()) Text(note, style = LangTypography.bodySmall, color = LangColors.Muted)
+            Spacer(Modifier.height(Spacing.Xs))
+            KLabel(meta)
+        }
+    }
+    RowDivider()
+}
+
+/** A numbered language row with a progress rule — dense, one line per language. */
+@Composable
+fun SignalLanguageRow(index: Int, name: String, count: String, fraction: Float, onClick: () -> Unit) {
+    Column(Modifier.fillMaxWidth().kraftClick(onClick).padding(vertical = Spacing.S)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            KLabel("%02d".format(index), color = LangColors.Accent)
+            Spacer(Modifier.width(Spacing.S))
+            Text(name, style = LangTypography.bodyLarge, color = LangColors.Ink, modifier = Modifier.weight(1f), maxLines = 1)
+            KLabel(count)
+        }
+        Spacer(Modifier.height(Spacing.Xs))
+        Box(Modifier.fillMaxWidth().height(3.dp).background(LangColors.Muted.copy(alpha = 0.3f))) {
+            if (fraction > 0f) Box(Modifier.fillMaxWidth(fraction).height(3.dp).background(LangColors.Accent))
+        }
+    }
+    RowDivider()
+}
 
 fun displaySource(source: String): String = when {
     source.startsWith("Wikivoyage", ignoreCase = true) -> "WIKIVOYAGE"
