@@ -1,5 +1,7 @@
 package com.kedharsairam.langkraft.presentation.screens
 
+import com.kedharsairam.langkraft.presentation.components.displaySource
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -13,11 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.kedharsairam.langkraft.presentation.components.KraftTopBar
-import com.kedharsairam.langkraft.presentation.components.MonoLabel
-import com.kedharsairam.langkraft.presentation.components.borderedCard
-import com.kedharsairam.langkraft.presentation.components.displaySource
-import com.kedharsairam.langkraft.presentation.components.flatClickable
+import com.kedharsairam.langkraft.presentation.components.*
 import com.kedharsairam.langkraft.domain.NumberEntry
 import com.kedharsairam.langkraft.presentation.theme.LangColors
 import com.kedharsairam.langkraft.presentation.theme.Spacing
@@ -30,11 +28,11 @@ fun NumbersScreen(code: String, onBack: () -> Unit, vm: NumbersViewModel = viewM
     LaunchedEffect(code) { vm.load(code) }
     var patternOpen by remember { mutableStateOf(false) }
     Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
-        KraftTopBar("Numbers · ${code.uppercase()}", onBack = onBack)
+        KTopBar("Numbers · ${code.uppercase()}", onBack = onBack)
         Spacer(Modifier.height(Spacing.S))
         when (val s = state) {
-            NumbersUiState.Loading -> MonoLabel("LOADING…")
-            is NumbersUiState.Failed -> MonoLabel("COULD NOT LOAD NUMBERS.")
+            NumbersUiState.Loading -> KLabel("LOADING…")
+            is NumbersUiState.Failed -> KLabel("COULD NOT LOAD NUMBERS.")
             is NumbersUiState.Ready -> {
                 // Pattern hint built from this language's own data, never a hardcoded example.
                 val one = s.entries.firstOrNull { it.value == "1" }?.word ?: ""
@@ -49,9 +47,9 @@ fun NumbersScreen(code: String, onBack: () -> Unit, vm: NumbersViewModel = viewM
                     items(s.entries.take(21), key = { "n-${it.value}" }) { entry -> NumberCell(entry) }
                     item(span = { GridItemSpan(2) }) {
                         Column(
-                            Modifier.fillMaxWidth().borderedCard().flatClickable { patternOpen = !patternOpen }.padding(Spacing.M)
+                            Modifier.fillMaxWidth().kraftPanel().kraftClick { patternOpen = !patternOpen }.padding(Spacing.M)
                         ) {
-                            MonoLabel("21–99 PATTERN  ${if (patternOpen) "−" else "+"}", color = LangColors.Ink)
+                            KLabel("21–99 PATTERN  ${if (patternOpen) "−" else "+"}", color = LangColors.Ink)
                             if (patternOpen) {
                                 Spacer(Modifier.height(Spacing.S))
                                 Text(
@@ -70,8 +68,8 @@ fun NumbersScreen(code: String, onBack: () -> Unit, vm: NumbersViewModel = viewM
 
 @Composable
 private fun NumberCell(entry: NumberEntry) {
-    Column(Modifier.fillMaxWidth().borderedCard().padding(Spacing.M)) {
-        MonoLabel(entry.value)
+    Column(Modifier.fillMaxWidth().kraftPanel().padding(Spacing.M)) {
+        KLabel(entry.value)
         Spacer(Modifier.height(Spacing.Xs))
         // The actual target-language spelling — the thing being learned.
         Text(entry.word, fontFamily = FontFamily.Monospace, fontSize = 18.sp, color = LangColors.Ink,
@@ -85,6 +83,6 @@ private fun NumberCell(entry: NumberEntry) {
                 color = LangColors.Muted, maxLines = 2, overflow = TextOverflow.Ellipsis)
         }
         Spacer(Modifier.height(Spacing.Xs))
-        MonoLabel("${displaySource(entry.source)}  ·  ${entry.checked}")
+        KLabel("${com.kedharsairam.langkraft.presentation.components.displaySource(entry.source)}  ·  ${entry.checked}")
     }
 }

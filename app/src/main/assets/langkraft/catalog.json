@@ -15,97 +15,97 @@
     "code": "por",
     "name": "Portuguese",
     "status": "committed",
-    "kitTotal": 100
+    "kitTotal": 459
   },
   {
     "code": "hin",
     "name": "Hindi",
     "status": "committed",
-    "kitTotal": 100
+    "kitTotal": 459
   },
   {
     "code": "fra",
     "name": "French",
     "status": "committed",
-    "kitTotal": 100
+    "kitTotal": 460
   },
   {
     "code": "ara",
     "name": "Arabic (Egyptian)",
     "status": "committed",
-    "kitTotal": 100
+    "kitTotal": 459
   },
   {
     "code": "cmn",
     "name": "Mandarin",
     "status": "committed",
-    "kitTotal": 100
+    "kitTotal": 460
   },
   {
     "code": "swh",
     "name": "Swahili",
     "status": "committed",
-    "kitTotal": 100
+    "kitTotal": 460
   },
   {
     "code": "rus",
     "name": "Russian",
     "status": "committed",
-    "kitTotal": 100
+    "kitTotal": 460
   },
   {
     "code": "vie",
     "name": "Vietnamese",
     "status": "committed",
-    "kitTotal": 100
+    "kitTotal": 460
   },
   {
     "code": "tha",
     "name": "Thai",
     "status": "committed",
-    "kitTotal": 100
+    "kitTotal": 460
   },
   {
     "code": "tur",
     "name": "Turkish",
     "status": "bench",
-    "kitTotal": 100
+    "kitTotal": 460
   },
   {
     "code": "jpn",
     "name": "Japanese",
     "status": "bench",
-    "kitTotal": 100
+    "kitTotal": 460
   },
   {
     "code": "kor",
     "name": "Korean",
     "status": "bench",
-    "kitTotal": 100
+    "kitTotal": 457
   },
   {
     "code": "deu",
     "name": "German",
     "status": "bench",
-    "kitTotal": 100
+    "kitTotal": 460
   },
   {
     "code": "ita",
     "name": "Italian",
     "status": "bench",
-    "kitTotal": 100
+    "kitTotal": 460
   },
   {
     "code": "fas",
     "name": "Farsi",
     "status": "bench",
-    "kitTotal": 100
+    "kitTotal": 460
   },
   {
     "code": "srp",
     "name": "Serbian",
     "status": "bench",
-    "kitTotal": 100
+    "kitTotal": 460
   },
   {
     "code": "tam",

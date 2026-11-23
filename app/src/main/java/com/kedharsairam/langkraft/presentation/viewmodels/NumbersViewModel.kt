@@ -3,7 +3,7 @@ package com.kedharsairam.langkraft.presentation.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.kedharsairam.langkraft.data.PhraseStore
+import com.kedharsairam.langkraft.data.ContentRepository
 import com.kedharsairam.langkraft.domain.DomainResult
 import com.kedharsairam.langkraft.domain.NumberEntry
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,14 +18,14 @@ sealed interface NumbersUiState {
 }
 
 class NumbersViewModel(app: Application) : AndroidViewModel(app) {
-    private val store = PhraseStore(app)
+    private val store: ContentRepository = (app as com.kedharsairam.langkraft.LangKraftApp).content
     private val _state = MutableStateFlow<NumbersUiState>(NumbersUiState.Loading)
     val state: StateFlow<NumbersUiState> = _state.asStateFlow()
 
     fun load(code: String) {
         viewModelScope.launch {
             _state.value = NumbersUiState.Loading
-            when (val r = store.loadNumbers(code)) {
+            when (val r = store.numbers(code)) {
                 is DomainResult.Success -> _state.value = NumbersUiState.Ready(r.data)
                 is DomainResult.Error -> _state.value = NumbersUiState.Failed(r.reason::class.simpleName ?: "error")
             }

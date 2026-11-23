@@ -3,7 +3,7 @@ package com.kedharsairam.langkraft.presentation.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.kedharsairam.langkraft.data.PhraseStore
+import com.kedharsairam.langkraft.data.ContentRepository
 import com.kedharsairam.langkraft.data.UserStateRepository
 import com.kedharsairam.langkraft.domain.DomainResult
 import com.kedharsairam.langkraft.domain.ErrorReason
@@ -34,7 +34,7 @@ sealed interface LanguageUiState {
 }
 
 class LanguageViewModel(app: Application) : AndroidViewModel(app) {
-    private val store = PhraseStore(app)
+    private val store: ContentRepository = (app as com.kedharsairam.langkraft.LangKraftApp).content
     private val repo = UserStateRepository(app)
     private val _state = MutableStateFlow<LanguageUiState>(LanguageUiState.Loading)
     val state: StateFlow<LanguageUiState> = _state.asStateFlow()
@@ -44,7 +44,7 @@ class LanguageViewModel(app: Application) : AndroidViewModel(app) {
         lang = code
         viewModelScope.launch {
             _state.value = LanguageUiState.Loading
-            val phrases = when (val r = store.loadPhrases(code)) {
+            val phrases = when (val r = store.phrases(code)) {
                 is DomainResult.Success -> r.data
                 is DomainResult.Error -> {
                     _state.value = if (r.reason is ErrorReason.MissingAsset || r.reason is ErrorReason.Empty)
@@ -53,8 +53,8 @@ class LanguageViewModel(app: Application) : AndroidViewModel(app) {
                     return@launch
                 }
             }
-            val sound = (store.loadSoundCheck(code) as? DomainResult.Success)?.data
-            val name = (store.loadCatalog() as? DomainResult.Success)?.data?.firstOrNull { it.code == code }?.name ?: code.uppercase()
+            val sound = (store.soundCheck(code) as? DomainResult.Success)?.data
+            val name = (store.catalog() as? DomainResult.Success)?.data?.firstOrNull { it.code == code }?.name ?: code.uppercase()
             repo.saveLastLang(code)
             val savedThemePos = repo.position(code, 1).first()
             val savedStar = repo.starred(code).first()
@@ -96,11 +96,12 @@ class LanguageViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun toggleStar(id: String) {
-        val s = _state.value as? LanguageUiState.Ready ?: return
         viewModelScope.launch {
             repo.toggleStar(lang, id)
             val updated = repo.starred(lang).first()
-            _state.value = s.copy(starred = updated)
+            // Re-read current state after the suspend — never clobber a concurrent change.
+            val current = _state.value as? LanguageUiState.Ready ?: return@launch
+            _state.value = current.copy(starred = updated)
         }
     }
 
@@ -108,10 +109,10 @@ class LanguageViewModel(app: Application) : AndroidViewModel(app) {
         s.phrases.filter { it.theme == s.theme && (s.query.isBlank() || it.english.contains(s.query, true) || it.romanization.contains(s.query, true) || it.youSay.contains(s.query, true)) }
 
     fun acknowledgeSound() {
-        val s = _state.value as? LanguageUiState.Ready ?: return
         viewModelScope.launch {
             repo.setSoundAcked(lang)
-            _state.value = s.copy(soundAcked = true)
+            val current = _state.value as? LanguageUiState.Ready ?: return@launch
+            _state.value = current.copy(soundAcked = true)
         }
     }
 }

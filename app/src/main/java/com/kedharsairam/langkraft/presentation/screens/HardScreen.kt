@@ -1,5 +1,7 @@
 package com.kedharsairam.langkraft.presentation.screens
 
+import com.kedharsairam.langkraft.presentation.components.displaySource
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,11 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.kedharsairam.langkraft.presentation.components.KraftTopBar
-import com.kedharsairam.langkraft.presentation.components.MonoLabel
-import com.kedharsairam.langkraft.presentation.components.borderedCard
-import com.kedharsairam.langkraft.presentation.components.displaySource
-import com.kedharsairam.langkraft.presentation.components.flatClickable
+import com.kedharsairam.langkraft.presentation.components.*
 import com.kedharsairam.langkraft.presentation.theme.LangColors
 import com.kedharsairam.langkraft.presentation.theme.Spacing
 import com.kedharsairam.langkraft.presentation.viewmodels.HardUiState
@@ -33,29 +31,29 @@ fun HardScreen(
 ) {
     val state by vm.state.collectAsState()
     Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
-        KraftTopBar("Hard", onBack = onBack)
+        KTopBar("Hard", onBack = onBack)
         Spacer(Modifier.height(Spacing.S))
         Text("Your starred pile. Review when you want.", style = androidx.compose.material3.MaterialTheme.typography.bodySmall, color = LangColors.Muted)
         Spacer(Modifier.height(Spacing.M))
         when (val s = state) {
-            HardUiState.Loading -> MonoLabel("LOADING…")
+            HardUiState.Loading -> KLabel("LOADING…")
             is HardUiState.Failed -> Text("Could not load hard pile.", color = LangColors.Muted)
             is HardUiState.Ready -> {
                 if (s.phrases.isEmpty()) {
-                    Column(Modifier.fillMaxWidth().borderedCard().padding(Spacing.M)) {
+                    Column(Modifier.fillMaxWidth().kraftPanel().padding(Spacing.M)) {
                         Text("No hard phrases yet. Star any phrase to add it here.", color = LangColors.Ink)
                     }
                 } else {
                     LazyColumn(verticalArrangement = Arrangement.spacedBy(Spacing.S)) {
                         items(s.phrases, key = { it.phrase.id }) { entry ->
                             Column(
-                                Modifier.fillMaxWidth().borderedCard()
-                                    .flatClickable { onOpenPhrase(entry.lang, entry.phrase.theme) }.padding(Spacing.M)
+                                Modifier.fillMaxWidth().kraftPanel()
+                                    .kraftClick { onOpenPhrase(entry.lang, entry.phrase.theme) }.padding(Spacing.M)
                             ) {
                                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                                     Text(entry.phrase.english, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium,
                                         color = LangColors.Ink, modifier = Modifier.weight(1f))
-                                    Icon(Icons.Default.Star, contentDescription = "Hard", tint = LangColors.Accent, modifier = Modifier.size(24.dp))
+                                    Icon(Icons.Default.Star, contentDescription = "Hard", tint = LangColors.StateHard, modifier = Modifier.size(24.dp))
                                 }
                                 Spacer(Modifier.height(Spacing.Xs))
                                 Text(entry.phrase.romanization, fontFamily = FontFamily.Monospace, fontSize = 16.sp, color = LangColors.Muted)
@@ -63,7 +61,7 @@ fun HardScreen(
                                 Text(entry.phrase.youSay, fontFamily = FontFamily.Monospace,
                                     fontSize = 18.sp, fontWeight = FontWeight.Bold, color = LangColors.Ink)
                                 Spacer(Modifier.height(Spacing.Xs))
-                                MonoLabel("${entry.lang.uppercase()}  ·  ${displaySource(entry.phrase.source)}  ·  ${entry.phrase.checked}")
+                                KLabel("${entry.lang.uppercase()}  ·  ${displaySource(entry.phrase.source)}  ·  ${entry.phrase.checked}")
                             }
                         }
                     }

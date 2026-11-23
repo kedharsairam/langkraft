@@ -3,7 +3,7 @@ package com.kedharsairam.langkraft.presentation.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.kedharsairam.langkraft.data.PhraseStore
+import com.kedharsairam.langkraft.data.ContentRepository
 import com.kedharsairam.langkraft.data.UserStateRepository
 import com.kedharsairam.langkraft.domain.DomainResult
 import com.kedharsairam.langkraft.domain.ErrorReason
@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 
 sealed interface HomeUiState {
     data object Loading : HomeUiState
@@ -29,7 +31,7 @@ sealed interface HomeUiState {
 }
 
 class HomeViewModel(app: Application) : AndroidViewModel(app) {
-    private val store = PhraseStore(app)
+    private val store: ContentRepository = (app as com.kedharsairam.langkraft.LangKraftApp).content
     private val repo = UserStateRepository(app)
     private val _state = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
     val state: StateFlow<HomeUiState> = _state.asStateFlow()
@@ -39,7 +41,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
     fun load() {
         viewModelScope.launch {
             _state.value = HomeUiState.Loading
-            val langs = when (val r = store.loadCatalog()) {
+            val langs = when (val r = store.catalog()) {
                 is DomainResult.Success -> r.data
                 is DomainResult.Error -> { _state.value = HomeUiState.Failed(r.reason); return@launch }
             }
@@ -51,7 +53,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
             val phraseCounts = mutableMapOf<String, Int>()
             val lessonCounts = mutableMapOf<String, Int>()
             for (info in langs) {
-                val phrases = (store.loadPhrases(info.code) as? DomainResult.Success)?.data ?: emptyList()
+                val phrases = (store.phrases(info.code) as? DomainResult.Success)?.data ?: emptyList()
                 val visited = repo.visited(info.code).first()
                 val lessons = phrases.map { it.theme }.distinct().size.coerceAtLeast(1)
                 phraseCounts[info.code] = phrases.size
@@ -78,7 +80,7 @@ sealed interface HardUiState {
 data class HardEntry(val phrase: Phrase, val lang: String)
 
 class HardViewModel(app: Application) : AndroidViewModel(app) {
-    private val store = PhraseStore(app)
+    private val store: ContentRepository = (app as com.kedharsairam.langkraft.LangKraftApp).content
     private val repo = UserStateRepository(app)
     private val _state = MutableStateFlow<HardUiState>(HardUiState.Loading)
     val state: StateFlow<HardUiState> = _state.asStateFlow()
@@ -86,12 +88,12 @@ class HardViewModel(app: Application) : AndroidViewModel(app) {
     init { load() }
     fun load() {
         viewModelScope.launch {
-            val catalog = (store.loadCatalog() as? DomainResult.Success)?.data ?: emptyList()
+            val catalog = (store.catalog() as? DomainResult.Success)?.data ?: emptyList()
             val starred = repo.starredMap(catalog.map { it.code }).first()
             val all = mutableListOf<HardEntry>()
             for ((code, ids) in starred) {
                 if (ids.isEmpty()) continue
-                val phrases = (store.loadPhrases(code) as? DomainResult.Success)?.data ?: emptyList()
+                val phrases = (store.phrases(code) as? DomainResult.Success)?.data ?: emptyList()
                 all += phrases.filter { it.id in ids }.map { HardEntry(it, code) }
             }
             _state.value = HardUiState.Ready(all)
@@ -106,24 +108,35 @@ sealed interface SearchUiState {
 }
 
 class SearchViewModel(app: Application) : AndroidViewModel(app) {
-    private val store = PhraseStore(app)
+    private val store: ContentRepository = (app as com.kedharsairam.langkraft.LangKraftApp).content
     private val _state = MutableStateFlow<SearchUiState>(SearchUiState.Idle)
     val state: StateFlow<SearchUiState> = _state.asStateFlow()
+    private var searchJob: kotlinx.coroutines.Job? = null
 
     fun search(q: String) {
-        viewModelScope.launch {
+        searchJob?.cancel()                       // newest query wins
+        searchJob = viewModelScope.launch {
             if (q.isBlank()) { _state.value = SearchUiState.Idle; return@launch }
+            delay(200)                            // debounce typing
+            if (!isActive) return@launch
             _state.value = SearchUiState.Loading
-            val catalog = (store.loadCatalog() as? DomainResult.Success)?.data ?: emptyList()
+            val catalog = (store.catalog() as? DomainResult.Success)?.data ?: emptyList()
             val hits = mutableListOf<Phrase>()
+            var total = 0
             var truncated = false
             for (info in catalog) {
-                val phrases = (store.loadPhrases(info.code) as? DomainResult.Success)?.data ?: continue
-                hits += phrases.filter { it.english.contains(q, true) || it.romanization.contains(q, true) || it.youSay.contains(q, true) }
-                if (hits.size >= 60) { truncated = true; break }
+                val phrases = (store.phrases(info.code) as? DomainResult.Success)?.data ?: continue
+                for (p in phrases) {
+                    if (p.english.contains(q, true) || p.romanization.contains(q, true) || p.youSay.contains(q, true)) {
+                        total++
+                        if (hits.size < 60) hits += p
+                    }
+                }
+                // Stop counting once we are comfortably over the cap — the notice is honest.
+                if (total >= 60 && catalog.size > 1) { truncated = true; break }
             }
-            _state.value = SearchUiState.Ready(hits, truncated)
+            _state.value = SearchUiState.Ready(hits, truncated || total > hits.size)
         }
     }
-    fun clear() { _state.value = SearchUiState.Idle }
+    fun clear() { searchJob?.cancel(); _state.value = SearchUiState.Idle }
 }

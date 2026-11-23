@@ -1,135 +1,118 @@
 package com.kedharsairam.langkraft.presentation.screens
 
+import com.kedharsairam.langkraft.presentation.components.displaySource
+
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.sp
 import com.kedharsairam.langkraft.domain.Phrase
+import com.kedharsairam.langkraft.domain.SoundCheck
 import com.kedharsairam.langkraft.presentation.components.*
-import com.kedharsairam.langkraft.presentation.theme.LangColors
-import com.kedharsairam.langkraft.presentation.theme.Spacing
+import com.kedharsairam.langkraft.presentation.theme.*
 import com.kedharsairam.langkraft.presentation.viewmodels.LanguageUiState
 import com.kedharsairam.langkraft.presentation.viewmodels.LanguageViewModel
+import compose.icons.TablerIcons
+import compose.icons.tablericons.Search
+import compose.icons.tablericons.Star
+import compose.icons.tablericons.Bookmark
 
-private fun lessonTitle(phrases: List<Phrase>, theme: Int): String =
-    phrases.firstOrNull { it.theme == theme }?.anchor?.substringAfter(": ")?.takeIf { it.isNotBlank() }
-        ?: "Lesson $theme"
+private fun title(phrases: List<Phrase>, theme: Int) =
+    phrases.firstOrNull { it.theme == theme }?.anchor?.substringAfter(": ")?.takeIf { it.isNotBlank() } ?: "Lesson $theme"
+
+/** Traveller-situation sections over the 35 LingoHut lesson numbers. */
+private val SECTIONS = listOf(
+    "Basics" to setOf(1, 2, 118),
+    "Numbers & time" to setOf(8, 9, 10, 11, 12, 82, 84),
+    "Food & drink" to setOf(52, 70, 71, 74, 75, 76),
+    "Shopping & money" to setOf(56, 57, 58),
+    "Getting around" to setOf(78, 79, 81),
+    "Health" to setOf(89, 90, 91, 92),
+    "Travel & emergency" to setOf(93, 94, 96, 97, 98, 99, 100, 123, 125)
+)
 
 @Composable
 fun LanguageScreen(
-    code: String,
-    onBack: () -> Unit,
-    onNumbers: (String) -> Unit,
-    onSearch: () -> Unit = {},
-    onHard: () -> Unit = {},
-    initialLesson: Int? = null,
-    vm: LanguageViewModel = viewModel()
+    code: String, onBack: () -> Unit, onNumbers: (String) -> Unit,
+    onSearch: () -> Unit = {}, onHard: () -> Unit = {},
+    initialLesson: Int? = null, vm: LanguageViewModel = viewModel()
 ) {
     val state by vm.state.collectAsState()
     LaunchedEffect(code) { vm.load(code) }
     when (val s = state) {
-        LanguageUiState.Loading -> Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
-            KraftTopBar(code.uppercase(), onBack = onBack)
-            Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) { MonoLabel("LOADING…") }
-        }
-        is LanguageUiState.Empty -> Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
-            KraftTopBar(code.uppercase(), onBack = onBack, showSearch = true, onSearch = onSearch, showHard = true, onHard = onHard)
-            Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
-                Text("No phrases yet for this language.", color = LangColors.Ink)
-            }
-        }
-        is LanguageUiState.Failed -> Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
-            KraftTopBar(code.uppercase(), onBack = onBack)
-            Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Could not load phrases.", color = LangColors.Ink)
-                    Spacer(Modifier.height(Spacing.S))
-                    SecondaryCta("RETRY", { vm.load(code) })
-                }
-            }
+        LanguageUiState.Loading -> Box(Modifier.fillMaxSize(), Alignment.Center) { KLabel("LOADING…") }
+        is LanguageUiState.Empty, is LanguageUiState.Failed -> Box(Modifier.fillMaxSize(), Alignment.Center) {
+            Text("No phrases yet for this language.", color = LangColors.Ink)
         }
         is LanguageUiState.Ready -> {
-            var soundReplay by remember(code) { mutableStateOf(false) }
-            if (s.sound != null && (!s.soundAcked || soundReplay)) {
-                SoundCheckScreen(s.name.ifBlank { code.uppercase() }, s.sound!!, onBack, {
-                    vm.acknowledgeSound(); soundReplay = false
-                })
-            } else {
-                var lessonsOpen by remember(code) { mutableStateOf(initialLesson == null) }
-                LaunchedEffect(initialLesson) {
-                    if (initialLesson != null) { vm.setTheme(initialLesson); lessonsOpen = false }
+            var replay by remember(code) { mutableStateOf(false) }
+            if (s.sound != null && (!s.soundAcked || replay)) {
+                SoundCheckView(s.name.ifBlank { code.uppercase() }, s.sound!!, onBack) { vm.acknowledgeSound(); replay = false }
+                return
+            }
+            var openLesson by remember(code) { mutableStateOf<Int?>(initialLesson) }
+            var filterHard by remember(code) { mutableStateOf(false) }
+            LaunchedEffect(initialLesson) { if (initialLesson != null) { vm.setTheme(initialLesson); openLesson = initialLesson } }
+            BackHandler { if (openLesson != null) openLesson = null else onBack() }
+
+            val themes = s.phrases.map { it.theme }.distinct().sorted()
+            Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
+                KTopBar(if (openLesson == null) s.name.ifBlank { code.uppercase() } else title(s.phrases, openLesson!!),
+                    onBack = { if (openLesson != null) openLesson = null else onBack() }) {
+                    Box(Modifier.size(Spacing.MinTarget).kraftClick(onSearch), Alignment.Center) {
+                        Icon(TablerIcons.Search, "Search", Modifier.size(24.dp), LangColors.Ink)
+                    }
+                    Box(Modifier.size(Spacing.MinTarget).kraftClick(onHard), Alignment.Center) {
+                        Icon(TablerIcons.Star, "Hard", Modifier.size(24.dp), LangColors.Ink)
+                    }
                 }
-                BackHandler { if (lessonsOpen) onBack() else lessonsOpen = true }
-                Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
-                    KraftTopBar(
-                        s.name.ifBlank { code.uppercase() },
-                        onBack = { if (lessonsOpen) onBack() else lessonsOpen = true },
-                        showSearch = true, onSearch = onSearch, showHard = true, onHard = onHard
-                    )
-                    if (lessonsOpen) {
-                        Spacer(Modifier.height(Spacing.S))
-                        MonoLabel("LESSONS")
-                        Spacer(Modifier.height(Spacing.S))
-                        Column(
-                            Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()),
-                            verticalArrangement = Arrangement.spacedBy(Spacing.S)
-                        ) {
-                            val themes = s.phrases.map { it.theme }.distinct().sorted()
-                            // Reopenable sound-check and numbers grid, as ledger rows.
-                            if (s.sound != null) {
-                                LedgerRow(index = "—", title = "Sound check", meta = "",
-                                    onClick = { soundReplay = true })
+                LazyColumn(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(Spacing.Xs)) {
+                    if (openLesson == null) {
+                        item {
+                            KLabel("QUICK ACCESS")
+                            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(Spacing.S)) {
+                                KSecondary("Sound check", { replay = true }, Modifier.weight(1f))
+                                KSecondary("Numbers", { onNumbers(code) }, Modifier.weight(1f))
                             }
-                            LedgerRow(index = "—", title = "Numbers grid", meta = "",
-                                onClick = { onNumbers(code) })
-                            themes.forEach { t ->
-                                val serial = themes.indexOf(t) + 1
-                                val count = s.phrases.count { it.theme == t }
-                                LedgerRow(
-                                    index = "%02d".format(serial),
-                                    title = lessonTitle(s.phrases, t),
-                                    meta = "[$count]",
-                                    onClick = { vm.setTheme(t); lessonsOpen = false }
-                                )
+                            Spacer(Modifier.height(Spacing.S))
+                        }
+                        SECTIONS.forEach { (name, ids) ->
+                            val lessons = themes.filter { it in ids }
+                            if (lessons.isNotEmpty()) {
+                                item { Spacer(Modifier.height(Spacing.S)); KSection(name) }
+                                items(lessons, key = { "l-$it" }) { t ->
+                                    val serial = themes.indexOf(t) + 1
+                                    LedgerRow("%02d".format(serial), title(s.phrases, t), "[${s.phrases.count { it.theme == t }}]",
+                                        { vm.setTheme(t); openLesson = t })
+                                }
                             }
                         }
                     } else {
-                        Spacer(Modifier.height(Spacing.S))
-                        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                            val themes = s.phrases.map { it.theme }.distinct().sorted()
-                            val serial = themes.indexOf(s.theme) + 1
-                            Text(
-                                "%02d  %s".format(serial, lessonTitle(s.phrases, s.theme)),
-                                fontFamily = FontFamily.Monospace, fontSize = 13.sp,
-                                color = LangColors.Muted, modifier = Modifier.weight(1f)
-                            )
-                            MonoLabel("[${vm.visible(s).size}]")
-                        }
-                        Spacer(Modifier.height(Spacing.S))
-                        val visible = vm.visible(s)
-                        if (visible.isEmpty()) {
-                            Text("No phrases match.", color = LangColors.Muted)
-                        } else {
-                            Column(
-                                Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()),
-                                verticalArrangement = Arrangement.spacedBy(Spacing.S)
-                            ) {
-                                visible.forEachIndexed { i, p -> PhraseCard(i + 1, p, p.id in s.starred) { vm.toggleStar(p.id) } }
-                                Spacer(Modifier.height(Spacing.S))
+                        item {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                KLabel("ALL", color = if (!filterHard) LangColors.Accent else LangColors.Muted,
+                                    modifier = Modifier.kraftClick { filterHard = false })
+                                Spacer(Modifier.width(Spacing.M))
+                                KLabel("HARD", color = if (filterHard) LangColors.Accent else LangColors.Muted,
+                                    modifier = Modifier.kraftClick { filterHard = true })
                             }
+                            Spacer(Modifier.height(Spacing.S))
                         }
+                        val visible = s.phrases.filter { it.theme == openLesson && (!filterHard || it.id in s.starred) }
+                        if (visible.isEmpty()) item { Text("No phrases here.", color = LangColors.Muted) }
+                        else items(visible, key = { it.id }) { p -> PhraseRow(p, p.id in s.starred) { vm.toggleStar(p.id) } }
                     }
                 }
             }
@@ -138,78 +121,52 @@ fun LanguageScreen(
 }
 
 @Composable
-private fun PhraseCard(num: Int, phrase: Phrase, isStarred: Boolean, onToggleStar: () -> Unit) {
-    Column(
-        Modifier.fillMaxWidth().borderedCard().padding(Spacing.M)
-    ) {
-        Text("$num. ${phrase.english}", style = androidx.compose.material3.MaterialTheme.typography.bodyMedium, color = LangColors.Muted)
+private fun PhraseRow(p: Phrase, starred: Boolean, onStar: () -> Unit) {
+    Column(Modifier.fillMaxWidth().padding(vertical = Spacing.S)) {
+        Text(p.english, style = LangTypography.bodyMedium, color = LangColors.Muted)
         Spacer(Modifier.height(Spacing.Xs))
-        // The actual target phrase — the thing being learned. Never hide it.
-        Text(phrase.romanization, fontFamily = FontFamily.Monospace, fontSize = 18.sp, color = LangColors.Ink)
+        Text(p.romanization, style = RomanizationStyle, color = LangColors.Ink)
         Spacer(Modifier.height(Spacing.Xs))
-        Text(
-            phrase.youSay.replace("-", "-\u200B"),
-            fontFamily = FontFamily.Monospace,
-            fontSize = 26.sp,
-            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-            color = LangColors.Ink,
-            lineHeight = 34.sp
-        )
-        Spacer(Modifier.height(Spacing.Xs))
-        if (phrase.soundTip.isNotBlank()) {
-            Text(phrase.soundTip, style = androidx.compose.material3.MaterialTheme.typography.bodySmall, color = LangColors.Muted)
-        }
-        // Note only when it carries real information — never the lesson name as filler.
-        if (phrase.note.isNotBlank() && !phrase.note.equals(phrase.anchor?.substringAfter(": "), ignoreCase = true)) {
+        Text(p.youSay.replace("-", "-\u200B"), style = YouSayStyle, color = LangColors.Accent)
+        if (p.soundTip.isNotBlank()) {
             Spacer(Modifier.height(Spacing.Xs))
-            Text(phrase.note, style = androidx.compose.material3.MaterialTheme.typography.bodySmall, color = LangColors.Muted)
+            Text(p.soundTip, style = LangTypography.bodySmall, color = LangColors.Muted)
         }
-        Spacer(Modifier.height(Spacing.S))
-        // Compact star toggle — 56dp touch target, no repeated full-width box.
-        Box(
-            Modifier
-                .size(Spacing.MinTarget)
-                .flatClickable(onToggleStar),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                Icons.Default.Star,
-                contentDescription = if (isStarred) "Remove from hard" else "Mark as hard",
-                tint = if (isStarred) LangColors.Accent else LangColors.Muted,
-                modifier = androidx.compose.ui.Modifier.size(24.dp)
-            )
+        if (p.note.isNotBlank() && !p.note.equals(p.anchor?.substringAfter(": "), true)) {
+            Spacer(Modifier.height(Spacing.Xs))
+            Text(p.note, style = LangTypography.bodySmall, color = LangColors.Muted)
         }
-        Spacer(Modifier.height(Spacing.S))
-        SectionDivider()
         Spacer(Modifier.height(Spacing.Xs))
-        MonoLabel("${displaySource(phrase.source)}  ·  ${phrase.checked}")
+        Box(Modifier.size(Spacing.MinTarget).kraftClick(onStar), Alignment.Center) {
+            Icon(TablerIcons.Star, if (starred) "Remove from hard" else "Mark as hard",
+                Modifier.size(24.dp), if (starred) LangColors.StateHard else LangColors.Muted)
+        }
+        Spacer(Modifier.height(Spacing.Xs))
+        KLabel("${com.kedharsairam.langkraft.presentation.components.displaySource(p.source)} · ${p.checked}")
     }
+    RowDivider()
 }
 
 @Composable
-private fun SoundCheckScreen(name: String, sound: com.kedharsairam.langkraft.domain.SoundCheck, onBack: () -> Unit, onAck: () -> Unit) {
+private fun SoundCheckView(name: String, sound: SoundCheck, onBack: () -> Unit, onAck: () -> Unit) {
     Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
-        KraftTopBar(name, onBack = onBack)
-        Column(
-            Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(Spacing.S)
-        ) {
+        KTopBar(name, onBack)
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(Spacing.S)) {
             Spacer(Modifier.height(Spacing.S))
-            MonoLabel("PRE-FLIGHT BRIEFING")
+            KLabel("PRE-FLIGHT BRIEFING")
             Block("NEW SOUNDS", sound.newSounds)
             Block("RHYTHM & POLITENESS", "${sound.rhythm} — ${sound.registerFirst}")
             Block("TRAP", sound.trap)
             Spacer(Modifier.height(Spacing.M))
-            InvertedCta("ACKNOWLEDGE & ENTER QUEUE", onAck)
+            KPrimary("ACKNOWLEDGE & ENTER QUEUE", onAck)
         }
     }
 }
 
 @Composable
 private fun Block(label: String, body: String) {
-    Column(Modifier.fillMaxWidth().borderedCard().padding(Spacing.M)) {
-        MonoLabel(label)
-        Spacer(Modifier.height(Spacing.S))
-        Text(body, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium, color = LangColors.Ink)
+    Column(Modifier.fillMaxWidth().kraftPanel().padding(Spacing.M)) {
+        KLabel(label); Spacer(Modifier.height(Spacing.S))
+        Text(body, style = LangTypography.bodyMedium, color = LangColors.Ink)
     }
 }
