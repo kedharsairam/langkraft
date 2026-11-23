@@ -32,7 +32,7 @@ Telugu script appears only as a sound reference, per the style guide.
 ## Privacy
 
 Zero `<uses-permission>` lines in the manifest. No INTERNET, no Play Services, no Firebase, no
-analytics, no account. Verified with `aapt dump permissions`. Works offline on GrapheneOS.
+analytics, no account. CI verifies with `aapt dump permissions`. Works offline on GrapheneOS.
 
 ## Build
 

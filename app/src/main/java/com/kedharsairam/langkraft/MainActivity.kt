@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun LangKraftNav() {
     val nav = rememberNavController()
-    Column(modifier = Modifier.fillMaxSize().statusBarsPadding()) {
+    Column(modifier = Modifier.fillMaxSize().windowInsetsPadding(androidx.compose.foundation.layout.WindowInsets.systemBars)) {
         // No bottom bar. Search/Hard live in top bar of Home + Language headers.
         NavHost(navController = nav, startDestination = "home", modifier = Modifier.weight(1f)) {
             composable("home") {

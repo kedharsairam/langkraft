@@ -105,6 +105,7 @@ sealed interface SearchUiState {
     data object Idle : SearchUiState
     data object Loading : SearchUiState
     data class Ready(val results: List<Phrase>, val truncated: Boolean = false) : SearchUiState
+    data class Failed(val reason: String) : SearchUiState
 }
 
 class SearchViewModel(app: Application) : AndroidViewModel(app) {
@@ -120,22 +121,24 @@ class SearchViewModel(app: Application) : AndroidViewModel(app) {
             delay(200)                            // debounce typing
             if (!isActive) return@launch
             _state.value = SearchUiState.Loading
-            val catalog = (store.catalog() as? DomainResult.Success)?.data ?: emptyList()
+            val catalog = when (val r = store.catalog()) {
+                is DomainResult.Success -> r.data
+                is DomainResult.Error -> { _state.value = SearchUiState.Failed("Could not load catalogue"); return@launch }
+            }
             val hits = mutableListOf<Phrase>()
-            var total = 0
-            var truncated = false
+            var more = false
             for (info in catalog) {
-                val phrases = (store.phrases(info.code) as? DomainResult.Success)?.data ?: continue
+                val phrases = when (val r = store.phrases(info.code)) {
+                    is DomainResult.Success -> r.data
+                    is DomainResult.Error -> { _state.value = SearchUiState.Failed("Could not load ${info.name}"); return@launch }
+                }
                 for (p in phrases) {
                     if (p.english.contains(q, true) || p.romanization.contains(q, true) || p.youSay.contains(q, true)) {
-                        total++
-                        if (hits.size < 60) hits += p
+                        if (hits.size < 60) hits += p else { more = true; break }
                     }
                 }
-                // Stop counting once we are comfortably over the cap — the notice is honest.
-                if (total >= 60 && catalog.size > 1) { truncated = true; break }
             }
-            _state.value = SearchUiState.Ready(hits, truncated || total > hits.size)
+            _state.value = SearchUiState.Ready(hits, more)
         }
     }
     fun clear() { searchJob?.cancel(); _state.value = SearchUiState.Idle }

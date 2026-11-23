@@ -59,6 +59,9 @@ class LanguageViewModel(app: Application) : AndroidViewModel(app) {
             val savedThemePos = repo.position(code, 1).first()
             val savedStar = repo.starred(code).first()
             val acked = repo.soundAcked(code).first()
+            // Landing on a language shows lesson 1 — count it as visited too,
+            // so the deep-link and normal paths produce the same progress.
+            repo.markVisited(code, 1)
             _state.value = LanguageUiState.Ready(
                 phrases = phrases, name = name, theme = 1, index = savedThemePos.coerceIn(0, phrases.size - 1),
                 starred = savedStar, sound = sound, soundAcked = acked

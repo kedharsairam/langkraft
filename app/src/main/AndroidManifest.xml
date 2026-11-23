@@ -5,6 +5,7 @@
         android:label="LangKraft"
         android:theme="@android:style/Theme.Material.NoActionBar"
         android:usesCleartextTraffic="false"
+        android:allowBackup="false"
         android:testOnly="false">
         <activity
             android:name=".MainActivity"

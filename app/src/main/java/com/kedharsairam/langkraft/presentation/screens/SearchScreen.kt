@@ -42,6 +42,7 @@ fun SearchScreen(onOpenLang: (String) -> Unit, onBack: (() -> Unit)? = null, vm:
         when (val s = state) {
             SearchUiState.Idle -> Text("Search across 19 languages.", color = LangColors.Muted)
             SearchUiState.Loading -> KLabel("SEARCHING…")
+            is SearchUiState.Failed -> Text("Search unavailable — local data could not be read.", color = LangColors.Muted)
             is SearchUiState.Ready -> {
                 if (s.results.isEmpty()) Text("No matches.", color = LangColors.Muted)
                 else LazyColumn(verticalArrangement = Arrangement.spacedBy(Spacing.Xs)) {

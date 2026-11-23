@@ -14,6 +14,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.kedharsairam.langkraft.presentation.components.*
+import com.kedharsairam.langkraft.presentation.components.ReloadOnResume
 import com.kedharsairam.langkraft.presentation.theme.*
 import com.kedharsairam.langkraft.presentation.viewmodels.HomeUiState
 import com.kedharsairam.langkraft.presentation.viewmodels.HomeViewModel
@@ -25,6 +26,7 @@ import compose.icons.tablericons.Bookmark
 @Composable
 fun HomeScreen(onLang: (String) -> Unit, onSearch: () -> Unit, onHard: () -> Unit, vm: HomeViewModel = viewModel()) {
     val state by vm.state.collectAsState()
+    ReloadOnResume { vm.load() }
     Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
         // Wordmark with gold square signature mark.
         Row(Modifier.fillMaxWidth().height(64.dp), verticalAlignment = Alignment.CenterVertically) {

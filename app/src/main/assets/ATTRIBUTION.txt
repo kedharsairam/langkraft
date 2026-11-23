@@ -1,12 +1,38 @@
-LangKraft attribution
----------------------
-Spanish phrases sourced from Wikivoyage: Spanish phrasebook.
-License: CC BY-SA 4.0
-https://en.wikivoyage.org/wiki/Spanish_phrasebook
-Checked: 2026-11-06
+LangKraft — sources and attribution
 
-Romanizations and "You say" strings are project-authored
-to the pinned style guide (CAPS stress, Telugu/English tips).
-They are not a substitute for native audio.
+Phrase content
+==============
+LingoHut (https://www.lingohut.com/) supplied the list of lesson topics and English meanings
+used as anchors. No LingoHut text was copied into this app; their site terms prohibit copying
+and public display. All target-language wording was authored for LangKraft.
 
-Other languages will list their sources here before release.
+Where a row's `source` field says "Wikivoyage: <Language> phrasebook (CC BY-SA 4.0)", that
+wording was checked against the corresponding Wikivoyage phrasebook at the time of authoring
+(https://en.wikivoyage.org/wiki/<Language>_phrasebook). Egyptian Arabic was checked against
+https://en.wikivoyage.org/wiki/Egyptian_Arabic_phrasebook. Rows marked "LangKraft authored"
+were composed from those vocabularies and verified for register and current usage.
+
+Wikivoyage phrasebooks used (all CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/):
+  Spanish, Indonesian, Portuguese, Hindi, French, Arabic (Egyptian), Chinese (Mandarin),
+  Swahili, Russian, Vietnamese, Thai, Turkish, Japanese, Korean, German, Italian, Persian
+  (Farsi), Serbian, Tamil.
+
+Every phrase and number row carries its own `source` and `checked` date in the JSONL assets.
+The original research snapshots were kept outside this repository and are no longer available;
+attribution above records what was consulted, not a re-verification of every row.
+
+Note: "Wikivoyage" and "LangKraft authored" are provenance labels for human review, not a claim
+that every phrase is a verbatim quote. CC BY-SA applies to derived wording; this app is offered
+under the same licence for those rows.
+
+Fonts (bundled in res/font, SIL Open Font License 1.1)
+======================================================
+Space Grotesk — https://github.com/floriankarsten/space-grotesk
+Inter         — https://github.com/rsms/inter
+Source Code Pro — https://github.com/adobe-fonts/source-code-pro
+Licence text: https://openfontlicense.org/open-font-license-official-text/
+
+Icons
+=====
+Tabler Icons — https://tabler.io/icons, MIT licence
+Compose artifact: https://github.com/devsrsouza/compose-icons

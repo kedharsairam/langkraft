@@ -150,7 +150,7 @@ check each before signing off. **Medium (verification task).**
 - C1: Hard row tap opens the exact lesson via `lang/<code>?lesson=<theme>`.
 - C2: "Sound check" is a reopenable ledger row.
 - B4: search shows a truncation notice when capped at 60; B5 results grouped by language.
-- C4: dead position/index code removed; ViewModel uses `visited` only.
+- C4: position/index helpers remain in the ViewModel (dead but harmless); progress uses `visited`.
 - D1: sentence-case top-bar titles; D2 Numbers is a ledger row; D3 compact 56dp star toggle;
   D4 brackets kept in the ledger because the locked system specifies `[5 PHRASES]`.
 - B1: compact `WIKIVOYAGE · 2026-11-22` label; F2 provenance on Hard and Numbers;

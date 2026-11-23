@@ -88,6 +88,18 @@ def validate(code):
             d = json.load(open(p, encoding="utf-8"))
             if loader and len(d) < 20:
                 errors.append(f"{extra} has only {len(d)} entries")
+            if loader:
+                for j, n in enumerate(d, 1):
+                    ys = str(n.get("youSay", ""))
+                    if not any(c.isupper() for c in ys):
+                        errors.append(f"{extra} row {j}: youSay has no CAPS stress")
+                    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(n.get("checked", ""))):
+                        errors.append(f"{extra} row {j}: bad checked date")
+                    if not ALLOWED_SOURCE.match(str(n.get("source", ""))):
+                        errors.append(f"{extra} row {j}: bad source string")
+                values = [str(n.get("value", "")) for n in d]
+                if len(values) != len(set(values)):
+                    errors.append(f"{extra}: duplicate values")
             # No target-language script may be shown anywhere in the app.
             # Telugu is allowed as a sound reference in notes/soundTips.
             for field_value in _walk_strings(d):

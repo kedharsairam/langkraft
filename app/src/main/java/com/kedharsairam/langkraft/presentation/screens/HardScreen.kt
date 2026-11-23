@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kedharsairam.langkraft.presentation.components.*
+import com.kedharsairam.langkraft.presentation.components.ReloadOnResume
 import com.kedharsairam.langkraft.presentation.theme.LangColors
 import com.kedharsairam.langkraft.presentation.theme.Spacing
 import com.kedharsairam.langkraft.presentation.viewmodels.HardUiState
@@ -30,6 +31,7 @@ fun HardScreen(
     vm: HardViewModel = viewModel()
 ) {
     val state by vm.state.collectAsState()
+    ReloadOnResume { vm.load() }
     Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
         KTopBar("Hard", onBack = onBack)
         Spacer(Modifier.height(Spacing.S))

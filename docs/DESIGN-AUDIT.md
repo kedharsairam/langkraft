@@ -4,10 +4,10 @@ Audited every screen in code and on a Realme RMX3998 (1080x2400). Against the lo
 Neo-Brutalism system in `data/shared-kb/neo-brutalism-system.md`.
 
 **Status 2026-11-23: IMPLEMENTED.** All eight bugs fixed, tokens switched to the locked palette,
-shared primitives added (`Primitives.kt` — borderedCard, LedgerRow, KraftTopBar, MonoLabel,
-SectionDivider, SecondaryCta, InvertedCta, flatClickable with no ripple). All seven screens
+shared primitives added (`Kraft.kt` — kraftPanel, LedgerRow, KTopBar, KLabel, RowDivider,
+KSecondary, KPrimary, kraftClick with no ripple). All seven screens
 restyled and device-verified at 1.0x and 2.0x font scale. Filler notes cleared from the data
-(5,859 rows) and the gates relaxed so note/soundTip may be empty — matching the brief's
+(8,731 rows) and the gates relaxed so note/soundTip may be empty — matching the brief's
 "only when it matters". Numbers screen made reachable from the lessons index; search now holds
 its query; hard empty state is plain copy. Full gates, 4 tests, both builds and device pass.
 

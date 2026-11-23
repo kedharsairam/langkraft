@@ -2,7 +2,7 @@
   {
     "value": "0",
     "word": "nol",
-    "youSay": "nohl",
+    "youSay": "Nohl",
     "note": "Also kosong informally.",
     "source": "Wikivoyage: Indonesian phrasebook (CC BY-SA 4.0)",
     "checked": "2026-11-22"
@@ -181,6 +181,62 @@
     "youSay": "DOO-ah PUH-looh DOO-ah",
     "note": "",
     "source": "Wikivoyage: Indonesian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "23",
+    "word": "Dua puluh tiga",
+    "youSay": "DOO-ah-POO-looh-TEE-gah",
+    "note": "",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "24",
+    "word": "Dua puluh empat",
+    "youSay": "DOO-ah-POO-looh-ehm-PAHT",
+    "note": "",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "25",
+    "word": "Dua puluh lima",
+    "youSay": "DOO-ah-POO-looh-LEE-mah",
+    "note": "",
+    "source": "Wikivoyage: Indonesian phrasebook (CC BY-SA 4.0)",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "26",
+    "word": "Dua puluh enam",
+    "youSay": "DOO-ah-POO-looh-eh-NAHM",
+    "note": "",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "27",
+    "word": "Dua puluh tujuh",
+    "youSay": "DOO-ah-POO-looh-TOO-juh",
+    "note": "",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "28",
+    "word": "Dua puluh delapan",
+    "youSay": "DOO-ah-POO-looh-deh-LAH-pahn",
+    "note": "",
+    "source": "LangKraft authored",
+    "checked": "2026-11-22"
+  },
+  {
+    "value": "29",
+    "word": "Dua puluh sembilan",
+    "youSay": "DOO-ah-POO-looh-suhm-BEE-lahn",
+    "note": "",
+    "source": "LangKraft authored",
     "checked": "2026-11-22"
   },
   {
