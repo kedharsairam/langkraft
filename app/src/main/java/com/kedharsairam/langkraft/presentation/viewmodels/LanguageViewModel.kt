@@ -68,12 +68,8 @@ class LanguageViewModel(app: Application) : AndroidViewModel(app) {
 
     fun setTheme(t: Int) {
         val s = _state.value as? LanguageUiState.Ready ?: return
-        viewModelScope.launch {
-            val pos = repo.position(lang, t).first()
-            val idx = pos.coerceIn(0, (s.phrases.filter { it.theme == t }.size - 1).coerceAtLeast(0))
-            _state.value = s.copy(theme = t, index = idx, query = "")
-            repo.savePosition(lang, t, idx)
-        }
+        _state.value = s.copy(theme = t, index = 0, query = "")
+        viewModelScope.launch { repo.markVisited(lang, t) }
     }
 
     fun setQuery(q: String) {

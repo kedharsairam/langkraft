@@ -20,6 +20,8 @@ sealed interface HomeUiState {
     data class Ready(
         val languages: List<LanguageInfo>,
         val progress: Map<String, Pair<Int, Int>> = emptyMap(),
+        val phraseCounts: Map<String, Int> = emptyMap(),
+        val lessonCounts: Map<String, Int> = emptyMap(),
         val continue_: Pair<String, String>? = null,
         val starredCount: Int = 0
     ) : HomeUiState
@@ -46,26 +48,34 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
             val starred = repo.starredMap(codes).first()
             val starredCount = starred.values.sumOf { it.size }
             val progress = mutableMapOf<String, Pair<Int, Int>>()
+            val phraseCounts = mutableMapOf<String, Int>()
+            val lessonCounts = mutableMapOf<String, Int>()
             for (info in langs) {
                 val phrases = (store.loadPhrases(info.code) as? DomainResult.Success)?.data ?: emptyList()
-                val pos = repo.positionsFor(info.code).first()
-                val viewed = pos.values.sumOf { it + 1 }
-                progress[info.code] = viewed to phrases.size.coerceAtLeast(info.kitTotal)
+                val visited = repo.visited(info.code).first()
+                val lessons = phrases.map { it.theme }.distinct().size.coerceAtLeast(1)
+                phraseCounts[info.code] = phrases.size
+                lessonCounts[info.code] = lessons
+                // Progress is lessons opened out of lessons available — not phrase positions.
+                progress[info.code] = visited.size.coerceAtMost(lessons) to lessons
             }
             val continueInfo = last?.let { code ->
                 val name = langs.find { it.code == code }?.name ?: code.uppercase()
                 code to name
             }
-            _state.value = HomeUiState.Ready(langs, progress, continueInfo, starredCount)
+            _state.value = HomeUiState.Ready(langs, progress, phraseCounts, lessonCounts, continueInfo, starredCount)
         }
     }
 }
 
 sealed interface HardUiState {
     data object Loading : HardUiState
-    data class Ready(val phrases: List<Phrase>) : HardUiState
+    data class Ready(val phrases: List<HardEntry>) : HardUiState
     data class Failed(val reason: ErrorReason) : HardUiState
 }
+
+/** A hard phrase plus where it lives, so a tap can open the exact lesson. */
+data class HardEntry(val phrase: Phrase, val lang: String)
 
 class HardViewModel(app: Application) : AndroidViewModel(app) {
     private val store = PhraseStore(app)
@@ -78,11 +88,11 @@ class HardViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             val catalog = (store.loadCatalog() as? DomainResult.Success)?.data ?: emptyList()
             val starred = repo.starredMap(catalog.map { it.code }).first()
-            val all = mutableListOf<Phrase>()
+            val all = mutableListOf<HardEntry>()
             for ((code, ids) in starred) {
                 if (ids.isEmpty()) continue
                 val phrases = (store.loadPhrases(code) as? DomainResult.Success)?.data ?: emptyList()
-                all += phrases.filter { it.id in ids }
+                all += phrases.filter { it.id in ids }.map { HardEntry(it, code) }
             }
             _state.value = HardUiState.Ready(all)
         }
@@ -92,7 +102,7 @@ class HardViewModel(app: Application) : AndroidViewModel(app) {
 sealed interface SearchUiState {
     data object Idle : SearchUiState
     data object Loading : SearchUiState
-    data class Ready(val results: List<Phrase>) : SearchUiState
+    data class Ready(val results: List<Phrase>, val truncated: Boolean = false) : SearchUiState
 }
 
 class SearchViewModel(app: Application) : AndroidViewModel(app) {
@@ -106,12 +116,13 @@ class SearchViewModel(app: Application) : AndroidViewModel(app) {
             _state.value = SearchUiState.Loading
             val catalog = (store.loadCatalog() as? DomainResult.Success)?.data ?: emptyList()
             val hits = mutableListOf<Phrase>()
+            var truncated = false
             for (info in catalog) {
                 val phrases = (store.loadPhrases(info.code) as? DomainResult.Success)?.data ?: continue
                 hits += phrases.filter { it.english.contains(q, true) || it.romanization.contains(q, true) || it.youSay.contains(q, true) }
-                if (hits.size > 60) break
+                if (hits.size >= 60) { truncated = true; break }
             }
-            _state.value = SearchUiState.Ready(hits)
+            _state.value = SearchUiState.Ready(hits, truncated)
         }
     }
     fun clear() { _state.value = SearchUiState.Idle }

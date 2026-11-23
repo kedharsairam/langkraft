@@ -1,33 +1,30 @@
 package com.kedharsairam.langkraft.presentation.screens
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kedharsairam.langkraft.domain.Phrase
+import com.kedharsairam.langkraft.presentation.components.*
+import com.kedharsairam.langkraft.presentation.theme.LangColors
 import com.kedharsairam.langkraft.presentation.theme.Spacing
 import com.kedharsairam.langkraft.presentation.viewmodels.LanguageUiState
 import com.kedharsairam.langkraft.presentation.viewmodels.LanguageViewModel
 
-// Lesson titles come from the content's anchor field, not a hardcoded theme map.
-// Adding a language or a lesson is a data change only.
 private fun lessonTitle(phrases: List<Phrase>, theme: Int): String =
-    phrases.firstOrNull { it.theme == theme }?.anchor
-        ?.substringAfter(": ")
-        ?.takeIf { it.isNotBlank() }
+    phrases.firstOrNull { it.theme == theme }?.anchor?.substringAfter(": ")?.takeIf { it.isNotBlank() }
         ?: "Lesson $theme"
 
 @Composable
@@ -37,114 +34,99 @@ fun LanguageScreen(
     onNumbers: (String) -> Unit,
     onSearch: () -> Unit = {},
     onHard: () -> Unit = {},
+    initialLesson: Int? = null,
     vm: LanguageViewModel = viewModel()
 ) {
     val state by vm.state.collectAsState()
     LaunchedEffect(code) { vm.load(code) }
     when (val s = state) {
-        LanguageUiState.Loading -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = androidx.compose.ui.Alignment.Center) { CircularProgressIndicator() }
-        is LanguageUiState.Empty -> Column(Modifier.padding(horizontal = Spacing.Screen)) {
-            Spacer(Modifier.height(Spacing.M))
-            Text("No phrases yet for this language.", color = MaterialTheme.colorScheme.onSurfaceVariant)
-            TextButton(onClick = onBack) { Text("Back to queue") }
+        LanguageUiState.Loading -> Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
+            KraftTopBar(code.uppercase(), onBack = onBack)
+            Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) { MonoLabel("LOADING…") }
         }
-        is LanguageUiState.Failed -> Column(Modifier.padding(horizontal = Spacing.Screen)) {
-            Spacer(Modifier.height(Spacing.M))
-            Text("Could not load phrases.", color = MaterialTheme.colorScheme.onSurfaceVariant)
-            TextButton(onClick = { vm.load(code) }) { Text("Retry") }
+        is LanguageUiState.Empty -> Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
+            KraftTopBar(code.uppercase(), onBack = onBack, showSearch = true, onSearch = onSearch, showHard = true, onHard = onHard)
+            Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Text("No phrases yet for this language.", color = LangColors.Ink)
+            }
+        }
+        is LanguageUiState.Failed -> Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
+            KraftTopBar(code.uppercase(), onBack = onBack)
+            Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("Could not load phrases.", color = LangColors.Ink)
+                    Spacer(Modifier.height(Spacing.S))
+                    SecondaryCta("RETRY", { vm.load(code) })
+                }
+            }
         }
         is LanguageUiState.Ready -> {
-            if (s.sound != null && !s.soundAcked) {
-                Column(modifier = Modifier.padding(horizontal = Spacing.Screen)) {
-                    Spacer(Modifier.height(Spacing.M))
-                    Text("PRE-FLIGHT BRIEFING", fontFamily = FontFamily.Monospace, fontSize = 13.sp, fontWeight = FontWeight.Bold)
-                    Text("[${code.uppercase()}] — ONE SCREEN. NO AUDIO.", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Spacer(Modifier.height(Spacing.L))
-                    Text("NEW SOUNDS:", fontFamily = FontFamily.Monospace, fontSize = 13.sp)
-                    Text(s.sound.newSounds, style = MaterialTheme.typography.bodyMedium)
-                    Spacer(Modifier.height(Spacing.M))
-                    Text("RHYTHM & POLITENESS:", fontFamily = FontFamily.Monospace, fontSize = 13.sp)
-                    Text("${s.sound.rhythm} — ${s.sound.registerFirst}", style = MaterialTheme.typography.bodyMedium)
-                    Spacer(Modifier.height(Spacing.M))
-                    Text("TRAP:", fontFamily = FontFamily.Monospace, fontSize = 13.sp)
-                    Text(s.sound.trap, style = MaterialTheme.typography.bodyMedium)
-                    Spacer(Modifier.height(Spacing.L))
-                    Button(onClick = { vm.acknowledgeSound() }, modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = Spacing.MinTarget)) { Text("[ ACKNOWLEDGE & ENTER QUEUE ]") }
-                }
+            var soundReplay by remember(code) { mutableStateOf(false) }
+            if (s.sound != null && (!s.soundAcked || soundReplay)) {
+                SoundCheckScreen(s.name.ifBlank { code.uppercase() }, s.sound!!, onBack, {
+                    vm.acknowledgeSound(); soundReplay = false
+                })
             } else {
-                var lessonsOpen by remember(code) { mutableStateOf(true) }
+                var lessonsOpen by remember(code) { mutableStateOf(initialLesson == null) }
+                LaunchedEffect(initialLesson) {
+                    if (initialLesson != null) { vm.setTheme(initialLesson); lessonsOpen = false }
+                }
                 BackHandler { if (lessonsOpen) onBack() else lessonsOpen = true }
-                // Lessons list first (LingoHut-style index). Phrase stage only after a lesson is tapped.
-                Column(modifier = Modifier.padding(horizontal = Spacing.Screen)) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth().height(56.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
-                    ) {
-                        Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
-                            IconButton(onClick = { if (lessonsOpen) onBack() else lessonsOpen = true }, modifier = Modifier.size(48.dp)) {
-                                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                            }
-                            Text(s.name.ifBlank { code.uppercase() }, fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                        }
-                        Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
-                            IconButton(onClick = onSearch, modifier = Modifier.size(48.dp)) {
-                                Icon(Icons.Default.Search, contentDescription = "Search")
-                            }
-                            IconButton(onClick = onHard, modifier = Modifier.size(48.dp)) {
-                                Icon(Icons.Default.Star, contentDescription = "Hard")
-                            }
-                        }
-                    }
+                Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
+                    KraftTopBar(
+                        s.name.ifBlank { code.uppercase() },
+                        onBack = { if (lessonsOpen) onBack() else lessonsOpen = true },
+                        showSearch = true, onSearch = onSearch, showHard = true, onHard = onHard
+                    )
                     if (lessonsOpen) {
-                        Text("LESSONS", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         Spacer(Modifier.height(Spacing.S))
-                        Column(modifier = Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(Spacing.S)) {
-                            s.phrases.map { it.theme }.distinct().sorted().forEach { t ->
+                        MonoLabel("LESSONS")
+                        Spacer(Modifier.height(Spacing.S))
+                        Column(
+                            Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()),
+                            verticalArrangement = Arrangement.spacedBy(Spacing.S)
+                        ) {
+                            val themes = s.phrases.map { it.theme }.distinct().sorted()
+                            // Reopenable sound-check and numbers grid, as ledger rows.
+                            if (s.sound != null) {
+                                LedgerRow(index = "—", title = "Sound check", meta = "",
+                                    onClick = { soundReplay = true })
+                            }
+                            LedgerRow(index = "—", title = "Numbers grid", meta = "",
+                                onClick = { onNumbers(code) })
+                            themes.forEach { t ->
+                                val serial = themes.indexOf(t) + 1
                                 val count = s.phrases.count { it.theme == t }
-                                Surface(
-                                    color = MaterialTheme.colorScheme.surfaceVariant,
-                                    shape = MaterialTheme.shapes.medium,
-                                    modifier = Modifier.fillMaxWidth().wrapContentHeight().clickable {
-                                        vm.setTheme(t); lessonsOpen = false
-                                    }
-                                ) {
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth().padding(Spacing.M),
-                                        horizontalArrangement = Arrangement.SpaceBetween,
-                                        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
-                                    ) {
-                                        Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
-                                            Text("%02d".format(t), fontFamily = FontFamily.Monospace, fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                                            Spacer(Modifier.width(Spacing.S))
-                                            Text(lessonTitle(s.phrases, t), style = MaterialTheme.typography.titleLarge)
-                                        }
-                                        Text("[$count]", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, softWrap = false)
-                                    }
-                                }
+                                LedgerRow(
+                                    index = "%02d".format(serial),
+                                    title = lessonTitle(s.phrases, t),
+                                    meta = "[$count]",
+                                    onClick = { vm.setTheme(t); lessonsOpen = false }
+                                )
                             }
                         }
-
                     } else {
-                        Row(
-                            modifier = Modifier.fillMaxWidth().padding(vertical = Spacing.S),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
-                        ) {
-                            Text("%02d %s".format(s.theme, lessonTitle(s.phrases, s.theme)), fontFamily = FontFamily.Monospace, fontSize = 13.sp, fontWeight = FontWeight.Bold)
-                            Text("[%d]".format(vm.visible(s).size), fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, softWrap = false)
+                        Spacer(Modifier.height(Spacing.S))
+                        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                            val themes = s.phrases.map { it.theme }.distinct().sorted()
+                            val serial = themes.indexOf(s.theme) + 1
+                            Text(
+                                "%02d  %s".format(serial, lessonTitle(s.phrases, s.theme)),
+                                fontFamily = FontFamily.Monospace, fontSize = 13.sp,
+                                color = LangColors.Muted, modifier = Modifier.weight(1f)
+                            )
+                            MonoLabel("[${vm.visible(s).size}]")
                         }
+                        Spacer(Modifier.height(Spacing.S))
                         val visible = vm.visible(s)
                         if (visible.isEmpty()) {
-                            Text("No phrases match.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text("No phrases match.", color = LangColors.Muted)
                         } else {
                             Column(
-                                modifier = Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()),
+                                Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()),
                                 verticalArrangement = Arrangement.spacedBy(Spacing.S)
                             ) {
-                                visible.forEachIndexed { i, p ->
-                                    PhraseRow(num = i + 1, phrase = p, isStarred = p.id in s.starred, onToggleStar = { vm.toggleStar(p.id) })
-                                }
+                                visible.forEachIndexed { i, p -> PhraseCard(i + 1, p, p.id in s.starred) { vm.toggleStar(p.id) } }
                                 Spacer(Modifier.height(Spacing.S))
                             }
                         }
@@ -156,27 +138,78 @@ fun LanguageScreen(
 }
 
 @Composable
-fun GlueStrip(phrases: List<Phrase>) {
-    if (phrases.isEmpty()) return
-    Column(modifier = Modifier.padding(vertical = Spacing.S)) {
-        Text("GLUE — REPAIR PHRASES", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        phrases.forEach { p -> Text("${p.english} — ${p.youSay}", fontFamily = FontFamily.Monospace, fontSize = 12.sp, maxLines = 2) }
-        HorizontalDivider(thickness = Spacing.Hairline, modifier = Modifier.padding(vertical = Spacing.S))
+private fun PhraseCard(num: Int, phrase: Phrase, isStarred: Boolean, onToggleStar: () -> Unit) {
+    Column(
+        Modifier.fillMaxWidth().borderedCard().padding(Spacing.M)
+    ) {
+        Text("$num. ${phrase.english}", style = androidx.compose.material3.MaterialTheme.typography.bodyMedium, color = LangColors.Muted)
+        Spacer(Modifier.height(Spacing.Xs))
+        // The actual target phrase — the thing being learned. Never hide it.
+        Text(phrase.romanization, fontFamily = FontFamily.Monospace, fontSize = 18.sp, color = LangColors.Ink)
+        Spacer(Modifier.height(Spacing.Xs))
+        Text(
+            phrase.youSay.replace("-", "-\u200B"),
+            fontFamily = FontFamily.Monospace,
+            fontSize = 26.sp,
+            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+            color = LangColors.Ink,
+            lineHeight = 34.sp
+        )
+        Spacer(Modifier.height(Spacing.Xs))
+        if (phrase.soundTip.isNotBlank()) {
+            Text(phrase.soundTip, style = androidx.compose.material3.MaterialTheme.typography.bodySmall, color = LangColors.Muted)
+        }
+        // Note only when it carries real information — never the lesson name as filler.
+        if (phrase.note.isNotBlank() && !phrase.note.equals(phrase.anchor?.substringAfter(": "), ignoreCase = true)) {
+            Spacer(Modifier.height(Spacing.Xs))
+            Text(phrase.note, style = androidx.compose.material3.MaterialTheme.typography.bodySmall, color = LangColors.Muted)
+        }
+        Spacer(Modifier.height(Spacing.S))
+        // Compact star toggle — 56dp touch target, no repeated full-width box.
+        Box(
+            Modifier
+                .size(Spacing.MinTarget)
+                .flatClickable(onToggleStar),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                Icons.Default.Star,
+                contentDescription = if (isStarred) "Remove from hard" else "Mark as hard",
+                tint = if (isStarred) LangColors.Accent else LangColors.Muted,
+                modifier = androidx.compose.ui.Modifier.size(24.dp)
+            )
+        }
+        Spacer(Modifier.height(Spacing.S))
+        SectionDivider()
+        Spacer(Modifier.height(Spacing.Xs))
+        MonoLabel("${displaySource(phrase.source)}  ·  ${phrase.checked}")
     }
 }
 
 @Composable
-fun PhraseRow(num: Int, phrase: Phrase, isStarred: Boolean, onToggleStar: () -> Unit) {
-    Surface(color = MaterialTheme.colorScheme.surfaceVariant, shape = MaterialTheme.shapes.medium, modifier = Modifier.fillMaxWidth()) {
-        Column(modifier = Modifier.fillMaxWidth().padding(Spacing.S)) {
-            Text("%d. %s".format(num, phrase.english), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text(phrase.youSay, fontFamily = FontFamily.Monospace, fontSize = 22.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(vertical = Spacing.Xs))
-            if (phrase.soundTip.isNotBlank()) Text(phrase.soundTip, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            if (phrase.note.isNotBlank()) Text(phrase.note, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Row(horizontalArrangement = Arrangement.spacedBy(Spacing.S)) {
-                OutlinedButton(onClick = onToggleStar, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) { Text(if (isStarred) "Hard ★" else "Mark hard") }
-            }
+private fun SoundCheckScreen(name: String, sound: com.kedharsairam.langkraft.domain.SoundCheck, onBack: () -> Unit, onAck: () -> Unit) {
+    Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
+        KraftTopBar(name, onBack = onBack)
+        Column(
+            Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(Spacing.S)
+        ) {
+            Spacer(Modifier.height(Spacing.S))
+            MonoLabel("PRE-FLIGHT BRIEFING")
+            Block("NEW SOUNDS", sound.newSounds)
+            Block("RHYTHM & POLITENESS", "${sound.rhythm} — ${sound.registerFirst}")
+            Block("TRAP", sound.trap)
+            Spacer(Modifier.height(Spacing.M))
+            InvertedCta("ACKNOWLEDGE & ENTER QUEUE", onAck)
         }
     }
 }
 
+@Composable
+private fun Block(label: String, body: String) {
+    Column(Modifier.fillMaxWidth().borderedCard().padding(Spacing.M)) {
+        MonoLabel(label)
+        Spacer(Modifier.height(Spacing.S))
+        Text(body, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium, color = LangColors.Ink)
+    }
+}

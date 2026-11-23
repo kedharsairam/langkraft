@@ -55,8 +55,12 @@ def validate(code):
         errors.append(f"lesson set mismatch: missing {sorted(EXPECTED_LESSONS - lessons)}, extra {sorted(lessons - EXPECTED_LESSONS)}")
     for i, r in enumerate(rows, 1):
         for k in REQUIRED:
-            if k not in r or not str(r[k]).strip():
-                errors.append(f"row {i}: missing/empty {k}")
+            if k not in r:
+                errors.append(f"row {i}: missing {k}")
+        # note and soundTip are intentionally optional in value ("only when it matters").
+        for k in ("id", "lang", "theme", "english", "romanization", "youSay", "source", "checked", "anchor"):
+            if not str(r.get(k, "")).strip():
+                errors.append(f"row {i}: empty {k}")
         if r.get("lang") != code:
             errors.append(f"row {i}: lang {r.get('lang')} != {code}")
         if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(r.get("checked", ""))):

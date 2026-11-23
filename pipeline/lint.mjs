@@ -16,7 +16,11 @@ for (const file of files) {
     try { row = JSON.parse(line); } catch (e) { console.error(`  line ${i + 1}: bad JSON`); errors++; continue; }
     const need = ["id", "lang", "theme", "english", "romanization", "youSay", "soundTip", "note", "source", "checked"];
     for (const k of need) {
-      if (!row[k] || String(row[k]).trim() === "") { console.error(`  line ${i + 1}: missing ${k}`); errors++; }
+      if (!(k in row)) { console.error(`  line ${i + 1}: missing ${k}`); errors++; }
+    }
+    // note and soundTip are optional in value: the brief says a note appears "only when it matters".
+    for (const k of ["id", "lang", "theme", "english", "romanization", "youSay", "source", "checked"]) {
+      if (!String(row[k] ?? "").trim()) { console.error(`  line ${i + 1}: empty ${k}`); errors++; }
     }
     if (row.youSay && !/[A-ZÀ-Ý]/.test(row.youSay)) { console.error(`  line ${i + 1}: youSay has no CAPS stress: ${row.youSay}`); errors++; }
     if (row.checked && !/^\d{4}-\d{2}-\d{2}$/.test(row.checked)) { console.error(`  line ${i + 1}: checked must be YYYY-MM-DD`); errors++; }

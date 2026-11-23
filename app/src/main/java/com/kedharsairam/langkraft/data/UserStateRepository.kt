@@ -18,8 +18,21 @@ class UserStateRepository(private val context: Context) {
 
     fun positionsFor(lang: String): Flow<Map<Int, Int>> =
         context.userDataStore.data.map { prefs ->
-            (1..35).mapNotNull { t -> prefs[Key.pos(lang, t)]?.toIntOrNull()?.let { t to it } }.toMap()
+            (1..125).mapNotNull { t -> prefs[Key.pos(lang, t)]?.toIntOrNull()?.let { t to it } }.toMap()
         }
+
+    /** The set of lessons actually opened — the honest basis for "lessons studied". */
+    fun visited(lang: String): Flow<Set<Int>> =
+        context.userDataStore.data.map { prefs ->
+            (prefs[Key.visited(lang)] ?: emptySet()).mapNotNull { it.toIntOrNull() }.toSet()
+        }
+
+    suspend fun markVisited(lang: String, theme: Int) {
+        context.userDataStore.edit { prefs ->
+            val cur = prefs[Key.visited(lang)] ?: emptySet()
+            prefs[Key.visited(lang)] = cur + theme.toString()
+        }
+    }
 
     fun lastLang(): Flow<String?> =
         context.userDataStore.data.map { it[Key.lastLang] }
@@ -60,6 +73,7 @@ class UserStateRepository(private val context: Context) {
 
 private object Key {
     fun pos(lang: String, theme: Int) = stringPreferencesKey("pos_${lang}_t$theme")
+    fun visited(lang: String) = stringSetPreferencesKey("visited_$lang")
     fun star(lang: String) = stringSetPreferencesKey("star_$lang")
     fun note(lang: String, phraseId: String) = stringPreferencesKey("note_${lang}_$phraseId")
     val lastLang = stringPreferencesKey("last_lang")

@@ -1,46 +1,71 @@
 package com.kedharsairam.langkraft.presentation.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.kedharsairam.langkraft.presentation.components.KraftTopBar
+import com.kedharsairam.langkraft.presentation.components.MonoLabel
+import com.kedharsairam.langkraft.presentation.components.borderedCard
+import com.kedharsairam.langkraft.presentation.components.displaySource
+import com.kedharsairam.langkraft.presentation.components.flatClickable
+import com.kedharsairam.langkraft.presentation.theme.LangColors
 import com.kedharsairam.langkraft.presentation.theme.Spacing
 import com.kedharsairam.langkraft.presentation.viewmodels.HardUiState
 import com.kedharsairam.langkraft.presentation.viewmodels.HardViewModel
 
 @Composable
-fun HardScreen(onBack: () -> Unit, vm: HardViewModel = viewModel()) {
+fun HardScreen(
+    onBack: () -> Unit,
+    onOpenPhrase: (String, Int) -> Unit = { _, _ -> },
+    vm: HardViewModel = viewModel()
+) {
     val state by vm.state.collectAsState()
-    Column(modifier = Modifier.padding(horizontal = Spacing.Screen)) {
+    Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
+        KraftTopBar("Hard", onBack = onBack)
         Spacer(Modifier.height(Spacing.S))
-        TextButton(onClick = onBack, modifier = Modifier.defaultMinSize(minHeight = Spacing.MinTarget)) { Text("← HOME") }
-        Text("Hard", style = MaterialTheme.typography.titleLarge)
-        Text("Your starred pile. Review when you want.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text("Your starred pile. Review when you want.", style = androidx.compose.material3.MaterialTheme.typography.bodySmall, color = LangColors.Muted)
         Spacer(Modifier.height(Spacing.M))
         when (val s = state) {
-            HardUiState.Loading -> Text("Loading…")
-            is HardUiState.Failed -> Text("Could not load hard pile.")
+            HardUiState.Loading -> MonoLabel("LOADING…")
+            is HardUiState.Failed -> Text("Could not load hard pile.", color = LangColors.Muted)
             is HardUiState.Ready -> {
-                if (s.phrases.isEmpty()) Text("STATUS: ZERO_ENTRIES_FOUND. Tap the star on any phrase to add it here.", fontFamily = FontFamily.Monospace)
-                else LazyColumn {
-                    items(s.phrases) { phrase ->
-                        Column(modifier = Modifier.fillMaxWidth().padding(vertical = Spacing.S)) {
-                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                Text(phrase.english, style = MaterialTheme.typography.bodyMedium)
-                                Icon(Icons.Filled.Star, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                if (s.phrases.isEmpty()) {
+                    Column(Modifier.fillMaxWidth().borderedCard().padding(Spacing.M)) {
+                        Text("No hard phrases yet. Star any phrase to add it here.", color = LangColors.Ink)
+                    }
+                } else {
+                    LazyColumn(verticalArrangement = Arrangement.spacedBy(Spacing.S)) {
+                        items(s.phrases, key = { it.phrase.id }) { entry ->
+                            Column(
+                                Modifier.fillMaxWidth().borderedCard()
+                                    .flatClickable { onOpenPhrase(entry.lang, entry.phrase.theme) }.padding(Spacing.M)
+                            ) {
+                                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                                    Text(entry.phrase.english, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium,
+                                        color = LangColors.Ink, modifier = Modifier.weight(1f))
+                                    Icon(Icons.Default.Star, contentDescription = "Hard", tint = LangColors.Accent, modifier = Modifier.size(24.dp))
+                                }
+                                Spacer(Modifier.height(Spacing.Xs))
+                                Text(entry.phrase.romanization, fontFamily = FontFamily.Monospace, fontSize = 16.sp, color = LangColors.Muted)
+                                Spacer(Modifier.height(Spacing.Xs))
+                                Text(entry.phrase.youSay, fontFamily = FontFamily.Monospace,
+                                    fontSize = 18.sp, fontWeight = FontWeight.Bold, color = LangColors.Ink)
+                                Spacer(Modifier.height(Spacing.Xs))
+                                MonoLabel("${entry.lang.uppercase()}  ·  ${displaySource(entry.phrase.source)}  ·  ${entry.phrase.checked}")
                             }
-                            Text(phrase.youSay, fontFamily = FontFamily.Monospace, fontSize = 18.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
-                            Text("${phrase.lang.uppercase()} · ${phrase.id}", fontFamily = FontFamily.Monospace, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
-                        HorizontalDivider(thickness = Spacing.Hairline)
                     }
                 }
             }

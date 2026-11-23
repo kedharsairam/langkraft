@@ -2,23 +2,20 @@ package com.kedharsairam.langkraft.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Operator Deck — OLED true black, tactical, zero chrome.
+// Locked Neo-Brutalism dark palette. Two inks, one accent — no third ink level.
+// Verified grounds from the ArtCraft system; all other values derived by its rules.
 object LangColors {
-    val Background = Color(0xFF000000)
-    val Surface = Color(0xFF0A0A0A)
-    val Border = Color(0xFF222222)
-    val PrimaryText = Color(0xFFEDEDED)
-    val SecondaryText = Color(0xFF888888)
-    val AccentGold = Color(0xFFE5C07B)
-    val NoticeAmber = Color(0xFFD19A66)
+    val Ground = Color(0xFF0B0B0C)
+    val Ink = Color(0xFFF2F1EE)
+    val Surface = Color(0xFF141416)          // only with a border
+    val Muted = Color(0xFF888888)            // 5.55:1 on ground
+    val Accent = Color(0xFFE5C07B)            // gold — the only per-app accent
 
-    // Compat aliases for existing screens
-    val Accent = AccentGold
-    val AccentDark = AccentGold
-    val SecondaryBackground = Surface
-    val Label = PrimaryText
-    val SecondaryLabel = SecondaryText
-    val TertiaryLabel = Color(0xFF636366)
-    val Separator = Border
-    val Fill = Color(0xFF1C1C1E)
+    // Compat aliases used by existing code.
+    val Background = Ground
+    val PrimaryText = Ink
+    val SecondaryText = Muted
+    val AccentGold = Accent
+    val Border = Ink
+    val Separator = Muted
 }

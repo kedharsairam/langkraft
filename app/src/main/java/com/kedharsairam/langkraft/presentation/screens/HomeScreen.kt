@@ -1,22 +1,25 @@
 package com.kedharsairam.langkraft.presentation.screens
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.*
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.kedharsairam.langkraft.presentation.components.KraftTopBar
+import com.kedharsairam.langkraft.presentation.components.MonoLabel
+import com.kedharsairam.langkraft.presentation.components.SectionDivider
+import com.kedharsairam.langkraft.presentation.components.borderedCard
+import com.kedharsairam.langkraft.presentation.components.flatClickable
+import com.kedharsairam.langkraft.presentation.theme.LangColors
 import com.kedharsairam.langkraft.presentation.theme.Spacing
 import com.kedharsairam.langkraft.presentation.viewmodels.HomeUiState
 import com.kedharsairam.langkraft.presentation.viewmodels.HomeViewModel
@@ -29,27 +32,16 @@ fun HomeScreen(
     vm: HomeViewModel = viewModel()
 ) {
     val state by vm.state.collectAsState()
-    Column(modifier = Modifier.padding(horizontal = Spacing.Screen)) {
-        Row(
-            modifier = Modifier.fillMaxWidth().height(56.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
-        ) {
-            Text("LANGKRAFT", fontFamily = FontFamily.Monospace, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                IconButton(onClick = onSearch, modifier = Modifier.size(48.dp)) {
-                    Icon(Icons.Default.Search, contentDescription = "Search")
-                }
-                IconButton(onClick = onHard, modifier = Modifier.size(48.dp)) {
-                    Icon(Icons.Default.Star, contentDescription = "Hard")
-                }
-            }
-        }
+    Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
+        KraftTopBar("Langkraft", showSearch = true, onSearch = onSearch, showHard = true, onHard = onHard)
         when (val s = state) {
-            HomeUiState.Loading -> Box(modifier = Modifier.weight(1f).fillMaxWidth(), contentAlignment = androidx.compose.ui.Alignment.Center) { CircularProgressIndicator() }
-            is HomeUiState.Failed -> Column {
-                Text("Could not load languages.", color = MaterialTheme.colorScheme.onSurfaceVariant)
-                TextButton(onClick = { vm.load() }) { Text("Retry") }
+            HomeUiState.Loading -> Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
+                MonoLabel("LOADING CATALOGUE…")
+            }
+            is HomeUiState.Failed -> Column(Modifier.weight(1f).fillMaxWidth(), verticalArrangement = Arrangement.Center) {
+                Text("Could not load languages.", color = LangColors.Ink)
+                Spacer(Modifier.height(Spacing.S))
+                com.kedharsairam.langkraft.presentation.components.SecondaryCta("RETRY", { vm.load() })
             }
             is HomeUiState.Ready -> {
                 LazyVerticalGrid(
@@ -61,15 +53,16 @@ fun HomeScreen(
                 ) {
                     val committed = s.languages.filter { it.status == "committed" }.sortedBy { it.name }
                     val bench = s.languages.filter { it.status != "committed" }.sortedBy { it.name }
-                    items(committed) { info -> LangTile(info.code, info.name, s.progress[info.code], onLang) }
-                    item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }) {
-                        Column(modifier = Modifier.fillMaxWidth().padding(vertical = Spacing.S)) {
-                            HorizontalDivider(thickness = Spacing.Hairline, modifier = Modifier.fillMaxWidth())
+                    items(committed) { info -> LangTile(info.name, s.progress[info.code], s.phraseCounts[info.code], onClick = { onLang(info.code) }) }
+                    item(span = { GridItemSpan(2) }) {
+                        Column(Modifier.fillMaxWidth()) {
                             Spacer(Modifier.height(Spacing.S))
-                            Text("BENCHED", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            SectionDivider(fullBleed = false)
+                            Spacer(Modifier.height(Spacing.S))
+                            MonoLabel("BENCHED")
                         }
                     }
-                    items(bench) { info -> LangTile(info.code, info.name, s.progress[info.code], onLang) }
+                    items(bench) { info -> LangTile(info.name, s.progress[info.code], s.phraseCounts[info.code], onClick = { onLang(info.code) }) }
                 }
             }
         }
@@ -77,17 +70,43 @@ fun HomeScreen(
 }
 
 @Composable
-private fun LangTile(code: String, name: String, progress: Pair<Int, Int>?, onLang: (String) -> Unit) {
-    val (viewed, total) = progress ?: (0 to 40)
-    val frac = if (total > 0) viewed.toFloat() / total else 0f
-    Surface(color = MaterialTheme.colorScheme.surfaceVariant, shape = MaterialTheme.shapes.medium, modifier = Modifier.fillMaxWidth().wrapContentHeight()) {
-        Column(modifier = Modifier.clickable(role = Role.Button) { onLang(code) }.padding(Spacing.S)) {
-            Text(name, style = MaterialTheme.typography.titleMedium, maxLines = 1)
-            Text("[$viewed/$total]", fontFamily = FontFamily.Monospace, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+private fun LangTile(name: String, progress: Pair<Int, Int>?, phraseCount: Int?, onClick: () -> Unit) {
+    val (viewed, total) = progress ?: (0 to 0)
+    val started = viewed > 0 && total > 0
+    val frac = if (total > 0) (viewed.toFloat() / total).coerceIn(0f, 1f) else 0f
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .borderedCard()
+            .flatClickable(onClick)
+            .padding(Spacing.M)
+    ) {
+        val scale = LocalDensity.current.fontScale
+        val nameSize = if (scale > 1.3f) 13.sp else 17.sp
+        Text(
+            name,
+            fontSize = nameSize,
+            color = LangColors.Ink,
+            maxLines = 1
+        )
+        Spacer(Modifier.height(Spacing.Xs))
+        // Honest progress: lessons opened out of lessons available.
+        MonoLabel("$viewed / $total LESSONS")
+        if (phraseCount != null) {
             Spacer(Modifier.height(Spacing.Xs))
-            LinearProgressIndicator(progress = { frac }, modifier = Modifier.fillMaxWidth().height(4.dp), color = MaterialTheme.colorScheme.primary, trackColor = MaterialTheme.colorScheme.surface)
-            if (viewed == 0) Text("START", fontFamily = FontFamily.Monospace, fontSize = 11.sp, color = MaterialTheme.colorScheme.primary)
-            else Text("${((frac * 100).toInt())}%", fontFamily = FontFamily.Monospace, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            MonoLabel("$phraseCount PHRASES")
         }
+        Spacer(Modifier.height(Spacing.S))
+        // 2dp progress rule: hairline track, gold fill. No dot.
+        Box(Modifier.fillMaxWidth().height(Spacing.Border).background(LangColors.Muted)) {
+            if (frac > 0f) {
+                Box(Modifier.fillMaxWidth(frac).height(Spacing.Border).background(LangColors.Accent))
+            }
+        }
+        Spacer(Modifier.height(Spacing.Xs))
+        MonoLabel(
+            if (!started) "START" else "${(frac * 100).toInt()}% OF LESSONS",
+            color = if (!started) LangColors.Accent else LangColors.Muted
+        )
     }
 }

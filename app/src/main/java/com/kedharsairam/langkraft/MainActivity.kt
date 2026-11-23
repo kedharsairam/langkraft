@@ -44,12 +44,29 @@ fun LangKraftNav() {
                     onHard = { nav.navigate("hard") }
                 )
             }
-            composable("search") { SearchScreen(onOpenLang = { code -> nav.navigate("lang/$code") }) }
-            composable("hard") { HardScreen(onBack = { nav.navigate("home") { popUpTo("home") } }) }
-            composable("numbers") { NumbersScreen(code = "spa", onBack = { nav.navigate("home") { popUpTo("home") } }) }
-            composable("lang/{code}") { entry ->
+            composable("search") {
+                SearchScreen(
+                    onOpenLang = { code -> nav.navigate("lang/$code") },
+                    onBack = { nav.popBackStack() }
+                )
+            }
+            composable("hard") {
+                HardScreen(
+                    onBack = { nav.popBackStack() },
+                    onOpenPhrase = { code, theme -> nav.navigate("lang/$code?lesson=$theme") }
+                )
+            }
+            composable("lang/{code}?lesson={lesson}") { entry ->
                 val code = entry.arguments?.getString("code") ?: "spa"
-                LanguageScreen(code = code, onBack = { nav.popBackStack() }, onNumbers = { c -> nav.navigate("numbers/$c") }, onSearch = { nav.navigate("search") }, onHard = { nav.navigate("hard") })
+                val lesson = entry.arguments?.getString("lesson")?.toIntOrNull()
+                LanguageScreen(
+                    code = code,
+                    onBack = { nav.popBackStack() },
+                    onNumbers = { c -> nav.navigate("numbers/$c") },
+                    onSearch = { nav.navigate("search") },
+                    onHard = { nav.navigate("hard") },
+                    initialLesson = lesson
+                )
             }
             composable("numbers/{code}") { entry ->
                 val code = entry.arguments?.getString("code") ?: "spa"
