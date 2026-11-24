@@ -7,7 +7,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import kotlinx.coroutines.delay
+import com.kedharsairam.langkraft.presentation.screens.SplashScreen
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -36,7 +39,14 @@ fun LangKraftNav() {
     val nav = rememberNavController()
     Column(modifier = Modifier.fillMaxSize().windowInsetsPadding(androidx.compose.foundation.layout.WindowInsets.systemBars)) {
         // No bottom bar. Search/Hard live in top bar of Home + Language headers.
-        NavHost(navController = nav, startDestination = "home", modifier = Modifier.weight(1f)) {
+        NavHost(navController = nav, startDestination = "splash", modifier = Modifier.weight(1f)) {
+            composable("splash") {
+                LaunchedEffect(Unit) {
+                    delay(1200)
+                    nav.navigate("home") { popUpTo("splash") { inclusive = true } }
+                }
+                SplashScreen()
+            }
             composable("home") {
                 HomeScreen(
                     onLang = { code -> nav.navigate("lang/$code") },
@@ -46,7 +56,7 @@ fun LangKraftNav() {
             }
             composable("search") {
                 SearchScreen(
-                    onOpenLang = { code -> nav.navigate("lang/$code") },
+                    onOpenLang = { code, theme -> nav.navigate("lang/$code?lesson=$theme") },
                     onBack = { nav.popBackStack() }
                 )
             }

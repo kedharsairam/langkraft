@@ -6,14 +6,19 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
@@ -24,44 +29,45 @@ import androidx.compose.ui.unit.sp
 import com.kedharsairam.langkraft.presentation.theme.*
 import compose.icons.TablerIcons
 import compose.icons.tablericons.ArrowLeft
+import compose.icons.tablericons.ChevronLeft
+import compose.icons.tablericons.ChevronRight
 import compose.icons.tablericons.Star
-import androidx.compose.material3.Text
+import compose.icons.tablericons.World
 
-/** Flat press feedback. No ripple, no elevation. */
+/** Flat press feedback — no ripple, no elevation. */
 @Composable
 fun Modifier.kraftClick(onClick: () -> Unit): Modifier {
     val interaction = remember { MutableInteractionSource() }
     return this.clickable(interactionSource = interaction, indication = null, role = Role.Button, onClick = onClick)
 }
 
-/** Border only where a discrete object needs one — never on every row. */
+/** Rounded navy card with a quiet 1px border — the discrete object on screen. */
 @Composable
-fun Modifier.kraftPanel(fill: Color = LangColors.Ground, border: Dp = Spacing.Border): Modifier = this
-    .background(fill)
-    .border(BorderStroke(border, LangColors.Ink), RoundedCornerShape(0.dp))
+fun Modifier.kraftPanel(fill: Color = LangColors.Surface, border: Dp = Spacing.Border): Modifier = this
+    .background(fill, RoundedCornerShape(Spacing.CardRadius))
+    .border(BorderStroke(border, LangColors.Border), RoundedCornerShape(Spacing.CardRadius))
 
-/** A hairline separator between rows inside one group. */
+/** Hairline separator between rows inside one group. */
 @Composable
 fun RowDivider() {
-    Box(Modifier.fillMaxWidth().height(Spacing.Hairline).background(LangColors.Muted.copy(alpha = 0.35f)))
+    Box(Modifier.fillMaxWidth().height(Spacing.Hairline).background(LangColors.Border.copy(alpha = 0.7f)))
 }
 
-/** Mono caps label — labels only, never sentences. Scales down at large font. */
+/** Gold caps label — small, tracked out, never a sentence. Scales down at large font. */
 @Composable
 fun KLabel(text: String, modifier: Modifier = Modifier, color: Color = LangColors.Muted, align: TextAlign? = null) {
     val scale = LocalDensity.current.fontScale
     val style = if (scale > 1.3f) MonoLabelStyle.copy(fontSize = 10.sp, letterSpacing = 0.sp) else MonoLabelStyle
-    androidx.compose.material3.Text(text, style = style, color = color, modifier = modifier,
-        textAlign = align, maxLines = 1)
+    Text(text, style = style, color = color, modifier = modifier, textAlign = align, maxLines = 1)
 }
 
-/** Section heading in the display face. */
+/** Serif section heading. */
 @Composable
 fun KSection(title: String, modifier: Modifier = Modifier) {
-    androidx.compose.material3.Text(title, style = LangTypography.titleMedium, color = LangColors.Ink, modifier = modifier)
+    Text(title, style = LangTypography.titleMedium, color = LangColors.Ink, modifier = modifier)
 }
 
-/** Ledger row — a hairline-divided line, not a box. Used in lists of lessons/languages. */
+/** Numbered ledger row — used in lists of lessons/languages. */
 @Composable
 fun LedgerRow(
     index: String,
@@ -76,82 +82,93 @@ fun LedgerRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (leading != null) { leading(); Spacer(Modifier.width(Spacing.S)) }
-        androidx.compose.material3.Text(index, style = MonoNumeric, color = LangColors.Muted,
-            modifier = Modifier.width(44.dp), maxLines = 1)
-        androidx.compose.material3.Text(title, style = LangTypography.bodyLarge, color = LangColors.Ink,
-            modifier = Modifier.weight(1f), maxLines = 2)
+        Text(index, style = MonoNumeric, color = LangColors.Accent, modifier = Modifier.width(44.dp), maxLines = 1)
+        Text(title, style = LangTypography.bodyLarge, color = LangColors.Ink, modifier = Modifier.weight(1f), maxLines = 2)
         Spacer(Modifier.width(Spacing.S))
         KLabel(meta, align = TextAlign.End)
     }
     RowDivider()
 }
 
-/** Secondary action: outlined, mono caps, 56dp. */
+/** Outlined secondary action — navy fill, gold label, 56dp. */
 @Composable
 fun KSecondary(text: String, onClick: () -> Unit, modifier: Modifier = Modifier, selected: Boolean = false) {
-    Box(modifier.fillMaxWidth().height(Spacing.MinTarget)
-        .let { if (selected) it.background(LangColors.Accent) else it.kraftPanel() }
+    Box(modifier.heightIn(min = Spacing.MinTarget).fillMaxWidth()
+        .let { if (selected) it.background(LangColors.Accent, RoundedCornerShape(10.dp)) else it.kraftPanel() }
         .kraftClick(onClick), contentAlignment = Alignment.Center) {
-        androidx.compose.material3.Text(text,
-            style = MonoLabelStyle.copy(fontSize = 14.sp, fontWeight = FontWeight.Bold),
+        Text(text,
+            style = MonoLabelStyle.copy(fontSize = 13.sp, fontWeight = FontWeight.Bold),
             color = if (selected) LangColors.Ground else LangColors.Accent)
     }
 }
 
-/** The single inverted block on a screen. */
+/** The single gold block on a screen. */
 @Composable
 fun KPrimary(text: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Box(modifier.fillMaxWidth().height(Spacing.MinTarget).background(LangColors.Ink).kraftClick(onClick),
+    Box(modifier.fillMaxWidth().heightIn(min = Spacing.MinTarget)
+        .background(LangColors.Accent, RoundedCornerShape(10.dp)).kraftClick(onClick),
         contentAlignment = Alignment.Center) {
-        androidx.compose.material3.Text(text,
-            style = MonoLabelStyle.copy(fontSize = 14.sp, fontWeight = FontWeight.Bold),
+        Text(text,
+            style = MonoLabelStyle.copy(fontSize = 13.sp, fontWeight = FontWeight.Bold),
             color = LangColors.Ground)
     }
 }
 
-/** Top bar with Tabler icons. */
+/** Top bar — serif title, gold back arrow, optional actions. */
 @Composable
 fun KTopBar(
     title: String,
     onBack: (() -> Unit)? = null,
     actions: (@Composable RowScope.() -> Unit)? = null
 ) {
-    Row(Modifier.fillMaxWidth().height(Spacing.MinTarget), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().heightIn(min = Spacing.MinTarget), verticalAlignment = Alignment.CenterVertically) {
         if (onBack != null) {
             Box(Modifier.size(Spacing.MinTarget).kraftClick(onBack), contentAlignment = Alignment.Center) {
-                androidx.compose.material3.Icon(
-                    TablerIcons.ArrowLeft,
-                    contentDescription = "Back", tint = LangColors.Ink, modifier = Modifier.size(24.dp))
+                Icon(TablerIcons.ArrowLeft, contentDescription = "Back", tint = LangColors.Accent, modifier = Modifier.size(26.dp))
             }
         }
-        androidx.compose.material3.Text(title, style = LangTypography.titleLarge,
-            color = LangColors.Ink, modifier = Modifier.weight(1f), maxLines = 1)
+        Text(title, style = LangTypography.titleLarge, color = LangColors.Ink,
+            modifier = Modifier.weight(1f), maxLines = 1)
         if (actions != null) Row(content = actions)
     }
 }
 
-
-// ---------- v3 visual: signal cards, texture, editorial section heads ----------
-
-/** Subtle dot-grid drawn behind a panel — no image, no gradient, no blur. */
+/** Faint dotted world-map texture drawn behind brand screens — no image asset. */
 @Composable
-fun Modifier.dotGrid(): Modifier = this.drawBehind {
-    val step = 16.dp.toPx()
+fun Modifier.worldMapDots(): Modifier = this.drawBehind {
+    val step = 22.dp.toPx()
+    val r = 1.3.dp.toPx()
     var x = step / 2
+    var row = 0
     while (x < size.width) {
         var y = step / 2
+        var col = 0
         while (y < size.height) {
-            drawCircle(LangColors.Ink.copy(alpha = 0.06f), radius = 1.dp.toPx(), center = Offset(x, y))
-            y += step
+            // uneven density reads as continents rather than a flat grid
+            if ((row * 7 + col * 3) % 5 != 0) {
+                drawCircle(LangColors.Accent.copy(alpha = 0.07f), radius = r, center = Offset(x, y))
+            }
+            y += step; col++
         }
-        x += step
+        x += step; row++
     }
 }
 
-/** Editorial section head: gold caps label, count, and a 2dp gold rule. */
+/** The gold globe mark — a ring with the Tabler world glyph inside. */
+@Composable
+fun GlobeMark(size: Dp = 64.dp, alpha: Float = 1f) {
+    Box(Modifier.size(size).alpha(alpha)
+        .border(BorderStroke(1.dp, LangColors.Accent.copy(alpha = 0.5f)), CircleShape),
+        contentAlignment = Alignment.Center) {
+        Icon(TablerIcons.World, contentDescription = null, tint = LangColors.Accent,
+            modifier = Modifier.size(size * 0.62f))
+    }
+}
+
+/** Editorial section head: gold rule, caps label, optional count. */
 @Composable
 fun SignalSection(title: String, count: Int? = null) {
-    Box(Modifier.fillMaxWidth().height(Spacing.Border).background(LangColors.Accent))
+    Box(Modifier.fillMaxWidth().height(2.dp).background(LangColors.Accent))
     Spacer(Modifier.height(Spacing.S))
     Row(verticalAlignment = Alignment.CenterVertically) {
         Text(title.uppercase(), style = MonoLabelStyle.copy(color = LangColors.Accent, fontSize = 13.sp),
@@ -161,7 +178,22 @@ fun SignalSection(title: String, count: Int? = null) {
     Spacer(Modifier.height(Spacing.Xs))
 }
 
-/** The hero phrase row: gold rail, index square, dense type layers, compact star. */
+/** Outlined list button with a gold icon tile and a chevron — the home quick-access row. */
+@Composable
+fun KListButton(label: String, icon: ImageVector, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Row(modifier.fillMaxWidth().heightIn(min = Spacing.MinTarget).kraftPanel().kraftClick(onClick)
+        .padding(horizontal = Spacing.M, vertical = Spacing.S),
+        verticalAlignment = Alignment.CenterVertically) {
+        Box(Modifier.size(34.dp).background(LangColors.SurfaceAlt, RoundedCornerShape(8.dp)), Alignment.Center) {
+            Icon(icon, contentDescription = null, tint = LangColors.Accent, modifier = Modifier.size(20.dp))
+        }
+        Spacer(Modifier.width(Spacing.S))
+        Text(label, style = LangTypography.bodyLarge, color = LangColors.Ink, modifier = Modifier.weight(1f), maxLines = 1)
+        Icon(TablerIcons.ChevronRight, contentDescription = null, tint = LangColors.Muted, modifier = Modifier.size(20.dp))
+    }
+}
+
+/** A phrase card: number chip, serif hero, gold italic saying, tip, note, meta, star. */
 @Composable
 fun SignalRow(
     index: Int,
@@ -174,52 +206,69 @@ fun SignalRow(
     starred: Boolean,
     onStar: () -> Unit
 ) {
-    Row(Modifier.fillMaxWidth()) {
-        // 3dp gold rail — the card's spine.
-        Box(Modifier.width(3.dp).fillMaxHeight().background(LangColors.Accent))
-        Spacer(Modifier.width(Spacing.S))
-        Column(Modifier.weight(1f).padding(vertical = Spacing.S)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(28.dp).background(LangColors.Accent), Alignment.Center) {
-                    Text("%02d".format(index), style = MonoNumeric.copy(fontSize = 12.sp), color = LangColors.Ground)
-                }
-                Spacer(Modifier.width(Spacing.S))
-                Text(english, style = LangTypography.bodyMedium, color = LangColors.Muted, modifier = Modifier.weight(1f), maxLines = 1)
-                Box(Modifier.size(48.dp).kraftClick(onStar), Alignment.Center) {
-                    androidx.compose.material3.Icon(
-                        TablerIcons.Star, contentDescription = if (starred) "Remove from hard" else "Mark as hard",
-                        Modifier.size(22.dp), if (starred) LangColors.StateHard else LangColors.Muted)
-                }
+    Column(Modifier.fillMaxWidth().kraftPanel().padding(Spacing.M)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(30.dp).background(LangColors.SurfaceAlt, RoundedCornerShape(6.dp)), Alignment.Center) {
+                Text("%02d".format(index), style = MonoNumeric.copy(fontSize = 12.sp), color = LangColors.Accent)
             }
-            Spacer(Modifier.height(Spacing.Xs))
-            Text(romanization, style = RomanizationStyle, color = LangColors.Ink)
-            Text(youSay.replace("-", "-\u200B"), style = YouSayStyle, color = LangColors.Accent)
-            if (tip.isNotBlank()) Spacer(Modifier.height(Spacing.Xs))
-            if (tip.isNotBlank()) Text(tip, style = LangTypography.bodySmall, color = LangColors.Muted)
-            if (note.isNotBlank()) Text(note, style = LangTypography.bodySmall, color = LangColors.Muted)
-            Spacer(Modifier.height(Spacing.Xs))
-            KLabel(meta)
+            Spacer(Modifier.width(Spacing.S))
+            Text(english, style = LangTypography.bodyMedium, color = LangColors.Muted,
+                modifier = Modifier.weight(1f), maxLines = 1)
+            Box(Modifier.size(48.dp).kraftClick(onStar), Alignment.Center) {
+                Icon(TablerIcons.Star, contentDescription = if (starred) "Remove from hard" else "Mark as hard",
+                    Modifier.size(22.dp), if (starred) LangColors.StateHard else LangColors.Muted)
+            }
         }
+        Spacer(Modifier.height(Spacing.S))
+        Text(romanization, style = RomanizationStyle, color = LangColors.Ink)
+        Text(youSay.replace("-", "-\u200B"), style = YouSayStyle, color = LangColors.Accent)
+        if (tip.isNotBlank()) {
+            Spacer(Modifier.height(Spacing.S))
+            Box(Modifier.fillMaxWidth().height(1.dp).background(LangColors.Border.copy(alpha = 0.6f)))
+            Spacer(Modifier.height(Spacing.S))
+            KLabel("PRONUNCIATION TIP", color = LangColors.Accent)
+            Spacer(Modifier.height(Spacing.Xs))
+            Text(tip, style = LangTypography.bodySmall, color = LangColors.Muted)
+        }
+        if (note.isNotBlank()) {
+            Spacer(Modifier.height(Spacing.S))
+            Text(note, style = LangTypography.bodySmall, color = LangColors.Ink)
+        }
+        Spacer(Modifier.height(Spacing.S))
+        KLabel(meta)
+    }
+    Spacer(Modifier.height(Spacing.S))
+}
+
+/** Numbered language row with a chevron — dense, one line per language. */
+@Composable
+fun SignalLanguageRow(index: Int, name: String, count: String, fraction: Float, onClick: () -> Unit) {
+    Row(Modifier.fillMaxWidth().heightIn(min = 52.dp).kraftClick(onClick)
+        .padding(vertical = Spacing.S), verticalAlignment = Alignment.CenterVertically) {
+        Text("%02d".format(index), style = MonoNumeric, color = LangColors.Accent,
+            modifier = Modifier.width(40.dp), maxLines = 1)
+        Text(name, style = LangTypography.bodyLarge, color = LangColors.Ink,
+            modifier = Modifier.weight(1f), maxLines = 1)
+        KLabel(count, align = TextAlign.End)
+        Spacer(Modifier.width(Spacing.S))
+        Icon(TablerIcons.ChevronRight, contentDescription = null, tint = LangColors.Muted, modifier = Modifier.size(18.dp))
     }
     RowDivider()
 }
 
-/** A numbered language row with a progress rule — dense, one line per language. */
+/** Bottom stepper with ‹ › arrows and a page counter. */
 @Composable
-fun SignalLanguageRow(index: Int, name: String, count: String, fraction: Float, onClick: () -> Unit) {
-    Column(Modifier.fillMaxWidth().kraftClick(onClick).padding(vertical = Spacing.S)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            KLabel("%02d".format(index), color = LangColors.Accent)
-            Spacer(Modifier.width(Spacing.S))
-            Text(name, style = LangTypography.bodyLarge, color = LangColors.Ink, modifier = Modifier.weight(1f), maxLines = 1)
-            KLabel(count)
+fun KStepper(position: Int, total: Int, onPrev: () -> Unit, onNext: () -> Unit) {
+    Row(Modifier.fillMaxWidth().heightIn(min = Spacing.MinTarget), verticalAlignment = Alignment.CenterVertically) {
+        Box(Modifier.size(Spacing.MinTarget).kraftClick(onPrev), Alignment.Center) {
+            Icon(TablerIcons.ChevronLeft, contentDescription = "Previous phrase", tint = LangColors.Accent, modifier = Modifier.size(26.dp))
         }
-        Spacer(Modifier.height(Spacing.Xs))
-        Box(Modifier.fillMaxWidth().height(3.dp).background(LangColors.Muted.copy(alpha = 0.3f))) {
-            if (fraction > 0f) Box(Modifier.fillMaxWidth(fraction).height(3.dp).background(LangColors.Accent))
+        Text("%02d / %02d".format(position.coerceAtLeast(1), total.coerceAtLeast(1)),
+            style = MonoLabelStyle, color = LangColors.Muted, modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+        Box(Modifier.size(Spacing.MinTarget).kraftClick(onNext), Alignment.Center) {
+            Icon(TablerIcons.ChevronRight, contentDescription = "Next phrase", tint = LangColors.Accent, modifier = Modifier.size(26.dp))
         }
     }
-    RowDivider()
 }
 
 fun displaySource(source: String): String = when {

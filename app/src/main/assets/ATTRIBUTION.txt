@@ -27,9 +27,9 @@ under the same licence for those rows.
 
 Fonts (bundled in res/font, SIL Open Font License 1.1)
 ======================================================
-Space Grotesk — https://github.com/floriankarsten/space-grotesk
-Inter         — https://github.com/rsms/inter
-Source Code Pro — https://github.com/adobe-fonts/source-code-pro
+Source Serif 4   — https://github.com/adobe-fonts/source-serif  (display / hero / headings)
+Inter            — https://github.com/rsms/inter                (body)
+Source Code Pro  — https://github.com/adobe-fonts/source-code-pro (labels / meta)
 Licence text: https://openfontlicense.org/open-font-license-official-text/
 
 Icons
