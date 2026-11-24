@@ -9,8 +9,6 @@ import com.kedharsairam.langkraft.domain.DomainResult
 import com.kedharsairam.langkraft.domain.ErrorReason
 import com.kedharsairam.langkraft.domain.Phrase
 import com.kedharsairam.langkraft.domain.SoundCheck
-import com.kedharsairam.langkraft.domain.nextIndex
-import com.kedharsairam.langkraft.domain.prevIndex
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -80,11 +78,13 @@ class LanguageViewModel(app: Application) : AndroidViewModel(app) {
         _state.value = s.copy(query = q)
     }
 
+    /** Step within a lesson, stopping at the ends — a phrasebook stepper should not wrap. */
     fun next() {
         val s = _state.value as? LanguageUiState.Ready ?: return
         val count = visible(s).size
         if (count == 0) return
-        val n = nextIndex(s.index, count)
+        val n = (s.index + 1).coerceIn(0, count - 1)
+        if (n == s.index) return
         _state.value = s.copy(index = n)
         viewModelScope.launch { repo.savePosition(lang, s.theme, n) }
     }
@@ -93,9 +93,24 @@ class LanguageViewModel(app: Application) : AndroidViewModel(app) {
         val s = _state.value as? LanguageUiState.Ready ?: return
         val count = visible(s).size
         if (count == 0) return
-        val n = prevIndex(s.index, count)
+        val n = (s.index - 1).coerceIn(0, count - 1)
+        if (n == s.index) return
         _state.value = s.copy(index = n)
         viewModelScope.launch { repo.savePosition(lang, s.theme, n) }
+    }
+
+    /** Open a lesson at an exact phrase, used by search and Hard deep links. */
+    fun jumpTo(theme: Int, phraseId: String?) {
+        val s = _state.value as? LanguageUiState.Ready ?: return
+        val list = s.phrases.filter { it.theme == theme }
+        if (list.isEmpty()) return
+        val raw = phraseId?.let { id -> list.indexOfFirst { it.id == id } } ?: 0
+        val n = raw.coerceAtLeast(0).coerceIn(0, list.size - 1)
+        _state.value = s.copy(theme = theme, index = n, query = "")
+        viewModelScope.launch {
+            repo.markVisited(lang, theme)
+            repo.savePosition(lang, theme, n)
+        }
     }
 
     fun toggleStar(id: String) {

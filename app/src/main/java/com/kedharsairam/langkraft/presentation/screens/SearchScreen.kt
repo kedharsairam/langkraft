@@ -3,6 +3,7 @@ package com.kedharsairam.langkraft.presentation.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,7 +21,7 @@ import com.kedharsairam.langkraft.presentation.viewmodels.SearchUiState
 import com.kedharsairam.langkraft.presentation.viewmodels.SearchViewModel
 
 @Composable
-fun SearchScreen(onOpenLang: (String, Int) -> Unit, onBack: (() -> Unit)? = null, vm: SearchViewModel = viewModel()) {
+fun SearchScreen(onOpenPhrase: (String, Int, String) -> Unit, onBack: (() -> Unit)? = null, vm: SearchViewModel = viewModel()) {
     val state by vm.state.collectAsState()
     var query by remember { mutableStateOf("") }
     Box(Modifier.fillMaxSize().worldMapDots()) {
@@ -54,7 +55,9 @@ fun SearchScreen(onOpenLang: (String, Int) -> Unit, onBack: (() -> Unit)? = null
                                     style = MonoLabelStyle.copy(color = LangColors.Accent))
                                 Spacer(Modifier.height(Spacing.S))
                             }
-                            items(list, key = { it.id }) { p -> ResultRow(p) { onOpenLang(lang, p.theme) } }
+                            itemsIndexed(list, key = { _, p -> p.id }) { index, p ->
+                                ResultRow(p, index + 1) { onOpenPhrase(lang, p.theme, p.id) }
+                            }
                         }
                         if (s.truncated) item { Spacer(Modifier.height(Spacing.S)); KLabel("SHOWING FIRST 60 — NARROW YOUR SEARCH") }
                     }
@@ -65,9 +68,9 @@ fun SearchScreen(onOpenLang: (String, Int) -> Unit, onBack: (() -> Unit)? = null
 }
 
 @Composable
-private fun ResultRow(p: Phrase, onClick: () -> Unit) {
+private fun ResultRow(p: Phrase, position: Int, onClick: () -> Unit) {
     Column(Modifier.fillMaxWidth().kraftPanel().kraftClick(onClick).padding(Spacing.M)) {
-        KLabel("%02d".format(1), color = LangColors.Accent)
+        KLabel("%02d".format(position), color = LangColors.Accent)
         Spacer(Modifier.height(Spacing.Xs))
         Text(p.english, style = LangTypography.bodyMedium, color = LangColors.Ink)
         Spacer(Modifier.height(Spacing.Xs))

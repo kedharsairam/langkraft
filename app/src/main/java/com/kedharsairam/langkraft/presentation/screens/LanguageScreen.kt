@@ -62,7 +62,7 @@ private val SECTIONS = listOf(
 fun LanguageScreen(
     code: String, onBack: () -> Unit, onNumbers: (String) -> Unit,
     onSearch: () -> Unit = {}, onHard: () -> Unit = {},
-    initialLesson: Int? = null, vm: LanguageViewModel = viewModel()
+    initialLesson: Int? = null, initialPhraseId: String? = null, vm: LanguageViewModel = viewModel()
 ) {
     val state by vm.state.collectAsState()
     LaunchedEffect(code) { vm.load(code) }
@@ -79,7 +79,15 @@ fun LanguageScreen(
             }
             var openLesson by remember(code) { mutableStateOf<Int?>(initialLesson) }
             BackHandler { if (openLesson != null) openLesson = null else onBack() }
-            LaunchedEffect(initialLesson) { if (initialLesson != null) { vm.setTheme(initialLesson); openLesson = initialLesson } }
+            LaunchedEffect(initialLesson, initialPhraseId) {
+                if (initialLesson != null) {
+                    // Wait until load() has produced a Ready state before jumping, otherwise
+                    // the deep-link is lost to the initial Loading state.
+                    while (vm.state.value !is LanguageUiState.Ready) { kotlinx.coroutines.delay(50) }
+                    vm.jumpTo(initialLesson, initialPhraseId)
+                    openLesson = initialLesson
+                }
+            }
 
             val themes = s.phrases.map { it.theme }.distinct().sorted()
             Box(Modifier.fillMaxSize().worldMapDots()) {
@@ -108,7 +116,12 @@ fun LanguageScreen(
                             SECTIONS.forEach { section ->
                                 val lessons = themes.filter { it in section.ids }
                                 if (lessons.isNotEmpty()) {
-                                    item(key = "s-${section.name}") { SectionCard(section.name, section.icon, lessons.size) }
+                                    item(key = "s-${section.name}") {
+                                        SectionCard(section.name, section.icon, lessons.size) {
+                                            vm.setTheme(lessons.first())
+                                            openLesson = lessons.first()
+                                        }
+                                    }
                                     items(lessons, key = { "l-$it" }) { t ->
                                         val serial = themes.indexOf(t) + 1
                                         LedgerRow("%02d".format(serial), title(s.phrases, t), "[${s.phrases.count { it.theme == t }}]",
@@ -149,8 +162,8 @@ fun LanguageScreen(
 }
 
 @Composable
-private fun SectionCard(name: String, icon: ImageVector, count: Int) {
-    Row(Modifier.fillMaxWidth().kraftPanel().padding(Spacing.M), verticalAlignment = Alignment.CenterVertically) {
+private fun SectionCard(name: String, icon: ImageVector, count: Int, onClick: () -> Unit) {
+    Row(Modifier.fillMaxWidth().kraftPanel().kraftClick(onClick).padding(Spacing.M), verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.size(40.dp).background(LangColors.SurfaceAlt, androidx.compose.foundation.shape.RoundedCornerShape(8.dp)), Alignment.Center) {
             Icon(icon, contentDescription = null, tint = LangColors.Accent, modifier = Modifier.size(22.dp))
         }

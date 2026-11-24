@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -127,8 +128,9 @@ fun KTopBar(
                 Icon(TablerIcons.ArrowLeft, contentDescription = "Back", tint = LangColors.Accent, modifier = Modifier.size(26.dp))
             }
         }
-        Text(title, style = LangTypography.titleLarge, color = LangColors.Ink,
-            modifier = Modifier.weight(1f), maxLines = 1)
+        Text(title, style = LangTypography.titleMedium, color = LangColors.Ink,
+            modifier = Modifier.weight(1f).padding(horizontal = Spacing.Xs),
+            maxLines = 2, overflow = TextOverflow.Ellipsis)
         if (actions != null) Row(content = actions)
     }
 }
@@ -259,14 +261,18 @@ fun SignalLanguageRow(index: Int, name: String, count: String, fraction: Float, 
 /** Bottom stepper with ‹ › arrows and a page counter. */
 @Composable
 fun KStepper(position: Int, total: Int, onPrev: () -> Unit, onNext: () -> Unit) {
+    val canPrev = position > 1
+    val canNext = position < total
     Row(Modifier.fillMaxWidth().heightIn(min = Spacing.MinTarget), verticalAlignment = Alignment.CenterVertically) {
-        Box(Modifier.size(Spacing.MinTarget).kraftClick(onPrev), Alignment.Center) {
-            Icon(TablerIcons.ChevronLeft, contentDescription = "Previous phrase", tint = LangColors.Accent, modifier = Modifier.size(26.dp))
+        Box(Modifier.size(Spacing.MinTarget).let { if (canPrev) it.kraftClick(onPrev) else it }, Alignment.Center) {
+            Icon(TablerIcons.ChevronLeft, contentDescription = "Previous phrase",
+                tint = if (canPrev) LangColors.Accent else LangColors.Border, modifier = Modifier.size(26.dp))
         }
         Text("%02d / %02d".format(position.coerceAtLeast(1), total.coerceAtLeast(1)),
             style = MonoLabelStyle, color = LangColors.Muted, modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
-        Box(Modifier.size(Spacing.MinTarget).kraftClick(onNext), Alignment.Center) {
-            Icon(TablerIcons.ChevronRight, contentDescription = "Next phrase", tint = LangColors.Accent, modifier = Modifier.size(26.dp))
+        Box(Modifier.size(Spacing.MinTarget).let { if (canNext) it.kraftClick(onNext) else it }, Alignment.Center) {
+            Icon(TablerIcons.ChevronRight, contentDescription = "Next phrase",
+                tint = if (canNext) LangColors.Accent else LangColors.Border, modifier = Modifier.size(26.dp))
         }
     }
 }

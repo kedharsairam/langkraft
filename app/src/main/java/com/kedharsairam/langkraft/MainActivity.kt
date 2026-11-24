@@ -56,26 +56,43 @@ fun LangKraftNav() {
             }
             composable("search") {
                 SearchScreen(
-                    onOpenLang = { code, theme -> nav.navigate("lang/$code?lesson=$theme") },
+                    onOpenPhrase = { code, theme, phraseId ->
+                        nav.navigate("lang/$code?lesson=$theme&phrase=$phraseId")
+                    },
                     onBack = { nav.popBackStack() }
                 )
             }
             composable("hard") {
                 HardScreen(
                     onBack = { nav.popBackStack() },
-                    onOpenPhrase = { code, theme -> nav.navigate("lang/$code?lesson=$theme") }
+                    onOpenPhrase = { code, theme, phraseId ->
+                        nav.navigate("lang/$code?lesson=$theme&phrase=$phraseId")
+                    }
                 )
             }
-            composable("lang/{code}?lesson={lesson}") { entry ->
+            composable("lang/{code}?lesson={lesson}&phrase={phrase}") { entry ->
                 val code = entry.arguments?.getString("code") ?: "spa"
                 val lesson = entry.arguments?.getString("lesson")?.toIntOrNull()
+                val phraseId = entry.arguments?.getString("phrase")
                 LanguageScreen(
                     code = code,
                     onBack = { nav.popBackStack() },
                     onNumbers = { c -> nav.navigate("numbers/$c") },
                     onSearch = { nav.navigate("search") },
                     onHard = { nav.navigate("hard") },
-                    initialLesson = lesson
+                    initialLesson = lesson,
+                    initialPhraseId = phraseId
+                )
+            }
+            // Legacy path without a phrase id (Home → language, section cards).
+            composable("lang/{code}") { entry ->
+                val code = entry.arguments?.getString("code") ?: "spa"
+                LanguageScreen(
+                    code = code,
+                    onBack = { nav.popBackStack() },
+                    onNumbers = { c -> nav.navigate("numbers/$c") },
+                    onSearch = { nav.navigate("search") },
+                    onHard = { nav.navigate("hard") }
                 )
             }
             composable("numbers/{code}") { entry ->

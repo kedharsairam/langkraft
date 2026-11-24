@@ -24,18 +24,14 @@ import compose.icons.tablericons.Star
 @Composable
 fun HardScreen(
     onBack: () -> Unit,
-    onOpenPhrase: (String, Int) -> Unit = { _, _ -> },
+    onOpenPhrase: (String, Int, String) -> Unit = { _, _, _ -> },
     vm: HardViewModel = viewModel()
 ) {
     val state by vm.state.collectAsState()
     ReloadOnResume { vm.load() }
     Box(Modifier.fillMaxSize().worldMapDots()) {
         Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
-            KTopBar("Hard", onBack = onBack, actions = {
-                Box(Modifier.size(Spacing.MinTarget).kraftClick({}), Alignment.Center) {
-                    Icon(TablerIcons.Star, contentDescription = "Hard", tint = LangColors.Accent, modifier = Modifier.size(24.dp))
-                }
-            })
+            KTopBar("Hard", onBack = onBack)
             Spacer(Modifier.height(Spacing.S))
             Text("Your starred pile. Review when you want.", style = LangTypography.bodySmall, color = LangColors.Muted)
             Spacer(Modifier.height(Spacing.M))
@@ -51,7 +47,7 @@ fun HardScreen(
                         LazyColumn(verticalArrangement = Arrangement.spacedBy(Spacing.S)) {
                             items(s.phrases, key = { it.phrase.id }) { entry ->
                                 Column(Modifier.fillMaxWidth().kraftPanel()
-                                    .kraftClick { onOpenPhrase(entry.lang, entry.phrase.theme) }.padding(Spacing.M)) {
+                                    .kraftClick { onOpenPhrase(entry.lang, entry.phrase.theme, entry.phrase.id) }.padding(Spacing.M)) {
                                     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                                         Text(entry.phrase.english, style = LangTypography.bodyMedium,
                                             color = LangColors.Ink, modifier = Modifier.weight(1f))
