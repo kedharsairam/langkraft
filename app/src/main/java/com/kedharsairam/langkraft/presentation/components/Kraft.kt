@@ -33,6 +33,8 @@ import compose.icons.tablericons.ArrowLeft
 import compose.icons.tablericons.ChevronLeft
 import compose.icons.tablericons.ChevronRight
 import compose.icons.tablericons.Star
+import compose.icons.tablericons.Bulb
+import compose.icons.tablericons.InfoCircle
 import compose.icons.tablericons.World
 
 /** Flat press feedback — no ripple, no elevation. */
@@ -195,7 +197,7 @@ fun KListButton(label: String, icon: ImageVector, onClick: () -> Unit, modifier:
     }
 }
 
-/** A phrase card: number chip, serif hero, gold italic saying, tip, note, meta, star. */
+/** The lesson phrase: hero text straight on the ground, tip and note with icons. */
 @Composable
 fun SignalRow(
     index: Int,
@@ -205,41 +207,45 @@ fun SignalRow(
     tip: String,
     note: String,
     meta: String,
-    starred: Boolean,
-    onStar: () -> Unit
+    showStar: Boolean = true
 ) {
-    Column(Modifier.fillMaxWidth().kraftPanel().padding(Spacing.M)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.size(30.dp).background(LangColors.SurfaceAlt, RoundedCornerShape(6.dp)), Alignment.Center) {
-                Text("%02d".format(index), style = MonoNumeric.copy(fontSize = 12.sp), color = LangColors.Accent)
-            }
-            Spacer(Modifier.width(Spacing.S))
-            Text(english, style = LangTypography.bodyMedium, color = LangColors.Muted,
-                modifier = Modifier.weight(1f), maxLines = 1)
-            Box(Modifier.size(48.dp).kraftClick(onStar), Alignment.Center) {
-                Icon(TablerIcons.Star, contentDescription = if (starred) "Remove from hard" else "Mark as hard",
-                    Modifier.size(22.dp), if (starred) LangColors.StateHard else LangColors.Muted)
-            }
-        }
+    Column(Modifier.fillMaxWidth()) {
+        Spacer(Modifier.height(Spacing.Xs))
+        Text(english, style = LangTypography.titleMedium, color = LangColors.Ink)
         Spacer(Modifier.height(Spacing.S))
         Text(romanization, style = RomanizationStyle, color = LangColors.Ink)
         Text(youSay.replace("-", "-\u200B"), style = YouSayStyle, color = LangColors.Accent)
         if (tip.isNotBlank()) {
-            Spacer(Modifier.height(Spacing.S))
-            Box(Modifier.fillMaxWidth().height(1.dp).background(LangColors.Border.copy(alpha = 0.6f)))
-            Spacer(Modifier.height(Spacing.S))
-            KLabel("PRONUNCIATION TIP", color = LangColors.Accent)
-            Spacer(Modifier.height(Spacing.Xs))
-            Text(tip, style = LangTypography.bodySmall, color = LangColors.Muted)
+            Spacer(Modifier.height(Spacing.M))
+            Box(Modifier.fillMaxWidth().height(1.dp).background(LangColors.Accent))
+            Spacer(Modifier.height(Spacing.M))
+            Row(verticalAlignment = Alignment.Top) {
+                androidx.compose.material3.Icon(TablerIcons.Bulb, contentDescription = null,
+                    tint = LangColors.Accent, modifier = Modifier.size(24.dp))
+                Spacer(Modifier.width(Spacing.S))
+                Column(Modifier.weight(1f)) {
+                    Text("Pronunciation Tip:", style = LangTypography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                        color = LangColors.Ink)
+                    Spacer(Modifier.height(Spacing.Xs))
+                    Text(tip, style = LangTypography.bodyMedium, color = LangColors.Ink)
+                }
+            }
         }
         if (note.isNotBlank()) {
-            Spacer(Modifier.height(Spacing.S))
-            Text(note, style = LangTypography.bodySmall, color = LangColors.Ink)
+            Spacer(Modifier.height(Spacing.M))
+            Box(Modifier.fillMaxWidth().height(1.dp).background(LangColors.Accent))
+            Spacer(Modifier.height(Spacing.M))
+            Row(verticalAlignment = Alignment.Top) {
+                androidx.compose.material3.Icon(TablerIcons.InfoCircle, contentDescription = null,
+                    tint = LangColors.Muted, modifier = Modifier.size(24.dp))
+                Spacer(Modifier.width(Spacing.S))
+                Text(note, style = LangTypography.bodyMedium, color = LangColors.Ink, modifier = Modifier.weight(1f))
+            }
         }
-        Spacer(Modifier.height(Spacing.S))
-        KLabel(meta)
+        Spacer(Modifier.height(Spacing.M))
+        Text(meta, style = MonoLabelStyle, color = LangColors.Muted, modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center)
     }
-    Spacer(Modifier.height(Spacing.S))
 }
 
 /** Numbered language row with a chevron — dense, one line per language. */
@@ -263,14 +269,15 @@ fun SignalLanguageRow(index: Int, name: String, count: String, fraction: Float, 
 fun KStepper(position: Int, total: Int, onPrev: () -> Unit, onNext: () -> Unit) {
     val canPrev = position > 1
     val canNext = position < total
-    Row(Modifier.fillMaxWidth().heightIn(min = Spacing.MinTarget), verticalAlignment = Alignment.CenterVertically) {
-        Box(Modifier.size(Spacing.MinTarget).let { if (canPrev) it.kraftClick(onPrev) else it }, Alignment.Center) {
+    Row(Modifier.fillMaxWidth().heightIn(min = Spacing.MinTarget)
+        .border(BorderStroke(Spacing.Border, LangColors.Border), RoundedCornerShape(10.dp)),
+        verticalAlignment = Alignment.CenterVertically) {
+        Box(Modifier.weight(1f).height(Spacing.MinTarget).let { if (canPrev) it.kraftClick(onPrev) else it }, Alignment.Center) {
             Icon(TablerIcons.ChevronLeft, contentDescription = "Previous phrase",
                 tint = if (canPrev) LangColors.Accent else LangColors.Border, modifier = Modifier.size(26.dp))
         }
-        Text("%02d / %02d".format(position.coerceAtLeast(1), total.coerceAtLeast(1)),
-            style = MonoLabelStyle, color = LangColors.Muted, modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
-        Box(Modifier.size(Spacing.MinTarget).let { if (canNext) it.kraftClick(onNext) else it }, Alignment.Center) {
+        Box(Modifier.size(Spacing.Border, 32.dp).background(LangColors.Border))
+        Box(Modifier.weight(1f).height(Spacing.MinTarget).let { if (canNext) it.kraftClick(onNext) else it }, Alignment.Center) {
             Icon(TablerIcons.ChevronRight, contentDescription = "Next phrase",
                 tint = if (canNext) LangColors.Accent else LangColors.Border, modifier = Modifier.size(26.dp))
         }

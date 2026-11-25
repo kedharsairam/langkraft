@@ -28,9 +28,11 @@ import com.kedharsairam.langkraft.presentation.components.*
 import com.kedharsairam.langkraft.presentation.theme.*
 import com.kedharsairam.langkraft.presentation.viewmodels.LanguageUiState
 import com.kedharsairam.langkraft.presentation.viewmodels.LanguageViewModel
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import compose.icons.TablerIcons
 import compose.icons.tablericons.Search
-import compose.icons.tablericons.Star
+import compose.icons.tablericons.Star as TablerStar
 import compose.icons.tablericons.Activity
 import compose.icons.tablericons.WaveSine
 import compose.icons.tablericons.AlertTriangle
@@ -92,15 +94,31 @@ fun LanguageScreen(
             val themes = s.phrases.map { it.theme }.distinct().sorted()
             Box(Modifier.fillMaxSize().worldMapDots()) {
                 Column(Modifier.padding(horizontal = Spacing.Screen).fillMaxSize()) {
-                    KTopBar(if (openLesson == null) s.name.ifBlank { code.uppercase() } else title(s.phrases, openLesson!!),
-                        onBack = { if (openLesson != null) openLesson = null else onBack() }) {
-                        Box(Modifier.size(Spacing.MinTarget).kraftClick(onSearch), Alignment.Center) {
-                            Icon(TablerIcons.Search, "Search", Modifier.size(24.dp), LangColors.Ink)
+                    KTopBar(
+                        if (openLesson == null) s.name.ifBlank { code.uppercase() } else "Lesson",
+                        onBack = { if (openLesson != null) openLesson = null else onBack() },
+                        actions = if (openLesson == null) {
+                            {
+                                Box(Modifier.size(Spacing.MinTarget).kraftClick(onSearch), Alignment.Center) {
+                                    Icon(TablerIcons.Search, "Search", Modifier.size(24.dp), LangColors.Ink)
+                                }
+                                Box(Modifier.size(Spacing.MinTarget).kraftClick(onHard), Alignment.Center) {
+                                    Icon(TablerIcons.TablerStar, "Hard", Modifier.size(24.dp), LangColors.Ink)
+                                }
+                            }
+                        } else {
+                            {
+                                val p = s.phrases.filter { it.theme == openLesson }
+                                    .getOrNull(s.index.coerceIn(0, (s.phrases.filter { it.theme == openLesson }.size - 1).coerceAtLeast(0)))
+                                val isStarred = p != null && p.id in s.starred
+                                Box(Modifier.size(Spacing.MinTarget).kraftClick({ if (p != null) vm.toggleStar(p.id) }), Alignment.Center) {
+                                    Icon(Icons.Filled.Star,
+                                        if (isStarred) "Remove from hard" else "Mark as hard",
+                                        Modifier.size(24.dp), LangColors.Accent)
+                                }
+                            }
                         }
-                        Box(Modifier.size(Spacing.MinTarget).kraftClick(onHard), Alignment.Center) {
-                            Icon(TablerIcons.Star, "Hard", Modifier.size(24.dp), LangColors.Ink)
-                        }
-                    }
+                    )
                     LazyColumn(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(Spacing.S)) {
                         if (openLesson == null) {
                             item {
@@ -133,8 +151,11 @@ fun LanguageScreen(
                             val visible = s.phrases.filter { it.theme == openLesson }
                             val pos = s.index.coerceIn(0, (visible.size - 1).coerceAtLeast(0))
                             item {
-                                KLabel("LESSON · %02d PHRASES".format(visible.size), color = LangColors.Accent)
-                                Spacer(Modifier.height(Spacing.S))
+                                Box(Modifier.background(LangColors.Accent, androidx.compose.foundation.shape.RoundedCornerShape(6.dp))
+                                    .padding(horizontal = Spacing.S, vertical = Spacing.Xs)) {
+                                    KLabel("%02d / %02d".format(pos + 1, visible.size), color = LangColors.Ground)
+                                }
+                                Spacer(Modifier.height(Spacing.M))
                             }
                             if (visible.isEmpty()) item { Text("No phrases here.", color = LangColors.Muted) }
                             else {
@@ -147,9 +168,10 @@ fun LanguageScreen(
                                         youSay = p.youSay,
                                         tip = p.soundTip,
                                         note = if (p.note.isNotBlank() && !p.note.equals(p.anchor?.substringAfter(": "), true)) p.note else "",
-                                        meta = "${displaySource(p.source)} · ${p.checked}",
-                                        starred = p.id in s.starred
-                                    ) { vm.toggleStar(p.id) }
+                                        meta = "${code.uppercase()} · %02d/35 · ${p.checked}".format(themes.indexOf(openLesson) + 1),
+                                        showStar = false
+                                    )
+                                    Spacer(Modifier.height(Spacing.M))
                                     KStepper(pos + 1, visible.size, { vm.prev() }, { vm.next() })
                                 }
                             }
